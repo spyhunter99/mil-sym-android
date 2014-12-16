@@ -5,3 +5,8 @@
 /Renderer/gen/
 /RendererTester/gen/
 /RendererTester/build/
+/Renderer/bin/
+/TestAndroidRenderer3/gen/
+/TestAndroidRenderer3/bin/
+/RendererTester/bin/
+/mapfragment-demo/bin/

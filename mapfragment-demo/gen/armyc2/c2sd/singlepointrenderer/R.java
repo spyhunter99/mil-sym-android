@@ -19,7 +19,11 @@ public final class R {
 		public static final int weirs = 0x7f020026;
 	}
 	public static final class id {
-		public static final int menu_settings = 0x7f080016;
+		public static final int button1 = 0x7f080016;
+		public static final int editText1 = 0x7f080015;
+		public static final int imageView1 = 0x7f080017;
+		public static final int menu_settings = 0x7f08001a;
+		public static final int textView1 = 0x7f080014;
 	}
 	public static final class layout {
 		public static final int activity_main = 0x7f030000;
