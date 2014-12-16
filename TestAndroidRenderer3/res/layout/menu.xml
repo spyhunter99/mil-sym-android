@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- Menu Item Declaration -->
+<item android:title="DRAW" android:id="@+id/DRAW"/>
+<item android:title="RETURN" android:id="@+id/RETURN"/>
+</menu>
