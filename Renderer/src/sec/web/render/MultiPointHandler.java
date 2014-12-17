@@ -2134,7 +2134,7 @@ public class MultiPointHandler {
 
         int lineWidth = 0;
         int symstd = 0;
-        boolean useDashArray = true;
+        boolean useDashArray = symbol.getUseDashArray();
 
         String symbolFillIDs = null;
         String symbolFillIconSize = null;
