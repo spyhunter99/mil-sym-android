@@ -756,11 +756,11 @@ public class MultiPointHandler {
 
             //String fillColor = null;
             MilStdSymbol mSymbol = new MilStdSymbol(symbolCode, null, geoCoords, null);
-
+            mSymbol.setUseDashArray(false);
             //set milstd symbology standard.
             mSymbol.setSymbologyStandard(symStd);
 
-            if (symbolModifiers != null && symbolModifiers.equals("") == false) {
+            if (symbolModifiers != null || symbolAttributes != null) {
                 populateModifiers(symbolModifiers, symbolAttributes, mSymbol);
             } else {
                 mSymbol.setFillColor(null);
@@ -1017,7 +1017,7 @@ public class MultiPointHandler {
 //
 //    }
     /**
-     * Deutch updated version
+     * for 3d maps
      *
      * @param id
      * @param name
@@ -1214,10 +1214,11 @@ public class MultiPointHandler {
             String fillColor = null;
             mSymbol = new MilStdSymbol(symbolCode, null, geoCoords, null);
 
+            mSymbol.setUseDashArray(true);
             //set milstd symbology standard.
             mSymbol.setSymbologyStandard(symStd);
 
-            if (symbolModifiers != null && symbolModifiers.equals("") == false) {
+            if (symbolModifiers != null || symbolAttributes != null) {
                 populateModifiers(symbolModifiers, symbolAttributes, mSymbol);
             } else {
                 mSymbol.setFillColor(null);
@@ -1548,10 +1549,11 @@ public class MultiPointHandler {
         try {
             MilStdSymbol mSymbol = new MilStdSymbol(symbolCode, null, geoCoords, null);
 
+            mSymbol.setUseDashArray(false);
             //set milstd symbology standard.
             mSymbol.setSymbologyStandard(symStd);
 
-            if (symbolModifiers != null && symbolModifiers.equals("") == false) {
+            if (symbolModifiers != null || symbolAttributes != null) {
                 populateModifiers(symbolModifiers, symbolAttributes, mSymbol);
             } else {
                 mSymbol.setFillColor(null);
@@ -2132,6 +2134,7 @@ public class MultiPointHandler {
 
         int lineWidth = 0;
         int symstd = 0;
+        boolean useDashArray = true;
 
         String symbolFillIDs = null;
         String symbolFillIconSize = null;
@@ -2142,96 +2145,106 @@ public class MultiPointHandler {
             // are strings and can be added on the creation of the
             // MilStdSymbol by adding to a Map and passing in the
             // modifiers parameter.
-            if (saModifiers.indexOfKey(ModifiersTG.C_QUANTITY) >= 0) {
-                modifiers.put(ModifiersTG.C_QUANTITY, String.valueOf(saModifiers.get(ModifiersTG.C_QUANTITY)));
-            }
+            if(saModifiers != null)
+            {
+                if (saModifiers.indexOfKey(ModifiersTG.C_QUANTITY) >= 0) {
+                    modifiers.put(ModifiersTG.C_QUANTITY, String.valueOf(saModifiers.get(ModifiersTG.C_QUANTITY)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.H_ADDITIONAL_INFO_1) >= 0) {
-                modifiers.put(ModifiersTG.H_ADDITIONAL_INFO_1, String.valueOf(saModifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.H_ADDITIONAL_INFO_1) >= 0) {
+                    modifiers.put(ModifiersTG.H_ADDITIONAL_INFO_1, String.valueOf(saModifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.H1_ADDITIONAL_INFO_2) >= 0) {
-                modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, String.valueOf(saModifiers.get(ModifiersTG.H1_ADDITIONAL_INFO_2)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.H1_ADDITIONAL_INFO_2) >= 0) {
+                    modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, String.valueOf(saModifiers.get(ModifiersTG.H1_ADDITIONAL_INFO_2)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.H2_ADDITIONAL_INFO_3) >= 0) {
-                modifiers.put(ModifiersTG.H2_ADDITIONAL_INFO_3, String.valueOf(saModifiers.get(ModifiersTG.H2_ADDITIONAL_INFO_3)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.H2_ADDITIONAL_INFO_3) >= 0) {
+                    modifiers.put(ModifiersTG.H2_ADDITIONAL_INFO_3, String.valueOf(saModifiers.get(ModifiersTG.H2_ADDITIONAL_INFO_3)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.N_HOSTILE) >= 0) {
-                modifiers.put(ModifiersTG.N_HOSTILE, String.valueOf(saModifiers.get(ModifiersTG.N_HOSTILE)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.N_HOSTILE) >= 0) {
+                    modifiers.put(ModifiersTG.N_HOSTILE, String.valueOf(saModifiers.get(ModifiersTG.N_HOSTILE)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.Q_DIRECTION_OF_MOVEMENT) >= 0) {
-                modifiers.put(ModifiersTG.Q_DIRECTION_OF_MOVEMENT, String.valueOf(saModifiers.get(ModifiersTG.Q_DIRECTION_OF_MOVEMENT)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.Q_DIRECTION_OF_MOVEMENT) >= 0) {
+                    modifiers.put(ModifiersTG.Q_DIRECTION_OF_MOVEMENT, String.valueOf(saModifiers.get(ModifiersTG.Q_DIRECTION_OF_MOVEMENT)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.T_UNIQUE_DESIGNATION_1) >= 0) {
-                modifiers.put(ModifiersTG.T_UNIQUE_DESIGNATION_1, String.valueOf(saModifiers.get(ModifiersTG.T_UNIQUE_DESIGNATION_1)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.T_UNIQUE_DESIGNATION_1) >= 0) {
+                    modifiers.put(ModifiersTG.T_UNIQUE_DESIGNATION_1, String.valueOf(saModifiers.get(ModifiersTG.T_UNIQUE_DESIGNATION_1)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.T1_UNIQUE_DESIGNATION_2) >= 0) {
-                modifiers.put(ModifiersTG.T1_UNIQUE_DESIGNATION_2, String.valueOf(saModifiers.get(ModifiersTG.T1_UNIQUE_DESIGNATION_2)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.T1_UNIQUE_DESIGNATION_2) >= 0) {
+                    modifiers.put(ModifiersTG.T1_UNIQUE_DESIGNATION_2, String.valueOf(saModifiers.get(ModifiersTG.T1_UNIQUE_DESIGNATION_2)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.V_EQUIP_TYPE) >= 0) {
-                modifiers.put(ModifiersTG.V_EQUIP_TYPE, String.valueOf(saModifiers.get(ModifiersTG.V_EQUIP_TYPE)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.V_EQUIP_TYPE) >= 0) {
+                    modifiers.put(ModifiersTG.V_EQUIP_TYPE, String.valueOf(saModifiers.get(ModifiersTG.V_EQUIP_TYPE)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.W_DTG_1) >= 0) {
-                modifiers.put(ModifiersTG.W_DTG_1, String.valueOf(saModifiers.get(ModifiersTG.W_DTG_1)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.W_DTG_1) >= 0) {
+                    modifiers.put(ModifiersTG.W_DTG_1, String.valueOf(saModifiers.get(ModifiersTG.W_DTG_1)));
+                }
 
-            if (saModifiers.indexOfKey(ModifiersTG.W1_DTG_2) >= 0) {
-                modifiers.put(ModifiersTG.W1_DTG_2, String.valueOf(saModifiers.get(ModifiersTG.W1_DTG_2)));
-            }
+                if (saModifiers.indexOfKey(ModifiersTG.W1_DTG_2) >= 0) {
+                    modifiers.put(ModifiersTG.W1_DTG_2, String.valueOf(saModifiers.get(ModifiersTG.W1_DTG_2)));
+                }
+            
 
-            //Required multipoint modifier arrays
-            if (saModifiers.indexOfKey(ModifiersTG.X_ALTITUDE_DEPTH) >= 0) {
-                altitudes = new ArrayList<Double>();
-                String[] arrAltitudes = String.valueOf(saModifiers.get(ModifiersTG.X_ALTITUDE_DEPTH)).split(",");
-                for (String x : arrAltitudes) {
-                    if (x != "") {
-                        altitudes.add(Double.parseDouble(x));
+                //Required multipoint modifier arrays
+                if (saModifiers.indexOfKey(ModifiersTG.X_ALTITUDE_DEPTH) >= 0) {
+                    altitudes = new ArrayList<Double>();
+                    String[] arrAltitudes = String.valueOf(saModifiers.get(ModifiersTG.X_ALTITUDE_DEPTH)).split(",");
+                    for (String x : arrAltitudes) {
+                        if (x != "") {
+                            altitudes.add(Double.parseDouble(x));
+                        }
+                    }
+                }
+
+                if (saModifiers.indexOfKey(ModifiersTG.AM_DISTANCE) >= 0) {
+                    distances = new ArrayList<Double>();
+                    String[] arrDistances = String.valueOf(saModifiers.get(ModifiersTG.AM_DISTANCE)).split(",");
+                    for (String am : arrDistances) {
+                        if (am != "") {
+                            distances.add(Double.parseDouble(am));
+                        }
+                    }
+                }
+
+                if (saModifiers.indexOfKey(ModifiersTG.AN_AZIMUTH) >= 0) {
+                    azimuths = new ArrayList<Double>();
+                    String[] arrAzimuths = String.valueOf(saModifiers.get(ModifiersTG.AN_AZIMUTH)).split(",");;
+                    for (String an : arrAzimuths) {
+                        if (an != "") {
+                            azimuths.add(Double.parseDouble(an));
+                        }
                     }
                 }
             }
-
-            if (saModifiers.indexOfKey(ModifiersTG.AM_DISTANCE) >= 0) {
-                distances = new ArrayList<Double>();
-                String[] arrDistances = String.valueOf(saModifiers.get(ModifiersTG.AM_DISTANCE)).split(",");
-                for (String am : arrDistances) {
-                    if (am != "") {
-                        distances.add(Double.parseDouble(am));
-                    }
+            if(saAttributes != null)
+            {
+                // These properties are ints, not labels, they are colors.//////////////////
+                if (saAttributes.indexOfKey(MilStdAttributes.FillColor) >= 0) {
+                    fillColor = (String) saAttributes.get(MilStdAttributes.FillColor);
                 }
-            }
 
-            if (saModifiers.indexOfKey(ModifiersTG.AN_AZIMUTH) >= 0) {
-                azimuths = new ArrayList<Double>();
-                String[] arrAzimuths = String.valueOf(saModifiers.get(ModifiersTG.AN_AZIMUTH)).split(",");;
-                for (String an : arrAzimuths) {
-                    if (an != "") {
-                        azimuths.add(Double.parseDouble(an));
-                    }
+                if (saAttributes.indexOfKey(MilStdAttributes.LineColor) >= 0) {
+                    lineColor = (String) saAttributes.get(MilStdAttributes.LineColor);
                 }
-            }
 
-            // These properties are ints, not labels, they are colors.//////////////////
-            if (saAttributes.indexOfKey(MilStdAttributes.FillColor) >= 0) {
-                fillColor = (String) saAttributes.get(MilStdAttributes.FillColor);
-            }
+                if (saAttributes.indexOfKey(MilStdAttributes.LineWidth) >= 0) {
+                    lineWidth = Integer.parseInt(saAttributes.get(MilStdAttributes.LineWidth));
+                }
 
-            if (saAttributes.indexOfKey(MilStdAttributes.LineColor) >= 0) {
-                lineColor = (String) saAttributes.get(MilStdAttributes.LineColor);
-            }
+                if (saAttributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0) {
+                    symstd = Integer.parseInt(saAttributes.get(MilStdAttributes.SymbologyStandard));
+                }
 
-            if (saAttributes.indexOfKey(MilStdAttributes.LineWidth) >= 0) {
-                lineWidth = Integer.parseInt(saAttributes.get(MilStdAttributes.LineWidth));
-            }
-
-            if (saAttributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0) {
-                symstd = Integer.parseInt(saAttributes.get(MilStdAttributes.SymbologyStandard));
+                if (saAttributes.indexOfKey(MilStdAttributes.UseDashArray) >= 0) {
+                    useDashArray = Boolean.parseBoolean(saAttributes.get(MilStdAttributes.UseDashArray));
+                }
             }
 
             // These are for when we create a area fill that is comprised of symbols//////////
@@ -2260,6 +2273,8 @@ public class MultiPointHandler {
             if (lineWidth > 0) {
                 symbol.setLineWidth(lineWidth);
             }
+            
+            symbol.setUseDashArray(useDashArray);
 
             symbol.setSymbologyStandard(symstd);
 

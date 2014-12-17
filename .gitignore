@@ -1,4 +1,4 @@
-/.nb-gradle/private/
+/.nb-gradle/
 /Renderer/build/
 /RendererTester/nbandroid/
 /Renderer/nbandroid/
@@ -10,3 +10,4 @@
 /TestAndroidRenderer3/bin/
 /RendererTester/bin/
 /mapfragment-demo/bin/
+/mapfragment-demo/gen/

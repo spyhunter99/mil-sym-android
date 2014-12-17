@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import armyc2.c2sd.graphics2d.BasicStroke;
 import armyc2.c2sd.renderer.IconRenderer;
 import armyc2.c2sd.renderer.MilStdIconRenderer;
 import armyc2.c2sd.renderer.SinglePointRenderer;
@@ -408,6 +409,7 @@ public class MainActivity extends Activity {
     		//sShapes.get(0).getLineColor();
     		//sShapes.get(0).getFillColor();
     		//((BasicStroke)sShapes.get(0).getStroke()).getLineWidth();
+                //((BasicStroke)sShapes.get(0).getStroke()).getDashArray();
 
     		//mShapes.get(0).getModifierString();
     		//mShapes.get(0).getModifierStringPosition();
