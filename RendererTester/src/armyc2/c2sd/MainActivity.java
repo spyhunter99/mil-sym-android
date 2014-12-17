@@ -326,7 +326,7 @@ public class MainActivity extends Activity {
     private void threadTest(String symbolID)
     {
     	SparseArray<String> modifiers = new SparseArray();
-    	populateModifiersForUnits(modifiers);
+    	//populateModifiersForUnits(modifiers);
     	SparseArray<String> attributes = new SparseArray();
     	
     	int count = 1000;
@@ -340,12 +340,14 @@ public class MainActivity extends Activity {
     			Log.i("threadTest",message);
     		}
     	}
+
     }
     
     public void flotTest(View view)
     {
     	try
-    	{/*
+    	{
+    		/*//thread test for single points///////////////////////////////////
     		Thread t1 = new Thread(new Runnable(){
     			public void run(){
     				threadTest("SUPPT----------");
@@ -360,9 +362,36 @@ public class MainActivity extends Activity {
     			}
     		});
     		
+    		long start = System.currentTimeMillis();//java.lang.System.nanoTime();
+	    	Date dStart = new Date();
     		t1.start();
-    		t2.start();//*/
+    		t2.start();
     		
+    		int sleepCount = 0;
+    		while(t1.isAlive() || t2.isAlive())
+    		{
+    			sleepCount++;
+    			Thread.sleep(100);
+    		}
+    		
+    		long stop = System.currentTimeMillis();// java.lang.System.nanoTime();
+	    	Date dStop = new Date();
+	    	double elapsed = (stop - start) / 1000;
+	    	elapsed = (dStop.getTime() - dStart.getTime()) / 1000.0;
+	    	
+	    	try
+	    	{
+		    	TextView t = (TextView)findViewById(R.id.textView1);
+		    	t.setText("Threads done in: " + String.valueOf(elapsed) + " seconds.  SleepCount: " + String.valueOf(sleepCount));
+	    	}
+	    	catch(Exception exc)
+	    	{
+	    		Log.e(TAG, exc.getMessage(), exc);
+	    	}
+
+    		//*///End thread test for singlepoints//////////////////////////////
+    		
+    		//FLOT TEST/////////////////////////////////////////////////////////
     		
     		StringBuilder message = new StringBuilder();
     		String id = "id";

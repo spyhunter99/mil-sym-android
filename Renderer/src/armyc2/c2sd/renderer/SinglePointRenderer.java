@@ -1,22 +1,12 @@
 package armyc2.c2sd.renderer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
-import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Paint.Cap;
-import android.graphics.Paint.Join;
-import android.graphics.Paint.Style;
-import android.graphics.Path;
-import android.graphics.Path.Direction;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -24,13 +14,8 @@ import android.graphics.RectF;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Typeface;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
-
-import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.util.SparseArray;
-import android.widget.ImageButton;
 
 import armyc2.c2sd.renderer.utilities.Color;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
@@ -38,10 +23,7 @@ import armyc2.c2sd.renderer.utilities.FontManager;
 import armyc2.c2sd.renderer.utilities.ImageInfo;
 import armyc2.c2sd.renderer.utilities.ImageInfoCache;
 import armyc2.c2sd.renderer.utilities.MilStdAttributes;
-import armyc2.c2sd.renderer.utilities.ModifierInfo;
 import armyc2.c2sd.renderer.utilities.ModifiersTG;
-import armyc2.c2sd.renderer.utilities.ModifiersUnits;
-import armyc2.c2sd.renderer.utilities.PathUtilties;
 import armyc2.c2sd.renderer.utilities.RectUtilities;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
 import armyc2.c2sd.renderer.utilities.RendererUtilities;
@@ -50,18 +32,15 @@ import armyc2.c2sd.renderer.utilities.SettingsChangedEventListener;
 import armyc2.c2sd.renderer.utilities.SinglePointLookup;
 import armyc2.c2sd.renderer.utilities.SinglePointLookupInfo;
 import armyc2.c2sd.renderer.utilities.SymbolDef;
-import armyc2.c2sd.renderer.utilities.SymbolDefTable;
 import armyc2.c2sd.renderer.utilities.SymbolDimensions;
 import armyc2.c2sd.renderer.utilities.SymbolUtilities;
-import armyc2.c2sd.renderer.utilities.TextInfo;
-import armyc2.c2sd.renderer.utilities.UnitDefTable;
 import armyc2.c2sd.renderer.utilities.UnitFontLookup;
 import armyc2.c2sd.renderer.utilities.UnitFontLookupInfo;
 
 public class SinglePointRenderer implements SettingsChangedEventListener {
 	
 
-	private String TAG = "armyc2.c2sd.singlepointrenderer.SinglePointRenderer";
+	private final String TAG = "armyc2.c2sd.singlepointrenderer.SinglePointRenderer";
 	private static SinglePointRenderer _instance = null;
 	
 	private Typeface _tfUnits = null;
@@ -74,8 +53,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener {
 	private float _modifierFontHeight = 10;
 	private int _deviceDPI = 72;	
 	
-	private ImageInfoCache _unitCache = new ImageInfoCache();
-	private ImageInfoCache _tgCache = new ImageInfoCache();
+	private final ImageInfoCache _unitCache = new ImageInfoCache();
+	private final ImageInfoCache _tgCache = new ImageInfoCache();
 	
 	private SinglePointRenderer()
 	{
@@ -315,11 +294,11 @@ public class SinglePointRenderer implements SettingsChangedEventListener {
 		{
 			ImageInfo ii = null;
 			String key = ImageInfoCache.makeKey(symbolID, lineColor.toInt(), fillColor.toInt(), pixelSize, keepUnitRatio, symStd);
-			if(_unitCache.containsKey(key))
-			{
-				ii = _unitCache.get(key);
-			}
-			else//*/
+			
+                        //see if it's in the cache
+                        ii = _unitCache.get(key);
+			//if not, generate symbol
+			if(ii == null)//*/
 			{
 		
 				if(lookup != null)
@@ -682,11 +661,11 @@ public class SinglePointRenderer implements SettingsChangedEventListener {
 			if(fillColor != null)
 				intFill = fillColor.toInt();
 			String key = ImageInfoCache.makeKey(symbolID, lineColor.toInt(), intFill, pixelSize, keepUnitRatio, symStd);
-			if(_tgCache.containsKey(key))
-			{
-				ii = _tgCache.get(key);
-			}
-			else//*/
+			
+                        //see if it's in the cache
+                        ii = _tgCache.get(key);
+			//if not, generate symbol
+			if(ii == null)//*/
 			{
 				//get fill character
 				//get frame character
