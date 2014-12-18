@@ -117,10 +117,10 @@ public class SinglePointRenderer implements SettingsChangedEventListener {
 		boolean hasTextModifiers = false;
 		
 		int pixelSize = -1;
-        boolean keepUnitRatio = true;
-        boolean icon = false;
-        float[] dimensions = {0f,0f,0f,0f};
-		
+                boolean keepUnitRatio = true;
+                boolean icon = false;
+                float[] dimensions = {0f,0f,0f,0f};
+
 		try
 		{
 			
@@ -325,12 +325,15 @@ public class SinglePointRenderer implements SettingsChangedEventListener {
 				
 				
 				//Log.i("HWA?","HWA: " + String.valueOf(canvas.isHardwareAccelerated()));
-				
-				String strFill = String.valueOf((char)charFillIndex);
-				String strFrame = String.valueOf((char)charFrameIndex);
+				String strFill = null;
+                                String strFrame = null;
 				String strSymbol1 = null;
 				String strSymbol2 = null;
 				String strFrameAssume = null;
+                                if(charFillIndex > 0)
+                                    strFill = String.valueOf((char)charFillIndex);
+                                if(charFrameIndex > 0)
+                                    strFrame = String.valueOf((char)charFrameIndex);
 				if(charSymbol1Index >0)
 					strSymbol1 = String.valueOf((char)charSymbol1Index);
 				if(charSymbol2Index >0)
@@ -345,9 +348,10 @@ public class SinglePointRenderer implements SettingsChangedEventListener {
 				Rect rTest = new Rect(0,0,bmp.getWidth(),bmp.getHeight());
 				canvas.drawRect(rTest, ptTest);//*/
 				//end test
-				
-				canvas.drawText(strFill, centerPoint.x, centerPoint.y + (int)dimensions[1], fillPaint);
-				canvas.drawText(strFrame, centerPoint.x, centerPoint.y + (int)dimensions[1], framePaint);
+				if(strFill != null)
+                                    canvas.drawText(strFill, centerPoint.x, centerPoint.y + (int)dimensions[1], fillPaint);
+                                if(strFrame != null)
+                                    canvas.drawText(strFrame, centerPoint.x, centerPoint.y + (int)dimensions[1], framePaint);
 				if(strFrameAssume != null)
 					canvas.drawText(strFrameAssume, centerPoint.x, centerPoint.y + (int)dimensions[1], symbol2Paint);
 				if(strSymbol2 != null)

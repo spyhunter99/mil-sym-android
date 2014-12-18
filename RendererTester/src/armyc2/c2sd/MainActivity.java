@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
     	RendererSettings rs = RendererSettings.getInstance();
     	rs.setModifierFont("Arial", Typeface.BOLD, 18);
     	rs.setMPModifierFont("Arial", Typeface.BOLD, 18);
-    	
+    	rs.setSymbologyStandard(RendererSettings.Symbology_2525C);
     	//rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE_QUICK);
     	
     	
