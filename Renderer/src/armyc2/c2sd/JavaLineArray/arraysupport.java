@@ -9,17 +9,10 @@ package armyc2.c2sd.JavaLineArray;
  * Class to process the pixel arrays
  * @author Michael Deutch
  */
-//import java.awt.Color;
 import java.util.ArrayList;
-//import java.awt.BasicStroke;
-//import java.awt.Shape;
-//import java.awt.geom.GeneralPath;
-//import java.awt.geom.Area;
-//import java.awt.Polygon;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
 import armyc2.c2sd.renderer.utilities.RendererException;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
-//import java.awt.geom.Rectangle2D;
 import armyc2.c2sd.graphics2d.*;
 import armyc2.c2sd.renderer.utilities.Color;
 /*
@@ -28,10 +21,10 @@ import armyc2.c2sd.renderer.utilities.Color;
  */
 public final class arraysupport
 {
-    private static double maxLength=100;
+    private static final double maxLength=100;
     private static double minLength=5;
     private static double dACP=0;
-    private static String _className="arraysupport";
+    private static final String _className="arraysupport";
     
     protected static void setMinLength(double value)
     {
@@ -133,14 +126,8 @@ public final class arraysupport
             ref<double[]> m = new ref();
             POINT2[] pSpikePoints = null;
             POINT2 pt0 = new POINT2(), pt1 = new POINT2();
-            //long[] segments=null;
-            //long numpts2=0;
-            //end delcarations
 
             lCount = countsupport.GetFORTLCountDouble(pLinePoints, lineType, vblSaveCounter);
-            //numpts2=lineutility.BoundPointsCount(pLinePoints,vblSaveCounter);
-            //segments=new long[numpts2];
-            //lineutility.BoundPoints(ref pLinePoints,vblSaveCounter,ref segments);
 
             pSpikePoints = new POINT2[lCount];
             lineutility.InitializePOINT2Array(pSpikePoints);

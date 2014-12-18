@@ -11,24 +11,19 @@ package armyc2.c2sd.JavaLineArray;
  * @author Michael Deutch
  */
 import java.util.ArrayList;
-//import java.awt.geom.PathIterator;
-//import java.awt.Shape;
-//import java.awt.geom.GeneralPath;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
 import armyc2.c2sd.renderer.utilities.RendererException;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
-//import java.awt.geom.Path2D;
 import java.io.*;
-//import java.awt.Point;
 import armyc2.c2sd.graphics2d.*;
 
 public final class lineutility {
 
-    private static String _className = "lineutility";
-    public static int extend_left = 0;
-    public static int extend_right = 1;
-    public static int extend_above = 2;
-    public static int extend_below = 3;
+    private static final String _className = "lineutility";
+    public static final int extend_left = 0;
+    public static final int extend_right = 1;
+    public static final int extend_above = 2;
+    public static final int extend_below = 3;
 
     /**
      * Resizes the array to the length speicifed, called by the Channels class.
@@ -342,11 +337,8 @@ public final class lineutility {
             {
                 deltaX = 1;
                 result = 1;
-                //return(0);
             }
             deltaY = firstLinePoint.y - lastLinePoint.y;
-            //if(slope.value==null)
-            //  slope.value=new double[1];
 
             slope.value[0] = deltaY / deltaX;	//cannot blow up
         } catch (Error exc) {
@@ -360,8 +352,6 @@ public final class lineutility {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("Test.txt"));
             bufferedWriter.write(str);
-            //bufferedWriter.newLine();
-            //bufferedWriter.write(pointType);
             bufferedWriter.close();
             bufferedWriter = null;
         } catch (Exception exc) {
@@ -392,7 +382,7 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "ReversePointsDouble2",
                     new RendererException("Failed inside ReversePointsDouble2", exc));
         }
-        return;
+        //return;
     }
 
     public static boolean CalcTrueSlopeDoubleForRoutes(POINT2 firstLinePoint,
@@ -437,7 +427,6 @@ public final class lineutility {
             deltaX = (double) (firstLinePoint.x) - (double) (lastLinePoint.x);
             if (deltaX == 0) //infinite slope
             {
-                //return(false);
                 deltaX = 1;
                 result = false;
             }

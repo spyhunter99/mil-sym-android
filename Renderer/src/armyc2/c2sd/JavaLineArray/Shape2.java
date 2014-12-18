@@ -18,11 +18,8 @@ public class Shape2 extends ShapeInfo
     {
         setShapeType(value);
         _Shape=new GeneralPath();
-//        AffineTransform tx=new AffineTransform();
-//        tx.setToIdentity();
         Stroke stroke=new BasicStroke();
         this.setStroke(stroke);
-//        this.setAffineTransform(tx);
     }
     private int style=0;  //e.g. 26 for enemy flots
     public void set_Style(int value)
