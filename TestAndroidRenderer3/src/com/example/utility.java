@@ -18,6 +18,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.content.Context;
 import android.util.SparseArray;
+import static armyc2.c2sd.JavaLineArray.lineutility.CalcDistanceDouble;
 import sec.web.render.SECWebRenderer;
 import sec.web.render.PointConverter;
 import sec.web.render.utilities.JavaRendererUtilities;
@@ -362,6 +363,27 @@ public final class utility {
         }
         if (linetype >= 0) {
             return linetype;
+        }
+        if (str.equalsIgnoreCase("track")) {
+            return -1;
+        }
+        if (str.equalsIgnoreCase("route")) {
+            return -1;
+        }
+        if (str.equalsIgnoreCase("cylinder")) {
+            return -1;
+        }
+        if (str.equalsIgnoreCase("curtain")) {
+            return -1;
+        }
+        if (str.equalsIgnoreCase("polyarc")) {
+            return -1;
+        }
+        if (str.equalsIgnoreCase("polygon")) {
+            return -1;
+        }
+        if (str.equalsIgnoreCase("radarc")) {
+            return -1;
         }
 
         if (str.equalsIgnoreCase("BS_AREA")) {
@@ -1234,7 +1256,7 @@ public final class utility {
         }
         //Object obj = System.getProperty("java.version");
         ArrayList<Point2D> clipArea = new ArrayList();
-
+        defaultText=defaultText.toUpperCase();
         clipArea.add(new Point2D.Double(0, 0));
         clipArea.add(new Point2D.Double(displayWidth, 0));
         clipArea.add(new Point2D.Double(displayWidth, displayHeight));
@@ -1272,10 +1294,14 @@ public final class utility {
             symbolCode = defaultText;
         }
         MilStdSymbol mss = CreateMSS(symbolCode, "0", pts2);
-
+        boolean useDashArray=false;
+        //uncomment following line if client intends to calculate dashed lines to improve performance
+        //comment the line to allow renderer to calculate the dashes
+        useDashArray=true;
+        mss.setUseDashArray(useDashArray);
         clsRenderer.renderWithPolylines(mss, converter, clipArea, context);
 
-        drawShapeInfosGE(g2d, mss.getSymbolShapes());
+        drawShapeInfosGE(g2d, mss.getSymbolShapes(),useDashArray,mss.getSymbolID());
         drawShapeInfosText(g2d, mss.getModifierShapes());
 
         return strResult;
@@ -1364,7 +1390,7 @@ public final class utility {
      * @param g
      * @param l
      */
-    private static void drawShapeInfosGE(Canvas canvas, List<ShapeInfo> l) {
+    private static void drawShapeInfosGE(Canvas canvas, List<ShapeInfo> l, boolean useDashedLines, String symbolId) {
         try {
             Iterator i = l.iterator();
             int j = 0;
@@ -1400,12 +1426,17 @@ public final class utility {
                         canvas.drawPath(path, paint);
                     }
                 }
-
-                if (spec.getLineColor() != null) {
+                BasicStroke s = (BasicStroke) spec.getStroke();
+                float[] dash = s.getDashArray();
+                
+                
+                if (spec.getLineColor() != null)
+                    if(dash==null || useDashedLines==false)
+                {
                     paint = new Paint();
                     paint.setColor(spec.getLineColor().toARGB());
                     paint.setStyle(Paint.Style.STROKE);
-                    paint.setStrokeWidth(stroke.getLineWidth());
+                    paint.setStrokeWidth(stroke.getLineWidth());                    
                     for (j = 0; j < polylines.size(); j++) {
                         polyline = polylines.get(j);
                         path = new Path();
@@ -1415,6 +1446,10 @@ public final class utility {
                         }
                         canvas.drawPath(path, paint);
                     }
+                }
+                if (spec.getLineColor() != null && dash!=null && useDashedLines==true)
+                {
+                    drawDashedPolylines(symbolId,polylines,spec,canvas);
                 }
             }
         } catch (Exception e) {
@@ -1642,5 +1677,151 @@ public final class utility {
         }
 
         return strResult;
+    }
+    private static Point2D ExtendAlongLineDouble2(POINT2 pt1, POINT2 pt2, double dist) {
+        double x = 0, y = 0;
+        try {
+            double dOriginalDistance = CalcDistanceDouble(pt1, pt2);
+            if (dOriginalDistance == 0 || dist == 0) {
+                return new Point2D.Double(pt1.x, pt1.y);
+            }
+
+            x = (dist / dOriginalDistance * (pt2.x - pt1.x) + pt1.x);
+            y = (dist / dOriginalDistance * (pt2.y - pt1.y) + pt1.y);
+        } catch (Exception exc) {
+            ErrorLogger.LogException("utility", "ExtendAlongLineDouble2",
+                    new RendererException("Failed inside ExtendAlongLineDouble2", exc));
+        }
+        //return pt3;
+        return new Point2D.Double(x, y);
+    }
+    /**
+     * This function was added as a performance enhancement. The renderer normally creates a new array of length 2 points
+     * for each dash in the polyline. If the client sets useDashArray then the renderer skips this step so the client must compute
+     * the dashes based on the stroke dash array in the shape object.
+     *
+     * @param symbolId
+     * @param polylines
+     * @param shape
+     */
+    private static void drawDashedPolylines(String symbolId, ArrayList<ArrayList<Point2D>> polylines, ShapeInfo shape, Canvas g2d) {
+        try {
+            //android.graphics.Point aPt = new android.graphics.Point();
+            int rev = RendererSettings.getInstance().getSymbologyStandard();
+            int linetype = GetLinetype(symbolId, rev);
+            Paint paint = new Paint();
+            paint.setColor(shape.getLineColor().toARGB());
+            paint.setStyle(Paint.Style.STROKE);
+            BasicStroke stroke=(BasicStroke)shape.getStroke();
+            paint.setStrokeWidth(stroke.getLineWidth());                     
+            if (shape.getLineColor() == null) {
+                return;
+            }
+            float[] dash = stroke.getDashArray();
+            float lineThickness = stroke.getLineWidth();
+            if (dash == null || dash.length < 2) {
+                return;
+            }
+
+            if (dash.length == 8)//dotted line
+            {
+                dash = new float[2];
+                dash[0] = 2f;
+                dash[1] = 2f;
+                stroke = new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 2f, dash, 0f);
+                shape.setStroke(stroke);
+            }
+            if (dash.length == 4) {
+                if (dash[0] == lineThickness * 2f && dash[1] == lineThickness * 2f && dash[2] == lineThickness * 2f && dash[3] == lineThickness * 2f)//this really looks awful in GE
+                {
+                    dash = new float[2];
+                    dash[0] = lineThickness;
+                    dash[1] = lineThickness;
+                }
+            }
+
+            int j = 0, k = 0, i = 0, l = 0, n = 0;
+            ArrayList<Point2D> polyline = null;
+            Point2D pt2d0 = null, pt2d1 = null, pt2d2 = null, pt2d3 = null;
+            POINT2 pt0 = null, pt1 = null;
+            double dist = 0;
+            double patternLength = 0;
+            int numSegments = 0;
+            int t = dash.length;
+            for (j = 0; j < t; j++) {
+                patternLength += dash[j];
+            }
+            //sum is the end length of eash dash element
+            float sum[] = new float[dash.length];
+            double remainder = 0;
+            t = sum.length;
+            for (j = 0; j < t; j++) {
+                for (k = 0; k <= j; k++) {
+                    sum[j] += dash[k];
+                }
+            }
+
+            boolean noShortSegments = false;
+            switch (linetype) {
+                case TacticalLines.LINTGT:
+                case TacticalLines.LINTGTS:
+                case TacticalLines.FPF:
+                case TacticalLines.HWFENCE:
+                case TacticalLines.LWFENCE:
+                case TacticalLines.DOUBLEA:
+                case TacticalLines.DFENCE:
+                case TacticalLines.SFENCE:
+                case TacticalLines.UNSP:
+                    noShortSegments = true;
+                    break;
+                default:
+                    break;
+            }
+            t = polylines.size();
+            for (j = 0; j < t; j++) {
+                polyline = polylines.get(j);
+                int u = polyline.size();
+                for (k = 0; k < u - 1; k++) {
+                    pt2d0 = polyline.get(k);
+                    pt2d1 = polyline.get(k + 1);
+                    pt0 = new POINT2(pt2d0.getX(), pt2d0.getY());
+                    pt1 = new POINT2(pt2d1.getX(), pt2d1.getY());
+                    dist = lineutility.CalcDistanceDouble(pt0, pt1);
+                    numSegments = (int) (dist / patternLength);
+
+                    if (noShortSegments) {
+                        if (dist < 25) {
+                            numSegments = 1;
+                        }
+                    }
+
+                    for (l = 0; l < numSegments; l++) {
+                        int v = dash.length;
+                        for (i = 0; i < v; i++) {
+                            //latlngs.clear();
+                            if (i % 2 == 0) {
+                                if (i == 0) {
+                                    pt2d2 = ExtendAlongLineDouble2(pt0, pt1, l * patternLength);
+                                } else {
+                                    pt2d2 = ExtendAlongLineDouble2(pt0, pt1, l * patternLength + sum[i - 1]);
+                                }
+                                pt2d3 = ExtendAlongLineDouble2(pt0, pt1, l * patternLength + sum[i]);
+                                g2d.drawLine((float)pt2d2.getX(), (float)pt2d2.getY(), (float)pt2d3.getX(), (float)pt2d3.getY(), paint);
+                            }
+                        }
+                    }//end l loop
+                    //for the remainder split the difference
+                    remainder = dist - numSegments * patternLength;
+                    if (remainder > 0) {
+                        pt2d2 = ExtendAlongLineDouble2(pt0, pt1, numSegments * patternLength + remainder / 2);
+                        g2d.drawLine((float)pt2d1.getX(), (float)pt2d1.getY(), (float)pt2d2.getX(), (float)pt2d2.getY(), paint);
+
+                    }
+                }//end k loop
+            }//end j loop
+        } catch (Exception exc) {
+            ErrorLogger.LogException("utility", "createDashedPolylines",
+                    new RendererException("Failed inside createDashedPolylines", exc));
+        }
     }
 }

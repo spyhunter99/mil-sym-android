@@ -10,13 +10,10 @@ import armyc2.c2sd.renderer.utilities.MilStdAttributes;
 import armyc2.c2sd.renderer.utilities.MilStdSymbol;
 import armyc2.c2sd.renderer.utilities.ModifiersTG;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
-//import armyc2.c2sd.renderer.utilities.ShapeInfo;
 import armyc2.c2sd.renderer.utilities.SymbolUtilities;
 import armyc2.c2sd.renderer.utilities.Color;
 import armyc2.c2sd.graphics2d.*;
 import sec.web.render.utilities.JavaRendererUtilities;
-//import java.util.ArrayList;
-//import java.util.Map;
 import java.util.logging.Level;
 import sec.geo.kml.KmlOptions;
 import sec.web.json.utilities.JSONArray;
@@ -69,14 +66,6 @@ public final class SECWebRenderer /* extends Applet */ {
             + RIGHT_AZIMUTH_DEFAULT + ",leftAzimuth:"
             + LEFT_AZIMUTH_DEFAULT + "}]";
 
-    /**
-     * Initialization method that will be called after the applet is loaded
-     * into the browser.
-     */
-    // JSObject allows calls to be made to the browsers javascript functions
-    // We do not neeed to do this currently
-    // JSObject jso;
-//    private SinglePointServer sps = null;
     
     private static boolean _initSuccess = false;
     
@@ -87,7 +76,7 @@ public final class SECWebRenderer /* extends Applet */ {
         {
         	if(_initSuccess == false)
         	{
-        		MilStdIconRenderer.getInstance().init(cacheDir);
+                    MilStdIconRenderer.getInstance().init(cacheDir);
 	            //use SECWebRenderer.setLoggingLevel()
 	            
 	            //sets default value for single point symbology to have an outline.
@@ -97,20 +86,12 @@ public final class SECWebRenderer /* extends Applet */ {
 	            //Set Renderer Settings/////////////////////////////////////////////
 	            RendererSettings.getInstance().setSinglePointSymbolOutlineWidth(1);
 	            RendererSettings.getInstance().setTextRenderMethod(RendererSettings.RenderMethod_NATIVE);
-	            // RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_COLORFILL);
-	            // RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE);
 	            RendererSettings.getInstance().setTextBackgroundMethod(
 	                            RendererSettings.TextBackgroundMethod_OUTLINE_QUICK);
 	            RendererSettings.getInstance().setTextOutlineWidth(2);
 	            RendererSettings.getInstance().setLabelForegroundColor(Color.BLACK.toARGB());
 	            RendererSettings.getInstance().setLabelBackgroundColor(new Color(255, 255, 255, 200).toARGB());
-	            // RendererSettings.getInstance().setLabelBackgroundColor(Color.WHITE);
-	           //default label settings
-	            //RendererSettings.getInstance().setLabelFont("arial", Font.BOLD, 12, false, 0.04f);//default
-	            //adjusted tracking to give more space between letters.
-	            //RendererSettings.getInstance().setLabelFont("arial", Font.BOLD, 12, false, 0.05f);
 	            RendererSettings.getInstance().setModifierFont("arial", Font.PLAIN, 12);
-	            ////////////////////////////////////////////////////////////////////
 	            ErrorLogger.setLevel(Level.FINE);
         	}
             
@@ -251,7 +232,6 @@ public final class SECWebRenderer /* extends Applet */ {
         {
             textColor = Color.black;
         }
-        //System.out.println("Text Color: " + textColor.toString());
         RendererSettings.getInstance().setLabelForegroundColor(textColor.toARGB());
     }
 
@@ -535,7 +515,6 @@ public final class SECWebRenderer /* extends Applet */ {
             return ERR_ATTRIBUTES_NOT_FORMATTED;
         }            
         catch (Exception ea) {
-            //ErrorLogger.LogException(this.getName(), "Render3dSymbol()", ea);
             ErrorLogger.LogException("SECWebRenderer", "Render3dSymbol()", ea);
             return "";
         }            
@@ -637,9 +616,7 @@ public final class SECWebRenderer /* extends Applet */ {
             else
             {   
                 Color c = SymbolUtilities.getFillColorOfAffiliation(symbolCode);
-                //color = Integer.toHexString(c.getRGB());
                 color = c.toHexString();
-                //color = JavaRendererUtilities.getAffiliationFillColor(symbolCode);
                 // ensure that some color is selected.  If no color can be
                 // found, use black.
                 if (color == null)
@@ -811,13 +788,8 @@ public final class SECWebRenderer /* extends Applet */ {
      */
 	public String getSinglePointAnchor(String symbolID) {
         String anchorPoint = "";
-//        if (sps != null)
-//        {
-            Point2D anchor = new Point2D.Double();
-//            sps.getSinglePointDimensions(symbolID, anchor);
-            anchorPoint = anchor.getX() + "," + anchor.getY();
-//        }
-        
+        Point2D anchor = new Point2D.Double();
+        anchorPoint = anchor.getX() + "," + anchor.getY();        
         return anchorPoint;
     }
 
@@ -843,102 +815,9 @@ public final class SECWebRenderer /* extends Applet */ {
         String info = "";
         Point2D anchor = new Point2D.Double();
         Rectangle2D symbolBounds = new Rectangle2D.Double();
-//        Dimension2D iconSize = new Dimension();
-//        sps.getSinglePointDimensions(symbolID, anchor, symbolBounds, iconSize);
-//        info = anchor.getX() + "," + anchor.getY() + "," +
-//                symbolBounds.getX() + "," + symbolBounds.getY() + "," +
-//                symbolBounds.getWidth() + "," + symbolBounds.getHeight() + "," + 
-//                iconSize.getWidth() + "," + iconSize.getHeight();
         return info;
     }
-    
-    /**
-     * Given a symbol code meant for a single point symbol, returns the
-     * anchor point at which to display that image based off the image returned
-     * from the URL of the SinglePointServer.
-     * @param batch like {"iconURLs":["SFGP------*****?size=35&T=Hello","SHGPE-----*****?size=50"]}
-     * @return like {"singlepoints":[{"x":0,"y":0,"boundsx":0,"boundsy":0,"boundswidth":35,"boundsheight":35,"iconwidth":35,"iconwidth":35}, ... ]}
-     */
-//    public static String getSinglePointInfoBatch(String batch)
-//    {
-//        String info = "";
-//        Point2D anchor = new Point2D.Double();
-//        Rectangle2D symbolBounds = new Rectangle2D();
-////        Dimension2D iconSize = new Dimension();
-//        JSONObject symbolInfo = null;
-//        StringBuilder sb = new StringBuilder();
-//        try
-//        {
-//
-//            //must escape '=' so that JSONObject can parse string
-//            batch = batch.replaceAll("=", "%3D");
-//            
-//            String data = null;
-//            JSONObject jsonSPString = new JSONObject(batch);
-//            JSONArray jsa = jsonSPString.getJSONArray("iconURLs");
-//            int len = jsa.length();
-//            sb.append("{\"singlepoints\":[");
-//            String item = null;
-//            for(int i = 0; i < len; i++)
-//            {
-//                if(i>0)
-//                {
-//                    sb.append(",");
-//                }
-//                
-//                info = jsa.get(i).toString();
-//                //System.out.println(info);
-//                //info = java.net.URLDecoder.decode(info, "UTF-8");
-//                info = info.replaceAll("%3D", "=");
-//                //System.out.println(info);
-//                anchor = new Point2D.Double();
-//                symbolBounds = new Rectangle2D();
-////                iconSize = new Dimension();
-////                sps.getSinglePointDimensions(info, anchor, symbolBounds, iconSize);
-////                item = SymbolDimensionsToJSON(anchor, symbolBounds, iconSize);
-//                sb.append(item);
-//            }
-//            sb.append("]}");
-//        }
-//        catch(Exception exc)
-//        {
-//            System.out.println(exc.getMessage());
-//            exc.printStackTrace();
-//        }
-//        return sb.toString();
-//    }
-    
-//    private String SymbolDimensionsToJSON(Point2D anchor, Rectangle2D bounds, Dimension2D iconSize)
-//    {
-//        StringBuilder sb = new StringBuilder();
-//        try
-//        {
-//            sb.append("{\"x\":");
-//            sb.append(anchor.getX());
-//            sb.append(",\"y\":");
-//            sb.append(anchor.getY());
-//            sb.append(",\"boundsx\":");
-//            sb.append(bounds.getX());
-//            sb.append(",\"boundsy\":");
-//            sb.append(bounds.getY());
-//            sb.append(",\"boundswidth\":");
-//            sb.append(bounds.getWidth());
-//            sb.append(",\"boundsheight\":");
-//            sb.append(bounds.getHeight());
-//            sb.append(",\"iconwidth\":");
-//            sb.append(iconSize.getWidth());
-//            sb.append(",\"iconheight\":");
-//            sb.append(iconSize.getHeight());
-//            sb.append("}");
-//        }
-//        catch(Exception exc)
-//        {
-//            System.out.println(exc.getMessage());
-//            exc.printStackTrace();
-//        }
-//        return sb.toString();
-//    }
-    
+        
     /**
      * Returns true if we recommend clipping a particular symbol.
      * Would return false for and Ambush but would return true for a Line of 
@@ -954,352 +833,6 @@ public final class SECWebRenderer /* extends Applet */ {
             return "false";
     }
     
-    /**
-     * Put this here rather than in multipointhandler so that I could get the
-     * port info from the single point server.
-     * @param modifiers
-     * @param clip
-     * @return 
-     * @deprecated use GenerateSymbolLineFillUrl
-     */
-//    public static String GenerateSymbolAreaFillUrl(Map<String,String> modifiers, ArrayList<ShapeInfo> clip)
-//    {
-//        int shapeType = 0;
-//        String url = "";
-//        String symbolFillIDs=null;
-//        String symbolLineIDs=null;
-//        //int symbolSize = AreaSymbolFill.DEFAULT_SYMBOL_SIZE;
-//        int symbolSize = 25;
-//        int imageoffset = 0;
-//        ArrayList<ArrayList<Point2D>> lines = null;
-//        ArrayList<Point2D> points = null;
-//        Point2D point = null;
-//        
-//        Shape shape = null;
-//        //PathIterator itr = null;
-//        double height = 0;
-//        double width = 0;
-//        int offsetX = 0;
-//        int offsetY = 0;
-//        int x = 0;
-//        int y = 0;
-//        Rectangle2D bounds = null;
-//        try {
-//            for(ShapeInfo si : clip) {
-//                shapeType = si.getShapeType(); 
-//                
-//                if (shapeType==ShapeInfo.SHAPE_TYPE_POLYLINE) {
-//                    if (bounds==null) {
-////                        bounds = si.getBounds();
-//                    } else {
-////                        Rectangle2D.union(bounds, si.getBounds(), bounds);
-//            		}
-//                    
-//                    height = bounds.getHeight();
-//                    width = bounds.getWidth();
-//                    shape = si.getShape();
-//                    lines = si.getPolylines();
-//                    System.out.println("bounds: "+ bounds.toString());
-////                  System.out.println("height: "+ String.valueOf(height));
-//                    System.out.println("width: "+ String.valueOf(width));
-//                    if (bounds.getX() < 0) {
-//                        offsetX = (int)(bounds.getX()*-1);
-//                    }
-//                    if(bounds.getY() < 0) {
-//                        offsetY = (int)(bounds.getY()*-1);
-//                    }
-//                    
-//                }//end if polyline
-//                
-//            }//end for
-//                    
-//            //itr = shape.getPathIterator(new AffineTransform());
-//            StringBuilder sbCoords = new StringBuilder();
-//            StringBuilder sbUrl = new StringBuilder();
-//            //itr.next();
-//
-//
-//            if(modifiers.containsKey("symbolFillIds"))
-//            {
-//                symbolFillIDs = modifiers.get("symbolFillIds");
-//            }
-//            if(modifiers.containsKey("symbolLineIds"))
-//            {
-//                symbolLineIDs = modifiers.get("symbolLineIds");
-//            }
-//            if(modifiers.containsKey("symbolFillIconSize"))
-//            {
-//                symbolSize = Integer.getInteger(modifiers.get("symbolFillIconSize").toString());
-//            }
-//
-//            if(symbolLineIDs != null && symbolSize > 0)
-//            {
-//
-//            }
-//            //if(symbolFillIDs != null)
-//            //{
-//                sbCoords.append("clipCoords=");
-//                for(int j = 0; j<lines.size();j++)
-//                {
-//                    points = lines.get(j);
-//                    for(int i = 0; i< points.size(); i++)
-//                    {
-//                        if(i>0 || j>0)
-//                        {
-//                            sbCoords.append(",");
-//                        }
-//                        point = points.get(i);
-//                        x = (int)(point.getX() + offsetX);
-//                        y = (int)(point.getY() + offsetY);
-//                        sbCoords.append(x);
-//                        sbCoords.append(",");
-//                        sbCoords.append(y);
-//                    }
-//                }
-//            //}
-//            //build image url
-//            sbUrl.append("http://127.0.0.1:");
-//            sbUrl.append(String.valueOf(spsPortNumber));
-//            sbUrl.append("/AREASYMBOLFILL?");
-//            sbUrl.append("renderer=AreaSymbolFillRenderer&");
-//            //if(sbCoords.length()>0)
-//            //{
-//                sbUrl.append(sbCoords.toString());
-//            //}
-//            if(symbolFillIDs != null)
-//            {
-//                sbUrl.append("&symbolFillIds=");
-//                sbUrl.append(symbolFillIDs);
-//            }
-//            if(symbolLineIDs != null)
-//            {
-//                sbUrl.append("&symbolLineIds=");
-//                sbUrl.append(symbolLineIDs);
-//            }
-//            if(symbolSize>0)
-//            {
-//                sbUrl.append("&symbolFillIconSize=");
-//                sbUrl.append(symbolSize);
-//            }
-//
-//
-//
-//            sbUrl.append("&height=");
-//            sbUrl.append(Integer.valueOf((int)height));
-//            sbUrl.append("&width=");
-//            sbUrl.append(Integer.valueOf((int)width));
-//
-//            url = sbUrl.toString();
-//
-//        }
-//        catch(Exception exc)
-//        {
-//            System.out.println(exc.getMessage());
-//            exc.printStackTrace();
-//        }
-//        return url;
-//    }
-    
-    
-     /**
-     * Put this here rather than in multipointhandler so that I could get the
-     * port info from the single point server.
-     * @param modifiers
-     * @param clip
-     * @return 
-     */
-//    public static String GenerateSymbolLineFillUrl(Map<String,String> modifiers, ArrayList<Point2D> pixels, Rectangle2D clip)
-//    {
-//        int shapeType = 0;
-//        String url = "";
-//        String symbolFillIDs=null;
-//        String symbolLineIDs=null;
-//        String strClip=null;
-//        //int symbolSize = AreaSymbolFill.DEFAULT_SYMBOL_SIZE;
-//        int symbolSize = 25;
-//        int imageoffset = 0;
-//        ArrayList<ArrayList<Point2D>> lines = null;
-//        ArrayList<Point2D> points = null;
-//        Point2D point = null;
-//        
-//        Shape shape = null;
-//        //PathIterator itr = null;
-//        double height = 0;
-//        double width = 0;
-//        int offsetX = 0;
-//        int offsetY = 0;
-//        int x = 0;
-//        int y = 0;
-//        Rectangle2D bounds = null;
-//        try
-//        {
-//            Point2D temp = null;
-//            //Get bounds of the polygon/polyline path
-//            for(int i=0; i<pixels.size();i++)
-//            {
-//                temp = pixels.get(i);
-//                if(i>0)
-//                {
-////                    path.lineTo(temp.getX(), temp.getY());
-//                }
-//                else if(i==0)
-//                {
-////                    path.moveTo(temp.getX(), temp.getY());
-//                }
-//            }
-//            
-//            height = bounds.getHeight();
-//            width = bounds.getWidth();
-//
-//            
-//            //pixels may be in negative space so get offsets to put everything
-//            //in the positive
-//            if(bounds.getX()<0)
-//            {
-//                offsetX = (int)(bounds.getX()*-1);
-//            }
-//            else if((bounds.getX()+bounds.getWidth()) > width)
-//            {
-//                offsetX = (int)((bounds.getX()+bounds.getWidth())-width)*-1;
-//            }
-//            
-//            if(bounds.getY()<0)
-//            {
-//                offsetY = (int)(bounds.getY()*-1);
-//            }
-//            else if((bounds.getY()+bounds.getHeight()) > height)
-//            {
-//                offsetY = (int)((bounds.getY()+bounds.getHeight())-height)*-1;
-//            }
-//
-//            //build clip string
-//            if(clip!=null)
-//            {
-//                StringBuilder sbClip = new StringBuilder();
-//                sbClip.append("&clip=");
-//                sbClip.append(clip.getX());
-//                sbClip.append(",");
-//                sbClip.append(clip.getY());
-//                sbClip.append(",");
-//                sbClip.append(clip.getWidth());
-//                sbClip.append(",");
-//                sbClip.append(clip.getHeight());
-//                strClip=sbClip.toString();
-//            }
-//
-//                    
-//            //itr = shape.getPathIterator(new AffineTransform());
-//            StringBuilder sbCoords = new StringBuilder();
-//            StringBuilder sbUrl = new StringBuilder();
-//            sbCoords.append("coords=");
-//            //itr.next();
-//
-//            //get parameters
-//            if(modifiers.containsKey("symbolFillIds"))
-//            {
-//                symbolFillIDs = modifiers.get("symbolFillIds");
-//            }
-//            if(modifiers.containsKey("symbolLineIds"))
-//            {
-//                symbolLineIDs = modifiers.get("symbolLineIds");
-//            }
-//            if(modifiers.containsKey("symbolFillIconSize"))
-//            {
-//                symbolSize = Integer.getInteger(modifiers.get("symbolFillIconSize").toString());
-//            }
-//            if(modifiers.containsKey("clip"))
-//            {
-//                strClip = modifiers.get("clip").toString();
-//            }
-//            
-//            //build coordinate string
-//            for(int i = 0; i< pixels.size(); i++)
-//            {
-//                if(i>0)
-//                {
-//                    sbCoords.append(",");
-//                }
-//                point = pixels.get(i);
-//                x = (int)(point.getX() + offsetX);
-//                y = (int)(point.getY() + offsetY);
-//                sbCoords.append(x);
-//                sbCoords.append(",");
-//                sbCoords.append(y);
-//            }
-//            
-//            //build image url
-//            sbUrl.append("http://127.0.0.1:");
-//            sbUrl.append(String.valueOf(spsPortNumber));
-//            sbUrl.append("/AREASYMBOLFILL?");
-//            sbUrl.append("renderer=AreaSymbolFillRenderer&");
-//            sbUrl.append(sbCoords.toString());
-//            if(symbolFillIDs != null)
-//            {
-//                sbUrl.append("&symbolFillIds=");
-//                sbUrl.append(symbolFillIDs);
-//            }
-//            if(symbolLineIDs != null)
-//            {
-//                sbUrl.append("&symbolLineIds=");
-//                sbUrl.append(symbolLineIDs);
-//            }
-//            if(symbolSize>0)
-//            {
-//                sbUrl.append("&symbolFillIconSize=");
-//                sbUrl.append(symbolSize);
-//            }
-//            if(strClip!=null)
-//            {
-//                sbUrl.append(strClip);
-//            }
-//
-//
-//
-//            sbUrl.append("&height=");
-//            sbUrl.append(Integer.valueOf((int)height));
-//            sbUrl.append("&width=");
-//            sbUrl.append(Integer.valueOf((int)width));
-//
-//            url = sbUrl.toString();
-//
-//        }
-//        catch(Exception exc)
-//        {
-//            System.out.println(exc.getMessage());
-//            exc.printStackTrace();
-//        }
-//        return url;
-//    }
-    
-    /**
-     * Only provide the end of the url like:
-     * "AREASYMBOLFILL?renderer=AreaSymbolFillRenderer&height=300&width=300&symbolIDs=SFGP-----------,SHGP-----------"
-     * User need to provide the front:
-     * "http://127.0.0.1:6789/"
-     * @deprecated 
-     */
-//    public static String GenerateSymbolAreaFillUrl(String clipCoords, String SymbolIDs, int height, int width, int symbolSize)
-//    {
-//        StringBuilder sbUrl = new StringBuilder();
-//        sbUrl.append("http://127.0.0.1:");
-//        sbUrl.append(String.valueOf(spsPortNumber));
-//        sbUrl.append("/AREASYMBOLFILL?");
-//        sbUrl.append("renderer=AreaSymbolFillRenderer&");
-//        sbUrl.append(clipCoords);
-//        sbUrl.append("&symbolFillIds=");
-//        sbUrl.append(SymbolIDs);
-//        sbUrl.append("&height=");
-//        sbUrl.append(Integer.valueOf((int)height));
-//        sbUrl.append("&width=");
-//        sbUrl.append(Integer.valueOf((int)width));
-//        if(symbolSize>0)
-//        {
-//            sbUrl.append("&symbolFillIconSize=");
-//            sbUrl.append(symbolSize);
-//        }
-//        return sbUrl.toString();
-//    }
-
      /**
      * Given a symbol code meant for a single point symbol, returns the
      * symbol as a byte array.
@@ -1312,13 +845,5 @@ public final class SECWebRenderer /* extends Applet */ {
     {
         //return sps.getSinglePointByteArray(symbolID);
     	return null;
-    }
-    
-    
-    
-    
-//    @Override
-//    public void destroy() {
-//        //sps.stop();
-//    }
+    }    
 }

@@ -30,6 +30,7 @@ Drawing the shape objects on the Canvas is done with this call:
 The function extracts the the symbol shapes returned by the renderer into an Android Path and drawn to the Android canvas using canvas.drawPath.
 Rendering rotatable text is handled with the following call which adds marker objects to the map: 
         drawShapeInfosText(g2d, mss.getModifierShapes());
+Clients setting useDashArray in the renderer may be able to speed performance for symbols with dashed lines by calculating the dashed lines instead of allowing the renderer to do it because the renderer creates a new array object ofr each of the dash segments (2 points). See comments in the tester. 
 
 3D (KML Generation).
 Source com.example.utility.DoubleClickSECRenderer.

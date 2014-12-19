@@ -14,7 +14,7 @@ import armyc2.c2sd.renderer.utilities.RendererException;
  * @author Michael Deutch
  */
 public final class flot {
-    private static String _className = "flot";
+    private static final String _className = "flot";
     protected static int GetAnchorageFlotSegment(int[] vbPoints,
             int x1,
             int y1,
@@ -110,8 +110,6 @@ public final class flot {
             //for( m = 0; m< nNumSegs;m++)
             for (m = 0; m < nNumSegs; m += 2) //get evry other flot only for anchorage
             {
-                //lLocx = (long)( vbPoints[2 * segment] + (m + 0.5) * (vbPoints[2 * segment + 2] - vbPoints[2 * segment]) * 20 / dDistance);
-                //lLocy = (long)( vbPoints[2 * segment + 1] + (m + 0.5) * (vbPoints[2 * segment + 3] - vbPoints[2 * segment + 1]) * 20 / dDistance);
                 lLocx = (int) (x1 + (m + 0.5) * (x2 - x1) * 20 / dDistance);
                 lLocy = (int) (y1 + (m + 0.5) * (y2 - y1) * 20 / dDistance);
 
@@ -196,7 +194,6 @@ public final class flot {
             for (j = 0; j < numPts - 1; j++) {
                 dDistance = lineutility.CalcDistanceDouble(vbPoints[j], vbPoints[j + 1]);
                 lNumSegs = (int) (dDistance / dIncrement);   //flot diameter is 20
-                //lTotalpts = lTotalpts + lNumSegs * 10; //10 points per flot
                 lTotalpts = lTotalpts + lNumSegs * nFactor; //10 points per flot
                 switch (lineType) {
                     case TacticalLines.WFG:
@@ -210,7 +207,6 @@ public final class flot {
                 }
 
             }
-            //clean up
         } catch (Exception exc)
         {
             ErrorLogger.LogException(_className ,"GetFlotCount2Double",
@@ -449,10 +445,7 @@ public final class flot {
                     dIncrement = 50;
                     break;
                 case TacticalLines.SF:
-                    //if(CELineArrayGlobals.Change1==false)
                     dIncrement = 50;
-                    //else
-                    //	dIncrement=80;
                     break;
                 case TacticalLines.USF:
                 case TacticalLines.SFG:
@@ -603,10 +596,6 @@ public final class flot {
                 lTotalpts = 25 * numPts;
             }
 
-            //if(lTotalpts<numPts)
-            //	lTotalpts=numPts;
-
-            //clean up
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetOFYCountDoulbe",
                     new RendererException("Failed inside GetOFYCountDouble", exc));
@@ -673,7 +662,6 @@ public final class flot {
             flots = new int[numPts + 1];
             //the vbPoints long array gets used by GetFlotSegment
             //and is based on the original points
-            //for(j=0;j<numPts;j++)
             for (j = 0; j < numPts; j++) {
                 vbPoints[k] = (int) pLinePoints[j].x;
                 k++;
@@ -911,15 +899,13 @@ public final class flot {
                 pLinePoints[j] = new POINT2(pLinePoints[nTotalCounter - 1]);
             }
 
-            //clean up
-            vbPoints = null;
-            pSpikePoints = null;
-            pFlotPoints = null;
-            flots = null;
+            //vbPoints = null;
+            //pSpikePoints = null;
+            //pFlotPoints = null;
+            //flots = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetOccludedPointsDouble",
                     new RendererException("Failed inside GetOccludedPointsDouble", exc));
-            //throw e;
         }
         return nTotalCounter;
     }

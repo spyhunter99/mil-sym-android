@@ -7,7 +7,6 @@ package armyc2.c2sd.JavaLineArray;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
 import armyc2.c2sd.renderer.utilities.RendererException;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
-//import java.awt.geom.Rectangle2D;
 import armyc2.c2sd.graphics2d.Rectangle2D;
 /**
  * A class to calculate the number of pixels based points required for a line
@@ -15,11 +14,9 @@ import armyc2.c2sd.graphics2d.Rectangle2D;
  */
 public final class countsupport
 {
-    private static double maxLength = 100;	//max arrow size
+    private static final double maxLength = 100;	//max arrow size
     private static double minLength = 5;		//min arrow size
-    //private static double CONST_PI = Math.PI;
-    //private static int maxPixels2=100000;
-    private static String _className = "countsupport";
+    private static final String _className = "countsupport";
     
     protected static void setMinLength(double mLength)
     {
@@ -72,10 +69,6 @@ public final class countsupport
                 case TacticalLines.BS_CROSS:
                     count=4;
                     break;
-//                case TacticalLines.BS_RECTANGLE:
-//                case TacticalLines.BBS_RECTANGLE:
-//                    count=5;
-//                    break;
                 case TacticalLines.OVERHEAD_WIRE:
                     count=vblCounter*15;    //15 points per segment
                     break;
@@ -103,7 +96,6 @@ public final class countsupport
                     break;
                 case TacticalLines.ANCHORAGE_AREA:
                 case TacticalLines.ANCHORAGE_LINE:
-                    //vblSaveCounter = vblCounter;
                     count = flot.GetAnchorageCountDouble(pLinePoints, vblCounter);
                     break;
                 case TacticalLines.LRO:
@@ -140,7 +132,6 @@ public final class countsupport
                 case TacticalLines.TROUGH:
                 case TacticalLines.INSTABILITY:
                 case TacticalLines.SHEAR:
-                    //CELineArrayGlobals.MaxPixels2=saveMaxPixels+100;
                     vblCounter = GetSquallQty(pLinePoints, 6, 30, (int)vblSaveCounter);
                     count=vblCounter;
                     break;
@@ -169,12 +160,10 @@ public final class countsupport
                     break;
                 case TacticalLines.FOLLA:
                 case TacticalLines.FOLSP:
-                    //count = vblCounter + 14;
                     count=16;
                     break;
                 case TacticalLines.ROADBLK:
                 case TacticalLines.FERRY:
-                    //vblCounter = vblCounter + 6;
                     count=8;
                     break;
                 case TacticalLines.NAVIGATION:
@@ -187,11 +176,6 @@ public final class countsupport
                 case TacticalLines.DECEIVE:
                     count = 4;
                     break;
-                //case TacticalLines.FLOT:
-                //case TacticalLines.MVFR:
-                //case TacticalLines.UNDERCAST:
-                    //count = flot.GetFlotCountDouble(pLinePoints, vblCounter);
-                    //break;
                 case TacticalLines.TRIP:
                     count = 35;
                     break;
@@ -203,7 +187,6 @@ public final class countsupport
                     count = 28;
                     break;
                 case TacticalLines.DUMMY:
-                    //count = 33; //was 58
                     count=vblCounter+3;   //commented 5-3-10
                     break;
                 case TacticalLines.CONTAIN:
@@ -283,7 +266,6 @@ public final class countsupport
                     break;
                 case TacticalLines.RAFT:
                 case TacticalLines.MFLANE:	//extra eight points for hash marks at either end
-                    //count = vblCounter + 6;
                     count = 8;
                     break;
                 case TacticalLines.DIRATKGND:
@@ -291,7 +273,6 @@ public final class countsupport
                     break;
                 case TacticalLines.DIRATKAIR:
                     count = vblCounter + 9;
-                    //count = vblCounter + 11;//12-17-10
                     break;
                 case TacticalLines.DISRUPT:
                 case TacticalLines.CLEAR:
@@ -304,7 +285,6 @@ public final class countsupport
                     break;
                 case TacticalLines.UAV:
                 case TacticalLines.MRR:
-                    //count = 6;
                     if(rev==RendererSettings.Symbology_2525C)
                     {
                         vblCounter = 6 * (vblSaveCounter - 1);	//6 per segment
@@ -398,18 +378,12 @@ public final class countsupport
                 case TacticalLines.SPT_STRAIGHT:
                     //points for these need not be bounded
                     //they have an extra 8 points for the arrowhead
-                    //pvblCounters[0]=2*lElements+8;
-                    //pvblCounters[1]=lElements;
                     count=2*vblCounter+8;
                     break;
                 case TacticalLines.CATKBYFIRE:
-                    //pvblCounters[0] = 2 * lElements + 17;
-                    //pvblCounters[1] = lElements;
                     count=2*vblCounter+17;
                     break;
                 case TacticalLines.AAAAA:
-                    //pvblCounters[0] = 2 * lElements + 19;
-                    //pvblCounters[1] = lElements;
                     count=2*vblCounter+19;
                     break;
                 case TacticalLines.FEBA:		//double for the shortened user line plus quadruple for
@@ -423,7 +397,6 @@ public final class countsupport
                     count = vblCounter + 26 * vblSaveCounter*2;	//26 for each circle and potentially two circles at each endpoint
                     break;
                 case TacticalLines.ATWALL:
-                //case TacticalLines.ATWALL3D:
                 case TacticalLines.LINE:
                 case TacticalLines.OBSAREA:
                 case TacticalLines.OBSFAREA:
@@ -487,26 +460,6 @@ public final class countsupport
                     else count=0;
                     break;
                 case TacticalLines.BYDIF:
-                    //commented section 10-27-10
-//                    GetByDifSegment(pLinePoints, pointsCorner);
-//                    vblCounter = lineutility.BoundPointsCount(pointsCorner, 2);
-//                    segments = new int[vblCounter];
-//                    pNewLinePoints = new POINT2[vblCounter];
-//                    for (j = 0; j < 2; j++)
-//                        pNewLinePoints[j] = new POINT2(pointsCorner[j]);
-//
-//                    vblCounter = lineutility.BoundPoints(pNewLinePoints, 2, segments);
-//                    //there is only one possible viable segment since we bounded 2 points
-//                    for (j = 0; j < vblCounter - 1; j++)
-//                    {
-//                        if (segments[j] != 0)
-//                        {
-//                            count = GetDISMFixCountDouble(pNewLinePoints[j], pNewLinePoints[j + 1]);
-//                            break;
-//                        }
-//                    }
-//                    count += 12;
-                    //end section
                     if(clipBounds != null)
                     {
                         GetByDifSegment(pLinePoints, pointsCorner);
@@ -535,28 +488,6 @@ public final class countsupport
         }
         return count;
     }
-    //for DMAF, not currently used
-//    protected static int GetXPointsCount(POINT2[] pLinePoints)
-//    {
-//        int total=0;
-//        try
-//        {
-//            int j=0,iterations=0;
-//            double dist=0;
-//            for(j=0;j<pLinePoints.length-1;j++)
-//            {
-//                dist=lineutility.CalcDistanceDouble(pLinePoints[j],pLinePoints[j+1]);
-//                iterations=(int)(dist-5)/10;
-//                total += iterations *4;
-//            }
-//        }
-//        catch(Exception e)
-//        {
-//            System.out.println(e.getMessage());
-//        }
-//        return total;
-//    }
-
     private static int GetReefCount(POINT2[] pLinePoints,
             int vblCounter) {
         int count = 0;
@@ -683,7 +614,6 @@ public final class countsupport
                 n= 2 * (int) (d / 15);
                 if(n<2)
                     n=2;
-                //total += 2 * (int) (d / 15);
                 total += n;
             }
         } catch (Exception exc) {
@@ -733,7 +663,6 @@ public final class countsupport
 
             for (j = 0; j < vblCounter - 1; j++) {
                 dHowFar = lineutility.CalcDistanceDouble(pLinePoints[j], pLinePoints[j + 1]);
-                //nHowManyThisSegment = (int) ((dHowFar - 3) / 12);
                 nHowManyThisSegment = (int) ( (dHowFar-1) / 12);
                 if (dHowFar > 24) {
                     switch (vbiDrawThis) {
@@ -781,7 +710,6 @@ public final class countsupport
                 counter = numPoints;
             }
 
-            //clean up
             } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetSquallQty",
                     new RendererException("Failed inside GetSquallQty", exc));
@@ -918,13 +846,6 @@ public final class countsupport
                 savepoints=lineutility.BoundOneSegment(FirstLinePoint, LastLinePoint, ul, lr);
             }
 
-//            if(savepoints==null)
-//            {
-//                //savepoints[0] = new POINT2(FirstLinePoint);
-//                //savepoints[1] = new POINT2(LastLinePoint);
-//                //drawJaggies=false;
-//                return 20;
-//            }
             if(savepoints==null)
                 return 0;
 
