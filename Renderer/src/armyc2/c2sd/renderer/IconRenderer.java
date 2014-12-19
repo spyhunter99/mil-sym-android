@@ -8,6 +8,7 @@ public class IconRenderer{
 	
 	/**
 	 * this class managers all other iconRenderers
+         * @deprecated 
 	 */
 	public IconRenderer()  
 	{
