@@ -7,7 +7,6 @@ import armyc2.c2sd.JavaLineArray.TacticalLines;
 import armyc2.c2sd.JavaLineArray.POINT2;
 import armyc2.c2sd.JavaTacticalRenderer.clsMETOC;
 import armyc2.c2sd.JavaRendererServer.RenderMultipoints.clsRenderer;
-import armyc2.c2sd.JavaTacticalRenderer.TGLight;
 import armyc2.c2sd.graphics2d.*;
 import armyc2.c2sd.renderer.utilities.*;
 import armyc2.c2sd.JavaLineArray.lineutility;
@@ -33,8 +32,6 @@ public final class utility {
     private static double rightLongitude;
     private static double upperLatitude;
     private static double lowerLatitude;
-    //private static double degLatPerPixel;
-    //private static double degLongPerPixel;
 
     /**
      * uses the PointConversion to convert to geo
@@ -55,7 +52,10 @@ public final class utility {
             pts2d.add(pt2d);
         }
         ArrayList<POINT2> pts2 = new ArrayList();
-        for (j = 0; j < pts2d.size(); j++) {
+        int n=pts2d.size();
+        //for (j = 0; j < pts2d.size(); j++) 
+        for (j = 0; j < n; j++) 
+        {
             pts2.add(new POINT2(pts2d.get(j).getX(), pts2d.get(j).getY()));
         }
 
@@ -132,19 +132,6 @@ public final class utility {
         rightLongitude = lrlon;// -93;
         upperLatitude = ullat;// 33.5;
         lowerLatitude = lrlat;// 32;
-
-//        degLatPerPixel = (upperLatitude - lowerLatitude) / displayHeight;
-//
-//        degLongPerPixel = (rightLongitude - leftLongitude) / displayWidth;
-//        if (rightLongitude - leftLongitude < -180) {
-//            degLongPerPixel = Math.abs((rightLongitude - leftLongitude + 360)
-//                    / displayWidth);
-//        }
-//        if (rightLongitude - leftLongitude > 180) {
-//            degLongPerPixel = Math.abs((rightLongitude - leftLongitude - 360)
-//                    / displayWidth);
-//        }
-
     }
 
     private static String TableType(int lineType) {
@@ -210,40 +197,6 @@ public final class utility {
             case TacticalLines.ROZ:
             case TacticalLines.EZ:
             case TacticalLines.HIDACZ:
-            // change 1 rectangles
-            // case TacticalLines.RECTANGULAR:
-            // case TacticalLines.FSA_RECTANGULAR:
-            // case TacticalLines.FFA_RECTANGULAR:
-            // case TacticalLines.ACA_RECTANGULAR:
-            // case TacticalLines.NFA_RECTANGULAR:
-            // case TacticalLines.RFA_RECTANGULAR:
-            // case TacticalLines.ATI_RECTANGULAR:
-            // case TacticalLines.CFFZ_RECTANGULAR:
-            // case TacticalLines.SENSOR_RECTANGULAR:
-            // case TacticalLines.CENSOR_RECTANGULAR:
-            // case TacticalLines.DA_RECTANGULAR:
-            // case TacticalLines.CFZ_RECTANGULAR:
-            // case TacticalLines.ZOR_RECTANGULAR:
-            // case TacticalLines.TBA_RECTANGULAR:
-            // case TacticalLines.TVAR_RECTANGULAR:
-            // case TacticalLines.CIRCULAR:
-            // case TacticalLines.FSA_CIRCULAR:
-            // case TacticalLines.FFA_CIRCULAR:
-            // case TacticalLines.NFA_CIRCULAR:
-            // case TacticalLines.RFA_CIRCULAR:
-            // case TacticalLines.ACA_CIRCULAR:
-            // case TacticalLines.PAA_CIRCULAR:
-            // case TacticalLines.ATI_CIRCULAR:
-            // case TacticalLines.CFFZ_CIRCULAR:
-            // case TacticalLines.SENSOR_CIRCULAR:
-            // case TacticalLines.CENSOR_CIRCULAR:
-            // case TacticalLines.DA_CIRCULAR:
-            // case TacticalLines.CFZ_CIRCULAR:
-            // case TacticalLines.ZOR_CIRCULAR:
-            // case TacticalLines.TBA_CIRCULAR:
-            // case TacticalLines.TVAR_CIRCULAR:
-            // case TacticalLines.RANGE_FAN:
-            // case TacticalLines.RANGE_FAN_SECTOR:
             case TacticalLines.FSA: // change 1
             case TacticalLines.ATI:
             case TacticalLines.CFFZ:
@@ -1058,7 +1011,10 @@ public final class utility {
         int j = 0;
         Point pt = null;
         POINT2 pt2 = null;
-        for (j = 0; j < pts.size(); j++) {
+        int n=pts.size();
+        //for (j = 0; j < pts.size(); j++) 
+        for (j = 0; j < n; j++) 
+        {
             pt = pts.get(j);
             pt2 = new POINT2(pt.getX(), pt.getY());
             pts2.add(pt2);
@@ -1069,7 +1025,10 @@ public final class utility {
     private static ArrayList<Point2D> POINT2ToPoint2D(
             ArrayList<POINT2> pts) {
         ArrayList<Point2D> pts2d = new ArrayList();
-        for (int j = 0; j < pts.size(); j++) {
+        int n=pts.size();
+        //for (int j = 0; j < pts.size(); j++) 
+        for (int j = 0; j < n; j++) 
+        {
             pts2d.add(new Point2D.Double(pts.get(j).x, pts.get(j).y));
         }
 
@@ -1194,7 +1153,10 @@ public final class utility {
         String[] origPts = controlPtsStr.split(" ");
         int j = 0;
         String coords = "";
-        for (j = 0; j < origPts.length; j++) {
+        int n=origPts.length;
+        //for (j = 0; j < origPts.length; j++) 
+        for (j = 0; j < n; j++) 
+        {
             coords = origPts[j];
             coords += ",0";
             if (j < origPts.length - 1) {
@@ -1214,7 +1176,10 @@ public final class utility {
     private static String controlPointsToString(ArrayList<POINT2> pts) {
         String str = "";
         int j = 0;
-        for (j = 0; j < pts.size(); j++) {
+        int n=pts.size();
+        //for (j = 0; j < pts.size(); j++) 
+        for (j = 0; j < n; j++) 
+        {
             str += Double.toString(pts.get(j).x);
             str += ",";
             str += Double.toString(pts.get(j).y);
@@ -1231,7 +1196,10 @@ public final class utility {
         String str2 = str;
         if (linetype < 0) {
             //return a valid string the client can use for the symbol id
-            for (int j = str2.length(); j < 15; j++) {
+            int n=str2.length();
+            //for (int j = str2.length(); j < 15; j++) 
+            for (int j = n; j < 15; j++) 
+            {
                 str2 += "-";
             }
         }
@@ -1316,10 +1284,16 @@ public final class utility {
         int j = 0, k = 0;
         String[] triple = null;
         double x1 = 0, y1 = 0, x2, y2;
-        for (j = 0; j < coordStrings.size(); j++) {
+        int n=coordStrings.size();
+        //for (j = 0; j < coordStrings.size(); j++) 
+        for (j = 0; j < n; j++) 
+        {
             coords = coordStrings.get(j);
             coordArray = coords.split(" ");
-            for (k = 0; k < coordArray.length - 1; k++) {
+            int t=coordArray.length;
+            //for (k = 0; k < coordArray.length - 1; k++) 
+            for (k = 0; k < t - 1; k++) 
+            {
                 triple = coordArray[k].split(",");
                 if (triple.length < 3) {
                     continue;
@@ -1415,12 +1389,18 @@ public final class utility {
                 }
 
                 if (spec.getFillColor() != null && spec.getFillColor().getAlpha() > 0) {
-                    for (j = 0; j < polylines.size(); j++) {
+                    int n=polylines.size();
+                    //for (j = 0; j < polylines.size(); j++) 
+                    for (j = 0; j < n; j++) 
+                    {
                         path = new Path();
                         polyline = polylines.get(j);
                         //poly=new java.awt.Polygon();
                         path.moveTo((int) polyline.get(0).getX(), (int) polyline.get(0).getY());
-                        for (int k = 1; k < polyline.size(); k++) {
+                        int t=polyline.size();
+                        //for (int k = 1; k < polyline.size(); k++) 
+                        for (int k = 1; k < t; k++) 
+                        {
                             path.lineTo((int) polyline.get(k).getX(), (int) polyline.get(k).getY());
                         }
                         canvas.drawPath(path, paint);
@@ -1437,11 +1417,17 @@ public final class utility {
                     paint.setColor(spec.getLineColor().toARGB());
                     paint.setStyle(Paint.Style.STROKE);
                     paint.setStrokeWidth(stroke.getLineWidth());                    
-                    for (j = 0; j < polylines.size(); j++) {
+                    int n=polylines.size();
+                    //for (j = 0; j < polylines.size(); j++) 
+                    for (j = 0; j < n; j++) 
+                    {
                         polyline = polylines.get(j);
                         path = new Path();
                         path.moveTo((int) polyline.get(0).getX(), (int) polyline.get(0).getY());
-                        for (int k = 1; k < polyline.size(); k++) {
+                        int t=polyline.size();
+                        //for (int k = 1; k < polyline.size(); k++) 
+                        for (int k = 1; k < t; k++) 
+                        {
                             path.lineTo((int) polyline.get(k).getX(), (int) polyline.get(k).getY());
                         }
                         canvas.drawPath(path, paint);
@@ -1601,7 +1587,10 @@ public final class utility {
         POINT2 pt2 = null;
         POINT2 pt2Geo = null;
         ArrayList<POINT2> latLongs = new ArrayList();
-        for (j = 0; j < pts2.size(); j++) {
+        int n=pts2.size();
+        //for (j = 0; j < pts2.size(); j++) 
+        for (j = 0; j < n; j++) 
+        {
             pt2 = pts2.get(j);
             ptPixels = new Point2D.Double(pt2.x, pt2.y);
             ptGeo = converter.PixelsToGeo(ptPixels);
