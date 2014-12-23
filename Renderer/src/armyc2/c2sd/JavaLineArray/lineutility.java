@@ -157,8 +157,10 @@ public final class lineutility {
         if (pts == null || pts.length == 0) {
             return;
         }
-
-        for (int j = 0; j < pts.length; j++) {
+        int n=pts.length;
+        //for (int j = 0; j < pts.length; j++) 
+        for (int j = 0; j < n; j++) 
+        {
             pts[j] = new POINT2();
         }
     }
@@ -688,7 +690,10 @@ public final class lineutility {
             POINT2 extendFrontAbove = null, extendFrontBelow = null;
             POINT2 extendBackAbove = null, extendBackBelow = null;
             POINT2 xPoint1 = null, xPoint2 = null;
-            for (j = 0; j < pLinePoints.length - 1; j++) {
+            int n=pLinePoints.length;
+            //for (j = 0; j < pLinePoints.length - 1; j++) 
+            for (j = 0; j < n - 1; j++) 
+            {
                 dist = CalcDistanceDouble(pLinePoints[j], pLinePoints[j + 1]);
                 iterations = (int) ((dist - 5.0) / 20.0);
                 if (dist - iterations * 20 > 10) {
@@ -2213,67 +2218,6 @@ public final class lineutility {
         }
         return;
     }
-    //shift the client array by these values for the geo option
-    //private static double shiftX=0;
-    //private static double shiftY=0;
-    /**
-     * Original CELineArray design was based on an origin of 0,0 in the upper
-     * left corner. This function translates points for the geo option due to
-     * calculation problems with negative pixel values.
-     *
-     * @param pts OUT - points to translate
-     * @param direction 0 to shift the points, 1 to shift them back by the smae
-     * amounts
-     */
-//    public static void TranslatePoints(ArrayList<POINT2>pts,int direction)
-//    {
-//        int j=0;
-//        double x=0,y=0;
-//        POINT2 pt=null;
-//        int lineStyle=0;
-//        switch (direction)
-//        {
-//            case 0:
-//                //initialize shiftX, shiftY
-//                shiftX=0;
-//                shiftY=0;
-//                //get the values fro shiftX, shiftY
-//                for(j=0;j<pts.size();j++)
-//                {
-//                    if(pts.get(j).x<shiftX)
-//                        shiftX=pts.get(j).x;
-//                    if(pts.get(j).y<shiftY)
-//                        shiftY=pts.get(j).y;
-//                }
-//                //shift the points
-//                for(j=0;j<pts.size();j++)
-//                {
-//                    x=pts.get(j).x;
-//                    x-=shiftX;
-//                    y=pts.get(j).y;
-//                    y-=shiftY;
-//                    lineStyle=pts.get(j).style;
-//                    pt=new POINT2(x,y,lineStyle);
-//                    pts.set(j, pt);
-//                }
-//            break;
-//            case 1:
-//                //shift the points back
-//                for(j=0;j<pts.size();j++)
-//                {
-//                    x=pts.get(j).x;
-//                    x+=shiftX;
-//                    y=pts.get(j).y;
-//                    y+=shiftY;
-//                    lineStyle=pts.get(j).style;
-//                    pt=new POINT2(x,y,lineStyle);
-//                    pts.set(j, pt);
-//                }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
     /**
      * Computes an arc.
      *
@@ -2640,14 +2584,7 @@ public final class lineutility {
      */
     private static int PointInBounds2(POINT2 pt, POINT2 ul, POINT2 lr) {
         try {
-            //double maxPixels=CELineArrayGlobals.MaxPixels2;
-            //double maxPixels=2000;
             double maxX = lr.x, minX = ul.x, maxY = lr.y, minY = ul.y;
-
-//            if( Math.abs(pt.x)<=maxPixels && Math.abs(pt.y)<=maxPixels)
-//                return 1;
-//            else
-//                return 0;
             if (pt.x <= maxX && pt.x >= minX && pt.y <= maxY && pt.y >= minY) {
                 return 1;
             } else {
@@ -2660,84 +2597,6 @@ public final class lineutility {
         return 1;
     }
 
-    /**
-     * Computes the number of bounded points.
-     *
-     * @param pLinePoints points to bound
-     * @param vblCounter number of points to bound.
-     * @return the number of bounded points.
-     */
-//    protected static int BoundPointsCount(POINT2[] pLinePoints,
-//                                        int vblCounter)
-//    {
-//        int k=0;
-//        try
-//        {
-//            ref<double[]> pt2x=new ref(),pt2y=new ref(),pt3x=new ref(),pt3y=new ref();
-//            int j=0,bolResult=-1;
-//            //double H=2000;
-//            POINT2 pt0=new POINT2(pLinePoints[0]), pt1=new POINT2(pLinePoints[1]);
-//            POINT2[] pSavePoints=new POINT2[vblCounter];
-//
-//            //end declarations
-//            //H=maxPixels;
-//            //H=CELineArrayGlobals.MaxPixels2;
-//            for(j=0;j<vblCounter;j++)
-//            {
-//                //pSavePoints[j].x=pLinePoints[j].x;
-//                //pSavePoints[j].y=pLinePoints[j].y;
-//                pSavePoints[j]=new POINT2(pLinePoints[j]);
-//            }
-//
-//            //first we have to see how many points there will be in the new array
-//            //k will be used to count the points
-//            pt2x.value=new double[1];
-//            pt2y.value=new double[1];
-//            pt3x.value=new double[1];
-//            pt3y.value=new double[1];
-//            for(j=0;j<vblCounter-1;j++)
-//            {
-//                pt2x.value[0]=pSavePoints[j].x;
-//                pt2y.value[0]=pSavePoints[j].y;
-//                pt3x.value[0]=pSavePoints[j+1].x;
-//                pt3y.value[0]=pSavePoints[j+1].y;
-//                pt0.x=pt2x.value[0];
-//                pt0.y=pt2y.value[0];
-//                pt1.x=pt3x.value[0];
-//                pt1.y=pt3y.value[0];
-//                if(PointInBounds(pLinePoints[j])==1)	//point in bounds
-//                {
-//                    k++;
-//                    if(PointInBounds(pLinePoints[j+1])==0)	//add one segment
-//                        k+=1;
-//                    //if pLinePoints[j+1] is also in bounds, adds no new segments
-//                }
-//                //if(PointInBounds(pLinePoints[j])==0)	//point out of bounds
-//                else
-//                {
-//                    k++;
-//                    bolResult=DisplayIntersectPixels(pt0,pt1,pt2x,pt2y,pt3x,pt3y);
-//                    if(bolResult==1)	//intersects the display area
-//                    {
-//                        if(PointInBounds(pLinePoints[j+1])==1)
-//                            k++;	//add one segments only
-//                        else
-//                            k+=2;	//add 2 segments
-//                    }
-//                    //if bolResult==0 then it does not intersect the display area
-//                    //add no segments
-//                }
-//            }
-//            k+=1;//	The last segment must be added
-//            pSavePoints=null;
-//        }
-//        catch(Exception exc)
-//        {
-//            ErrorLogger.LogException(_className ,"BoundPointsCount",
-//                    new RendererException("Failed inside BoundPointsCount", exc));
-//        }
-//        return k;
-//    }
     /**
      * Analyzes if line from pt0 to pt 1 intersects a side and returns the
      * intersection or null assumes pt0 to pt1 is not vertical. the caller will
@@ -3388,268 +3247,6 @@ public final class lineutility {
     }
 
     /**
-     * Currently used on a limited basis and will likely be replaced by
-     * BoundOneSegment if we do bound points.
-     *
-     * @param pLinePoints - OUT - points to bound
-     * @param vblCounter bound the first vblCounter points in the array.
-     * @param segments - OUT - array of 0 or 1 for caller to use to determine
-     * whether segment is to be drawn.
-     *
-     * @return the number of bounded points.
-     */
-//    protected static int BoundPoints(POINT2[] pLinePoints,
-//                                                    int vblCounter,
-//                                                    int[] segments)
-//    {
-//        int k=0;
-//        try
-//        {
-//            ref<double[]> pt2x=new ref(),pt2y=new ref(),pt3x=new ref(),pt3y=new ref();
-//            int j=0,bolResult=-1;
-//            POINT2 pt0=new POINT2(pLinePoints[0]), pt1=new POINT2(pLinePoints[1]);
-//            POINT2[] pSavePoints=new POINT2[vblCounter];
-//            //end declarations
-//
-//            for(j=0;j<vblCounter;j++)
-//            {
-//                pSavePoints[j]=new POINT2(pLinePoints[j]);
-//            }
-//
-//            pt2x.value=new double[1];
-//            pt2y.value=new double[1];
-//            pt3x.value=new double[1];
-//            pt3y.value=new double[1];
-//            //first we have to see how many points there will be in the new array
-//            //k will be used to count the points
-//            for(j=0;j<vblCounter-1;j++)
-//            {
-//                pt2x.value[0]=pSavePoints[j].x;
-//                pt2y.value[0]=pSavePoints[j].y;
-//                pt3x.value[0]=pSavePoints[j+1].x;
-//                pt3y.value[0]=pSavePoints[j+1].y;
-//                pt0.x=pt2x.value[0];
-//                pt0.y=pt2y.value[0];
-//                pt1.x=pt3x.value[0];
-//                pt1.y=pt3y.value[0];
-//                if(PointInBounds(pSavePoints[j])==1)	//current point in bounds
-//                {
-//                    pLinePoints[k]=pSavePoints[j];
-//                    //segment is in bounds, either goes to next point or to the boundary
-//                    segments[k]=1;
-//                    k++;
-//                    //next point is either in bounds or out of bounds
-//                    if(PointInBounds(pSavePoints[j+1])==0)	//add one segment
-//                    {
-//                        bolResult=DisplayIntersectPixels(pt0,pt1,pt2x,pt2y,pt3x,pt3y);
-//                        //bolResult must be 1
-//                        pLinePoints[k].x=pt3x.value[0];
-//                        pLinePoints[k].y=pt3y.value[0];
-//                        segments[k]=0;	//segment is out of bounds
-//                        k++;
-//                    }
-//                    //if pSavePoints[j+1] is in bounds do nothing
-//                    //there are no extra segments
-//                    //pSavePoints[j+1] will be picked up on the next iteration
-//                }
-//                //if(PointInBounds(pSavePoints[j])==0)	//curent point out of bounds
-//                else
-//                {										//add two or zero segments
-//                    pLinePoints[k]=pSavePoints[j];
-//                    //segment is out of bounds
-//                    segments[k]=0;
-//                    k++;
-//                    bolResult=DisplayIntersectPixels(pt0,pt1,pt2x,pt2y,pt3x,pt3y);
-//                    if(bolResult==1)
-//                    {
-//                        if(PointInBounds(pSavePoints[j+1])==0)
-//                        {
-//                            bolResult=DisplayIntersectPixels(pt0,pt1,pt2x,pt2y,pt3x,pt3y);
-//                            if(bolResult==1)	//add two segments
-//                            {
-//                                pLinePoints[k].x=pt2x.value[0];
-//                                pLinePoints[k].y=pt2y.value[0];
-//                                segments[k]=1;	//segment in bounds, goes from from a boundary to a boundary
-//                                k++;
-//                                pLinePoints[k].x=pt3x.value[0];
-//                                pLinePoints[k].y=pt3y.value[0];
-//                                segments[k]=0;	//segment out of bounds
-//                                k++;
-//                            }
-//                            //if bolResult is 0 then do nothing. There are no new segments
-//                            //and the existing segment is already set to 0
-//                            //pSavePoints[j+1] will be picked up on the next iteration
-//                        }
-//                        //if(PointInBounds(pSavePoints[j+1])==1)	//add one segment
-//                        else
-//                        {
-//                            bolResult=DisplayIntersectPixels(pt0,pt1,pt2x,pt2y,pt3x,pt3y);
-//                            //bolResult must be 1
-//                            pLinePoints[k].x=pt2x.value[0];
-//                            pLinePoints[k].y=pt2y.value[0];
-//                            segments[k]=1;	//next point is in bounds
-//                            k++;
-//                        }
-//                    }
-//                }
-//            }
-//            pLinePoints[k]=new POINT2(pSavePoints[j]);	//	The last point must be added
-//            k++;
-//            pSavePoints=null;
-//        }
-//        catch(Exception exc)
-//        {
-//            ErrorLogger.LogException(_className ,"BoundPoints",
-//                    new RendererException("Failed inside BoundPoints", exc));
-//        }
-//        return k;
-//    }
-    /**
-     * sides 0 ---------- | | 3 | | 1 | | ---------- 2
-     *
-     * @param pLinePoints
-     * @param vblCounter
-     * @param segments
-     * @param ul
-     * @param lr
-     * @return
-     */
-//    public static ArrayList<POINT2> BoundPoints2(POINT2[] pLinePoints,
-//                                                    int vblCounter,
-//                                                    //int[] segments,
-//                                                    POINT2 ul,
-//                                                    POINT2 lr)
-//    {
-//        ArrayList<POINT2>clippedPts=new ArrayList();
-//        try
-//        {
-//
-//            ref<double[]> pt2x=new ref(),pt2y=new ref(),pt3x=new ref(),pt3y=new ref();
-//            int j=0,bolResult=-1;
-//            POINT2 pt0=new POINT2(pLinePoints[0]), pt1=new POINT2(pLinePoints[1]),pt2=null;
-//            POINT2[] pSavePoints=new POINT2[vblCounter];
-//            //end declarations
-//
-//            for(j=0;j<vblCounter;j++)
-//                pSavePoints[j]=new POINT2(pLinePoints[j]);
-//
-//            //isClosed for Areas
-//            Boolean isClosed=false;
-//            Boolean isLine=true;
-//            if(pLinePoints[0].x==pLinePoints[vblCounter-1].x && pLinePoints[0].y==pLinePoints[vblCounter-1].y)
-//            {
-//                isClosed=true;
-//                isLine=false;
-//            }
-//
-//
-//            pt2x.value=new double[1];
-//            pt2y.value=new double[1];
-//            pt3x.value=new double[1];
-//            pt3y.value=new double[1];
-//            //first we have to see how many points there will be in the new array
-//            //k will be used to count the points
-//            for(j=0;j<vblCounter-1;j++)
-//            {
-//                //line exits, then enters the clip area
-//                pt2x.value[0]=pSavePoints[j].x;
-//                pt2y.value[0]=pSavePoints[j].y;
-//                pt3x.value[0]=pSavePoints[j+1].x;
-//                pt3y.value[0]=pSavePoints[j+1].y;
-//                pt0.x=pt2x.value[0];
-//                pt0.y=pt2y.value[0];
-//                pt1.x=pt3x.value[0];
-//                pt1.y=pt3y.value[0];
-//                if(PointInBounds2(pSavePoints[j],ul,lr)==1)	//current point in bounds
-//                {
-//                    clippedPts.add(pSavePoints[j]);
-//                    //next point is either in bounds or out of bounds
-//                    if(PointInBounds2(pSavePoints[j+1],ul,lr)==0)	//add one segment
-//                    {
-//                        bolResult=DisplayIntersectPixels2(pt0,pt1,pt2x,pt2y,pt3x,pt3y,ul,lr);
-//                        pt2=new POINT2(pt3x.value[0],pt3y.value[0]);
-//                        if(PointInBounds2(pt2,ul,lr)==1)
-//                            clippedPts.add(pt2);
-//                    }
-//                }
-//                else
-//                {   //add two or zero segments
-//                    bolResult=DisplayIntersectPixels2(pt0,pt1,pt2x,pt2y,pt3x,pt3y,ul,lr);
-//                    if(bolResult==1)
-//                    {
-//                        if(PointInBounds2(pSavePoints[j+1],ul,lr)==0)
-//                        {
-//                            bolResult=DisplayIntersectPixels2(pt0,pt1,pt2x,pt2y,pt3x,pt3y,ul,lr);
-//                            if(bolResult==1)	//add two segments
-//                            {
-//                                pt2=new POINT2(pt2x.value[0],pt2y.value[0]);
-//                                if(PointInBounds2(pt2,ul,lr)==1)
-//                                    clippedPts.add(pt2);
-//
-//                                pt2=new POINT2(pt3x.value[0],pt3y.value[0]);
-//                                if(PointInBounds2(pt2,ul,lr)==1)
-//                                    clippedPts.add(pt2);
-//                            }
-//                        }
-//                        else
-//                        {
-//                            bolResult=DisplayIntersectPixels2(pt0,pt1,pt2x,pt2y,pt3x,pt3y,ul,lr);
-//                            pt2=new POINT2(pt2x.value[0],pt2y.value[0]);
-//                            if(PointInBounds2(pt2,ul,lr)==1)
-//                                clippedPts.add(pt2);
-//                        }
-//                    }
-//                }
-//            }
-//            if(PointInBounds2(pSavePoints[j],ul,lr)==1)
-//                clippedPts.add(pSavePoints[j]);
-//
-//            if(clippedPts.size()==0)
-//                return clippedPts;
-//
-//            POINT2 ptFirst=clippedPts.get(0);
-//            POINT2 ptLast=clippedPts.get(clippedPts.size()-1);
-//            if(ptFirst.x != ptLast.x || ptFirst.y != ptLast.y)
-//                if(isClosed)
-//                    clippedPts.add(ptFirst);
-//
-//
-//            if(isLine)//add points(s) as needed to make the clipped pts have the correct orientation
-//            {
-//                if(pSavePoints[0].x<=pSavePoints[1].x)  //left to right direction
-//                {
-//                    if(ptFirst.x==ul.x || ptFirst.y==ul.y || ptFirst.y == lr.y)//on the left, top or bottom clip boundary
-//                        clippedPts.add(0,new POINT2(ptFirst.x-50,ptFirst.y));
-//                    if(ptFirst.x==lr.x) //it's on the right clip boundary
-//                    {   //add tw points to the front to make it go left to right
-//                        clippedPts.add(0,new POINT2(lr.x,ul.y));
-//                        clippedPts.add(0,new POINT2(lr.x-50,ul.y));
-//                    }
-//                }
-//                else    //right to left direction
-//                {
-//                    if(ptFirst.x==lr.x || ptFirst.y==ul.y || ptFirst.y == lr.y)//on the right, top or bottom clip boundary
-//                        clippedPts.add(0,new POINT2(ptFirst.x+50,ptFirst.y));
-//                    if(ptFirst.x==ul.x) //it's on the left clip boundary
-//                    {   //add tw points to the front to make it go left to right
-//                        clippedPts.add(0,new POINT2(lr.x,ul.y));
-//                        clippedPts.add(0,new POINT2(lr.x+50,ul.y));
-//                    }
-//
-//                }
-//            }
-//
-//            pSavePoints=null;
-//        }
-//        catch(Exception exc)
-//        {
-//            ErrorLogger.LogException(_className ,"BoundPoints2",
-//                    new RendererException("Failed inside BoundPoints2", exc));
-//        }
-//        //return k;
-//        return clippedPts;
-//    }
-    /**
      * Computes Ditch spikes for the ATDITCH line types. This function uses
      * linestyles provided by the caller to skip segments.
      *
@@ -3901,8 +3498,10 @@ public final class lineutility {
             if (pLinePoints[nSpikeCounter - 1].style == 0) {
                 pLinePoints[nSpikeCounter - 1].style = 5;
             }
-
-            for (j = nSpikeCounter; j < nSpikeCounter + basePoints.size(); j++) {
+            int t=basePoints.size();
+            //for (j = nSpikeCounter; j < nSpikeCounter + basePoints.size(); j++) 
+            for (j = nSpikeCounter; j < nSpikeCounter + t; j++) 
+            {
                 pLinePoints[j] = new POINT2(basePoints.get(j - nSpikeCounter));
                 //if(linetype == TacticalLines.ATDITCHM && pLinePoints[j].style != 5)
                 if (pLinePoints[j].style != 5) {
@@ -3920,10 +3519,6 @@ public final class lineutility {
                 nSpikeCounter += lCircleCounter;
             }
 
-            //clean up
-            pdAnswer = null;
-            pCirclePoints = null;
-            pTempLinePoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetDitchSpikeDouble",
                     new RendererException("Failed inside GetDitchSpikeDouble", exc));
@@ -4390,12 +3985,6 @@ public final class lineutility {
         }
         return;
     }
-    // Randomly modify the specified number of coordinates, by an amount
-    // specified by the sloppiness field.
-    //private static void perturb(float[] coords, int numCoords) {
-    //  for (int i = 0; i < numCoords; i++)
-    //    coords[i] += (float) ((Math.random() * 2 - 1.0) * sloppiness);
-    //}
     /**
      * Creates a GeneralPath from a Path2D
      *
@@ -4440,52 +4029,6 @@ public final class lineutility {
         }
         return newshape;
     }
-
-    /**
-     * same as createStrokedShape except it uses a Path2D
-     *
-     * @param shape
-     * @return
-     */
-//    protected static Shape createStrokedShape2(Path2D shape) {
-//        GeneralPath newshape = new GeneralPath(); // Start with an empty shape
-//        try {
-//            // Iterate through the specified shape, perturb its coordinates, and
-//            // use them to build up the new shape.
-//            float[] coords = new float[6];
-//            for (PathIterator i = shape.getPathIterator(null); !i.isDone(); i.next()) {
-//                int type = i.currentSegment(coords);
-//                switch (type) {
-//                    case PathIterator.SEG_MOVETO:
-//                        //perturb(coords, 2);
-//                        newshape.moveTo(coords[0], coords[1]);
-//                        break;
-//                    case PathIterator.SEG_LINETO:
-//                        //perturb(coords, 2);
-//                        newshape.lineTo(coords[0], coords[1]);
-//                        break;
-//                    case PathIterator.SEG_QUADTO:
-//                        //perturb(coords, 4);
-//                        newshape.quadTo(coords[0], coords[1], coords[2], coords[3]);
-//                        break;
-//                    case PathIterator.SEG_CUBICTO:
-//                        //perturb(coords, 6);
-//                        newshape.curveTo(coords[0], coords[1], coords[2], coords[3],
-//                                coords[4], coords[5]);
-//                        break;
-//                    case PathIterator.SEG_CLOSE:
-//                        newshape.closePath();
-//                        break;
-//                }
-//
-//            }
-//        } catch (Exception exc) {
-//            ErrorLogger.LogException(_className, "createStrokedShape",
-//                    new RendererException("Failed inside createStrokedShape", exc));
-//        }
-//        return newshape;
-//    }
-
     //These functions were added to create a minimum bounding polygon
     /**
      * @deprecated Returns the determinant of the point matrix This determinant
@@ -4711,7 +4254,10 @@ public final class lineutility {
                 index = vblCounter - 1;
             }
             POINT2[] pts = new POINT2[pLinePoints.length];
-            for (int k = 0; k < pLinePoints.length; k++) {
+            int n=pLinePoints.length;
+            //for (int k = 0; k < pLinePoints.length; k++) 
+            for (int k = 0; k < n; k++) 
+            {
                 pts[k] = pLinePoints[k];
             }
 
@@ -4795,11 +4341,12 @@ public final class lineutility {
             intersectPt = lineutility.CalcTrueIntersectDouble2(m01.value[0], b01, m12.value[0], b12, 1, 1, 0, 0);
             intersectPoints.add(intersectPt);
         }//end for
-        //return intersectPoints;
-        for (j = 0; j < intersectPoints.size(); j++) {
+        int n=intersectPoints.size();
+        //for (j = 0; j < intersectPoints.size(); j++) 
+        for (j = 0; j < n; j++) 
+        {
             pLinePoints[j] = intersectPoints.get(j);
         }
-        return;
     }
 
 }//end lineutility

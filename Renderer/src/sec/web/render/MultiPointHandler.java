@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import android.util.Log;
 import android.util.SparseArray;
 import armyc2.c2sd.graphics2d.*;
-import java.util.HashMap;
 import java.util.Map;
 import sec.geo.utilities.StringBuilder;
 import sec.web.render.utilities.JavaRendererUtilities;

@@ -648,12 +648,16 @@ public final class flot {
             //lineutility.InitializePOINT2Array(pSpikePoints);
             pFlotPoints = new POINT2[10 * lTotalPoints / 13];
             //lineutility.InitializePOINT2Array(pFlotPoints);
-            for (j = 0; j < pSpikePoints.length; j++)
+            int n=pSpikePoints.length;
+            //for (j = 0; j < pSpikePoints.length; j++)
+            for (j = 0; j < n; j++)
             {
                 pSpikePoints[j] = new POINT2(pLinePoints[0]);
                 pSpikePoints[j].style = 5;
             }
-            for (j = 0; j < pFlotPoints.length; j++)
+            n=pFlotPoints.length;
+            //for (j = 0; j < pFlotPoints.length; j++)
+            for (j = 0; j < n; j++)
             {
                 pFlotPoints[j] = new POINT2(pLinePoints[0]);
                 pFlotPoints[j].style = 5;
@@ -895,14 +899,12 @@ public final class flot {
                     nSpikeCounter++;
                 }
             }
-            for (j = nTotalCounter; j < pLinePoints.length; j++) {
+            n=pLinePoints.length;
+            //for (j = nTotalCounter; j < pLinePoints.length; j++) 
+            for (j = nTotalCounter; j < n; j++) 
+            {
                 pLinePoints[j] = new POINT2(pLinePoints[nTotalCounter - 1]);
             }
-
-            //vbPoints = null;
-            //pSpikePoints = null;
-            //pFlotPoints = null;
-            //flots = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetOccludedPointsDouble",
                     new RendererException("Failed inside GetOccludedPointsDouble", exc));
@@ -1232,7 +1234,10 @@ public final class flot {
                     }
                 }
             }
-            for (j = lFlotCounter - 1; j < vbPoints2.length; j++) {
+            int n=vbPoints2.length;
+            //for (j = lFlotCounter - 1; j < vbPoints2.length; j++) 
+            for (j = lFlotCounter - 1; j < n; j++) 
+            {
                 vbPoints2[j].style = 5;
 
                 //clean up
@@ -1363,12 +1368,17 @@ public final class flot {
             pSpikePoints = new POINT2[lTotalPoints];
             pFlotPoints = new POINT2[lTotalPoints];
             pSegmentPoints = new POINT2[lTotalPoints];
-
-            for (j = 0; j < pSpikePoints.length; j++) {
+            int n=pSpikePoints.length;
+            //for (j = 0; j < pSpikePoints.length; j++) 
+            for (j = 0; j < n; j++) 
+            {
                 pSpikePoints[j] = new POINT2(pLinePoints[0]);
                 pSpikePoints[j].style = 5;
             }
-            for (j = 0; j < pFlotPoints.length; j++) {
+            n=pFlotPoints.length;
+            //for (j = 0; j < pFlotPoints.length; j++) 
+            for (j = 0; j < n; j++) 
+            {
                 pFlotPoints[j] = new POINT2(pLinePoints[0]);
                 pFlotPoints[j].style = 5;
             }
@@ -1613,20 +1623,12 @@ public final class flot {
             for (j = 0; j < nSegmentCounter; j++) {
                 pLinePoints[nTotalCounter++] = new POINT2(pSegmentPoints[j]);
             }
-
-            for (j = nTotalCounter; j < pLinePoints.length; j++) {
+            n=pLinePoints.length;
+            //for (j = nTotalCounter; j < pLinePoints.length; j++) 
+            for (j = nTotalCounter; j < n; j++) 
+            {
                 pLinePoints[j] = new POINT2(pLinePoints[nTotalCounter - 1]);
             }
-
-            //clean up
-            vbPoints = null;
-            pSpikePoints = null;
-            pFlotPoints = null;
-            flots = null;
-            pFlotStart = null;
-            pFlotEnd = null;
-            pSpikeStart = null;
-            pSpikeEnd = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetOFYPointsDouble",
                     new RendererException("Failed inside GetOFYPointsDouble", exc));
@@ -1678,12 +1680,17 @@ public final class flot {
             vbPoints = new int[numPts * 2];
             pSpikePoints = new POINT2[lTotalPoints];
             pFlotPoints = new POINT2[lTotalPoints];
-
-            for (j = 0; j < pSpikePoints.length; j++) {
+            int n=pSpikePoints.length;
+            //for (j = 0; j < pSpikePoints.length; j++) 
+            for (j = 0; j < n; j++) 
+            {
                 pSpikePoints[j] = new POINT2(pLinePoints[0]);
                 pSpikePoints[j].style = 5;
             }
-            for (j = 0; j < pFlotPoints.length; j++) {
+            n=pFlotPoints.length;
+            //for (j = 0; j < pFlotPoints.length; j++) 
+            for (j = 0; j < n; j++) 
+            {
                 pFlotPoints[j] = new POINT2(pLinePoints[0]);
                 pFlotPoints[j].style = 5;
             }
@@ -1986,8 +1993,10 @@ public final class flot {
                     nSpikeCounter += 3;
                 }
             }
-
-            for (j = 0; j < pLinePoints.length; j++) {
+            n=pLinePoints.length;
+            //for (j = 0; j < pLinePoints.length; j++) 
+            for (j = 0; j < n; j++) 
+            {
                 pLinePoints[j] = new POINT2(pSpikePoints[0]);
                 pLinePoints[j].style = 5;
             }
@@ -2002,7 +2011,10 @@ public final class flot {
             for (j = 0; j < nSegCounter; j++) {
                 pLinePoints[nTotalCounter++] = new POINT2(pSegPoints[j]);
             }
-            for (j = nTotalCounter; j < pLinePoints.length; j++) {
+            n=pLinePoints.length;
+            //for (j = nTotalCounter; j < pLinePoints.length; j++) 
+            for (j = nTotalCounter; j < n; j++) 
+            {
                 pLinePoints[j] = new POINT2(pLinePoints[nTotalCounter - 1]);
             }
 

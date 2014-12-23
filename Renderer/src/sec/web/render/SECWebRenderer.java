@@ -54,7 +54,7 @@ public final class SECWebRenderer /* extends Applet */ {
     public static final double LEFT_AZIMUTH_DEFAULT = 0.0D;
     public static final double RIGHT_AZIMUTH_DEFAULT = 90.0D;
     
-    public static String ERR_ATTRIBUTES_NOT_FORMATTED = "{\"type\":\"error\","
+    public static final String ERR_ATTRIBUTES_NOT_FORMATTED = "{\"type\":\"error\","
             + "\"error\":\"The attribute paramaters are not formatted "
             + "correctly";
     

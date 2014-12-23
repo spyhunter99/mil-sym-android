@@ -5,9 +5,6 @@
 
 package sec.web.render;
 import armyc2.c2sd.renderer.utilities.IPointConversion;
-//import sec.web.renderer.GeoPixelConversion;
-//import java.awt.geom.Point2D;
-//import java.awt.Point;
 import armyc2.c2sd.graphics2d.Point2D;
 import armyc2.c2sd.graphics2d.Point;
 import android.graphics.PointF;
@@ -88,23 +85,6 @@ public class PointConverter implements IPointConversion
         }
         return pt2dGeo;
     }
-
-//    public Point GeoToPixels(Point2D coord)
-//    {
-//        Point ptPixels=null;
-//        try
-//        {
-//            double y=GeoPixelConversion.lat2y(coord.getY(), _scale, _controlLat, _metersPerPixel);
-//            double x=GeoPixelConversion.long2x(coord.getX(), _scale, _controlLong, coord.getY(), _metersPerPixel);
-//            ptPixels=new Point();
-//            ptPixels.setLocation(x, y);
-//        }
-//        catch(Error e)
-//        {
-//            throw e;
-//        }
-//        return ptPixels;
-//    }
 
     public Point2D PixelsToGeo(Point2D pixel)
     {

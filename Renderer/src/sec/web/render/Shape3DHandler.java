@@ -4,18 +4,14 @@
  */
 package sec.web.render;
 
-//import ArmyC2.C2SD.Utilities.ErrorLogger;
 import sec.geo.GeoPoint;
 import sec.geo.kml.KmlOptions;
-//import sec.geo.kml.KmlPolygon;
 import sec.geo.kml.KmlRenderer;
 import sec.geo.kml.XsltCoordinateWrapper;
 import sec.geo.shape.Cake;
 import sec.geo.shape.Radarc;
 import sec.geo.shape.Route;
 import sec.geo.shape.Track;
-//import com.sun.xml.internal.bind.v2.model.core.ID;
-//import java.util.Set;
 import sec.web.exceptions.InvalidNumberOfPointsException;
 import sec.geo.utilities.StringBuilder;
 
@@ -63,16 +59,16 @@ public class Shape3DHandler {
             + RIGHT_AZIMUTH_DEFAULT + ",leftAzimuth:"
             + LEFT_AZIMUTH_DEFAULT + "}]";
     // Error messages
-    public static String ERR_ATTRIBUTES_NOT_FORMATTED = "{\"type\":\"error\","
+    public static final String ERR_ATTRIBUTES_NOT_FORMATTED = "{\"type\":\"error\","
             + "\"error\":\"The attribute paramaters are not formatted "
             + "correctly";
-    public static String ERR_COORDINATES_NOT_FORMATTED = "{\"type\":\"error\",\""
+    public static final String ERR_COORDINATES_NOT_FORMATTED = "{\"type\":\"error\",\""
             + "error\":\"There was an error creating the Symbol - the "
             + "coordinates were not formatted correctly";
-    public static String ERR_GENERAL_ERROR = "{\"type\":\"error\",\"error\""
+    public static final String ERR_GENERAL_ERROR = "{\"type\":\"error\",\"error\""
             + ":\"There was an error creating the Symbol - An unknown error "
             + "occurred.  Please refer to the stack trace";
-    public static String ERR_INVALID_NUMBER_POINTS_ERROR = "{\"type\":\""
+    public static final String ERR_INVALID_NUMBER_POINTS_ERROR = "{\"type\":\""
             + "error\","
             + "\"error\":\"Not enough points were passed in to create a "
             + "graphic.";	
@@ -124,25 +120,18 @@ public class Shape3DHandler {
             result = buildCylinder(controlPoints, id, name, description, color, convertedAltitudeMode, attributes);            
         } else if (shapeType.equals(ORBIT)) {
             result = buildOrbit(controlPoints, id, name, description, color, convertedAltitudeMode, attributes);
-            //return buildKml(result, id, name, color);
         } else if (shapeType.equals(RADARC)) {
             result = buildRadarc(controlPoints, id, name, description, color, convertedAltitudeMode, attributes);
-            //return buildKml(result, id, name, color);
         } else if (shapeType.equals(POLYARC)) {
             result = buildPolyArc(controlPoints, id, name, description, color, convertedAltitudeMode, attributes);
-            //return buildKml(result, id, name, color);
         } else if (shapeType.equals(ROUTE)) {
             result = buildRoute(controlPoints, id, name, description, color, convertedAltitudeMode, attributes);
-            //return buildKml(result, id, name, color);
         } else if (shapeType.equals(POLYGON)) {
             result = buildPolygon(controlPoints, id, name, description, color, convertedAltitudeMode, attributes);
-            //return buildKml(result, id, name, color);
         } else if (shapeType.equals(CAKE)) {
             result = buildCake(controlPoints, id, name, description, color, convertedAltitudeMode, attributes);
-            //return buildKml(result, id, name, color);
         } else if (shapeType.equals(TRACK)) {
             result = buildTrack(controlPoints, id, name, description, color, convertedAltitudeMode, attributes);
-            //return buildKml(result, id, name, color);
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("Given shape type \""+shapeType+"\" does not match any of the available shape types.");
@@ -582,7 +571,6 @@ public class Shape3DHandler {
 
                 }
 
-                //pointArrayStringList = kmlRender.getKml(letThemEat, id, name, description, color);
                 pointArrayStringList = kmlRender.getCakeKml(letThemEat, id, name, description, color);
                 
             } else {

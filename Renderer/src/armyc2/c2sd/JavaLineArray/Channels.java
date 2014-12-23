@@ -2905,9 +2905,9 @@ public final class Channels {
             {
                 case TacticalLines.BBS_LINE:
                     shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //shape.moveTo(newPts.get(0).x,newPts.get(0).y);
                     shape.moveTo(pLinePoints[0]);
-                    for(j=1;j<pLinePoints.length;j++)
+                    //for(j=1;j<pLinePoints.length;j++)
+                    for(j=1;j<n;j++)
                     {
                         shape.lineTo(pLinePoints[j]);
                     }
@@ -2924,16 +2924,13 @@ public final class Channels {
                         newPts.add(pLinePoints[j]);
                     }
                     shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //shape.moveTo(newPts.get(0).x,newPts.get(0).y);
                     shape.moveTo(newPts.get(0));
-                    for(j=1;j<newPts.size();j++)
+                    int t=newPts.size();
+                    //for(j=1;j<newPts.size();j++)
+                    for(j=1;j<t;j++)
                     {
-                        //shape.lineTo(newPts.get(j).x,newPts.get(j).y);
                         shape.lineTo(newPts.get(j));
                     }
-
-                    //shapes=new ArrayList();
-                    //shapes.add(shape);
                     break;
                 case TacticalLines.AXAD:
                 case TacticalLines.AIRAOA:
@@ -2941,7 +2938,8 @@ public final class Channels {
                 case TacticalLines.CATK:
                 case TacticalLines.SPT_STRAIGHT:
                     //add the upper (lower) channel points
-                    for(j=0;j<(pLinePoints.length-8)/2;j++)
+                    //for(j=0;j<(pLinePoints.length-8)/2;j++)
+                    for(j=0;j<(n-8)/2;j++)
                     {
                         newPts.add(pLinePoints[j]);
                     }
@@ -2960,18 +2958,17 @@ public final class Channels {
                     shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
                     //shape.moveTo(newPts.get(0).x,newPts.get(0).y);
                     shape.moveTo(newPts.get(0));
-                    for(j=1;j<newPts.size();j++)
+                    t=newPts.size();
+                    //for(j=1;j<newPts.size();j++)
+                    for(j=1;j<t;j++)
                     {
-                        //shape.lineTo(newPts.get(j).x,newPts.get(j).y);
                         shape.lineTo(newPts.get(j));
                     }
-                    
-                    //shapes=new ArrayList();
-                    //shapes.add(shape);
                     break;
                 case TacticalLines.AAFNT:
                 case TacticalLines.AAFNT_STRAIGHT:
-                    for(j=0;j<(pLinePoints.length-8)/2;j++)
+                    //for(j=0;j<(pLinePoints.length-8)/2;j++)
+                    for(j=0;j<(n-8)/2;j++)
                     {
                         newPts.add(pLinePoints[j]);
                     }
@@ -2989,44 +2986,39 @@ public final class Channels {
                     shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
                     //shape.moveTo(newPts.get(0).x,newPts.get(0).y);
                     shape.moveTo(newPts.get(0));
-                    for(j=1;j<newPts.size();j++)
+                    t=newPts.size();
+                    //for(j=1;j<newPts.size();j++)
+                    for(j=1;j<t;j++)
                     {
-                        //shape.lineTo(newPts.get(j).x,newPts.get(j).y);
                         shape.lineTo(newPts.get(j));
                     }
-
-                    //shapes=new ArrayList();
-                    //shapes.add(shape);
                     break;
                 case TacticalLines.MAIN_STRAIGHT:
                 case TacticalLines.MAIN:
-                    for(j=0;j<(pLinePoints.length-8)/2;j++)
+                    //for(j=0;j<(pLinePoints.length-8)/2;j++)
+                    for(j=0;j<(n-8)/2;j++)
                     {
                         newPts.add(pLinePoints[j]);
                     }
                     //add the arrow outline
-                    //newPts.add(pLinePoints[n-7]);
                     newPts.add(pLinePoints[n-6]);
                     newPts.add(pLinePoints[n-5]);
                     for(j=n-9;j>=(n-8)/2;j--)
                     {
                         newPts.add(pLinePoints[j]);
                     }
-                    //newPts.add(pLinePoints[0]);
                     shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //shape.moveTo(newPts.get(0).x,newPts.get(0).y);
                     shape.moveTo(newPts.get(0));
-                    for(j=1;j<newPts.size();j++)
+                    t=newPts.size();
+                    //for(j=1;j<newPts.size();j++)
+                    for(j=1;j<t;j++)
                     {
-                        //shape.lineTo(newPts.get(j).x,newPts.get(j).y);
                         shape.lineTo(newPts.get(j));
                     }
-
-                    //shapes=new ArrayList();
-                    //shapes.add(shape);
                     break;
                 case TacticalLines.AAAAA:
-                    for(j=0;j<(pLinePoints.length-19)/2;j++)
+                    //for(j=0;j<(pLinePoints.length-19)/2;j++)
+                    for(j=0;j<(n-19)/2;j++)
                     {
                         newPts.add(pLinePoints[j]);
                     }
@@ -3042,19 +3034,17 @@ public final class Channels {
                         newPts.add(pLinePoints[j]);
                     }
                     shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //shape.moveTo(newPts.get(0).x,newPts.get(0).y);
                     shape.moveTo(newPts.get(0));
-                    for(j=1;j<newPts.size();j++)
+                    t=newPts.size();
+                    //for(j=1;j<newPts.size();j++)
+                    for(j=1;j<t;j++)
                     {
-                        //shape.lineTo(newPts.get(j).x,newPts.get(j).y);
                         shape.lineTo(newPts.get(j));
                     }
-
-                    //shapes=new ArrayList();
-                    //shapes.add(shape);
                     break;
                 case TacticalLines.CATKBYFIRE:
-                    for(j=0;j<(pLinePoints.length-17)/2;j++)
+                    //for(j=0;j<(pLinePoints.length-17)/2;j++)
+                    for(j=0;j<(n-17)/2;j++)
                     {
                         newPts.add(pLinePoints[j]);
                     }
@@ -3069,16 +3059,13 @@ public final class Channels {
                         newPts.add(pLinePoints[j]);
                     }
                     shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //shape.moveTo(newPts.get(0).x,newPts.get(0).y);
                     shape.moveTo(newPts.get(0));
-                    for(j=1;j<newPts.size();j++)
+                    t=newPts.size();
+                    //for(j=1;j<newPts.size();j++)
+                    for(j=1;j<t;j++)
                     {
-                        //shape.lineTo(newPts.get(j).x,newPts.get(j).y);
                         shape.lineTo(newPts.get(j));
                     }
-                    
-                    //shapes=new ArrayList();
-                    //shapes.add(shape);
                     break;
                 default:
                     break;
@@ -3106,7 +3093,6 @@ public final class Channels {
     {
         try
         {
-//            shape2.setAffineTransform(shape1.getAffineTransform());
             shape2.setLineColor(shape1.getLineColor());
             shape2.setStroke(shape1.getStroke());
             shape2.setFillColor(shape1.getFillColor());
