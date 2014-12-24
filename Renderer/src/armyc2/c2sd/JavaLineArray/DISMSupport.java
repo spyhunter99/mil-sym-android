@@ -6,7 +6,6 @@
 package armyc2.c2sd.JavaLineArray;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
 import armyc2.c2sd.renderer.utilities.RendererException;
-//import java.awt.geom.Rectangle2D;
 import armyc2.c2sd.graphics2d.Rectangle2D;
 /**
  * A class which imported many of the C++ functions from Trident
@@ -167,7 +166,6 @@ public final class DISMSupport
             double dP0P1M = 0;
             double iP0P1B = 0;
             if (points[0].x == points[1].x) {
-                //return (points[2].x < points[0].x);
                 if (points[2].x < points[0].x) {
                     return 1;
                 } else {
@@ -320,11 +318,6 @@ public final class DISMSupport
                 counter++;
             }
 
-            //clean up
-            pts = null;
-            savepoints = null;
-            arcpoints = null;
-            deltapoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDelayGraphicEtcDouble",
                     new RendererException("Failed inside GetDelayGraphicEtcDouble", exc));
@@ -353,7 +346,6 @@ public final class DISMSupport
             POINT2[] savepoints = new POINT2[3];
             POINT2[] pts = new POINT2[2];
             POINT2[] ptsJaggyLine = new POINT2[4];
-            //float scale = 1;
             boolean goLeftThenRight=false;
             int sign=1;
             
@@ -380,10 +372,7 @@ public final class DISMSupport
                 sign=-1;
             else if(pt1.x < pt2.x && quadrant == 4)
                 sign=-1;
-            //end section
             
-            //System.out.print(Integer.toString(quadrant));
-            //System.out.print("\n");
             if(linetype==TacticalLines.SARA)
                 t=0;
             
@@ -411,7 +400,6 @@ public final class DISMSupport
             if (iFontSize > 0) {
                 iDelta = iLengthPt0Pt1 / 15;//was 15
 
-                //M. Deutch 8-18-04
                 if (iDelta > maxLength) {
                     iDelta = maxLength;
                 }
@@ -530,15 +518,9 @@ public final class DISMSupport
                 points[2] = new POINT2(savepoints[0]);
                 points[2].style = 0;
                 points[3] = new POINT2(savepoints[2]);
-                //for (j = 3; j < vblCounter; j++) {
-                  //  points[j].style = 5;
-                //}
                 return 4;
             }
 
-            savepoints = null;
-            pts = null;
-            ptsJaggyLine = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMcoverDouble",
                     new RendererException("Failed inside GetDISMCoverDouble", exc));
@@ -612,10 +594,6 @@ public final class DISMSupport
                 sign=-1;
             else if(pt1.x < pt2.x && quadrant == 4)
                 sign=-1;
-            //end section
-            
-            //System.out.print(Integer.toString(quadrant));
-            //System.out.print("\n");
             if(linetype==TacticalLines.SARA)
                 t=0;
             
@@ -644,7 +622,6 @@ public final class DISMSupport
             {
                 iDelta = iLengthPt0Pt1 / 15;//was 15
 
-                //M. Deutch 8-18-04
                 if (iDelta > maxLength) {
                     iDelta = maxLength;
                 }
@@ -683,15 +660,8 @@ public final class DISMSupport
                 }//end rev b
                 else    //rev c
                 {
-                    //iLetterOffset = 0;
-                    //ptsJaggyLine[0].x = savepoints[0].x - iLetterOffset * 2;//was -
-                    //ptsJaggyLine[0].y = savepoints[0].y;                
-                    //ptsJaggyLine[0].x -= iLetterOffset;
                     ptsJaggyLine[0]=new POINT2(origPoints[1]);
-                    //dAngle0 = Math.atan2(ptsJaggyLine[0].y - savepoints[1].y, ptsJaggyLine[0].x - savepoints[1].x);
                     dAngle0 = Math.atan2(ptsJaggyLine[0].y - origPoints[0].y, ptsJaggyLine[0].x - origPoints[0].x);
-                    //pts[0].x = (ptsJaggyLine[0].x + savepoints[1].x) / 2;
-                    //pts[0].y = (ptsJaggyLine[0].y + savepoints[1].y) / 2;
                     pts[0].x = (ptsJaggyLine[0].x + origPoints[0].x) / 2;
                     pts[0].y = (ptsJaggyLine[0].y + origPoints[0].y) / 2;
                     dDeltaX0 = Math.cos(dAngle0 + sign*CONST_PI / 4) * iDelta;   //was +
@@ -713,8 +683,6 @@ public final class DISMSupport
                 // draw arrow at end of line
                 dDeltaX1 = Math.cos(dAngle0 - sign*CONST_PI / 4) * iDelta;   //was -
                 dDeltaY1 = Math.sin(dAngle0 - sign*CONST_PI / 4) * iDelta;   //was -
-                //ptsJaggyLine[0].x = savepoints[1].x + dDeltaX0; //was +
-                //ptsJaggyLine[0].y = savepoints[1].y + dDeltaY0; //was +
                 if(vblSaveCounter<4)
                 {
                     ptsJaggyLine[0].x = savepoints[1].x + dDeltaX0; //was +
@@ -725,14 +693,11 @@ public final class DISMSupport
                     ptsJaggyLine[0].x = origPoints[0].x + dDeltaX0; //was +
                     ptsJaggyLine[0].y = origPoints[0].y + dDeltaY0; //was +                    
                 }
-                //ptsJaggyLine[1] = new POINT2(savepoints[1]);
                 if(vblSaveCounter<4)
                     ptsJaggyLine[1] = new POINT2(savepoints[1]);
                 else
                     ptsJaggyLine[1] = new POINT2(origPoints[0]);
                     
-                //ptsJaggyLine[2].x = savepoints[1].x + dDeltaX1; //was +
-                //ptsJaggyLine[2].y = savepoints[1].y + dDeltaY1; //was +
                 if(vblSaveCounter<4)
                 {
                     ptsJaggyLine[2].x = savepoints[1].x + dDeltaX1; //was +
@@ -800,19 +765,8 @@ public final class DISMSupport
                 }//end rev b
                 else    //rev c
                 {
-                    //if(goLeftThenRight)
-                    //    savepoints[0].x+=60*t;  //was 40
-                    //else
-                    //    savepoints[0].x-=60*t;  //wass 40
-
-                    //ptsJaggyLine[0].x = savepoints[0].x + iLetterOffset * 2;
-                    //ptsJaggyLine[0].y = savepoints[0].y;
-                    //ptsJaggyLine[0].x += iLetterOffset;                
                     ptsJaggyLine[0]=new POINT2(origPoints[2]);
-                    //dAngle0 = Math.atan2(ptsJaggyLine[0].y - savepoints[2].y, ptsJaggyLine[0].x - savepoints[2].x);
                     dAngle0 = Math.atan2(ptsJaggyLine[0].y - origPoints[3].y, ptsJaggyLine[0].x - origPoints[3].x);
-                    //pts[0].x = (ptsJaggyLine[0].x + savepoints[2].x) / 2;
-                    //pts[0].y = (ptsJaggyLine[0].y + savepoints[2].y) / 2;
                     pts[0].x = (ptsJaggyLine[0].x + origPoints[3].x) / 2;
                     pts[0].y = (ptsJaggyLine[0].y + origPoints[3].y) / 2;
                     dDeltaX0 = Math.cos(dAngle0 - sign*CONST_PI / 4) * iDelta;   //was -
@@ -831,11 +785,6 @@ public final class DISMSupport
                     // draw arrow at end of line
                     dDeltaX1 = Math.cos(dAngle0 + sign*CONST_PI / 4) * iDelta;   //was +
                     dDeltaY1 = Math.sin(dAngle0 + sign*CONST_PI / 4) * iDelta;   //was +
-                    //ptsJaggyLine[0].x = savepoints[2].x + dDeltaX0;
-                    //ptsJaggyLine[0].y = savepoints[2].y + dDeltaY0;
-                    //ptsJaggyLine[1] = savepoints[2];
-                    //ptsJaggyLine[2].x = savepoints[2].x + dDeltaX1;
-                    //ptsJaggyLine[2].y = savepoints[2].y + dDeltaY1;                    
                     ptsJaggyLine[0].x = origPoints[3].x + dDeltaX0;
                     ptsJaggyLine[0].y = origPoints[3].y + dDeltaY0;
                     ptsJaggyLine[1] = new POINT2(origPoints[3]);
@@ -872,10 +821,6 @@ public final class DISMSupport
                 points[3] = new POINT2(savepoints[2]);
                 return 4;
             }
-
-            savepoints = null;
-            pts = null;
-            ptsJaggyLine = null;
         } 
         catch (Exception exc) 
         {
@@ -956,12 +901,6 @@ public final class DISMSupport
                 points[counter] = new POINT2(deltapoints2[j]);
                 counter++;
             }
-            //clean up
-            pointsCorner = null;
-            rectpts = null;
-            savepoints = null;
-            deltapoints1 = null;
-            deltapoints2 = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMBypassDouble",
                     new RendererException("Failed inside GetDISMBypassDouble", exc));
@@ -1037,12 +976,6 @@ public final class DISMSupport
                 points[counter] = new POINT2(deltapoints2[j]);
                 counter++;
             }
-            //clean up
-            pointsCorner = null;
-            rectpts = null;
-            savepoints = null;
-            deltapoints1 = null;
-            deltapoints2 = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMBreachDouble",
                     new RendererException("Failed inside GetDISMBreachDouble", exc));
@@ -1121,13 +1054,6 @@ public final class DISMSupport
                 points[counter] = new POINT2(deltapoints2[j]);
                 counter++;
             }
-            //clean up
-            pointsCorner = null;
-            rectpts = null;
-            savepoints = null;
-            deltapoints1 = null;
-            deltapoints2 = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMCanalizeDouble",
                     new RendererException("Failed inside GetDISMCanalizeDouble", exc));
@@ -1159,12 +1085,10 @@ public final class DISMSupport
             points[3] = new POINT2(savepoints[0]);
             points[3].style = 5;
 
-            savepoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMDeceiveDouble",
                     new RendererException("Failed inside GetDISMDeceiveDouble", exc));
         }
-        return;
     }
     /**
      * Calculates the points for DISRUPT
@@ -1290,175 +1214,12 @@ public final class DISMSupport
                 points[counter] = new POINT2(deltapoints3[j]);
                 counter++;
             }
-            //clean up
-            pts = null;
-            ptsArrow = null;
-            savepoints = null;
-            deltapoints1 = null;
-            deltapoints2 = null;
-            deltapoints3 = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMDisruptDouble",
                     new RendererException("Failed inside GetDISMDisruptDouble", exc));
         }
         return counter;
     }
-//    protected int GetDISMSARADouble(POINT2[] points, int linetype, int vblCounter) {
-//        int counter = 0;
-//        try {
-//            int i = 0, j = 0;
-//            float scale = (float) 0.9;
-//            float iSymbolSize = scale * (float) 10; // size left for symbol centered within this graphic
-//            POINT2[] pts = new POINT2[2];
-//            POINT2[] savepoints = new POINT2[3];
-//            // locate point near center where jaggy lines should begin
-//            POINT2[] ptCenter = new POINT2[2];
-//            // four possible center points
-//            POINT2[] ptsBegin = new POINT2[4];
-//            int iLengthTemp = 0;
-//            int iLengthCntPt1 = 0;
-//            int iLengthCntPt2 = 0;
-//            int iDelta = 0;
-//            double dAngle0 = 0, dDeltaX0 = 0, dDeltaY0 = 0, dDeltaX1 = 0, dDeltaY1 = 0;
-//            POINT2[] ptsJaggyLine = new POINT2[4];
-//
-//            for (j = 0; j < 3; j++) {
-//                savepoints[j] = new POINT2(points[j]);
-//            }
-//
-//            lineutility.InitializePOINT2Array(ptsBegin);
-//            lineutility.InitializePOINT2Array(ptCenter);
-//            lineutility.InitializePOINT2Array(pts);
-//            lineutility.InitializePOINT2Array(ptsJaggyLine);
-//
-//            ptsBegin[0].x = savepoints[0].x - iSymbolSize;
-//            ptsBegin[0].y = savepoints[0].y - iSymbolSize; // top left
-//            ptsBegin[1].x = savepoints[0].x + iSymbolSize;
-//            ptsBegin[1].y = savepoints[0].y - iSymbolSize; // top right
-//            ptsBegin[2].x = savepoints[0].x + iSymbolSize;
-//            ptsBegin[2].y = savepoints[0].y + iSymbolSize; // bottom right
-//            ptsBegin[3].x = savepoints[0].x - iSymbolSize;
-//            ptsBegin[3].y = savepoints[0].y + iSymbolSize; // bottom left
-//            ptCenter[0] = ptCenter[1] = ptsBegin[0];
-//            // locate begin point for Point1
-//            iLengthCntPt1 = (int) Math.sqrt(
-//                    (savepoints[1].x - ptsBegin[0].x) * (savepoints[1].x - ptsBegin[0].x) +
-//                    (savepoints[1].y - ptsBegin[0].y) * (savepoints[1].y - ptsBegin[0].y));
-//            for (i = 1; i < 4; i++) {
-//                iLengthTemp = (int) Math.sqrt(
-//                        (savepoints[1].x - ptsBegin[i].x) * (savepoints[1].x - ptsBegin[i].x) +
-//                        (savepoints[1].y - ptsBegin[i].y) * (savepoints[1].y - ptsBegin[i].y));
-//            }
-//            // locate begin point for Point2
-//            iLengthCntPt2 = (int) Math.sqrt(
-//                    (savepoints[2].x - ptsBegin[0].x) * (savepoints[2].x - ptsBegin[0].x) +
-//                    (savepoints[2].y - ptsBegin[0].y) * (savepoints[2].y - ptsBegin[0].y));
-//            for (i = 1; i < 4; i++) {
-//                iLengthTemp = (int) Math.sqrt(
-//                        (savepoints[2].x - ptsBegin[i].x) * (savepoints[2].x - ptsBegin[i].x) +
-//                        (savepoints[2].y - ptsBegin[i].y) * (savepoints[2].y - ptsBegin[i].y));
-//            }
-//            // calculate length of jaggy within the line
-//            if (iLengthCntPt1 < iLengthCntPt2) {
-//                iDelta = iLengthCntPt1 / 12;
-//            } else {
-//                iDelta = iLengthCntPt2 / 12;
-//            }
-//
-//            //M. Deutch 8-18-04
-//            if (iDelta > (int) maxLength) {
-//                iDelta = (int) maxLength;
-//            }
-//            if (iDelta < (int) minLength) {
-//                iDelta = (int) minLength;
-//            }
-//
-//            // draw line from center to Point1
-//            ptsJaggyLine[0] = ptCenter[0];
-//            dAngle0 = Math.atan2(ptsJaggyLine[0].y - savepoints[1].y, ptsJaggyLine[0].x - savepoints[1].x);
-//            pts[0].x = (ptsJaggyLine[0].x + savepoints[1].x) / 2;
-//            pts[0].y = (ptsJaggyLine[0].y + savepoints[1].y) / 2;
-//            dDeltaX0 = Math.cos(dAngle0 + CONST_PI / 4) * iDelta;
-//            dDeltaY0 = Math.sin(dAngle0 + CONST_PI / 4) * iDelta;
-//            ptsJaggyLine[1].x = pts[0].x - dDeltaX0;
-//            ptsJaggyLine[1].y = pts[0].y - dDeltaY0;
-//            ptsJaggyLine[2].x = pts[0].x + dDeltaX0;
-//            ptsJaggyLine[2].y = pts[0].y + dDeltaY0;
-//            ptsJaggyLine[3] = new POINT2(savepoints[1]);
-//            //	DrawLine(destination, mask, color, ptsJaggyLine, 4, iLineThickness);
-//            for (j = 0; j < 4; j++) {
-//                points[counter] = new POINT2(ptsJaggyLine[j]);
-//                //points[counter].style=0;
-//                counter++;
-//            }
-//            points[counter - 1].style = 5;
-//
-//            // draw arrow at end of line
-//            dDeltaX1 = Math.cos(dAngle0 - CONST_PI / 4) * iDelta;
-//            dDeltaY1 = Math.sin(dAngle0 - CONST_PI / 4) * iDelta;
-//            ptsJaggyLine[0].x = savepoints[1].x + dDeltaX0;
-//            ptsJaggyLine[0].y = savepoints[1].y + dDeltaY0;
-//            ptsJaggyLine[1] = new POINT2(savepoints[1]);
-//            ptsJaggyLine[2].x = savepoints[1].x + dDeltaX1;
-//            ptsJaggyLine[2].y = savepoints[1].y + dDeltaY1;
-//            //	DrawFilledArrowhead(destination, mask, ptsJaggyLine, color);
-//            for (j = 0; j < 3; j++) {
-//                points[counter] = new POINT2(ptsJaggyLine[j]);
-//                points[counter].style = 9;
-//                counter++;
-//            }
-//            points[counter - 1].style = 10;
-//
-//            // draw line from center to Point2
-//            ptsJaggyLine[0] = new POINT2(ptCenter[1]);
-//            dAngle0 = Math.atan2(ptsJaggyLine[0].y - savepoints[2].y, ptsJaggyLine[0].x - savepoints[2].x);
-//            //	dAngle0 = atan2(ptsJaggyLine[0].y - savepoints[2].y, ptsJaggyLine[0].x - savepoints[2].x);
-//            pts[0].x = (ptsJaggyLine[0].x + savepoints[2].x) / 2;
-//            pts[0].y = (ptsJaggyLine[0].y + savepoints[2].y) / 2;
-//            dDeltaX0 = Math.cos(dAngle0 + CONST_PI / 4) * iDelta;
-//            dDeltaY0 = Math.sin(dAngle0 + CONST_PI / 4) * iDelta;
-//            ptsJaggyLine[1].x = pts[0].x - dDeltaX0;
-//            ptsJaggyLine[1].y = pts[0].y - dDeltaY0;
-//            ptsJaggyLine[2].x = pts[0].x + dDeltaX0;
-//            ptsJaggyLine[2].y = pts[0].y + dDeltaY0;
-//            ptsJaggyLine[3] = new POINT2(savepoints[2]);
-//            //	DrawLine(destination, mask, color, ptsJaggyLine, 4, iLineThickness);
-//            for (j = 0; j < 4; j++) {
-//                points[counter] = new POINT2(ptsJaggyLine[j]);
-//                //points[counter].style=0;
-//                counter++;
-//            }
-//            points[counter - 1].style = 5;
-//
-//            // draw arrow at end of line
-//            dDeltaX1 = Math.cos(dAngle0 - CONST_PI / 4) * iDelta;
-//            dDeltaY1 = Math.sin(dAngle0 - CONST_PI / 4) * iDelta;
-//            ptsJaggyLine[0].x = savepoints[2].x + dDeltaX0;
-//            ptsJaggyLine[0].y = savepoints[2].y + dDeltaY0;
-//            ptsJaggyLine[1] = new POINT2(savepoints[2]);
-//            ptsJaggyLine[2].x = savepoints[2].x + dDeltaX1;
-//            ptsJaggyLine[2].y = savepoints[2].y + dDeltaY1;
-//            //	DrawFilledArrowhead(destination, mask, ptsJaggyLine, color);
-//            for (j = 0; j < 3; j++) {
-//                points[counter] = new POINT2(ptsJaggyLine[j]);
-//                points[counter].style = 9;
-//                counter++;
-//            }
-//            points[counter - 1].style = 10;
-//            //clean up
-//            pts = null;
-//            savepoints = null;
-//            ptCenter = null;
-//            ptsBegin = null;
-//            ptsJaggyLine = null;
-//            //return;
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return counter;
-//    }
-
     /**
      * Calculates the points for CONTAIN
      *
@@ -1539,11 +1300,8 @@ public final class DISMSupport
 
             pts[0] = new POINT2(ptCenter);
 
-            //diagnostic for CommandSight
-            //pts[1] = new POINT2(ptPerp);
             pts[1] = new POINT2(savepoints[2]);
 
-            //	DrawLineWithText(destination, mask, color, pts, 2, "ENY", scale, eraseBackground);
             points[counter] = new POINT2(pts[0]);
             points[counter].style = 14;
             counter++;
@@ -1753,11 +1511,6 @@ public final class DISMSupport
             points[counter].style = 5;
             counter++;
 
-            //clean up
-            pts = null;
-            savepoints = null;
-            arcpoints = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMContainDouble",
                     new RendererException("Failed inside GetDISMContainDouble", exc));
@@ -1858,7 +1611,6 @@ public final class DISMSupport
                 pts[2].x = savepoints[1].x + dDeltaXOut + dDeltaXAlong * i;
                 pts[2].y = savepoints[1].y + dDeltaYOut + dDeltaYAlong * i;
                 i++;
-                //DrawLine(destination, mask, color, pts, 3, 2);
                 for (j = 0; j < 3; j++) {
                     points[counter] = new POINT2(pts[j]);
                     points[counter].style = 0;
@@ -1907,9 +1659,6 @@ public final class DISMSupport
                 points[counter - 1].style = 5;
             }
 
-            //clean up
-            pts = null;
-            savepoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMFixDouble",
                     new RendererException("Failed inside GetDISMFixDouble", exc));
@@ -1984,7 +1733,6 @@ public final class DISMSupport
             pts[1].x = savepoints[2].x + savepoints[1].x - pts[0].x;
             pts[1].y = savepoints[2].y + savepoints[1].y - pts[0].y;
             ptsArrow[2] = new POINT2(pts[0]);
-            //DrawLine(destination, mask, color, pts, 2, 2);
             points[counter] = new POINT2(pts[0]);
             points[counter].style = 0;
             counter++;
@@ -2012,14 +1760,6 @@ public final class DISMSupport
                 points[counter] = new POINT2(deltapoints3[j]);
                 counter++;
             }
-            //clean up
-            pts = null;
-            savepoints = null;
-            ptsArrow = null;
-            deltapoints1 = null;
-            deltapoints2 = null;
-            deltapoints3 = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMClearDouble",
                     new RendererException("Failed inside GetDISMClearDouble", exc));
@@ -2099,8 +1839,6 @@ public final class DISMSupport
             
             for (j = 0; j < 3; j++) {
                 savepoints[j] = new POINT2(points[j]);
-                //if(points.Length>2)
-                //	savepoints[2]=points[j];
             }
             
             //if radius is 0 then it is rev B
@@ -2133,7 +1871,6 @@ public final class DISMSupport
             dDeltaY2 = Math.sin(dAngle1 - CONST_PI / 4);
 
             boolean isArcReversed = IsSeizeArcReversed(savepoints);
-            //bool isArcReversed = false;
 
             if (isArcReversed == false) {
                 ptArcStart.x = savepoints[0].x - dDeltaX2 * iCircleRadius;
@@ -2160,7 +1897,6 @@ public final class DISMSupport
                         (ptArcCenter.x + dArcRadius), (ptArcCenter.y + dArcRadius),
                         ptArcStart.x, ptArcStart.y, savepoints[1].x, savepoints[1].y, arcpoints);
             }
-            //end diagnostic
 
             for (j = 0; j < 17; j++) {
                 points[counter] = new POINT2(arcpoints[j]);
@@ -2211,11 +1947,6 @@ public final class DISMSupport
                 counter++;
             }
             points[counter - 1].style = 5;
-            //clean up
-            savepoints = null;
-            arcpoints = null;
-            pts = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMSeizeDouble",
                     new RendererException("Failed inside GetDISMSeizeDouble", exc));
@@ -2299,7 +2030,6 @@ public final class DISMSupport
             lineutility.InitializePOINT2Array(deltapoints);
             lineutility.InitializePOINT2Array(arcpoints);
 
-            //DrawLine(destination, mask, color, points, 2, 2);
             points[counter] = new POINT2(savepoints[0]);
             points[counter].style = 0;
             counter++;
@@ -2309,7 +2039,6 @@ public final class DISMSupport
 
             pts[0] = new POINT2(savepoints[2]);
             pts[1] = new POINT2(savepoints[3]);
-            //DrawLine(destination, mask, color, pts, 2, 2);
             points[counter] = new POINT2(pts[0]);
             points[counter].style = 0;
             counter++;
@@ -2382,7 +2111,6 @@ public final class DISMSupport
             ptArcCenter.x = (savepoints[1].x + savepoints[2].x) / 2;
             ptArcCenter.y = (savepoints[1].y + savepoints[2].y) / 2;
 
-            //diagnostic
             if(clockwise==false)
             {
                 ArcApproximationDouble((ptArcCenter.x - iRadius), (ptArcCenter.y - iRadius),
@@ -2401,12 +2129,6 @@ public final class DISMSupport
                 counter++;
             }
             points[counter - 1].style = 5;
-            //clean up
-            pts = null;
-            savepoints = null;
-            deltapoints = null;
-            arcpoints = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMRIPDouble",
                     new RendererException("Failed inside GetDISMRIPDouble", exc));
@@ -2480,54 +2202,6 @@ public final class DISMSupport
                 savepoints2[1] = new POINT2(rectpts[2]);
                 drawJaggies=false;
             }
-            //lineutility.WriteFile("made it this far");
-            //ok to here
-
-            //M. Deutch 10-27-10
-            //pointcounter = lineutility.BoundPointsCount(savepoints2, 2);
-            //pointcounter=countsupport.GetDISMFixCountDouble(savepoints2[0],savepoints2[1]);
-            //removed section 10-27-10
-//            segments = new int[pointcounter];
-//            savepoints2 = new POINT2[pointcounter];
-//            //reload savepoints2
-//            savepoints2[0] = rectpts[1];
-//            savepoints2[1] = rectpts[2];
-//            pt0 = rectpts[1];
-//            pt1 = rectpts[2];
-//            boolean bolFound = false;
-//            lineutility.BoundPoints(savepoints2, 2, segments);
-//            for (j = 0; j < pointcounter - 1; j++) {
-//                if (segments[j] == 1) {
-//                    pt0 = new POINT2(savepoints2[j]);
-//                    pt1 = new POINT2(savepoints2[j + 1]);
-//                    bolFound = true;
-//                    break;
-//                }
-//            }
-//            savepoints2 = null;
-//            savepoints2 = new POINT2[2];
-//            savepoints2[0] = new POINT2(pt0);
-//            savepoints2[1] = new POINT2(pt1);
-//            //end section
-//
-//            if (bolFound == false) {
-//                counter = GetDISMEasyDouble(points, linetype);
-//                for (j = 12; j < points.length; j++) {
-//                    points[j].style = 5;
-//                }
-//
-//                //cleanup
-//                pointsCorner = null;
-//                rectpts = null;
-//                savepoints = null;
-//                savepoints2 = null;
-//                deltapoints1 = null;
-//                deltapoints2 = null;
-//                pts = null;
-//                segments = null;
-//                return counter;
-//            }
-
             for (j = 0; j < 4; j++) {
                 points[counter] = new POINT2(rectpts[j]);
                 points[counter].style = 0;
@@ -2541,7 +2215,6 @@ public final class DISMSupport
                     (savepoints2[1].y - savepoints2[0].y) * (savepoints2[1].y - savepoints2[0].y));
             dJaggyHalfAmp = dLength / 15; // half the amplitude of the "jaggy function"
 
-            //M. Deutch 8-18-04
             if (dJaggyHalfAmp > maxLength) {
                 dJaggyHalfAmp = maxLength;
             }
@@ -2560,7 +2233,6 @@ public final class DISMSupport
             pts[0] = new POINT2(savepoints2[1]);
             pts[1].x = savepoints2[1].x + dDeltaXAlong * 1.5;
             pts[1].y = savepoints2[1].y + dDeltaYAlong * 1.5;
-            //DrawLine(destination, mask, color, pts, 2, 2);
             points[counter] = new POINT2(pts[0]);
             points[counter].style = 0;
             counter++;
@@ -2577,11 +2249,6 @@ public final class DISMSupport
             points[counter] = new POINT2(pts[1]);
             points[counter].style = 5;
             counter++;
-
-            //lineutility.WriteFile("made it this far");
-            //ok to here
-            //lineutility.WriteFile("length = " + Double.toString(dLength) + "numJaggies =  " +
-                    //Integer.toString(iNumJaggies) + "points size = " + Integer.toString(points.length));
             
             if(drawJaggies)//diagnostic
             while (i <= iNumJaggies) {
@@ -2600,7 +2267,6 @@ public final class DISMSupport
                 pts[0] = new POINT2(pts[2]);
             }
 
-            //lineutility.WriteFile("made it this far " + Double.toString(dLength));
 
             pts[1] = new POINT2(pts[0]);
             pts[0].x = savepoints2[1].x + dDeltaXAlong * i;
@@ -2621,9 +2287,6 @@ public final class DISMSupport
             points[counter] = new POINT2(pts[1]);
             points[counter].style = 5;
             counter++;
-
-            //lineutility.WriteFile("made it this far");
-            //did not get this far
 
             bPointsRight = DetermineDirectionDouble(savepoints);
 
@@ -2654,7 +2317,6 @@ public final class DISMSupport
                             iDeltaX.value[0], iDeltaY.value[0], iDeltaY.value[0], -iDeltaX.value[0], deltapoints2);
                 }
             }
-            //lineutility.WriteFile("made it this far");
             points[counter] = new POINT2(deltapoints1[1]);
             points[counter].style = 9;
             counter++;
@@ -2681,16 +2343,6 @@ public final class DISMSupport
             points[counter].style = 10;
             counter++;
 
-            //clean up
-            pointsCorner = null;
-            rectpts = null;
-            savepoints = null;
-            savepoints2 = null;
-            deltapoints1 = null;
-            deltapoints2 = null;
-            pts = null;
-            //segments = null;
-            //return;
         } catch (Exception exc) {
             //lineutility.WriteFile(exc.getMessage());
             ErrorLogger.LogException(_className ,"GetDISMByDifDouble",
@@ -2709,14 +2361,10 @@ public final class DISMSupport
             POINT2[] arrowpts = new POINT2[3];
             POINT2 midpt = new POINT2();
             POINT2[] savepoints = new POINT2[3];
-            //int nQuadrant=0,j=0;
             int j = 0;
             double d = 0;
-            //end declarations
 
             for (j = 0; j < 3; j++) {
-                //savepoints[j].x=points[j].x;
-                //savepoints[j].y=points[j].y;
                 savepoints[j] = new POINT2(points[j]);
             }
             lineutility.InitializePOINT2Array(arrowpts);
@@ -2730,24 +2378,18 @@ public final class DISMSupport
 
             midpt = lineutility.MidPointDouble(savepoints[0], savepoints[1], 0);
 
-            //comment one line for CommandSight
-            //points[2] = lineutility.PointRelativeToLine(savepoints[0], savepoints[1], savepoints[2]);
-            //uncomment one line for CommandSight
             points[2] = new POINT2(savepoints[2]);
 
             points[3] = new POINT2(midpt);
             points[3].style = 5;
             d = lineutility.MBRDistance(savepoints, 3);
 
-            //M. Deutch 8-19-04
             if (d / 5 > maxLength) {
                 d = 5 * maxLength;
             }
             if (d / 5 < minLength) {  
                 d = 5 * minLength;    
             }
-//            if(d<400)
-//                d=400;
             String client=CELineArray.getClient();
             if(client.matches("cpof3d") || client.matches("cpof2d"))
             {
@@ -2767,15 +2409,10 @@ public final class DISMSupport
                 points[4 + j] = new POINT2(arrowpts[j]);
             }
 
-            //clean up
-            arrowpts = null;
-            savepoints = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMPenetrateDouble",
                     new RendererException("Failed inside GetDISMPenetrateDouble", exc));
         }
-        return;
     }
     /**
      * Calculates the points for BYIMP
@@ -2801,7 +2438,6 @@ public final class DISMSupport
             double dMBR = lineutility.MBRDistance(points, 3);
             //end declarations
 
-            //M. Deutch 8-18-04
             if (dMBR > 40 * maxLength) {
                 dMBR = 40 * maxLength;
             }
@@ -2923,14 +2559,6 @@ public final class DISMSupport
             points[counter].style = 10;
             counter++;
 
-            //clean up
-            pointsCorner = null;
-            rectpts = null;
-            savepoints = null;
-            deltapoints1 = null;
-            deltapoints2 = null;
-            pts = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMByImpDouble",
                     new RendererException("Failed inside GetDISMByImpDouble", exc));
@@ -2964,7 +2592,6 @@ public final class DISMSupport
 
             lineutility.InitializePOINT2Array(pts);
             // draw line connecting points 1 & 2
-            //DrawLine(destination, mask, color, savepoints, 2, 2);
             points[counter] = new POINT2(savepoints[0]);
             points[counter].style = 0;
             counter++;
@@ -2975,7 +2602,6 @@ public final class DISMSupport
             // draw line connecting savepoints 1 & 3
             pts[0] = new POINT2(savepoints[0]);
             pts[1] = new POINT2(savepoints[2]);
-            //DrawLine(destination, mask, color, pts, 2, 2);
             points[counter] = new POINT2(pts[0]);
             points[counter].style = 0;
             counter++;
@@ -2988,7 +2614,6 @@ public final class DISMSupport
                     (savepoints[0].x - savepoints[1].x) * (savepoints[0].x - savepoints[1].x) +
                     (savepoints[0].y - savepoints[1].y) * (savepoints[0].y - savepoints[1].y)) / 10);
 
-            //M. Deutch 8-19-04
             if (iDiagEOL_length >  maxLength) {
                 iDiagEOL_length =  maxLength;
             }
@@ -3017,7 +2642,6 @@ public final class DISMSupport
             // draw line connecting savepoints 2 & 4
             pts[0] = new POINT2(savepoints[1]);
             pts[1] = new POINT2(savepoints[3]);
-            //DrawLine(destination, mask, color, pts, 2, 2);
             points[counter] = new POINT2(pts[0]);
             points[counter].style = 0;
             counter++;
@@ -3054,7 +2678,6 @@ public final class DISMSupport
             pts[0].x = savepoints[0].x - iDeltaX1;
             pts[0].y = savepoints[0].y - iDeltaY1;
             pts[1] = new POINT2(savepoints[0]);
-            //DrawLine(destination, mask, color, pts, 2, 2);
             points[counter] = new POINT2(pts[0]);
             points[counter].style = 0;
             counter++;
@@ -3065,18 +2688,12 @@ public final class DISMSupport
             pts[0].x = savepoints[1].x + iDeltaX2;
             pts[0].y = savepoints[1].y + iDeltaY2;
             pts[1] = new POINT2(savepoints[1]);
-            //DrawLine(destination, mask, color, pts, 2, 2);
             points[counter] = new POINT2(pts[0]);
             points[counter].style = 0;
             counter++;
             points[counter] = new POINT2(pts[1]);
             points[counter].style = 5;
             counter++;
-
-            //clean up
-            pts = null;
-            savepoints = null;
-            //return;
         }
         catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMSupportbyFireDouble",
@@ -3106,16 +2723,12 @@ public final class DISMSupport
                     //then pt2 - pt3 should be left to right
                     if (savepoints[2].x < savepoints[1].x) {
                         lineutility.Reverse2Points(savepoints[1], savepoints[2]);
-                        //if(linetype==TacticalLines.SPTBYFIRE)
-                        //  lineutility.Reverse2Points(points[0],points[1]);
                     }
 
 
                 } else {
                     if (savepoints[2].x > savepoints[1].x) {
                         lineutility.Reverse2Points(savepoints[1], savepoints[2]);
-                        //if(linetype==TacticalLines.SPTBYFIRE)
-                        //  lineutility.Reverse2Points(points[0],points[1]);
                     }
 
                 }
@@ -3312,9 +2925,6 @@ public final class DISMSupport
             points[counter] = new POINT2(pts[1]);
             points[counter].style = 5;
             counter++;
-            //clean up
-            pts = null;
-            savepoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMAtkByFireDouble",
                     new RendererException("Failed inside GetDISMAtkByFireDouble", exc));
@@ -3397,48 +3007,12 @@ public final class DISMSupport
             points[10].style = 0;
             points[11] = lineutility.MidPointDouble(pts[0], pts[1], 5);
 
-            //clean up
-            pts = null;
-            savepoints = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMGapDouble",
                     new RendererException("Failed inside GetDISMGapDouble", exc));
         }
         return 12;
     }
-    /**
-     * Calculates the points for DECEIVE.
-     *
-     * @param points - OUT - the client points, also used for the returned points.
-     * @param linetype the line type.
-     */
-//    protected static void GetDISMDeceiveDouble(POINT2[] points,
-//            int linetype) {
-//        try {
-//            POINT2[] savepoints = new POINT2[3];
-//            int j = 0;
-//
-//            for (j = 0; j < 3; j++) {
-//                savepoints[j] = new POINT2(points[j]);
-//            }
-//
-//            points[0] = new POINT2(savepoints[0]);
-//            points[0].style = 17;
-//            points[1] = new POINT2(savepoints[1]);
-//            points[1].style = 5;
-//            points[2] = new POINT2(savepoints[2]);
-//            points[2].style = 17;
-//            points[3] = new POINT2(savepoints[0]);
-//            points[3].style = 5;
-//
-//            savepoints = null;
-//            //return;
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return;
-//    }
     /**
      * Calculates the points for MNFLDDIS
      *
@@ -3509,7 +3083,6 @@ public final class DISMSupport
             counter++;
 
             //draw tail
-            //M. Deutch 8-19-04
             dist = lineutility.CalcDistanceDouble(savepoints[2], savepoints[0]);
             d = dist;
             if (d > 5 * maxLength) {
@@ -3551,7 +3124,6 @@ public final class DISMSupport
                     (savepoints[2].y - savepoints[1].y) * (savepoints[2].y - savepoints[1].y))) / 15);
             // dAngle1 = angle used to calculate the end-piece deltas
 
-            //M. Deutch 8-19-04
             if (iDiagEOL_length >  maxLength) {
                 iDiagEOL_length =  maxLength;
             }
@@ -3610,14 +3182,6 @@ public final class DISMSupport
             points[counter].style = 10;
             counter++;
 
-            //clean up
-            pts = null;
-            ptsArrow = null;
-            savepoints = null;
-            deltapoints1 = null;
-            deltapoints2 = null;
-            deltapoints3 = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMMinefieldDisruptDouble",
                     new RendererException("Failed inside GetDISMMinefieldDisruptDouble", exc));
@@ -3638,7 +3202,6 @@ public final class DISMSupport
             double dMBR = lineutility.MBRDistance(points, vblCounter-4);
             //end declarations
 
-            //M. Deutch 8-19-04
             if (dMBR / 20 > maxLength) {
                 dMBR = 20 * maxLength;
             }
@@ -3671,7 +3234,6 @@ public final class DISMSupport
             if (linetype == (long) TacticalLines.FPF) {
                 points[0].style = 6;
             }
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMLinearTargetDouble",
                     new RendererException("Failed inside GetDISMLinearTargetDouble", exc));
@@ -3687,8 +3249,6 @@ public final class DISMSupport
     protected static void GetDISMBlockDouble2(POINT2[] points,
             int linetype) {
         try {
-            //diagnostic for CommandSight
-            //POINT2 ptRelative = lineutility.PointRelativeToLine(points[0], points[1], points[2]);            
             POINT2 ptRelative = new POINT2(points[2]);
             
             POINT2 midpt = lineutility.MidPointDouble(points[0], points[1], 0);
@@ -3703,10 +3263,6 @@ public final class DISMSupport
             if (linetype == (long) TacticalLines.FPF) {
                 points[2].style = 6;
             }
-            //for (j = 3; j < vblCounter; j++) {
-              //  points[j].style = 5;
-            //}
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMBlockDouble2",
                     new RendererException("Failed inside GetDISMBlockDouble2", exc));
@@ -3727,7 +3283,6 @@ public final class DISMSupport
             POINT2 pt3 = new POINT2();
             POINT2 midpt = new POINT2();
             double d = lineutility.CalcDistanceDouble(pt0, pt1);
-            //end declarations
 
             midpt = lineutility.MidPointDouble(pt0, pt1, 0);
             pt2 = lineutility.ExtendTrueLinePerpDouble(pt0, pt1, midpt, d / 2, 0);
@@ -3784,7 +3339,6 @@ public final class DISMSupport
                     }
                 }
             }
-            //return false;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"ReverseDelayArc",
                     new RendererException("Failed inside GetDelayArc", exc));
@@ -3908,12 +3462,6 @@ public final class DISMSupport
             points[counter].style = 10;
             counter++;
 
-            //clean up
-            pointsCorner = null;
-            rectpts = null;
-            savepoints = null;
-            deltapoints1 = null;
-            deltapoints2 = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetDISMEasyDouble",
                     new RendererException("Failed inside GetDISMEasyDouble", exc));
@@ -4016,8 +3564,6 @@ public final class DISMSupport
             pts[0] = new POINT2(savepoints[0]);
             dAngle1c = Math.atan2(ptCenter.y - savepoints[1].y, ptCenter.x - savepoints[1].x);
             dAngle2c = Math.atan2(ptCenter.y - savepoints[2].y, ptCenter.x - savepoints[2].x);
-            //	dAngle1c = atan2(ptCenter.y - savepoints[1].y, ptCenter.x - savepoints[1].x);
-            //	dAngle2c = atan2(ptCenter.y - savepoints[2].y, ptCenter.x - savepoints[2].x);
             dAngle12c = (dAngle1c + dAngle2c) / 2;
             if ( (dAngle1c > 0) && (dAngle2c < 0) )
             {
@@ -4029,7 +3575,6 @@ public final class DISMSupport
                 pts[1].x = ptCenter.x - Math.cos(dAngle12c) * dRadius;
                 pts[1].y = ptCenter.y - Math.sin(dAngle12c) * dRadius;
             }
-            //DrawLine(destination, mask, color, pts, 2, 2);
             pLinePoints[counter]=new POINT2(pts[0]);
             pLinePoints[counter].style=0;counter++;
             pLinePoints[counter]=new POINT2(pts[1]);
@@ -4038,7 +3583,6 @@ public final class DISMSupport
 
             // draw arrowhead on end of line
             dAngle0 = Math.atan2(pts[1].y - savepoints[0].y, pts[1].x - savepoints[0].x);
-            //	dAngle0 = atan2(pts[1].y - savepoints[0].y, pts[1].x - savepoints[0].x);
             iArrowLength =(
                 (
                 Math.sqrt // height of graphic
@@ -4070,10 +3614,8 @@ public final class DISMSupport
                 counter++;
             }
             pLinePoints[counter-1].style=5;
-            //	DrawLine(destination, mask, color, pts, 3, 2);
 
             // draw lines out from arc toward back of graphic
-            //M. Deutch 8-19-04
             d=dRadius/3;
             if(d>maxLength)
                     d=maxLength;
@@ -4081,8 +3623,6 @@ public final class DISMSupport
                     d=minLength;
 
             dAngleTic = CONST_PI / 18; // angle in radians between tic-marks
-            //dDeltaX2 = Math.Cos(dAngle1 + CONST_PI / 2) * dRadius / 3;
-            //dDeltaY2 = Math.Sin(dAngle1 + CONST_PI / 2) * dRadius / 3;
             dDeltaX2 = Math.cos(dAngle1 + CONST_PI / 2) * d;
             dDeltaY2 = Math.sin(dAngle1 + CONST_PI / 2) * d;
             for (i=0; i<8; i++)
@@ -4100,13 +3640,7 @@ public final class DISMSupport
                 pLinePoints[counter]=new POINT2(pts[1]);
                 pLinePoints[counter].style=5;
                 counter++;
-                //DrawLine(destination, mask, color, pts, 2, 2);
             }
-            //FillPoints(pLinePoints,counter);
-            //clean up
-            pts=null;
-            savepoints=null;
-            arcpoints=null;
         }
         catch(Exception exc)
         {
@@ -4115,5 +3649,4 @@ public final class DISMSupport
         }
         return counter;
     }
-
 }
