@@ -36,10 +36,6 @@ public final class flot {
             int[] arcPoints = new int[30];
             double dRemainder = 0;
             double dNum = 0, dDen = 0;
-            //int bFlip = 0;
-            //int lDirection = 0;
-            //int lLastDirection = 0;
-            //end declarations
 
             if (segment == 0 && vbPoints[0] >= vbPoints[2]) {
                 bFlip.value[0] = 1;//TRUE;
@@ -72,7 +68,6 @@ public final class flot {
                 dAngle = 270 + dAngle;
             }
 
-            //dDistance = lineutility.CalcDistance2(vbPoints[2 * segment], vbPoints[2 * segment + 1], vbPoints[2 * segment + 2], vbPoints[2 * segment + 3]);
             dDistance = lineutility.CalcDistance2(x1, y1, x2, y2);
 
             nNumSegs = (int) (dDistance / 20);
@@ -144,7 +139,6 @@ public final class flot {
             for (j = 0; j < numPts; j++) {
                 vbPoints2[j] = new POINT2(vbPoints[j]);
             }
-            //lineutility.BoundPoints(ref vbPoints2,numPts,ref segments);
             for (j = 0; j < numPts - 1; j++) {
                 dDistance = lineutility.CalcDistanceDouble(vbPoints2[j], vbPoints2[j + 1]);
                 lNumSegs = (int) (dDistance / 20);   //flot diameter is 20
@@ -156,8 +150,6 @@ public final class flot {
             }
             lTotalpts += 1;
 
-            //clean up
-            vbPoints2 = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetAnchorageCountDouble",
                     new RendererException("Failed inside GetAnchorageCountDouble", exc));
@@ -167,11 +159,9 @@ public final class flot {
     protected static int GetFlotCount2Double(POINT2[] vbPoints, int numPts, int lineType) {
         int lTotalpts = 0;
         try {
-            //declarations
             int j = 0, lNumSegs = 0;
             double dDistance = 0, dIncrement = 0;
             int nFactor = 10;
-            //end declarations
 
             switch (lineType) {
                 case TacticalLines.WF:
@@ -218,7 +208,6 @@ public final class flot {
     protected static int GetFlot2Double(POINT2[] vbPoints2, int numPts, int lineType) {
         int lFlotCounter = 0;
         try {
-            //declarations
             int j = 0, k = 0, l = 0;
             int x1 = 0, y1 = 0;
             int x2 = 0, y2 = 0, z2 = 0;
@@ -236,7 +225,6 @@ public final class flot {
             ref<int[]> bFlip = new ref();
             ref<int[]> lDirection = new ref();
             ref<int[]> lLastDirection = new ref();
-            //end declaraions
 
             bFlip.value=new int[1];
             lDirection.value=new int[1];
@@ -400,8 +388,6 @@ public final class flot {
                 vbPoints2[lFlotCounter++] = new POINT2(style10Points[j]);
             }
 
-            //clean up
-            vbPoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetFlot2Double",
                     new RendererException("Failed inside GetFlot2Double", exc));
@@ -418,7 +404,6 @@ public final class flot {
             ref<int[]> lLastDirection) {
         int nNumSegs = 0;
         try {
-            //declarations
             int j = 0;
             double dDistance = 0;
             int m = 0;
@@ -453,7 +438,6 @@ public final class flot {
                     dIncrement = 80;
                     break;
                 case TacticalLines.OFY:
-                    //dIncrement=70;
                     dIncrement = 80;
                     break;
                 default:
@@ -563,16 +547,13 @@ public final class flot {
     protected static int GetOFYCountDouble(POINT2[] pLinePoints, int numPts, int lineType) {
         int lTotalpts = 0;
         try {
-            //declarations
             int j = 0, lNumSegs = 0;
             int lNumFlots = 0, lNumSpikes = 0;
             double dDistance = 0;
             int nFactor = 3;
             int interval = 50;
-            //end declarations
 
             if (lineType == (int) TacticalLines.OFY) {
-                //interval=70;
                 interval = 80;
                 nFactor = 7;
             }
@@ -631,7 +612,6 @@ public final class flot {
             ref<int[]> bFlip = new ref();
             ref<int[]> lDirection = new ref();
             ref<int[]> lLastDirection = new ref();
-            //end declarations
 
             m.value = new double[1];
             bFlip.value = new int[1];
@@ -645,9 +625,7 @@ public final class flot {
             vbPoints = new int[numPts * 2];
 
             pSpikePoints = new POINT2[3 * lTotalPoints / 13];
-            //lineutility.InitializePOINT2Array(pSpikePoints);
             pFlotPoints = new POINT2[10 * lTotalPoints / 13];
-            //lineutility.InitializePOINT2Array(pFlotPoints);
             int n=pSpikePoints.length;
             //for (j = 0; j < pSpikePoints.length; j++)
             for (j = 0; j < n; j++)
@@ -662,7 +640,6 @@ public final class flot {
                 pFlotPoints[j] = new POINT2(pLinePoints[0]);
                 pFlotPoints[j].style = 5;
             }
-            //flots=new long[numPts2+1];
             flots = new int[numPts + 1];
             //the vbPoints long array gets used by GetFlotSegment
             //and is based on the original points
@@ -900,7 +877,6 @@ public final class flot {
                 }
             }
             n=pLinePoints.length;
-            //for (j = nTotalCounter; j < pLinePoints.length; j++) 
             for (j = nTotalCounter; j < n; j++) 
             {
                 pLinePoints[j] = new POINT2(pLinePoints[nTotalCounter - 1]);
@@ -915,11 +891,9 @@ public final class flot {
     protected static int GetOccludedCountDouble(POINT2[] pLinePoints, int numPts) {
         int lTotalpts = 0;
         try {
-            //declarations
             int j = 0, lNumSegs = 0;
             int lNumFlots = 0, lNumSpikes = 0;
             double dDistance = 0;
-            //end declarations
 
             //for each segment
             for (j = 0; j < numPts - 1; j++) {
@@ -944,7 +918,6 @@ public final class flot {
                 lTotalpts = numPts;
             }
 
-            //clean up
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetOccludedCountDouble",
                     new RendererException("Failed inside GetOccludedCountDouble", exc));
@@ -958,12 +931,10 @@ public final class flot {
             int[] point,
             double dist) {
         try {
-            //declarations
             double m = 0;
             double deltaX = 0, deltaY = 0;
             double dx = 0, dy = 0;
             int nQuadrant = -1;
-            //end declarations
 
             if (angle < 0) {
                 angle = angle + 360;
@@ -1046,9 +1017,6 @@ public final class flot {
             ref<int[]> lLastDirection) {
         int nNumSegs = 0;
         try {
-            //int bFlip=-1;
-            //int lDirection=-1;
-            //int lLastDirection=-1;
             int j = 0;
             double dDistance = 0;
             int m = 0;
@@ -1164,7 +1132,6 @@ public final class flot {
     protected static int GetFlotDouble(POINT2[] vbPoints2, int numPts) {
         int lFlotCounter = 0;
         try {            
-            //declarations
             ref<int[]> bFlip=new ref();bFlip.value=new int[1];bFlip.value[0]=-1;   //-1
             ref<int[]> lDirection=new ref();lDirection.value=new int[1];lDirection.value[0]=-1;//-1;
             ref<int[]> lLastDirection=new ref();lLastDirection.value=new int[1];lLastDirection.value[0]=-1;//-1;
@@ -1176,12 +1143,9 @@ public final class flot {
             double dDistance = 0;
             int[] vbPoints = null;
             int[] points = null;
-            //end declarations
 
             lFlotCount = GetFlotCountDouble(vbPoints2, numPts);
 
-            //numPts2=lineutility.BoundPointsCount(vbPoints2,numPts);
-            //segments=new long[numPts2];
             vbPoints = new int[2 * numPts];
             //lineutility.BoundPoints(ref vbPoints2,numPts,ref segments);
             //BoundPoints returns a segments array of booleans
@@ -1235,14 +1199,9 @@ public final class flot {
                 }
             }
             int n=vbPoints2.length;
-            //for (j = lFlotCounter - 1; j < vbPoints2.length; j++) 
             for (j = lFlotCounter - 1; j < n; j++) 
             {
                 vbPoints2[j].style = 5;
-
-                //clean up
-                //segments=null;
-
             }
             vbPoints = null;
         } catch (Exception exc) {
@@ -1258,10 +1217,8 @@ public final class flot {
             int[] points,
             double dist) {
         try {
-            //declarations
             int j = 0, k = 0;
             int[] lTemp = new int[2];
-            //end declarations
 
             for (j = 0; j < 10; j++) {
                 CalcNewPoint(locx, locY, angle - 90 + 20 * j, lTemp, dist);
@@ -1286,18 +1243,14 @@ public final class flot {
     protected static int GetFlotCountDouble(POINT2[] vbPoints, int numPts) {
         int lTotalpts = 0;
         try {
-            //declarations
             int j = 0, lNumSegs = 0;
             double dDistance = 0;
             POINT2[] vbPoints2 = null;
-            //end declarations
 
-            //numPts2=lineutility.BoundPointsCount(vbPoints,numPts);
             vbPoints2 = new POINT2[numPts];
             for (j = 0; j < numPts; j++) {
                 vbPoints2[j] = vbPoints[j];
             }
-            //lineutility.BoundPoints(ref vbPoints2,numPts,ref segments);
             for (j = 0; j < numPts - 1; j++) {
                 dDistance = lineutility.CalcDistanceDouble(vbPoints2[j], vbPoints2[j + 1]);
                 lNumSegs = (int) (dDistance / 20);   //flot diameter is 20
@@ -1309,8 +1262,6 @@ public final class flot {
             }
             lTotalpts += 1;
 
-            //clean up
-            vbPoints2 = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetFlotCountDouble",
                     new RendererException("Failed inside GetFlotCountDouble", exc));
@@ -1339,9 +1290,7 @@ public final class flot {
             double dIncrement = 80;	//was 70
             int[] vbPoints = null;
             int nFlotCounter = 0, nSpikeCounter = 0, nSegmentCounter = 0;
-            //long nTotalCounter=0;
             int[] flots = null;
-            //int sumOfFlots=0;
             double segmentLength = 0, spikeLength = 0;
             int bolTooLong = 0;
             double d1 = 0, d2 = 0;
@@ -1355,7 +1304,6 @@ public final class flot {
             ref<int[]> bFlip = new ref();
             ref<int[]> lDirection = new ref();
             ref<int[]> lLastDirection = new ref();
-            //end declarations
 
             m.value = new double[1];
             bFlip.value = new int[1];
@@ -1476,9 +1424,6 @@ public final class flot {
                     //if the distance goes past the end of the line segment then set the point to the
                     //end of the line segment
                     bolTooLong = 0;
-                    //sumOfFlots=0;
-                    //for(l=0;l<=j;l++)
-                    //	sumOfFlots += flots[l];
 
                     //for the greatest accuracy
                     d1 = lineutility.CalcDistanceDouble(pFlotEnd[k], pFlotEnd[k + 1]);
@@ -1666,7 +1611,6 @@ public final class flot {
             ref<int[]> bFlip = new ref();
             ref<int[]> lDirection = new ref();
             ref<int[]> lLastDirection = new ref();
-            //end declarations
 
             lTotalPoints = GetSFCountDouble(pLinePoints, numPts);
             m.value = new double[1];
@@ -1808,10 +1752,6 @@ public final class flot {
                     //if the distance goes past the end of the line segment then set the point to the
                     //end of the line segment
                     bolTooLong = 0;
-                    //sumOfFlots = 0;
-                    //for (l = 0; l <= j; l++) {
-                    //    sumOfFlots += flots[l];
-                    //}
 
                     d1 = lineutility.CalcDistanceDouble(pFlotStart[k], pFlotStart[k + 1]);
                     d1 = d1 / 2 - dSpikeSize;
@@ -2018,16 +1958,6 @@ public final class flot {
                 pLinePoints[j] = new POINT2(pLinePoints[nTotalCounter - 1]);
             }
 
-            //clean up
-            vbPoints = null;
-            pSpikePoints = null;
-            pFlotPoints = null;
-            flots = null;
-            pFlotStart = null;
-            pFlotEnd = null;
-            pSpikeStart = null;
-            pSpikeEnd = null;
-            pSegPoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetSFPointsDouble",
                     new RendererException("Failed inside GetSFPointsDouble", exc));
@@ -2038,7 +1968,6 @@ public final class flot {
     protected static int GetSFCountDouble(POINT2[] pLinePoints, int numPts) {
         int lTotalpts = 0;
         try {
-            //declarations
             int j = 0, lNumSegs = 0;
             int lNumFlots = 0, lNumSpikes = 0;
             double dDistance = 0;
@@ -2069,12 +1998,10 @@ public final class flot {
                 lTotalpts = numPts;
             }
 
-            //clean up
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetSFCountDouble",
                     new RendererException("Failed inside GetSFCountDouble", exc));
         }
         return lTotalpts;
     }
-
 }
