@@ -119,7 +119,6 @@ public final class arraysupport
             int vblSaveCounter) {
         int nCounter = 0;
         try {
-            //declarations
             int j = 0, k = 0, bolVertical = 0;
             int lCount = 0;
             double dLengthSegment = 0, dIncrement = 20;
@@ -191,8 +190,6 @@ public final class arraysupport
                 pLinePoints[j] = new POINT2(pSpikePoints[j]);
             }
 
-            //clean up
-            pSpikePoints = null;
             return nCounter;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetFORTLPointsDouble",
@@ -204,7 +201,6 @@ public final class arraysupport
             POINT2[] pLinePoints,
             int vblCounter) {
         try {
-            //declarations
             int j = 0;
             POINT2[] pXLinePoints = new POINT2[4 * vblCounter / 32];
             POINT2[] pNewLinePoints = new POINT2[vblCounter / 32];
@@ -268,12 +264,6 @@ public final class arraysupport
                 pLinePoints[j] = new POINT2(pArcLinePoints[j - 6 * vblCounter / 32]);
             }
 
-            //clean up
-            pXLinePoints = null;
-            pNewLinePoints = null;
-            pShortLinePoints = null;
-            pArcLinePoints = null;
-            return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "CoordFEBADouble",
                     new RendererException("CoordFEBADouble", exc));
@@ -284,7 +274,6 @@ public final class arraysupport
             int vblSaveCounter) {
         int nCounter = 0;
         try {
-            //declarations
             int j = 0, k = 0;
             int lCount = 0;
             double dLengthSegment = 0, dIncrement = 0;
@@ -292,8 +281,6 @@ public final class arraysupport
             POINT2 pt0;
             double dSpikeSize = 0;
             int limit = 0;
-            //POINT2 crossPt1, crossPt2;
-            //end delcarations
 
             lCount = countsupport.GetFORTLCountDouble(pLinePoints, lineType, vblSaveCounter);
             pSpikePoints = new POINT2[lCount];
@@ -352,8 +339,6 @@ public final class arraysupport
                 pLinePoints[j] = new POINT2(pSpikePoints[j]);
             }
 
-            //clean up
-            pSpikePoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetATWallPointsDouble",
                     new RendererException("GetATWallPointsDouble", exc));
@@ -368,7 +353,6 @@ public final class arraysupport
             int lineType) {
             int nDirection = 0;
         try {
-            //declarations
             ref<double[]> m = new ref();
             ref<double[]> m0 = new ref();
 
@@ -556,20 +540,17 @@ public final class arraysupport
             int vblSaveCounter) {
         int nCounter = 0;
         try {
-            //declarations
             int j = 0, k = 0, n = 0;
             int lCount = 0;
             double dLengthSegment = 0;
             POINT2 pt0 = new POINT2(pLinePoints[0]), pt1 = null, pt2 = null, pt3 = null;
             POINT2[] pSpikePoints = null;
             int nDirection = 0;
-            //end delcarations
 
             lCount = countsupport.GetFORTLCountDouble(pLinePoints, lineType, vblSaveCounter);
             pSpikePoints = new POINT2[lCount];
             lineutility.InitializePOINT2Array(pSpikePoints);
             double remainder=0;
-            //for(j=0;j<numpts2-1;j++)
             for (j = 0; j < vblSaveCounter - 1; j++) {
                 pt1 = new POINT2(pLinePoints[j]);
                 pt2 = new POINT2(pLinePoints[j + 1]);
@@ -695,8 +676,6 @@ public final class arraysupport
                 }
             }
 
-            //clean up
-            pSpikePoints = null;
         } catch (Exception exc) {
                 ErrorLogger.LogException(_className, "GetZONEPointsDouble2",
                         new RendererException("GetZONEPointsDouble2", exc));
@@ -736,7 +715,6 @@ public final class arraysupport
     private static void GetIsolatePointsDouble(POINT2[] pLinePoints,
             int lineType) {
         try {
-            //declarations
             boolean reverseTurn=false;
             POINT2 pt0 = new POINT2(pLinePoints[0]), pt1 = new POINT2(pLinePoints[1]), pt2 = new POINT2(pLinePoints[0]);
             if(pt0.x==pt1.x && pt0.y==pt1.y)            
@@ -786,7 +764,6 @@ public final class arraysupport
             //for SEIZE calculations
             POINT2[] ptsArc2 = new POINT2[26];
             lineutility.InitializePOINT2Array(ptsArc2);
-            //end declarations
 
             E.x = 2 * pt1.x - pt0.x;
             E.y = 2 * pt1.y - pt0.y;
@@ -837,7 +814,6 @@ public final class arraysupport
                 case TacticalLines.OCCUPY:
                     midPt.x = (pt1.x + ptsArc[25].x) / 2;
                     midPt.y = (pt1.y + ptsArc[25].y) / 2;
-                    //lineutility.GetArrowHead4Double(midPt, ptsArc[25], (int) d / 7, (int) d / 7, reversepArrowPoints, 0);
                     lineutility.GetArrowHead4Double(midPt, ptsArc[25], (int) d / 7, (int) (1.75*d) / 7, reversepArrowPoints, 0);
                     for (j = 26; j < 29; j++) {
                         pLinePoints[j] = new POINT2(pArrowPoints[j - 26]);
@@ -919,22 +895,10 @@ public final class arraysupport
                 default:
                     break;
             }
-
-            //clean up
-            savepoints = null;
-            ptsArc = null;
-            midPts = null;
-            trianglePts = null;
-            pArrowPoints = null;
-            reversepArrowPoints = null;
-            ptsSeize = null;
-            ptsArc2 = null;
-            //return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetIsolatePointsDouble",
                     new RendererException("GetIsolatePointsDouble " + Integer.toString(lineType), exc));
         }
-        return;
     }
     /**
      * @deprecated
@@ -997,12 +961,9 @@ public final class arraysupport
             if(lineType==TacticalLines.AIRFIELD)
                 fLength=5;
             double d = lineutility.MBRDistance(pLinePoints, vblCounter-fLength);
-            //11-18-2010
             if(d>350)
                 d=350;
             
-            //end declarations
-
             for (k = 0; k < vblCounter; k++) {
                 pLinePoints[k].style = 0;
             }
@@ -1015,8 +976,6 @@ public final class arraysupport
                     POINT2 ul=new POINT2();
                     POINT2 lr=new POINT2();
                     lineutility.CalcMBRPoints(pLinePoints, vblCounter-4, ul, lr);
-                    //ul=getDummyHat(pLinePoints);
-                    //ul.x-=25;
                     POINT2 ur=new POINT2(lr);
                     ur.y=ul.y;
 
@@ -1086,7 +1045,6 @@ public final class arraysupport
                 default:
                     break;
             }
-            return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "AreaWithCenterFeatureDouble",
                     new RendererException("AreaWithCenterFeatureDouble " + Integer.toString(lineType), exc));
@@ -1097,7 +1055,6 @@ public final class arraysupport
             int vblSaveCounter) {
         int nCounter = 0;
         try {
-            //declarations
             int j = 0, k = 0;
             int lCount = 0;
             double dLengthSegment = 0, dIncrement = 0;
@@ -1106,7 +1063,6 @@ public final class arraysupport
             double dRemainder = 0, dSpikeSize = 0;
             int limit = 0;
             POINT2 crossPt1, crossPt2;
-            //end delcarations
 
             lCount = countsupport.GetFORTLCountDouble(pLinePoints, lineType, vblSaveCounter);
             pSpikePoints = new POINT2[lCount];
@@ -1174,8 +1130,6 @@ public final class arraysupport
                                 pSpikePoints[nCounter] = lineutility.ExtendLine2Double(pLinePoints[j + 1], pLinePoints[j], -k * dIncrement + 10, 5);	//+2
                                 nCounter++;
                                 //dot
-                                //pSpikePoints[nCounter]=lineutility.ExtendLine2Double(pLinePoints[j+1],pLinePoints[j],-k*dIncrement-1,20);
-                                //nCounter++;
                                 //replace the dot with crossed line segment
                                 pSpikePoints[nCounter] = lineutility.ExtendAlongLineDouble(pSpikePoints[nCounter - 1], pLinePoints[j + 1], 5, 0);
                                 nCounter++;
@@ -1268,8 +1222,6 @@ public final class arraysupport
             }
             pLinePoints[nCounter-1].style=5;
 
-            //clean up
-            pSpikePoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetATWallPointsDouble",
                     new RendererException("GetATWallPointsDouble " + Integer.toString(lineType), exc));
@@ -1281,7 +1233,6 @@ public final class arraysupport
             int vblSaveCounter) {
         int nCounter = 0;
         try {
-            //declarations
             int j = 0, k = 0;
             int lCount = 0;
             double dLengthSegment = 0, dIncrement = 20;
@@ -1292,7 +1243,6 @@ public final class arraysupport
             int limit = 0;
             double d = 0;
             int bolVertical = 0;
-            //end delcarations
 
             m.value = new double[1];
             lCount = countsupport.GetFORTLCountDouble(pLinePoints, lineType, vblSaveCounter);
@@ -1349,7 +1299,6 @@ public final class arraysupport
                 }
                 pSpikePoints[nCounter] = new POINT2(pLinePoints[j + 1]);
                 nCounter++;
-                //}
             }
 
             for (j = 0; j < nCounter; j++) {
@@ -1359,9 +1308,6 @@ public final class arraysupport
                 pLinePoints[j] = new POINT2(pSpikePoints[nCounter - 1]);
             }
 
-            //clean up
-            //segments=null;
-            pSpikePoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetRidgePointsDouble",
                     new RendererException("GetRidgePointsDouble " + Integer.toString(lineType), exc));
@@ -1386,7 +1332,7 @@ public final class arraysupport
             int totalQty = countsupport.GetSquallQty(pLinePoints, quantity, length, numPoints);
             POINT2[] pSquallPts = new POINT2[totalQty];
             POINT2[] pSquallSegPts = null;
-            //end declarations
+            
             lineutility.InitializePOINT2Array(pSquallPts);
             sign.value = new int[1];
             sign.value[0] = -1;
@@ -1395,8 +1341,6 @@ public final class arraysupport
             }
 
             for (j = 0; j < numPoints - 1; j++) {
-                //if(segments[j]!=0)
-                //{
                 StartSegPt = new POINT2(pLinePoints[j]);
                 EndSegPt = new POINT2(pLinePoints[j + 1]);
                 segQty = countsupport.GetSquallSegQty(StartSegPt, EndSegPt, quantity, length);
@@ -1457,9 +1401,6 @@ public final class arraysupport
                 }
                 counter = pLinePoints.length;
             }
-            //clean up
-            pSquallPts = null;
-            pSquallSegPts = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetSquallDouble",
                     new RendererException("GetSquallDouble", exc));
@@ -1479,7 +1420,6 @@ public final class arraysupport
                     pt7 = new POINT2(),pt8 = new POINT2();
             int segQty = 0;
             double dist = 0;
-            //end declarations
 
             lineutility.InitializePOINT2Array(squallPts);
             //each segment looks like this: --- V
@@ -1536,7 +1476,6 @@ public final class arraysupport
         int counter = vblCounter;
         try {
             int j = 0, k = 0;            
-            //int counter=vblCounter;
             double d = 0;
             POINT2 pt0 = new POINT2(), pt1 = new POINT2();
             POINT2[] tempPts = new POINT2[vblCounter];
@@ -1730,7 +1669,6 @@ public final class arraysupport
     {
         int lEllipseCounter = 0;
         try {
-            //double dAngle = 0, d = 0, a = 13, b = 6, dFactor = 0;
             double dAngle = 0, d = 0, a = 4, b = 8, dFactor = 0;
             int lHowManyThisSegment = 0, j = 0, k = 0, l = 0, t = 0;
             POINT2 ptCenter = new POINT2();
@@ -1742,19 +1680,15 @@ public final class arraysupport
             {
                 lineutility.InitializePOINT2Array(pEllipsePoints2);
                 d = lineutility.CalcDistanceDouble(pOriginalLinePoints[j], pOriginalLinePoints[j + 1]);
-                //lHowManyThisSegment = (int) ((d - 10) / 10);                
                 lHowManyThisSegment = (int) ((d - 20) / 20);
                 if(linetype==TacticalLines.LRO)
                     lHowManyThisSegment = (int) ((d - 30) / 30);
-                //added 4-19-12
                 distInterval=d/lHowManyThisSegment;
                 
                 dAngle = lineutility.CalcSegmentAngleDouble(pOriginalLinePoints[j], pOriginalLinePoints[j + 1]);
                 dAngle = dAngle + Math.PI / 2;
                 for (k = 0; k < lHowManyThisSegment; k++)
                 {
-                    //t = k;
-                    //ptCenter=lineutility.ExtendAlongLineDouble(pOriginalLinePoints[j], pOriginalLinePoints[j+1], k*20+20);
                     ptCenter=lineutility.ExtendAlongLineDouble2(pOriginalLinePoints[j], pOriginalLinePoints[j+1], k*distInterval);                        
                     for (l = 1; l < 37; l++)
                     {
@@ -1780,7 +1714,6 @@ public final class arraysupport
 
                     for (l = 1; l < 37; l++)
                     {
-                        //dFactor = (10.0 * l) * Math.PI / 180.0;
                         dFactor = (20.0 * l) * Math.PI / 180.0;
                         pEllipsePoints2[l - 1].x = ptCenter.x + (int) (a * Math.cos(dFactor));
                         pEllipsePoints2[l - 1].y = ptCenter.y + (int) (b * Math.sin(dFactor));
@@ -1830,13 +1763,10 @@ public final class arraysupport
                     if (k == 0) {
                         pt0 = new POINT2(origPoints[j]);
                     } else {
-                        //pt0 = lineutility.ExtendAlongLineDouble(origPoints[j], origPoints[j + 1], k * 15, 0);
                         pt0 = lineutility.ExtendAlongLineDouble(origPoints[j], origPoints[j + 1], k * distInterval, 0);
                     }
 
-                    //pt1 = lineutility.ExtendAlongLineDouble(origPoints[j], origPoints[j + 1], k * 15 + 10, 5);
                     pt1 = lineutility.ExtendAlongLineDouble(origPoints[j], origPoints[j + 1], k * distInterval + 10, 5);
-                    //midPt = lineutility.ExtendAlongLineDouble(origPoints[j], origPoints[j + 1], k * 15 + 5, 0);
                     midPt = lineutility.ExtendAlongLineDouble(origPoints[j], origPoints[j + 1], k * distInterval + 5, 0);
                     //get the perpendicular segment
                     pt2 = lineutility.ExtendDirectedLine(origPoints[j], origPoints[j + 1], midPt, nDirection, 5, 5);
@@ -1858,7 +1788,6 @@ public final class arraysupport
         int lFlotCounter = 0;
         try
         {
-            //declarations
             int j = 0, k = 0, l = 0;
             int x1 = 0, y1 = 0;
             int numSegPts = -1;
@@ -1870,7 +1799,6 @@ public final class arraysupport
             int[] points2 = null;
             POINT2 pt = new POINT2();
             POINT2 pt1 = new POINT2(), pt2 = new POINT2();
-            //end declarations
 
             lFlotCount = flot.GetAnchorageCountDouble(vbPoints2, numPts);
             vbPoints = new int[2 * numPts];
@@ -1892,8 +1820,6 @@ public final class arraysupport
             lLastDirection.value = new int[1];
             for (l = 0; l < numPts - 1; l++)
             {
-                //pt1=new POINT2();
-                //pt2=new POINT2();
                 pt1.x = vbPoints[2 * l];
                 pt1.y = vbPoints[2 * l + 1];
                 pt2.x = vbPoints[2 * l + 2];
@@ -1909,12 +1835,6 @@ public final class arraysupport
 
                 lNumSegs = (int) (dDistance / 20);
 
-                //ref<int[]> bFlip = new ref();
-                //bFlip.value = new int[1];
-                //ref<int[]> lDirection = new ref();
-                //lDirection.value = new int[1];
-                //ref<int[]> lLastDirection = new ref();
-                //lLastDirection.value = new int[1];
                 if (lNumSegs > 0) {
                     points2 = new int[lNumSegs * 32];
                     numSegPts = flot.GetAnchorageFlotSegment(vbPoints, (int) pt1.x, (int) pt1.y, (int) pt2.x, (int) pt2.y, l, points2, bFlip, lDirection, lLastDirection);
@@ -1929,7 +1849,6 @@ public final class arraysupport
                     {
                         x1 = points[k];
                         y1 = points[k + 1];
-                        //z = points[k + 2];
                         k += 3;
                         if (j % 10 == 0) {
                             pt.x = x1;
@@ -1975,10 +1894,6 @@ public final class arraysupport
                 vbPoints2[j].style = 5;
             }
 
-            //clean up
-            vbPoints = null;
-            points = null;
-            points2 = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetAnchorageDouble",
                     new RendererException("GetAnchorageDouble", exc));
@@ -2155,7 +2070,6 @@ public final class arraysupport
             }
             pLinePoints[counter - 1].style = 0;
             pLinePoints[counter++] = new POINT2(pOriginalPoints[vblCounter - 1]);
-            pOriginalPoints = null;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetRestrictedAreaPoints",
                     new RendererException("GetRestrictedAreaPoints", exc));
@@ -2299,7 +2213,6 @@ public final class arraysupport
             String client=CELineArray.getClient();
             if(pLinePoints==null || pLinePoints.length<2)
                 return null;
-            //declarations
             int[] segments=null;
             double dMRR=0;
             int n=0,bolVertical=0;
@@ -2351,16 +2264,11 @@ public final class arraysupport
             //Bearing line and others only have 2 points
             if(vblCounter>2)
                 pt2=new POINT2(pLinePoints[2]);
-            //strcpy(CurrentFunction,"GetLineArray2");
             pt0.style=0;
             pt1.style=0;
             pt2.style=0;
 
             //set jaggylength in clsDISMSupport before the points get bounded
-            //clsDISMSupport.JaggyLength = Math.Sqrt ( (pLinePoints[1].x-pLinePoints[0].x) * (pLinePoints[1].x-pLinePoints[0].x) +
-            //	(pLinePoints[1].y-pLinePoints[0].y) * (pLinePoints[1].y-pLinePoints[0].y) );
-            //double saveMaxPixels=CELineArrayGlobals.MaxPixels2;
-            //double saveMaxPixels=2000;
             ArrayList xPoints=null;
             pOriginalLinePoints = new POINT2[vblSaveCounter];
             for(j = 0;j<vblSaveCounter;j++)
@@ -2391,10 +2299,6 @@ public final class arraysupport
                     break;
                 case TacticalLines.BS_RECTANGLE:
                     lineutility.CalcMBRPoints(pLinePoints, pLinePoints.length, pt0, pt2);   //pt0=ul, pt1=lr
-                    //pt0=new POINT2(pLinePoints[0]);
-                    //pt2=new POINT2(pLinePoints[1]);
-                    //pt1=new POINT2(pt0);
-                    //pt1.y=pt2.y;
                     pt1=new POINT2(pt0);
                     pt1.x=pt2.x;
                     pt3=new POINT2(pt0);
@@ -2454,16 +2358,13 @@ public final class arraysupport
                 case TacticalLines.OVERHEAD_WIRE_LS:
                     for(j=0;j<vblSaveCounter;j++)
                     {
-                        //pLinePoints[j]=new POINT2(pOriginalLinePoints[j]);
                         pLinePoints[j].style=1;
                     }
-                    //pLinePoints[vblSaveCounter-1].style=5;
                     for(j=vblSaveCounter;j<2*vblSaveCounter;j++)
                     {
                         pLinePoints[j]=new POINT2(pOriginalLinePoints[j-vblSaveCounter]);
                         pLinePoints[j].style=20;
                     }
-                    //pLinePoints[2*vblSaveCounter-1].style=5;
                     acCounter=pLinePoints.length;
                     break;
                 case TacticalLines.BOUNDARY:
@@ -2487,14 +2388,12 @@ public final class arraysupport
                     acCounter=vblCounter;
                     break;
                 case TacticalLines.TRAINING_AREA:
-                    //diagnostic
                     dMBR=lineutility.MBRDistance(pLinePoints, vblSaveCounter);
                     d=20;
                     if(dMBR<60)
                         d=dMBR/4;
                     if(d<5)
                         d=5;
-                    //end section
                     for (j = 0; j < vblSaveCounter; j++)
                     {
                         pLinePoints[j].style = 1;
@@ -2511,7 +2410,6 @@ public final class arraysupport
                     pLinePoints[j-1].style = 5;
                     
                     //! inside the circle
-                    //diagnostic
                     if(dMBR<50)
                     {
                         //d was used as the circle radius
@@ -2519,7 +2417,6 @@ public final class arraysupport
                     }
                     else
                         d=12;
-                    //end section
                     
                     pt1 = new POINT2(pt0);
                     pt1.y -= d;//12;
@@ -2724,13 +2621,10 @@ public final class arraysupport
                 case TacticalLines.TROUGH:
                 case TacticalLines.INSTABILITY:
                 case TacticalLines.SHEAR:
-                //case TacticalLines.SQUALL:
-                    //CELineArrayGlobals.MaxPixels2=saveMaxPixels+100;
                     vblCounter=GetSquallDouble(pLinePoints,10,6,30,vblSaveCounter);
                     acCounter=vblCounter;
                     break;
                 case TacticalLines.SQUALL:
-                    //vblCounter = GetSquallDouble(pLinePoints, 10, 6, 30, vblSaveCounter);
                     vblCounter=GetSevereSquall(pLinePoints,vblSaveCounter);
                     acCounter=vblCounter;
                     break;
@@ -2940,7 +2834,6 @@ public final class arraysupport
                         }
                     }
 
-                    //M. Deutch 8-19-04
                     if (dMBR / 20 > maxLength) {
                         dMBR = 20 * maxLength;
                     }
@@ -2986,17 +2879,7 @@ public final class arraysupport
                     acCounter=29;
                     break;
                 case TacticalLines.ENCIRCLE:
-                    //pOriginalLinePoints=null;
-                    //pOriginalLinePoints = new POINT2[vblSaveCounter+2];
-                    //for(j = 0;j<vblSaveCounter;j++)
-                    //    pOriginalLinePoints[j] = new POINT2(pLinePoints[j]);
-                    //pOriginalLinePoints[vblSaveCounter] = new POINT2(pLinePoints[0]);
-                    //pOriginalLinePoints[vblSaveCounter+1] = new POINT2(pLinePoints[1]);
                     acCounter=GetZONEPointsDouble2(pLinePoints,lineType,vblSaveCounter);
-                    //for(j=0;j<vblSaveCounter+2;j++)
-                      //  pLinePoints[pointCounter+j]=new POINT2(pOriginalLinePoints[j]);
-                    //pointCounter += vblSaveCounter+1;
-                    //acCounter=pointCounter;
                     break;
                 case TacticalLines.BELT1:
                     pUpperLinePoints=new POINT2[vblSaveCounter];
@@ -3020,8 +2903,6 @@ public final class arraysupport
                     vblCounter=GetZONEPointsDouble2(pUpperLowerLinePoints,lineType,2*vblSaveCounter+1);
                     for(j=0;j<vblCounter;j++)
                         pLinePoints[j]=new POINT2(pUpperLowerLinePoints[j]);
-                    //pLinePoints[j]=pLinePoints[0];
-                    //vblCounter++;
                     acCounter=vblCounter;
                     break;
                 case TacticalLines.BELT:	//change 2
@@ -3036,9 +2917,6 @@ public final class arraysupport
                 case TacticalLines.LINE:  //7-9-07
                     acCounter = GetATWallPointsDouble2(pLinePoints, lineType, vblSaveCounter);
                     break;
-//                case TacticalLines.ATWALL3D:
-//                    acCounter = GetATWallPointsDouble3D(pLinePoints, lineType, vblSaveCounter);
-//                    break;
                 case TacticalLines.PLD:
                     for(j=0;j<vblCounter;j++)
                         pLinePoints[j].style=1;
@@ -3070,9 +2948,6 @@ public final class arraysupport
                 case TacticalLines.SAAFR:	//these have multiple segments
                 case TacticalLines.AC:
                     dMRR = dACP;
-//                    if (dMRR <= 0) {
-//                        dMRR = 14;
-//                    }
                     lineutility.InitializePOINT2Array(acPoints);
                     lineutility.InitializePOINT2Array(arcPts);
                     acCounter = 0;
@@ -3102,7 +2977,6 @@ public final class arraysupport
                         //draw the circle at the segment front end
                         arcPts[0] = new POINT2(pOriginalLinePoints[j]);
                         //diagnostic: use style member for dMBR
-                        //dMBR=pOriginalLinePoints[j].style;                        
                         dMBR=currentCircleSize;                        
                         lineutility.CalcCircleDouble(arcPts[0], dMBR, 26, arcPts, 0);//was dMRR
                         arcPts[25].style = 5;
@@ -3114,7 +2988,6 @@ public final class arraysupport
                         
                         //draw the circle at the segment back end
                         arcPts[0] = new POINT2(pOriginalLinePoints[j+1]);
-                        //dMBR=pOriginalLinePoints[j].style;                        
                         dMBR=currentCircleSize;                        
                         lineutility.CalcCircleDouble(arcPts[0], dMBR, 26, arcPts, 0);//was dMRR
                         arcPts[25].style = 5;
@@ -3124,7 +2997,6 @@ public final class arraysupport
                             acCounter++;
                         }
                     }
-                    //acPoints = null;
                     break;
                 case TacticalLines.MINED:
                 case TacticalLines.UXO:
@@ -3171,7 +3043,6 @@ public final class arraysupport
                         break;	
                     }
                     //reverse the points
-                    //lineutility.ReversePointsDouble2(ref pLinePoints, vblSaveCounter);
                     pt0 = new POINT2(pLinePoints[0]);
                     pt1 = new POINT2(pLinePoints[1]);
                     
@@ -3221,7 +3092,6 @@ public final class arraysupport
                     break;
                 case TacticalLines.HCONVOY:
                     //reverse the points
-                    //lineutility.ReversePointsDouble2(ref pLinePoints, vblSaveCounter);
                     pt0 = new POINT2(pLinePoints[0]);
                     pt1 = new POINT2(pLinePoints[1]);
 
@@ -3246,12 +3116,6 @@ public final class arraysupport
                     pt2 = lineutility.ExtendLineDouble(pt1, pt0, 50);
                     lineutility.GetArrowHead4Double(pt2, pt0, 20, 20, pArrowPoints, 0);
 
-//                    for (j = 0; j < 3; j++)
-//                    {
-//                        pLinePoints[j + 6] = new POINT2(pArrowPoints[j]);
-//                    }
-//                    pLinePoints[8].style = 0;
-//                    pLinePoints[9] = new POINT2(pArrowPoints[0]);
                     pLinePoints[6]=new POINT2(pArrowPoints[1]);
                     pLinePoints[7]=new POINT2(pArrowPoints[0]);
                     pLinePoints[8]=new POINT2(pArrowPoints[2]);
@@ -3391,7 +3255,6 @@ public final class arraysupport
                         pLinePoints[1]=lineutility.ExtendLineDouble(pLinePoints[0], pLinePoints[1], 21);//was 11
                     
                     pLinePoints[0]=lineutility.ExtendAlongLineDouble(pLinePoints[0], pLinePoints[1], 20);   //was 10
-                    //end section
                     //reverse the points
                     lineutility.ReversePointsDouble2(
                     pLinePoints,
@@ -3438,41 +3301,8 @@ public final class arraysupport
                         pLinePoints[j].style = 1;
                     }
 
-                    //CommandSight section
-                    //comment 2 lines for CS
                     pt0 = lineutility.MidPointDouble(pLinePoints[0], pLinePoints[1], 0);
                     pt1 = lineutility.MidPointDouble(pLinePoints[2], pLinePoints[3], 0);
-                    //uncomment 3 line for CS
-                    //pt0=new POINT2(pt2);
-                    //d=lineutility.CalcDistanceDouble(pt4, pt2);
-                    //pt1=lineutility.ExtendAlongLineDouble(pLinePoints[0], pLinePoints[1], d);
-                    //end section
-                    
-//                    pts = new POINT2[2];
-//                    pts[0] = new POINT2(pt0);
-//                    pts[1] = new POINT2(pt1);
-//                    pointCounter = lineutility.BoundPointsCount(pts, 2);
-//                    segments = new int[pointCounter];
-//                    pts = new POINT2[pointCounter];
-//                    lineutility.InitializePOINT2Array(pts);
-//                    pts[0] = new POINT2(pt0);
-//                    pts[1] = new POINT2(pt1);
-//                    lineutility.BoundPoints(pts, 2, segments);
-//                    for (j = 0; j < pointCounter - 1; j++) {
-//                        if (segments[j] == 1) {
-//                            pt0 = new POINT2(pts[j]);
-//                            pt1 = new POINT2(pts[j + 1]);
-//                            break;
-//                        }
-//                    }
-
-//                    for (j = 3; j < vblCounter; j++) {
-//                        pLinePoints[j] = new POINT2(pLinePoints[3]);
-//                        pLinePoints[j].style = 5;
-//                    }
-//                    pLinePoints[1].style = 5;
-//
-                    //added section 10-27-20
                     POINT2[]savepoints=null;
                     Boolean drawJaggies=true;
                     if(clipBounds != null)
@@ -3501,7 +3331,6 @@ public final class arraysupport
 
                         pLinePoints[2] = new POINT2(pt5);//was pt3
                         pLinePoints[3] = new POINT2(pt4);//was pt2
-                        //end section
                     }
                     else
                     {
@@ -3533,11 +3362,9 @@ public final class arraysupport
                     pLinePoints[pointCounter] = new POINT2(pt0);
                     pLinePoints[pointCounter].style = 0;
                     pointCounter++;
-                    //while (dExtendLength < dWidth - 20)
                     if(drawJaggies)
                     while (dExtendLength < dWidth - 10)
                     {
-                        //dExtendLength = (double) n * 10;
                         dExtendLength = (double) n * 5;
                         pLinePoints[pointCounter] = lineutility.ExtendLine2Double(pt2, pt3, dExtendLength - dWidth, 0);
                         pointCounter++;
@@ -3572,14 +3399,8 @@ public final class arraysupport
                         pLinePoints,
                         vblSaveCounter,
                         0,lineType);
-                    //pLinePoints[vblCounter-1].style = 20;
                     break;
                 case TacticalLines.DIRATKGND:                    
-                    //reverse the points
-                    //lineutility.ReversePointsDouble2(
-                    //pLinePoints,
-                    //vblSaveCounter);
-
                     //was 20
                     if (dMBR / 30 > maxLength) {
                         dMBR = 30 * maxLength;
@@ -3587,20 +3408,16 @@ public final class arraysupport
                     if (dMBR / 30 < minLength) {
                         dMBR = 30 * minLength;
                     }
-                    //if(dMBR<250)
-                      //  dMBR = 250;
                     if(dMBR<500)
                         dMBR = 500;
                     if(dMBR>750)
                         dMBR = 500;
 
-                    //diagnostic move the line to make room for the feint
                     d=lineutility.CalcDistanceDouble(pLinePoints[0], pLinePoints[1]);
                     if(d<dMBR/40)
                         pLinePoints[1]=lineutility.ExtendLineDouble(pLinePoints[0], pLinePoints[1], dMBR/40+1);
                     
                     pLinePoints[0]=lineutility.ExtendAlongLineDouble(pLinePoints[0], pLinePoints[1],dMBR/40);
-                    //end section
                     
                     //reverse the points
                     lineutility.ReversePointsDouble2(
@@ -3660,7 +3477,6 @@ public final class arraysupport
                     for(k=0; k < 3; k++) {
                         pLinePoints[vblCounter - 3 + k] = new POINT2(pArrowPoints[k]);
                     }
-                    //pLinePoints[1].style=5;
                     pLinePoints[vblSaveCounter - 1].style = 5;
                     acCounter=vblCounter;
                     break;
@@ -3691,13 +3507,10 @@ public final class arraysupport
                     for(k=0; k < 3; k++) {
                         pLinePoints[vblCounter - 3 + k] = new POINT2(pArrowPoints[k]);
                     }
-                    //pLinePoints[1].style=5;
                     pLinePoints[vblSaveCounter - 1].style = 5;
                     acCounter=vblCounter;
                     break;
                 case TacticalLines.DIRATKAIR:
-                    //added section for click-drag mode
-                    //reverse the points
                     lineutility.ReversePointsDouble2(
                     pLinePoints,
                     vblSaveCounter);
@@ -3813,12 +3626,10 @@ public final class arraysupport
                     FillPoints(pLinePoints,vblCounter,points);
                     break;
                 case TacticalLines.PDF:
-                    //reverse pt0 and pt1   8-1-08
                     pt0 = new POINT2(pLinePoints[1]);
                     pt1 = new POINT2(pLinePoints[0]);
                     pLinePoints[0] = new POINT2(pt0);
                     pLinePoints[1] = new POINT2(pt1);
-                    //end section
                     pts2 = new POINT2[3];
                     pts2[0] = new POINT2(pt0);
                     pts2[1] = new POINT2(pt1);
@@ -3989,19 +3800,6 @@ public final class arraysupport
                     pLinePoints[vblCounter - 2].style = 0;
                     pLinePoints[vblCounter - 1] = new POINT2(pLinePoints[0]);
 
-                    //put the abatis feature on the front
-//                    ArrayList<POINT2>abatisPts=new ArrayList();
-//                    for(j=3;j<vblCounter;j++)
-//                        abatisPts.add(new POINT2(pLinePoints[j-3]));
-//
-//                    abatisPts.add(0,new POINT2(pLinePoints[vblCounter-3]));
-//                    abatisPts.add(1,new POINT2(pLinePoints[vblCounter-2]));
-//                    abatisPts.add(2,new POINT2(pLinePoints[vblCounter-1]));
-//
-//                    for(j=0;j<abatisPts.size();j++)
-//                        pLinePoints[j]=new POINT2(abatisPts.get(j));
-                    //end section
-
                     FillPoints(pLinePoints,vblCounter,points);
                     acCounter=vblCounter;
                     break;
@@ -4026,11 +3824,7 @@ public final class arraysupport
                     if(bolVertical!=0 && m.value[0] != 0) //not vertical or horizontal
                     {
                         b = midpt.y + (1 / m.value[0]) * midpt.x;	//normal y intercept at x=0
-                        //we want to get the y intercept at x=offsetX
-                        //b1 = (-1 / m.value[0]) * offsetX.value[0] + b;
-                        //ptYIntercept.x = offsetX.value[0];
                         ptYIntercept.x=0;
-                        //ptYIntercept.y = b1;
                         ptYIntercept.y = b;
                         pt2 = lineutility.ExtendLineDouble(ptYIntercept, midpt, dRadius);
                         if (pLinePoints[0].x <= pLinePoints[1].x) {
@@ -4181,10 +3975,6 @@ public final class arraysupport
 
                     midpt = lineutility.MidPointDouble(pt0, pt1, 0);
                     d = lineutility.CalcDistanceDouble(pt1, calcPoint0);
-
-                    //diagnostic for CS
-                    //pLinePoints[33] = lineutility.ExtendTrueLinePerpDouble(pt0, pt1, midpt, d, 0);
-                    //pLinePoints[34] = lineutility.ExtendTrueLinePerpDouble(pt0, pt1, midpt, -d, 5);
                     
                     pLinePoints[33]=pt2;
                     pt3=lineutility.PointRelativeToLine(pt0, pt1, pt0, pt2);
@@ -4192,7 +3982,6 @@ public final class arraysupport
                     pt4=lineutility.ExtendAlongLineDouble(pt0, pt1, d);
                     d=lineutility.CalcDistanceDouble(pt2, pt4);
                     pLinePoints[34]=lineutility.ExtendLineDouble(pt2, pt4, d);
-                    //end section
 
                     acCounter=35;
                     break;
@@ -4287,21 +4076,6 @@ public final class arraysupport
                         GetLineArray2Double(lineType, pLinePoints,5,2,shapes,clipBounds,rev);
                         break;	
                     }
-//                    else if(folspDist<d2)//was 25
-//                    {								
-//                        lineType=TacticalLines.FOLLA;
-//                        GetLineArray2Double(lineType, pLinePoints,16,2,shapes,clipBounds,rev);
-//                        for(k=0;k<pLinePoints.length;k++)
-//                                if(pLinePoints[k].style==18)
-//                                        pLinePoints[k].style=0;
-//
-//                        //lineType=TacticalLines.FOLSP;
-//                        //acCounter=16;
-//                        break;	
-//                    }
-                    //end section
-                                                            
-                    //reverse the points
                     lineutility.ReversePointsDouble2(
                     pLinePoints,
                     vblSaveCounter);
@@ -4331,7 +4105,6 @@ public final class arraysupport
                         dMBR*=1.5;                          
                     }
                     //make tail larger 6-10-11 m. Deutch
-                    //pLinePoints[0] = lineutility.ExtendLineDouble(pLinePoints[1], pLinePoints[0], -dMBR / 10);
                     pLinePoints[0] = lineutility.ExtendLineDouble(pLinePoints[1], pLinePoints[0], -dMBR / 8.75);
 
                     pLinePoints[vblCounter - 15].style = 5;
@@ -4349,7 +4122,6 @@ public final class arraysupport
 
 
                     //make tail larger 6-10-11 m. Deutch
-                    //pt3 = lineutility.ExtendLineDouble(pLinePoints[1], pLinePoints[0], dMBR / 20);
                     pt3 = lineutility.ExtendLineDouble(pLinePoints[1], pLinePoints[0], dMBR / 15);
 
 
@@ -4416,12 +4188,6 @@ public final class arraysupport
                 case TacticalLines.FORTL:
                     acCounter=GetFORTLPointsDouble(pLinePoints,lineType,vblSaveCounter);
                     break;
-//                case TacticalLines.HOLD:
-//                case TacticalLines.BRDGHD:
-//                    lineutility.ReorderPoints(pLinePoints);
-//                    acCounter=pLinePoints.length;
-//                    FillPoints(pLinePoints,acCounter,points);
-//                    break;
                 case TacticalLines.CANALIZE:
                     acCounter = DISMSupport.GetDISMCanalizeDouble(pLinePoints,lineType);
                     break;
@@ -4537,8 +4303,6 @@ public final class arraysupport
                 case TacticalLines.WITHDRAW:
                 case TacticalLines.WDRAWUP:
                 case TacticalLines.RETIRE:
-                    //reverse the points
-                    //lineutility.ReversePointsDouble2(ref pLinePoints, vblSaveCounter);
                     acCounter=DISMSupport.GetDelayGraphicEtcDouble(pLinePoints);
                     break;
                 case TacticalLines.EASY:
@@ -4566,27 +4330,19 @@ public final class arraysupport
                     acCounter=vblSaveCounter;
                     break;
             }
-            //diagnostic
-            //lineutility.WriteFile(Double.toString(pLinePoints[0].x)+" to "+Double.toString(pLinePoints[1].x));
-            //end diagnostic
-            //Fill points
-            //and/or return points if shapes is null
             switch(lineType)
             {
                 case TacticalLines.BOUNDARY:
                     FillPoints(pLinePoints,acCounter,points);
-                    //break;
                     return points;
                 case TacticalLines.CONTAIN:
                 case TacticalLines.BLOCK:
-                //case TacticalLines.DMAF:  //points are already filled for DMAF
                 case TacticalLines.COVER:
                 case TacticalLines.SCREEN:  //note: screen, cover, guard are getting their modifiers before the call to getlinearray
                 case TacticalLines.GUARD:
                 case TacticalLines.COVER_REVC:
                 case TacticalLines.SCREEN_REVC:
                 case TacticalLines.GUARD_REVC:
-                //case TacticalLines.DUMMY: //commented 5-3-10
                 case TacticalLines.PAA_RECTANGULAR:
                 case TacticalLines.FOLSP:
                 case TacticalLines.FOLLA:
@@ -4640,18 +4396,6 @@ public final class arraysupport
             {
                 case TacticalLines.BBS_AREA:
                 case TacticalLines.BBS_RECTANGLE:
-//                    for(j=0;j<vblSaveCounter-1;j++)
-//                    {
-//                        shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-//                        shape.moveTo(pOriginalLinePoints[j]);
-//                        shape.lineTo(pLinePoints[j]);
-//                        shape.lineTo(pLinePoints[j+1]);
-//                        shape.lineTo(pOriginalLinePoints[j+1]);
-//                        shape.lineTo(pOriginalLinePoints[j]);
-//                        shapes.add(shape);
-//                    }
-//                    
-//                    //shapes.add(shape);
                     shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
                     shape.moveTo(pLinePoints[0]);
                     for(j=0;j<vblSaveCounter;j++)
@@ -4673,11 +4417,9 @@ public final class arraysupport
                     
                     //the line shape
                     shape =new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
-                    //shape.moveTo(pLinePoints[0].x,pLinePoints[0].y);
                     shape.moveTo(pLinePoints[0]);
                     for(j=0;j<acCounter-10;j++)
                     {
-                        //shape.lineTo(pLinePoints[j].x,pLinePoints[j].y);
                         shape.lineTo(pLinePoints[j]);
                     }
                         
@@ -4685,83 +4427,23 @@ public final class arraysupport
                     
                     //the arrow shape
                     shape =new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
-                    //shape.moveTo(pLinePoints[acCounter-10].x,pLinePoints[acCounter-10].y);
                     shape.moveTo(pLinePoints[acCounter-10]);
                     
                     for(j=9;j>0;j--)
                     {                        
                         if(pLinePoints[acCounter-j-1].style == 5)
                         {
-                            //shape.moveTo(pLinePoints[acCounter-j].x,pLinePoints[acCounter-j].y);
                             shape.moveTo(pLinePoints[acCounter-j]);
                         }
                         else
                         {
-                            //shape.lineTo(pLinePoints[acCounter-j].x,pLinePoints[acCounter-j].y);
                             shape.lineTo(pLinePoints[acCounter-j]);
                         }
                     }
-                    //shape.lineTo(pLinePoints[acCounter-1].x,pLinePoints[acCounter-1].y);
                         
                     shapes.add(shape);                    
                     break;
-//                case TacticalLines.BBS_LINE:
-//                    Shape2 outerShape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);//line color
-//                    Shape2 innerShape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);//fill color
-//                    BasicStroke wideStroke=new BasicStroke(pLinePoints[0].style);
-//                    BasicStroke thinStroke=new BasicStroke(pLinePoints[0].style-1);
-//                    for(k=0;k<vblSaveCounter;k++)
-//                    {
-//                        if(k==0)
-//                        {
-//                            outerShape.moveTo(pLinePoints[k]);
-//                            innerShape.moveTo(pLinePoints[k]);
-//                        }
-//                        else
-//                        {
-//                            outerShape.lineTo(pLinePoints[k]);
-//                            innerShape.lineTo(pLinePoints[k]);
-//                        }
-//                    }
-//                    outerShape.setStroke(wideStroke);
-//                    innerShape.setStroke(thinStroke);
-//                    shapes.add(outerShape);
-//                    shapes.add(innerShape);
-//                    break;
                 case TacticalLines.DEPTH_AREA:
-//                    paleBlueShape=new Shape2(Shape2.SHAPE_TYPE_FILL);//use for symbol
-//                    paleBlueShape.setFillColor(new Color(153,204,255));
-//                    paleBlueStroke=new BasicStroke(28);
-//                    blueShape=new Shape2(Shape2.SHAPE_TYPE_FILL);//use for symbol
-//                    blueShape.setFillColor(new Color(30,144,255));
-//                    blueStroke=new BasicStroke(14);
-//                    whiteShape=new Shape2(Shape2.SHAPE_TYPE_FILL);//use for symbol
-//                    whiteShape.setFillColor(Color.WHITE);
-//                    poly=new Polygon();
-//
-//                    for(k=0;k<vblSaveCounter;k++)
-//                    {
-//                        poly.addPoint((int)pLinePoints[k].x, (int)pLinePoints[k].y);
-//                        if(k==0)
-//                            whiteShape.moveTo(pLinePoints[k]);
-//                        else
-//                            whiteShape.lineTo(pLinePoints[k]);
-//                    }
-//
-//                    whiteArea=new Area(poly);
-//
-//                    blueArea=new Area(blueStroke.createStrokedShape(poly));
-//                    blueArea.intersect(whiteArea);
-//                    blueShape.setShape(lineutility.createStrokedShape(blueArea));
-//                    
-//                    paleBlueArea=new Area(paleBlueStroke.createStrokedShape(poly));
-//                    paleBlueArea.intersect(whiteArea);
-//                    paleBlueShape.setShape(lineutility.createStrokedShape(paleBlueArea));
-//
-//                    shapes.add(whiteShape);
-//                    shapes.add(paleBlueShape);
-//                    shapes.add(blueShape);
-//                    break;
                     whiteShape=new Shape2(Shape2.SHAPE_TYPE_FILL);//use for symbol
                     whiteShape.setFillColor(Color.WHITE);
                     BasicStroke whiteStroke=new BasicStroke(28);
@@ -4807,7 +4489,6 @@ public final class arraysupport
                     for(k=1;k<vblSaveCounter;k++)
                         redShape.lineTo(pLinePoints[k]);
                         
-                    //blueShape.moveTo(pLinePoints[vblSaveCounter]);
                     beginLine=true;
                     for(k=vblSaveCounter;k<acCounter;k++)
                     {
@@ -4856,10 +4537,6 @@ public final class arraysupport
                     redShape.setLineColor(Color.RED);
                     blueShape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
                     blueShape.setLineColor(Color.BLUE);
-                    //blueFillShape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //blueFillShape.setFillColor(Color.BLUE);
-                    //redFillShape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //redFillShape.setFillColor(Color.RED);
                     //flots and spikes (triangles)
                     for (k = 0; k < acCounter-1; k++)
                     {
@@ -4868,11 +4545,9 @@ public final class arraysupport
                             redFillShape=new Shape2(Shape2.SHAPE_TYPE_FILL);    //1-3-12
                             redFillShape.setFillColor(Color.RED);
                             redFillShape.moveTo(pLinePoints[k-9]);
-                            //blackShape.moveTo(pLinePoints[k-9]);
                             for(int l=k-8;l<=k;l++)
                             {
                                 redFillShape.lineTo(pLinePoints[l]);
-                                //blackShape.lineTo(pLinePoints[l]);
                             }
                             shapes.add(redFillShape);   //1-3-12
                         }
@@ -4950,9 +4625,6 @@ public final class arraysupport
                             blueShape.lineTo(pLinePoints[k+1]);
                         }
                     }
-                    //add the shapes
-                    //shapes.add(redFillShape); //1-3-12
-                    //shapes.add(blueFillShape);
                     shapes.add(redShape);
                     shapes.add(blueShape);
                     break;
@@ -4961,11 +4633,6 @@ public final class arraysupport
                     redShape.setLineColor(Color.RED);
                     blueShape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
                     blueShape.setLineColor(Color.BLUE);
-                    //blueFillShape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //blueFillShape.setFillColor(Color.BLUE);
-                    //redFillShape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //redFillShape.setFillColor(Color.RED);
-                    //color=0;
                     for (k = 0; k < acCounter-1; k++)
                     {
                         if(pLinePoints[k].style==23)    //red flots
@@ -5039,9 +4706,6 @@ public final class arraysupport
                             redShape.lineTo(pt0);
                         }
                     }
-                    //add the shapes
-                    //shapes.add(redFillShape); //1-3-12
-                    //shapes.add(blueFillShape);
                     shapes.add(redShape);
                     //the dots
                     for (k = 0; k < acCounter; k++)
@@ -5114,11 +4778,6 @@ public final class arraysupport
                     redShape.setLineColor(Color.RED);
                     blueShape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
                     blueShape.setLineColor(Color.BLUE);
-                    //blueFillShape=new Shape2(Shape2.SHAPE_TYPE_FILL); //12-30-11
-                    //blueFillShape.setFillColor(Color.BLUE);
-                    //redFillShape=new Shape2(Shape2.SHAPE_TYPE_FILL);
-                    //redFillShape.setFillColor(Color.RED);
-                    //color=0;
                     for (k = 0; k < acCounter-1; k++)
                     {
                         if(pLinePoints[k].style==23)
@@ -5155,8 +4814,6 @@ public final class arraysupport
                     for(k=1;k<vblSaveCounter;k++)                    
                         blackShape.lineTo(pOriginalLinePoints[k]);
                     
-                    //shapes.add(redFillShape); //12-30-11
-                    //shapes.add(blueFillShape);
                     shapes.add(redShape);
                     shapes.add(blueShape);
                     shapes.add(blackShape);
@@ -5194,7 +4851,6 @@ public final class arraysupport
 
                     shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
                     shape.set_Style(0); //dashed line
-                    //shape.moveTo(pLinePoints[2]);
                     for(j=2;j<vblCounter;j++)
                     {
                         if(pLinePoints[j-1].style != 5)
@@ -5217,21 +4873,16 @@ public final class arraysupport
                         }
                     }
                     shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
-                    //shape.moveTo(pLinePoints[0].x,pLinePoints[0].y);
                     for (k = 0; k < acCounter-1; k++)
                     {
                         if(pLinePoints[k].style==0 && pLinePoints[k+1].style==0)
                         {
-                            //shape.moveTo(pLinePoints[k].x,pLinePoints[k].y);
                             shape.moveTo(pLinePoints[k]);
-                            //shape.lineTo(pLinePoints[k+1].x,pLinePoints[k+1].y);
                             shape.lineTo(pLinePoints[k+1]);
                         }
                         if(pLinePoints[k].style==0 && pLinePoints[k+1].style==9)
                         {
-                            //shape.moveTo(pLinePoints[k].x,pLinePoints[k].y);
                             shape.moveTo(pLinePoints[k]);
-                            //shape.lineTo(pLinePoints[k+1].x,pLinePoints[k+1].y);
                             shape.lineTo(pLinePoints[k+1]);
                         }
 
@@ -5239,17 +4890,13 @@ public final class arraysupport
                         {
                             d=lineutility.CalcDistanceDouble(pLinePoints[k], pLinePoints[k+1]);
                             pt0=lineutility.ExtendAlongLineDouble(pLinePoints[k], pLinePoints[k+1], d-5);
-                            //shape.moveTo(pLinePoints[k].x,pLinePoints[k].y);
                             shape.moveTo(pLinePoints[k]);
-                            //shape.lineTo(pt0.x,pt0.y);
                             shape.lineTo(pt0);
                         }
 
                         if(pLinePoints[k].style==0 && k==acCounter-2)
                         {
-                            //shape.moveTo(pLinePoints[k].x,pLinePoints[k].y);
                             shape.moveTo(pLinePoints[k]);
-                            //shape.lineTo(pLinePoints[k+1].x,pLinePoints[k+1].y);
                             shape.lineTo(pLinePoints[k+1]);
                         }
                     }
@@ -5335,43 +4982,6 @@ public final class arraysupport
                                 shapes.add(shape);
                             }
                         }
-                        //use shapes instead of pixels
-//                        if(shape==null)
-//                            shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
-//
-//                        if(beginLine)
-//                        {
-//                            if(k==0)
-//                                shape.set_Style(pLinePoints[k].style);
-//
-//                            shape.moveTo(pLinePoints[k]);
-//                            beginLine=false;
-//                        }
-//                        else
-//                        {
-//                            //diagnostic 1-8-13
-//                            if(k<acCounter-1)
-//                            {
-//                                if(pLinePoints[k].style==5)
-//                                {
-//                                    shape.moveTo(pLinePoints[k]);
-//                                    continue;
-//                                }                                
-//                            }
-//                            //end section
-//                            shape.lineTo(pLinePoints[k]);
-//                            //diagnostic 1-8-13
-//                            //if(pLinePoints[k].style==5 || pLinePoints[k].style==10)
-//                            if(pLinePoints[k].style==10)
-//                            {
-//                                beginLine=true;
-//                            }
-//                        }
-//                        if(pLinePoints[k+1].style==20)
-//                        {
-//                            if(shape !=null && shape.getShape() != null)
-//                                shapes.add(shape);
-//                        }
                         if(k<acCounter-2)
                         {
                             if(pLinePoints[k].style==5 && pLinePoints[k+1].style==0)
@@ -5470,15 +5080,6 @@ public final class arraysupport
                         shapes.add(shape);
                     break;
                 case TacticalLines.DUMMY: //commented 5-3-10
-                    //first shape is the original points
-//                    shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
-//                    shape.set_Style(1);
-//                    shape.moveTo(pLinePoints[acCounter-1]);
-//                    shape.lineTo(pLinePoints[acCounter-2]);
-//                    shape.lineTo(pLinePoints[acCounter-3]);
-//                    if(shape !=null && shape.getShape() != null)
-//                        shapes.add(shape);
-                    //first shape is the original points
                     shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
                     beginLine=true;
                     for (k = 0; k < acCounter-3; k++)
@@ -5543,12 +5144,6 @@ public final class arraysupport
                     if(shape !=null && shape.getShape() != null)
                         shapes.add(shape);
 
-                    //add a shape to outline the center feature in case fill is opaque
-                    //and the same color so that the fill obscures the feature
-//                    gp=shape.getShape();
-//                    shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
-//                    shape.setShape(gp);
-//                    shapes.add(1,shape);
                     break;
                 case TacticalLines.FORDIF:
                     shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
@@ -5589,13 +5184,6 @@ public final class arraysupport
                     shape.lineTo(points.get(vblCounter-1));
                     if(shape !=null && shape.getShape() != null)
                         shapes.add(shape);
-
-                    //add a shape to outline the center feature in case fill is opaque
-                    //and the same color so that the fill obscures the feature
-//                    gp=shape.getShape();
-//                    shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
-//                    shape.setShape(gp);
-//                    shapes.add(1,shape);
 
                     //last shape are the xpoints
                     shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
@@ -5644,14 +5232,6 @@ public final class arraysupport
                     shape.moveTo(pLinePoints[acCounter-2]);
                     shape.lineTo(pLinePoints[acCounter-1]);
                     shapes.add(shape);
-
-                    //we need an extra shape to outline the center feature
-                    //in case there is opaque fill that obliterates it
-//                    gp=shape.getShape();
-//                    shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
-//                    shape.setShape(gp);
-//                    shapes.add(1,shape);
-
                     break;
                 case TacticalLines.MIN_POINTS:
                     shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
@@ -5670,8 +5250,6 @@ public final class arraysupport
 
                         if(beginLine)
                         {
-                            //if(pLinePoints[k].style==5)
-                              //  continue;
 
                             if(k==0)
                                 shape.set_Style(pLinePoints[k].style);
@@ -5718,13 +5296,11 @@ public final class arraysupport
                     for(j=1;j<pUpperLinePoints.length;j++)
                     {
                         shape.lineTo(pUpperLinePoints[j]);
-                        //lineutility.SegmentLineShape(pUpperLinePoints[j], pUpperLinePoints[j+1], shape);
                     }
                     shape.lineTo(pLowerLinePoints[pLowerLinePoints.length-1]);
                     for(j=pLowerLinePoints.length-1;j>=0;j--)
                     {
                         shape.lineTo(pLowerLinePoints[j]);
-                        //lineutility.SegmentLineShape(pLowerLinePoints[j], pLowerLinePoints[j-1], shape);
                     }
                     shape.lineTo(pUpperLinePoints[0]);
                     shapes.add(0,shape);
@@ -5739,7 +5315,6 @@ public final class arraysupport
                     {
                         if(pLinePoints[k].style==10)
                         {
-                            //shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
                             shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
                             shape.moveTo(pLinePoints[k-2]);
                             shape.lineTo(pLinePoints[k]);
@@ -5751,16 +5326,6 @@ public final class arraysupport
                             ptOutline[outLineCounter++]=pLinePoints[k];
                         }
                     }//end for
-                    //build a shape from the to use as outline for the feature
-                    //if fill alpha is high
-//                    shape=new Shape2(Shape2.SHAPE_TYPE_POLYLINE);
-//                    shape.moveTo(ptOutline[0]);
-//                    shape.lineTo(ptOutline[1]);
-//                    shape.lineTo(ptOutline[3]);
-//                    shape.lineTo(ptOutline[2]);
-//                    shape.lineTo(ptOutline[0]);
-//                    if(shape !=null && shape.getShape() != null)
-//                        shapes.add(0,shape);
                     break;
                 case TacticalLines.OFY:
                 case TacticalLines.OCCLUDED:
@@ -5770,9 +5335,6 @@ public final class arraysupport
                 case TacticalLines.CF:
                 case TacticalLines.CFY:
                 case TacticalLines.CFG:
-                //case TacticalLines.SF:
-                //case TacticalLines.SFY:
-                //case TacticalLines.SFG:
                 case TacticalLines.SARA:
                 case TacticalLines.FERRY:
                 case TacticalLines.EASY:
@@ -5794,8 +5356,6 @@ public final class arraysupport
                                 shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
                                 shape.set_Style(pLinePoints[k].style);
                                 shape.moveTo(pLinePoints[k]);   
-                                //need to capture the initial fill point
-                                //initialFillPt=new POINT2(pLinePoints[k]);
                             }
                         }
                         else    //k>0
@@ -5805,8 +5365,6 @@ public final class arraysupport
                                 shape=new Shape2(Shape2.SHAPE_TYPE_FILL);
                                 shape.set_Style(pLinePoints[k].style);
                                 shape.moveTo(pLinePoints[k]);                                
-                                //need to capture the initial fill point
-                                //initialFillPt=new POINT2(pLinePoints[k]);
                             }
                             if(pLinePoints[k].style==9 && pLinePoints[k-1].style==9)  //9,9,...,9,10
                             {
@@ -5816,17 +5374,9 @@ public final class arraysupport
                         if(pLinePoints[k].style==10)
                         {
                             shape.lineTo(pLinePoints[k]);                            
-                            //if(lineType==TacticalLines.SARA)
-                              //  shape.lineTo(pLinePoints[k-2]);
                             if(shape !=null && shape.getShape() != null)
-                            {
-                                //must line to the initial fill point to close the shape
-                                //this is a requirement for the java linear ring (map3D java client)
-                                //if(initialFillPt != null)
-                                    //shape.lineTo(initialFillPt);
-                                
+                            {                                
                                 shapes.add(0,shape);
-                                //initialFillPt=null;
                             }
                         }
                     }//end for
@@ -5834,21 +5384,6 @@ public final class arraysupport
                 default:
                     break;
             }
-
-
-            //CELineArray.add_Shapes(shapes);
-
-            //clean up
-            pArrowPoints=null;
-            arcPts=null;
-            circlePoints=null;
-            pOriginalLinePoints=null;
-            pts2=null;
-            pts=null;
-            segments=null;
-            pUpperLinePoints=null;
-            pLowerLinePoints=null;
-            pUpperLowerLinePoints=null;
         }
         catch(Exception exc)
         {
