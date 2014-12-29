@@ -522,72 +522,6 @@ public final class Channels {
         }
         return pResultLinePoints;
     }
-//    private static POINT2[] CoordILDouble(long nPrinter,
-//            POINT2[] pLinePoints,
-//            int nUpperLower,
-//            int vblCounter,
-//            int linetype) {
-//
-//        POINT2[] pLinePoints2 = new POINT2[vblCounter];
-//        try {
-//            //declarations
-//            int j, channelWidth = 20;
-//            POINT2[] pNewLinePoints = new POINT2[vblCounter];
-//            CChannelPoints2[] pChannelPoints = new CChannelPoints2[vblCounter];
-//            //end declarations
-//
-//            lineutility.InitializePOINT2Array(pLinePoints2);
-//            for (j = 0; j < vblCounter; j++) {
-//                pNewLinePoints[j] = new POINT2(pLinePoints[j]);
-//            }
-//            switch (linetype) {
-//                case TacticalLines.TRIPLE:
-//                case TacticalLines.DOUBLEC:
-//                case TacticalLines.SINGLEC:
-//                case TacticalLines.HWFENCE:
-//                case TacticalLines.LWFENCE:
-//                case TacticalLines.DOUBLEA:
-//                case TacticalLines.UNSP:
-//                case TacticalLines.DFENCE:
-//                case TacticalLines.SFENCE:
-//                case TacticalLines.BELT:
-//                    channelWidth = 10;
-//                    break;
-//                default:
-//                    channelWidth = 20;
-//                    break;
-//            }
-//
-//            pChannelPoints = GetChannel2Double(channelWidth * nPrinter,
-//                    vblCounter, pNewLinePoints, pChannelPoints);
-//
-//
-//            if (nUpperLower == 1) {
-//                pNewLinePoints = GetUpperChannelLineDouble(pChannelPoints, vblCounter, pNewLinePoints);
-//
-//                for (j = 0; j < vblCounter; j++) {
-//                    pLinePoints2[j] = new POINT2(pNewLinePoints[j]);
-//                }
-//            }
-//
-//            if (nUpperLower == 0) {
-//                pNewLinePoints = GetLowerChannelLineDouble(pChannelPoints, vblCounter, pNewLinePoints);
-//
-//                for (j = 0; j < vblCounter; j++) {
-//                    pLinePoints2[j] = new POINT2(pNewLinePoints[j]);
-//                }
-//            }
-//
-//
-//            //clean up
-//            pNewLinePoints = null;
-//            pChannelPoints = null;
-//            //return pLinePoints;
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return pLinePoints2;
-//    }
     private static int FenceType(int linetype) {
         int bolResult = 0;
         try {
@@ -874,7 +808,6 @@ public final class Channels {
             ErrorLogger.LogException(_className ,"GetAAFNTDouble",
                     new RendererException("Failed inside GetAAFNTDouble", exc));
         }
-        return;
     }
     /**
      * gets the AXAD arrowhead
@@ -1018,7 +951,6 @@ public final class Channels {
             ErrorLogger.LogException(_className ,"GetAXADDouble",
                     new RendererException("Failed inside GetAXADDouble " + Integer.toString(vbiDrawThis), exc));
         }
-        return;
     }
     /**
      * Calculates a channel line and is called once each time for lower and upper channel lines.
@@ -1317,7 +1249,6 @@ public final class Channels {
         return pAnswerLinePoints;
     }
     /**
-     * @deprecated 
      * Shift CounterAttack By Fire to not extend past the first point
      * @param vbiDrawThis
      * @param lpsaUpperVBPoints
@@ -1325,48 +1256,46 @@ public final class Channels {
      * @param lpsaLowerVBPoints
      * @param vblUpperCounter 
      */
-    private static void shiftCATKBYFIREPoints(int vbiDrawThis,
-            double[] lpsaUpperVBPoints,
-            int vblLowerCounter,
-            double[] lpsaLowerVBPoints,
-            int vblUpperCounter)
-    {
-        try
-        {
-            if(vbiDrawThis != TacticalLines.CATKBYFIRE)
-                return;
-
-            POINT2 nextToLastPoint=new POINT2(lpsaUpperVBPoints[vblUpperCounter-4],lpsaUpperVBPoints[vblUpperCounter-3]);
-            POINT2 lastPoint=new POINT2(lpsaUpperVBPoints[vblUpperCounter-2],lpsaUpperVBPoints[vblUpperCounter-1]);
-            double dist=lineutility.CalcDistanceDouble(lastPoint, nextToLastPoint);
-            
-            if(dist<45)
-            {
-                nextToLastPoint=lineutility.ExtendAlongLineDouble(lastPoint,nextToLastPoint,45+2*dist);
-                lastPoint=lineutility.ExtendLineDouble(nextToLastPoint,lastPoint, -45);
-                lpsaUpperVBPoints[vblUpperCounter-4]=nextToLastPoint.x;
-                lpsaUpperVBPoints[vblUpperCounter-3]=nextToLastPoint.y;
-                lpsaLowerVBPoints[vblLowerCounter-4]=nextToLastPoint.x;
-                lpsaLowerVBPoints[vblLowerCounter-3]=nextToLastPoint.y;                                    
-            }
-            //lastPoint=lineutility.ExtendAlongLineDouble(lastPoint, nextToLastPoint, 45);
-            else
-                lastPoint=lineutility.ExtendLineDouble(nextToLastPoint,lastPoint, -45);
-            
-            lpsaUpperVBPoints[vblUpperCounter-2]=lastPoint.x;
-            lpsaUpperVBPoints[vblUpperCounter-1]=lastPoint.y;
-            lpsaLowerVBPoints[vblLowerCounter-2]=lastPoint.x;
-            lpsaLowerVBPoints[vblLowerCounter-1]=lastPoint.y;                                    
-        }
-        catch(Exception exc)
-        {
-            ErrorLogger.LogException(_className ,"ShiftCATKBYFIREPoints",
-                    new RendererException("Failed inside ShiftCATKBYFIREPoints", exc));
-        }
-        return;
-    }
+//    private static void shiftCATKBYFIREPoints(int vbiDrawThis,
+//            double[] lpsaUpperVBPoints,
+//            int vblLowerCounter,
+//            double[] lpsaLowerVBPoints,
+//            int vblUpperCounter)
+//    {
+//        try
+//        {
+//            if(vbiDrawThis != TacticalLines.CATKBYFIRE)
+//                return;
+//
+//            POINT2 nextToLastPoint=new POINT2(lpsaUpperVBPoints[vblUpperCounter-4],lpsaUpperVBPoints[vblUpperCounter-3]);
+//            POINT2 lastPoint=new POINT2(lpsaUpperVBPoints[vblUpperCounter-2],lpsaUpperVBPoints[vblUpperCounter-1]);
+//            double dist=lineutility.CalcDistanceDouble(lastPoint, nextToLastPoint);
+//            
+//            if(dist<45)
+//            {
+//                nextToLastPoint=lineutility.ExtendAlongLineDouble(lastPoint,nextToLastPoint,45+2*dist);
+//                lastPoint=lineutility.ExtendLineDouble(nextToLastPoint,lastPoint, -45);
+//                lpsaUpperVBPoints[vblUpperCounter-4]=nextToLastPoint.x;
+//                lpsaUpperVBPoints[vblUpperCounter-3]=nextToLastPoint.y;
+//                lpsaLowerVBPoints[vblLowerCounter-4]=nextToLastPoint.x;
+//                lpsaLowerVBPoints[vblLowerCounter-3]=nextToLastPoint.y;                                    
+//            }
+//            //lastPoint=lineutility.ExtendAlongLineDouble(lastPoint, nextToLastPoint, 45);
+//            else
+//                lastPoint=lineutility.ExtendLineDouble(nextToLastPoint,lastPoint, -45);
+//            
+//            lpsaUpperVBPoints[vblUpperCounter-2]=lastPoint.x;
+//            lpsaUpperVBPoints[vblUpperCounter-1]=lastPoint.y;
+//            lpsaLowerVBPoints[vblLowerCounter-2]=lastPoint.x;
+//            lpsaLowerVBPoints[vblLowerCounter-1]=lastPoint.y;                                    
+//        }
+//        catch(Exception exc)
+//        {
+//            ErrorLogger.LogException(_className ,"ShiftCATKBYFIREPoints",
+//                    new RendererException("Failed inside ShiftCATKBYFIREPoints", exc));
+//        }
+//    }
     /**
-     * @deprecated
      * tester function to shift counterattack by fire point back to account for
      * aligning the rotary arrow tip with the anchor point. the feature used to extend past 
      * the anchor so the control point was shove forward. Intended to be called by the tester.
@@ -1375,36 +1304,36 @@ public final class Channels {
      * @param pLinePoints
      * @param shift amount to shift back the existing control point
      */
-    public static void shiftCATKBYFIREControlPoint(
-            int linetype,
-            ArrayList<POINT2>pLinePoints,
-            double shift)
-    {
-        try
-        {
-            if(linetype != TacticalLines.CATKBYFIRE)
-                return;
-            int controlPtIndex=pLinePoints.size()-1;
-            POINT2 pt0=pLinePoints.get(0);
-            POINT2 pt1=pLinePoints.get(1);
-            double dist=lineutility.CalcDistanceDouble(pLinePoints.get(0), pLinePoints.get(1));
-            if(dist<=45)
-                return;
-            POINT2 controlPt=pLinePoints.get(controlPtIndex);
-            //pt3 is the point on parallel line which contains the control point and corresponds to,
-            //i.e. is perpendicular to, pt0.
-            POINT2 pt3=lineutility.PointRelativeToLine(pt0, pt1, pt0, controlPt);
-            //pt4 will be the shifted control point
-            POINT2 pt4=lineutility.ExtendLineDouble(pt3, controlPt, shift);
-            //set the control point as the new shifted control point
-            pLinePoints.set(controlPtIndex, pt4);
-        }
-        catch(Exception exc)
-        {
-            ErrorLogger.LogException(_className ,"shiftCATKBYFIREControlPoint",
-                    new RendererException("Failed inside shiftCATKBYFIREControlPoint", exc));
-        }
-    }
+//    public static void shiftCATKBYFIREControlPoint(
+//            int linetype,
+//            ArrayList<POINT2>pLinePoints,
+//            double shift)
+//    {
+//        try
+//        {
+//            if(linetype != TacticalLines.CATKBYFIRE)
+//                return;
+//            int controlPtIndex=pLinePoints.size()-1;
+//            POINT2 pt0=pLinePoints.get(0);
+//            POINT2 pt1=pLinePoints.get(1);
+//            double dist=lineutility.CalcDistanceDouble(pLinePoints.get(0), pLinePoints.get(1));
+//            if(dist<=45)
+//                return;
+//            POINT2 controlPt=pLinePoints.get(controlPtIndex);
+//            //pt3 is the point on parallel line which contains the control point and corresponds to,
+//            //i.e. is perpendicular to, pt0.
+//            POINT2 pt3=lineutility.PointRelativeToLine(pt0, pt1, pt0, controlPt);
+//            //pt4 will be the shifted control point
+//            POINT2 pt4=lineutility.ExtendLineDouble(pt3, controlPt, shift);
+//            //set the control point as the new shifted control point
+//            pLinePoints.set(controlPtIndex, pt4);
+//        }
+//        catch(Exception exc)
+//        {
+//            ErrorLogger.LogException(_className ,"shiftCATKBYFIREControlPoint",
+//                    new RendererException("Failed inside shiftCATKBYFIREControlPoint", exc));
+//        }
+//    }
     /**
      * Calculates the channel points
      * @param lpsaUpperVBPoints the client points as 2-tuples
@@ -1431,11 +1360,6 @@ public final class Channels {
             int rev) {
         int lResult = -1;
         try {
-            //declarations
-            //lineutility.WriteFile(Integer.toString(vblChannelWidth));
-            //boolean shiftLines=false;
-            //comment following line to turn off obstacles line shift
-            //shiftLines=true;
             int k = 0, vblCounter = 0;
             int nPrinter = 1,
                     nArrowSize = 40 * nPrinter,
@@ -1696,12 +1620,6 @@ public final class Channels {
                     }
                     if (vbiDrawThis == TacticalLines.LC2) //bound the points
                     {
-                        //save the original points
-//                        pOriginalLinePoints = new POINT2[vblUpperCounter];
-//                        for (k = 0; k < vblUpperCounter; k++) {
-//                            pOriginalLinePoints[k] = new POINT2(pUpperLinePoints[k]);
-//                        }
-
                         pLowerLinePoints = new POINT2[vblLowerCounter];
                         for (k = 0; k < vblLowerCounter2; k++) {
                             pLowerLinePoints[k] = new POINT2(pOriginalLinePoints[k]);
@@ -1712,17 +1630,13 @@ public final class Channels {
                         for (k = 0; k < vblUpperCounter2; k++) {
                             pUpperLinePoints[k] = new POINT2(pOriginalLinePoints[k]);
                         }
-                    }
-                    
-                    //diagnostic 1-7-13
+                    }                    
                     if(shiftLines)
                         vblChannelWidth *= 2;
-                    //end section
                     
                     pUpperLinePoints = GetChannelArray2Double(nPrinter, pUpperLinePoints, 1, vblUpperCounter, vbiDrawThis, vblChannelWidth);
                     pLowerLinePoints = GetChannelArray2Double(nPrinter, pLowerLinePoints, 0, vblLowerCounter, vbiDrawThis, vblChannelWidth);
                     
-                    //diagnostic 1-7-13
                     if(shiftLines)   
                     {                        
                         if(_affiliation != null && _affiliation.equalsIgnoreCase("H"))
@@ -1730,7 +1644,6 @@ public final class Channels {
                         else
                             pUpperLinePoints=pOriginalLinePoints;
                     }
-                    //end section
                     
                     if ((pUpperLinePoints[0].x > pUpperLinePoints[1].x) && (pUpperLinePoints[0].y != pUpperLinePoints[1].y)) {
                         nReverseUpper = 1;
@@ -1851,14 +1764,6 @@ public final class Channels {
                     }
                     pLowerFlotPoints = new POINT2[max];
                     lineutility.InitializePOINT2Array(pLowerFlotPoints);
-                    //diagnostic
-//                    pLinePoints = new POINT2[lUpperFlotCount + lLowerFlotCount];
-//                    lineutility.InitializePOINT2Array(pLinePoints);
-//                    //initialize points
-//                    for (j = 0; j < pLinePoints.length; j++) {
-//                        pLinePoints[j].x = lpsaUpperVBPoints[0];
-//                        pLinePoints[j].y = lpsaUpperVBPoints[1];
-//                    }
                     for (k = 0; k < vblUpperCounter; k++) {
                         pUpperFlotPoints[k] = new POINT2(pUpperLinePoints[k]);
                     }
@@ -1867,21 +1772,11 @@ public final class Channels {
                     }
 
                     lUpperFlotCount = flot.GetFlotDouble(pUpperFlotPoints, vblUpperCounter);	//6/24/04
-                    //vblCounter = lUpperFlotCount;
-                    //for (k = max; k < lUpperFlotCount; k++) {
-                    //    pUpperFlotPoints[k].x = pUpperFlotPoints[max - 1].x;
-                    //    pUpperFlotPoints[k].y = pUpperFlotPoints[max - 1].y;
-                    //}
                     lLowerFlotCount = flot.GetFlotDouble(pLowerFlotPoints, vblLowerCounter);	//6/24/04
-                    //diagnostic
                     pLinePoints = new POINT2[lUpperFlotCount + lLowerFlotCount];
                     lineutility.InitializePOINT2Array(pLinePoints);
 
                     vblCounter = lLowerFlotCount + lUpperFlotCount;
-                    //for (k = max; k < lLowerFlotCount; k++) {
-                    //    pLowerFlotPoints[k].x = pLowerFlotPoints[max - 1].x;
-                    //    pLowerFlotPoints[k].y = pLowerFlotPoints[max - 1].y;
-                    //}
 
                     if (nReverseUpper == 1) {
                         for (k = 0; k < lUpperFlotCount; k++) {
@@ -1965,25 +1860,16 @@ public final class Channels {
                             {
                                 for (k = 0; k < vblLowerCounter; k++) 
                                 {
-                                    //diagnostic M. Deutch 10-20-11
-                                    //pLinePoints[k] = new POINT2(pLowerLinePoints[k]);
                                     pLinePoints[k] = new POINT2(pUpperLinePoints[k]);
                                 }
                             }
                             break;
 
                         case TacticalLines.LWFENCE:
-                            //remove block comment to restore line always below X
-//                            if (pOriginalLinePoints[0].x < pOriginalLinePoints[1].x){
-                                for (k = 0; k < vblLowerCounter; k++) {
-                                    pLinePoints[k] = new POINT2(pOriginalLinePoints[k]);
-                                    pLinePoints[k].style = 5;
+                            for (k = 0; k < vblLowerCounter; k++) {
+                                pLinePoints[k] = new POINT2(pOriginalLinePoints[k]);
+                                pLinePoints[k].style = 5;
                                 }
-//                            } else {
-//                                for (k = 0; k < vblLowerCounter; k++) {
-//                                    pLinePoints[k] = new POINT2(pLowerLinePoints[k]);
-//                                }
-//                            }
                             break;
                         case TacticalLines.UNSP:
                             for (k = 0; k < vblLowerCounter; k++) {
@@ -2041,21 +1927,10 @@ public final class Channels {
                             break;
                         case TacticalLines.LWFENCE:
                             //remove block to make channel line aoways below the X
-//                            if (pOriginalLinePoints[0].x < pOriginalLinePoints[1].x) 
-//                            {
                                 for (k = 0; k < vblUpperCounter; k++) 
                                 {
                                     pLinePoints[vblLowerCounter + k] = new POINT2(pUpperLinePoints[k]);
                                 }
-//                            } 
-//                            else 
-//                            {
-//                                for (k = 0; k < vblUpperCounter; k++) 
-//                                {
-//                                    pLinePoints[vblLowerCounter + k] = new POINT2(pOriginalLinePoints[k]);
-//                                    pLinePoints[vblLowerCounter + k].style = 5;
-//                                }
-//                            }
                             break;
                         case TacticalLines.UNSP:
                             for (k = 0; k < vblUpperCounter; k++) 
@@ -2094,12 +1969,8 @@ public final class Channels {
                     {
                         for (j = 0; j < vblUpperCounter - 1; j++) {
                             d = lineutility.CalcDistanceDouble(pOriginalLinePoints[j], pOriginalLinePoints[j + 1]);
-                            //lHowManyThisSegment = (int) ((d - 10) / 10);
                             lHowManyThisSegment = (int)d/10;
                             remainder=d-10*lHowManyThisSegment;
-                            //lineutility.WriteFile(Double.toString(remainder));
-                            //if(remainder>8)
-                              //  lHowManyThisSegment +=1;
                             dAngle = lineutility.CalcSegmentAngleDouble(pOriginalLinePoints[j], pOriginalLinePoints[j + 1]);
                             dAngle = dAngle + pi / 2;
                             for (k = 0; k < lHowManyThisSegment; k++) {
@@ -2283,11 +2154,6 @@ public final class Channels {
                             pLinePoints[k].style = 0;
                         }
                     }
-//                    else
-//                    {
-//                        arrowOffsetFactor/=2;//10-16-12
-//                    }
-
                     GetAXADDouble(nPrinter, pLowerLinePoints,
                             vblLowerCounter, pUpperLinePoints,
                             vblUpperCounter, pArrowLinePoints[0],
@@ -2668,21 +2534,6 @@ public final class Channels {
 
             for (k = 0; k < vblCounter; k++)
             {
-//                if (lResultCounter < resultVBPoints.length && k < pLinePoints.length) {
-//                    resultVBPoints[lResultCounter] = (int) pLinePoints[k].x;
-//                    lResultCounter++;
-//                    lResult = 3 * k + 2;
-//                }
-//                if (lResultCounter < resultVBPoints.length && k < pLinePoints.length) {
-//                    resultVBPoints[lResultCounter] = (int) pLinePoints[k].y;
-//                    lResultCounter++;
-//                    lResult = 3 * k + 2;
-//                }
-//                if (lResultCounter < resultVBPoints.length && k < pLinePoints.length) {
-//                    resultVBPoints[lResultCounter] = pLinePoints[k].style;
-//                    lResult = 3 * k + 2;
-//                    lResultCounter++;
-//                }
                 //use shapes instead of pixels
 
                 if(shape==null)
@@ -2813,12 +2664,6 @@ public final class Channels {
 
                         if(k==vblCounter-1) //non-LC should only have one shape
                         {
-//                            shape.lineTo(pLinePoints[k]);
-//                            if(k>=3)
-//                            {
-//                                shape.moveTo(pLinePoints[k-3]);
-//                                shape.lineTo(pLinePoints[k-2]);
-//                            }
                             if(shape !=null && shape.getShape() != null)
                                 shapes.add(shape);
                         }
@@ -3084,23 +2929,21 @@ public final class Channels {
         return shapes;
     }
     /**
-     * @deprecated
      * sets shape2 properties to those of shape1
      * @param shape1
      * @param shape2
      */
-    private static void SetShapeProperties(Shape2 shape1, Shape2 shape2)
-    {
-        try
-        {
-            shape2.setLineColor(shape1.getLineColor());
-            shape2.setStroke(shape1.getStroke());
-            shape2.setFillColor(shape1.getFillColor());
-        }
-        catch (Exception exc) {
-            ErrorLogger.LogException(_className ,"GetChannel1Double",
-                    new RendererException("Failed inside SetShapeProperties", exc));
-        }
-        return;
-    }
+//    private static void SetShapeProperties(Shape2 shape1, Shape2 shape2)
+//    {
+//        try
+//        {
+//            shape2.setLineColor(shape1.getLineColor());
+//            shape2.setStroke(shape1.getStroke());
+//            shape2.setFillColor(shape1.getFillColor());
+//        }
+//        catch (Exception exc) {
+//            ErrorLogger.LogException(_className ,"GetChannel1Double",
+//                    new RendererException("Failed inside SetShapeProperties", exc));
+//        }
+//    }
 }

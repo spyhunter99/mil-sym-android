@@ -77,7 +77,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "SegmentLineShape",
                     new RendererException("Failed inside SegmentLineShape", exc));
         }
-        return;
     }
 
     /**
@@ -384,7 +383,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "ReversePointsDouble2",
                     new RendererException("Failed inside ReversePointsDouble2", exc));
         }
-        //return;
     }
 
     public static boolean CalcTrueSlopeDoubleForRoutes(POINT2 firstLinePoint,
@@ -770,8 +768,6 @@ public final class lineutility {
 
                 nXcounter++;
             }   //end for
-
-            return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetXFEBADouble",
                     new RendererException("Failed inside GetXFEBADouble", exc));
@@ -799,7 +795,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "ReorderPoints",
                     new RendererException("Failed inside ReorderPoints", exc));
         }
-        return;
     }
 
     /**
@@ -1507,7 +1502,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "GetPixelsMin",
                     new RendererException("Failed inside GetPixelsMin", exc));
         }
-        return;
     }
 
     /**
@@ -1730,7 +1724,6 @@ public final class lineutility {
                     pResultLinePoints[2].style = 5;
                     break;
             }
-            return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetArrowhead4Double",
                     new RendererException("Failed inside GetArrowhead4Double", exc));
@@ -2216,7 +2209,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "GetSAAFRSegment",
                     new RendererException("Failed inside GetSAAFRSegment", exc));
         }
-        return;
     }
     /**
      * Computes an arc.
@@ -2425,7 +2417,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "CalcCircleDouble",
                     new RendererException("Failed inside CalcCircleDouble", exc));
         }
-        return;
     }
 
     protected static Shape2 CalcCircleShape(POINT2 Center,
@@ -2478,7 +2469,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "GetSquallShape",
                     new RendererException("Failed inside GeSquallShape", exc));
         }
-        return;
     }
     //caller needs to instantiate sign.value
     /**
@@ -2841,13 +2831,6 @@ public final class lineutility {
                     && pt1.y <= maxPixels && pt1.y >= -maxPixels) {
                 bol1Inside = 1;
             }
-
-//            if(pt0.x<=maxX && pt0.x>=minX &&
-//                pt0.y<=maxY && pt0.y>=minY)
-//                bol0Inside=1;
-//            if(pt1.x<=maxX && pt1.x>=minX &&
-//                pt1.y<=maxY && pt1.y>=minY)
-//                bol1Inside=1;
             //if both points are inside the area then use the whole segment
             if (bol0Inside == 1 && bol1Inside == 1) {
                 return 0;
@@ -3005,247 +2988,6 @@ public final class lineutility {
         }
         return nResult;
     }
-
-    /**
-     * @param pt0
-     * @param pt1
-     * @param pt2x
-     * @param pt2y
-     * @param pt3x
-     * @param pt3y
-     * @param ul
-     * @param lr
-     * @return
-     */
-    private static int DisplayIntersectPixels2(POINT2 pt0,
-            POINT2 pt1,
-            ref<double[]> pt2x,
-            ref<double[]> pt2y,
-            ref<double[]> pt3x,
-            ref<double[]> pt3y,
-            POINT2 ul,
-            POINT2 lr) {
-        int nResult = -1;
-        try {
-            //declarations
-            double X = 0, Y = 0;
-            ref<double[]> m = new ref();
-            //double maxPixels=CELineArrayGlobals.MaxPixels2;
-            //double maxPixels=2000;
-            double maxX = lr.x, minX = ul.x, maxY = lr.y, minY = ul.y;
-
-            int bol0Inside = 0, bol1Inside = 0;
-            int bolVertical = CalcTrueSlopeDouble(pt0, pt1, m);
-            double b = pt0.y - m.value[0] * pt0.x;	//the y intercept for the segment line
-            POINT2 pt2, pt3;
-            //end declarations
-
-            pt2x.value = new double[1];
-            pt2y.value = new double[1];
-            pt3x.value = new double[1];
-            pt3y.value = new double[1];
-            pt2 = new POINT2(pt0);
-            pt3 = new POINT2(pt1);
-
-            //diagnostic
-//            if(pt0.x<=maxPixels && pt0.x>=-maxPixels &&
-//                pt0.y<=maxPixels && pt0.y>=-maxPixels)
-//                bol0Inside=1;
-//            if(pt1.x<=maxPixels && pt1.x>=-maxPixels &&
-//                pt1.y<=maxPixels && pt1.y>=-maxPixels)
-//                bol1Inside=1;
-            if (pt0.x <= maxX && pt0.x >= minX
-                    && pt0.y <= maxY && pt0.y >= minY) {
-                bol0Inside = 1;
-            }
-            if (pt1.x <= maxX && pt1.x >= minX
-                    && pt1.y <= maxY && pt1.y >= minY) {
-                bol1Inside = 1;
-            }
-
-            //if both points are inside the area then use the whole segment
-            if (bol0Inside == 1 && bol1Inside == 1) {
-                return 0;
-            }
-            //if at leat one of the points is inside the area then use some of the segment
-            if (bol0Inside == 1 || bol1Inside == 1) {
-                nResult = 1;
-            }
-
-            //segment is not vertical
-            if (bolVertical != 0) {
-                //analysis for side 0, get the intersection for either point if it exists
-                //diagnostic
-                //X=-maxPixels;
-                X = minX;
-
-                Y = m.value[0] * X + b;
-                //if(pt0.x<-maxPixels && -maxPixels<pt1.x)
-                if (pt0.x < minX && minX < pt1.x) //pt0 is outside the area
-                {
-                    //if(-maxPixels<=Y && Y<=maxPixels)	//intersection is on side 0
-                    if (minY <= Y && Y <= maxY) //intersection is on side 0
-                    {
-                        pt2.x = X;
-                        pt2.y = Y;
-                        nResult = 1;	//use at least some of the pixels
-                    }
-                }
-                //if(pt1.x<-maxPixels && -maxPixels<pt0.x)	//pt1 is outside the area
-                if (pt1.x < minX && minX < pt0.x) //pt1 is outside the area
-                {
-                    //if(-maxPixels<=Y && Y<=maxPixels)
-                    if (minY <= Y && Y <= maxY) //intersection is on side 0
-                    {
-                        pt3.x = X;
-                        pt3.y = Y;
-                        nResult = 1;	//use at least some of the pixels
-                    }
-                }
-
-                //analysis for side 1, get the intersection for either point if it exists
-                //Y=-maxPixels;
-                Y = minY;
-                if (m.value[0] != 0) {
-                    X = (Y - b) / m.value[0];
-                    //if(pt0.y<-maxPixels && -maxPixels<pt1.y)
-                    if (pt0.y < minY && minY < pt1.y) //pt0 is outside the area
-                    {
-                        //if(-maxPixels<=X && X<=maxPixels)
-                        if (minX <= X && X <= maxX) //intersection is on side 1
-                        {
-                            pt2.x = X;
-                            pt2.y = Y;
-                            nResult = 1;	//use at least some of the pixels
-                        }
-                    }
-                    //if(pt1.y<=-maxPixels && -maxPixels<=pt0.y)
-                    if (pt1.y <= minY && minY <= pt0.y) //pt1 is outside the area
-                    {
-                        //if(-maxPixels<X && X<maxPixels)
-                        if (minX < X && X < maxX) //intersection is on the boundary
-                        {
-                            pt3.x = X;
-                            pt3.y = Y;
-                            nResult = 1;	//use at least some of the pixels
-                        }
-                    }
-                }
-                //analysis for side 2, get the intersection for either point if it exists
-                //X=maxPixels;
-                X = maxX;
-                Y = m.value[0] * X + b;
-                //if(pt0.x<maxPixels && maxPixels<pt1.x)
-                if (pt0.x < maxX && maxX < pt1.x) //pt1 is outside the area
-                {
-                    //if(-maxPixels<=Y && Y<=maxPixels)
-                    if (minY <= Y && Y <= maxY) //intersection is on the boundary
-                    {
-                        pt3.x = X;
-                        pt3.y = Y;
-                        nResult = 1;	//use at least some of the pixels
-                    }
-                }
-                //if(pt1.x<maxPixels && maxPixels<pt0.x)
-                if (pt1.x < maxX && maxX < pt0.x) //pt0 is outside the area
-                {
-                    //if(-maxPixels<=Y && Y<=maxPixels)
-                    if (minY <= Y && Y <= maxY) //intersection is on the boundary
-                    {
-                        pt2.x = X;
-                        pt2.y = Y;
-                        nResult = 1;	//use at least some of the pixels
-                    }
-                }
-
-                //analysis for side 3, get the intersection for either point if it exists
-                //Y=maxPixels;
-                Y = maxY;
-                if (m.value[0] != 0) {
-                    X = (Y - b) / m.value[0];
-                    //if(pt0.y<maxPixels && maxPixels<pt1.y)
-                    if (pt0.y < maxY && maxY < pt1.y) //pt1 is outside the area
-                    {
-                        //if(-maxPixels<=X && X<=maxPixels)
-                        if (minX <= X && X <= maxX) //intersection is on the boundary
-                        {
-                            pt3.x = X;
-                            pt3.y = Y;
-                            nResult = 1;	//use at least some of the pixels
-                        }
-                    }
-                    //if(pt1.y<maxPixels && maxPixels<pt0.y)
-                    if (pt1.y < maxY && maxY < pt0.y) //pt0 is outside the area
-                    {
-                        //if(-maxPixels<=X && X<=maxPixels)
-                        if (minX <= X && X <= maxX) //intersection is on the boundary
-                        {
-                            pt2.x = X;
-                            pt2.y = Y;
-                            nResult = 1;	//use at least some of the pixels
-                        }
-                    }
-                }
-            }
-
-            //segment is vertical
-            if (bolVertical == 0) {
-                //analysis for side 1
-                X = pt0.x;
-                //Y=-maxPixels;
-                Y = minY;
-                //if(-maxPixels<pt0.x && pt0.x<maxPixels)
-                if (minX < pt0.x && pt0.x < maxX) {
-                    //if(pt0.y<=-maxPixels && -maxPixels<=pt1.y)
-                    if (pt0.y <= minY && minY <= pt1.y) //pt0 outside the area
-                    {
-                        pt2.x = X;
-                        pt2.y = Y;
-                        nResult = 1;	//use at least some of the pixels
-                    }
-                    //if(pt1.y<=-maxPixels && -maxPixels<=pt0.y)
-                    if (pt1.y <= minY && minY <= pt0.y) //pt1 outside the area
-                    {
-                        pt3.x = X;
-                        pt3.y = Y;
-                        nResult = 1;	//use at least some of the pixels
-                    }
-                }
-
-                //analysis for side 3
-                X = pt0.x;
-                //Y=maxPixels;
-                Y = maxY;
-                //if(-maxPixels<pt0.x && pt0.x<maxPixels)
-                if (minX < pt0.x && pt0.x < maxX) {
-                    //if(pt0.y<=maxPixels && maxPixels<=pt1.y)
-                    if (pt0.y <= maxY && maxY <= pt1.y) //pt1 outside the area
-                    {
-                        pt3.x = X;
-                        pt3.y = Y;
-                        nResult = 1;	//use at least some of the pixels
-                    }
-                    //if(pt1.y<=maxPixels && maxPixels<=pt0.y)
-                    if (pt1.y <= maxY && maxY <= pt0.y) //pt0 outside the area
-                    {
-                        pt2.x = X;
-                        pt2.y = Y;
-                        nResult = 1;	//use at least some of the pixels
-                    }
-                }
-            }
-
-            pt2x.value[0] = pt2.x;
-            pt2y.value[0] = pt2.y;
-            pt3x.value[0] = pt3.x;
-            pt3y.value[0] = pt3.y;
-        } catch (Exception exc) {
-            ErrorLogger.LogException(_className, "DisplayIntersectPixels2",
-                    new RendererException("Failed inside DisplayIntersectPixels2", exc));
-        }
-        return nResult;
-    }
-
     /**
      * Computes Ditch spikes for the ATDITCH line types. This function uses
      * linestyles provided by the caller to skip segments.
@@ -3573,7 +3315,6 @@ public final class lineutility {
                 pLinePoints[j].x = pixels[k++];
                 pLinePoints[j].y = pixels[k++];
             }
-            return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "MoveChannelPixels",
                     new RendererException("Failed inside MoveChannelPixels", exc));
@@ -3618,15 +3359,12 @@ public final class lineutility {
             int vblCounter,
             double lAngle) {
         try {
-            //declarations
             int j = 0;
             double dRotate = 0,
                     dTheta = 0,
                     dGamma = 0,
                     x = 0,
                     y = 0;
-            //pi=3.14159;
-            //end declarations
 
             if (lAngle != 0) //if the angle is 0 no rotation occurs
             {
@@ -3664,7 +3402,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "RotateGeometryDouble",
                     new RendererException("Failed inside RotateGeometryDouble", exc));
         }
-        return;
     }  // end
 
     /**
@@ -3746,7 +3483,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "adjustCATKBYFIREControlPoint",
                     new RendererException("Failed inside adjustCATKBYFIREControlPoint", exc));
         }
-        return;
     }
 
     /**
@@ -3770,7 +3506,6 @@ public final class lineutility {
             int bolVertical = 0;
             ref<double[]> m = new ref();
             double b1 = 0, b2 = 0;
-            //end declarations
 
             bolVertical = CalcTrueSlopeDouble(pt0, pt1, m);
             if (bolVertical == 0) //line is vertical
@@ -3816,7 +3551,6 @@ public final class lineutility {
             double b1 = 0, b2 = 0;
             POINT2 pt2Temp = null;
             POINT2 pt3Temp = null;
-            //end declarations
 
             bolVertical = CalcTrueSlopeDouble(pt0, pt1, m);
             if (bolVertical == 0) //line is vertical
@@ -3851,7 +3585,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "LineRelativeToLine",
                     new RendererException("Failed inside LineRelativeToLine", exc));
         }
-        return;
     }
 
     private static void CalcMBR(POINT2[] pLinePoints,
@@ -3920,7 +3653,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "CalcMBRPoints",
                     new RendererException("Failed inside CalcMBRPoints", exc));
         }
-        return;
     }
 
     /**
@@ -3983,7 +3715,6 @@ public final class lineutility {
             ErrorLogger.LogException(_className, "Reverse2Points",
                     new RendererException("Failed inside Reverse2Points", exc));
         }
-        return;
     }
     /**
      * Creates a GeneralPath from a Path2D

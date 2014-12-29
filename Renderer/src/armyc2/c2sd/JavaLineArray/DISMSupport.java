@@ -3267,7 +3267,6 @@ public final class DISMSupport
             ErrorLogger.LogException(_className ,"GetDISMBlockDouble2",
                     new RendererException("Failed inside GetDISMBlockDouble2", exc));
         }
-        return;
     }
     /**
      * Calculates the points for PAA_RECTANGULAR.
@@ -3302,7 +3301,6 @@ public final class DISMSupport
             ErrorLogger.LogException(_className ,"GetDISMPAADouble",
                     new RendererException("Failed inside GetDISMPAADouble", exc));
         }
-        return;
     }
 
     private static boolean ReverseDelayArc(POINT2[] points) {

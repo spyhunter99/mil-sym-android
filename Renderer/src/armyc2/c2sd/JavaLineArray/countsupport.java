@@ -810,7 +810,6 @@ public final class countsupport
             pointsCorner[0].y = points[0].y - point_mid.y + points[2].y;
             pointsCorner[1].x = points[1].x - point_mid.x + points[2].x;
             pointsCorner[1].y = points[1].y - point_mid.y + points[2].y;
-            return;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className ,"GetByDifSegment",
                     new RendererException("Failed inside GetByDifSegment", exc));
