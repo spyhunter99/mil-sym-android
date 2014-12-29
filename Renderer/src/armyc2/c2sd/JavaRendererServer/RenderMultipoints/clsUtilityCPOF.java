@@ -232,7 +232,6 @@ public final class clsUtilityCPOF {
             ErrorLogger.LogException(_className, "GetFarPixels",
                     new RendererException("Failed inside GetFarPixels", exc));
         }
-        return;
     }
     /**
      *
@@ -961,7 +960,6 @@ public final class clsUtilityCPOF {
                     new RendererException("Failed inside ClearPixelsStyle", exc));
 
         }
-        return;
     }
     /**
      * Filters too close points after segmenting and clipping

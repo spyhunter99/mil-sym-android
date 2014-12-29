@@ -451,7 +451,6 @@ public final class clsClipPolygon2 {
             ErrorLogger.LogException(_className, "closeAreaTG",
                     new RendererException("Failed inside closeAreaTG", exc));
         }
-        return;
     }
     /**
      * DMA, DMAF fill must be handled separately because of the feint
@@ -610,7 +609,6 @@ public final class clsClipPolygon2 {
             ErrorLogger.LogException(_className, "addAbatisFill",
                     new RendererException("Failed inside addAbatisFill", exc));
         }
-        return;
     }
     /**
      * for lines with glyphs the fill must be handled (clipped) as a separate shape.
@@ -859,85 +857,4 @@ public final class clsClipPolygon2 {
         }
         return poly;
     }
-    /**
-     * add function for clsPatternFill to call without a tg
-     */
-//    public static ArrayList<Point2D> ClipPolygon2(ArrayList<Point2D> polygon,
-//            Rectangle2D clipBounds,
-//            Boolean isClosed) 
-//    {
-//        ArrayList<Point2D> poly = new ArrayList();
-//        try {
-//            int addedLinePoints = 0;
-//            if (isClosed) 
-//            {
-//                if(polygon.size()>0)
-//                    polygon.remove(polygon.size() - 1);
-//                isClosed = true;
-//            } 
-//            else 
-//            {
-//                //for tactical lines it always seems to work if the 0th and last points are inside the area
-//                //add points on the edge as needed to make that happen
-//                addedLinePoints = AddBoundaryPointsForLines(polygon, clipBounds);
-//            }
-//            //SetClipRegion(clipBounds);
-//            //expand the clip bounds by 10 pixels
-//
-//            poly = clipRight(polygon, clipBounds);
-//            poly = clipTop(poly, clipBounds);
-//            poly = clipLeft(poly, clipBounds);
-//            poly = clipBottom(poly, clipBounds);
-//
-//            if (isClosed)
-//            {
-//                if (poly.size() > 0)
-//                {
-//                    poly.add(poly.get(0));
-//                }
-//            } 
-//            else
-//            {
-//                switch (addedLinePoints)
-//                {
-//                    case 0: //no points were added, do nothing
-//                        break;
-//                    case 1: //point was added to the front to make algorithm work, remove segment
-//                        if (poly.size() > 0) {
-//                            poly.remove(0);
-//                        }
-//                        if (poly.size() > 0) {
-//                            poly.remove(0);
-//                        }
-//                        break;
-//                    case 2: //point was added to the end to make algorithm work, remove segment
-//                        if (poly.size() > 0) {
-//                            poly.remove(poly.size() - 1);
-//                        }
-//                        if (poly.size() > 0) {
-//                            poly.remove(poly.size() - 1);
-//                        }
-//                        break;
-//                    case 3: //point was added to the front and end to make algorithm work, remove segments
-//                        if (poly.size() > 0) {
-//                            poly.remove(0);
-//                        }
-//                        if (poly.size() > 0) {
-//                            poly.remove(0);
-//                        }
-//                        if (poly.size() > 0) {
-//                            poly.remove(poly.size() - 1);
-//                        }
-//                        if (poly.size() > 0) {
-//                            poly.remove(poly.size() - 1);
-//                        }
-//                        break;
-//                }//end switch
-//            }            
-//        } catch (Exception exc) {
-//            ErrorLogger.LogException(_className, "ClipPolygon2",
-//                    new RendererException("Failed inside ClipPolygon2", exc));
-//        }
-//        return poly;
-//    }
 }

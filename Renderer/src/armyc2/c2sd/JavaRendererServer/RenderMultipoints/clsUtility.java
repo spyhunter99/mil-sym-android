@@ -631,7 +631,6 @@ public final class clsUtility {
                     new RendererException("Failed inside FilterAXADPoints", exc));
 
         }
-        return;
     }
     /**
      *
@@ -700,45 +699,7 @@ public final class clsUtility {
                     new RendererException("Failed inside FilterVerticalSegments", exc));
 
         }
-        return;
     }
-    /**
-     * The GE renderer needs a way to process geo points in case they are passed
-     * for Change 1 symbols. Uses a best fit approach to build a converter. Public
-     * so that testers can use it.
-     * @param latLongs geographic points
-     * @return geographic to pixels coordinate converter
-     */
-//    public static IPointConversion BestFitConverter(ArrayList<POINT2> latLongs)
-//    {
-//        IPointConversion converter=null;
-//        try
-//        {
-//            //int j=0,pixelWidth=759,pixelHeight=529;
-//            int j=0,pixelWidth=1000,pixelHeight=1000;
-//            double geoTop=Double.MIN_NORMAL,geoBottom=Double.MAX_VALUE,
-//                    geoLeft=Double.MAX_VALUE,geoRight=Double.MIN_NORMAL;
-//
-//            for(j=0;j<latLongs.size();j++)
-//            {
-//                if(latLongs.get(j).y>geoTop)
-//                    geoTop=latLongs.get(j).y;
-//                if(latLongs.get(j).y<geoBottom)
-//                    geoBottom=latLongs.get(j).y;
-//                if(latLongs.get(j).x>geoRight)
-//                    geoRight=latLongs.get(j).x;
-//                if(latLongs.get(j).x<geoLeft)
-//                    geoLeft=latLongs.get(j).x;
-//            }
-//            converter=new PointConversion(pixelWidth,pixelHeight,geoTop,geoLeft,geoBottom,geoRight);
-//        }
-//        catch (Exception exc) {
-//            ErrorLogger.LogException("clsUtility", "BestFitConverter",
-//                    new RendererException("Failed inside BestFitConverter", exc));
-//
-//        }
-//        return converter;
-//    }
     private static POINT2 PointPixelsToLatLong(POINT2 ptPixels,IPointConversion converter)
     {
         POINT2 pt2 = new POINT2();
@@ -799,7 +760,6 @@ public final class clsUtility {
             ErrorLogger.LogException("clsUtility" ,"ResolveDummyShapes",
                     new RendererException("ResolveDummyShapes", exc));
         }
-        return;
     }
     protected static Rectangle2D getMBR(ArrayList<Point2D> clipBounds)
     {

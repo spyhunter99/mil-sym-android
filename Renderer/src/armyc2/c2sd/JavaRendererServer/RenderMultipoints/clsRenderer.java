@@ -690,67 +690,6 @@ public final class clsRenderer {
         }
         return tg;
     }
-
-    /**
-     * @param symbol
-     * @param converter
-     */
-//    public static void render(MilStdSymbol symbol,
-//            IPointConversion converter) {
-//        try {
-//            TGLight tg = createTGLightFromMilStdSymbol(symbol, converter);
-//            ArrayList<ShapeInfo> shapeInfos = new ArrayList();
-//            ArrayList<ShapeInfo> modifierShapeInfos = new ArrayList();
-//            clsUtility.FilterAXADPoints(tg, converter);
-//            clsUtility.FilterPoints(tg);
-//            GetLineArray(tg, converter, shapeInfos, modifierShapeInfos);
-//            symbol.setModifierShapes(modifierShapeInfos);
-//            symbol.setSymbolShapes(shapeInfos);
-//        } catch (Exception exc) {
-//            ErrorLogger.LogException("clsRenderer", "render",
-//                    new RendererException("Failed to render " + symbol.getSymbolID(), exc));
-//        }
-//    }
-
-    /**
-     * test the general client
-     * @param tg tactical graphic
-     * @param converter geographic to pixels converter
-     */
-//    public static void render_TG(TGLight tg,
-//            IPointConversion converter,
-//            ArrayList<ShapeInfo> shapeInfos,
-//            ArrayList<ShapeInfo> modifierShapeInfos) {
-//        try {
-//            int lineType = -1;
-//            boolean isClosedArea = false;
-//            setHostileLC(tg);
-//            String symbolId = tg.get_SymbolId();
-//            lineType = clsMETOC.IsWeather(symbolId);
-//            //int rev=tg.getSymbologyStandard();
-//            if (lineType < 0) {
-//                //lineType=CELineArray.CGetLinetypeFromString(tg.get_SymbolId());
-//                lineType = armyc2.c2sd.JavaTacticalRenderer.clsUtility.GetLinetypeFromString(symbolId);
-//            }
-//
-//            isClosedArea = armyc2.c2sd.JavaTacticalRenderer.clsUtility.isClosedPolygon(lineType);
-//
-//            if (isClosedArea) {
-//                armyc2.c2sd.JavaTacticalRenderer.clsUtility.ClosePolygon(tg.Pixels);
-//                armyc2.c2sd.JavaTacticalRenderer.clsUtility.ClosePolygon(tg.LatLongs);
-//            }
-//            clsUtility.FilterAXADPoints(tg, converter);
-//            clsUtility.FilterPoints(tg);
-//            GetLineArray(tg, converter, shapeInfos, modifierShapeInfos);
-//            //tg.setModifierShapes(modifierShapeInfos);
-//            //tg.setSymbolShapes(shapeInfos);
-//        } catch (Exception exc) {
-//            ErrorLogger.LogException("clsRenderer", "render",
-//                    new RendererException("Failed to render " + tg.get_SymbolId(), exc));
-//        }
-//        return;
-//    }
-
     /**
      * @desc Render the symbol to return the ShapeInfo data using JavaLineArray.
      * This is for the generic client.
@@ -872,68 +811,8 @@ public final class clsRenderer {
             ErrorLogger.LogException("clsRenderer", "GetLineArray",
                     new RendererException("Points calculator failed for " + tg.get_SymbolId(), exc));
         }
-        //return tg;
-        //return CELineArray.get_Shapes();
-        return;
     }
-
-    /**
-     * To maintain independence from the ShapeInfo type assignments
-     *
-     * @param shapeInfo
-     * @param shape
-     */
-//    private static void setShape2Type(ShapeInfo shapeInfo, Shape2 shape)
-//    {
-//        if(shapeInfo.getShapeType()==ShapeInfo.SHAPE_TYPE_FILL)
-//            shape.set_ShapeType(Shape2.SHAPE_TYPE_FILL);
-//        else if(shapeInfo.getShapeType()==ShapeInfo.SHAPE_TYPE_MODIFIER)
-//            shape.set_ShapeType(Shape2.SHAPE_TYPE_MODIFIER);
-//        else if(shapeInfo.getShapeType()==ShapeInfo.SHAPE_TYPE_MODIFIER_FILL)
-//            shape.set_ShapeType(Shape2.SHAPE_TYPE_MODIFIER_FILL);
-//        else
-//            shape.set_ShapeType(Shape2.SHAPE_TYPE_POLYLINE);
-//    }
-//    private static void setShapeInfoType(ShapeInfo shapeInfo, Shape2 shape) {
-//        if (shape.getShapeType() == Shape2.SHAPE_TYPE_FILL) {
-//            shapeInfo.setShapeType(ShapeInfo.SHAPE_TYPE_FILL);
-//        } else if (shape.getShapeType() == Shape2.SHAPE_TYPE_MODIFIER) {
-//            shapeInfo.setShapeType(ShapeInfo.SHAPE_TYPE_MODIFIER);
-//        } else if (shape.getShapeType() == Shape2.SHAPE_TYPE_MODIFIER_FILL) {
-//            shapeInfo.setShapeType(ShapeInfo.SHAPE_TYPE_MODIFIER_FILL);
-//        } else {
-//            shapeInfo.setShapeType(ShapeInfo.SHAPE_TYPE_POLYLINE);
-//        }
-//    }
-//    private static ArrayList<Shape2>ShapeInfoToShape2(ArrayList<ShapeInfo>shapeInfos)
-//    {
-//        if(shapeInfos==null)
-//            return null;
-//        if(shapeInfos.size()==0)
-//            return new ArrayList();
-//
-//        int j=0;
-//        ShapeInfo shapeInfo=null;
-//        Shape2 shape=null;
-//        ArrayList shapes=new ArrayList();
-//        for(j=0;j<shapeInfos.size();j++)
-//        {
-//            shapeInfo=shapeInfos.get(j);
-//            shape=new Shape2(shapeInfo.getShapeType());
-//            shape.set_AffineTransform(shapeInfo.getAffineTransform());
-//            setShape2Type(shapeInfo,shape);
-//            shape.set_FillColor(shapeInfo.getFillColor());
-//            shape.set_LineColor(shapeInfo.getLineColor());
-//            shape.set_Stroke(shapeInfo.getStroke());
-//            shape.set_Shape(shapeInfo.getShape());
-//            shape.set_TexturePaint(shapeInfo.getTexturePaint());
-//            shapes.add(shape);
-//        }
-//        return shapes;
-//    }
-
     private static void Shape2ToShapeInfo(ArrayList<ShapeInfo> shapeInfos, ArrayList<Shape2> shapes) {
-        //ShapeInfo shapeInfo=null;
         try {
             int j = 0;
             Shape2 shape = null;
@@ -949,60 +828,7 @@ public final class clsRenderer {
             ErrorLogger.LogException("clsRenderer", "Shape2ToShapeInfo",
                     new RendererException("Failed to build ShapeInfo ArrayList", exc));
         }
-        //return shapeInfos;
     }
-
-//    private static boolean setGenericLine(TGLight tg,
-//            IPointConversion converter,
-//            Rectangle2D clipBounds) {
-//        boolean result = false;
-//        try {
-//            //if clipbounds is null the line does not get clipped anyway, do nothing
-//            if (clipBounds == null) {
-//                return false;
-//            }
-//
-//            double scale = getScale(tg, converter, clipBounds);
-//            double mbrDist = 0;
-//            POINT2 ptUl = new POINT2(), ptUr = new POINT2(), ptLr = new POINT2(), ptLl = new POINT2();
-//            if (scale < 500) {
-//                //if the tg.Pixels mbr is large then the tg was zoomed in from the
-//                //original render, else it may be an original render at the current zoom level,
-//                //in which case we do not want to set the line to generic
-//                Modifier2.GetMBR(tg, ptUl, ptUr, ptLr, ptLl);
-//                mbrDist = lineutility.CalcDistanceDouble(ptUl, ptLr);
-//                if (mbrDist > 1000) {
-//                    tg.set_SymbolId("GENERIC---****X");
-//                    tg.set_LineType(TacticalLines.GENERIC);
-//                    result = true;
-//                }
-//            }
-//        } catch (Exception exc) {
-//            ErrorLogger.LogException("clsRenderer", "setGenericLine",
-//                    new RendererException("Failed inside setGenericLine", exc));
-//        }
-//        return result;
-//    }
-
-    /**
-     */
-//    private static void shiftClipPoints(ArrayList<Point2D> clipPoints) {
-//        int j = 0;
-//        Point2D pt0 = null, pt1 = null;
-//        for (j = 0; j < clipPoints.size() - 1; j++) {
-//            pt0 = clipPoints.get(j);
-//            pt1 = clipPoints.get(j + 1);
-//            if (pt0.getX() == pt1.getX()) {
-//                pt1.setLocation(pt1.getX() + 1, pt1.getY());
-//            }
-//            if (pt0.getY() == pt1.getY()) {
-//                pt1.setLocation(pt1.getX(), pt1.getY() + 1);
-//            }
-//        }
-//        pt0 = clipPoints.get(0);
-//        Point2D ptLast = clipPoints.get(clipPoints.size() - 1);
-//    }
-
     public static void renderWithPolylines(MilStdSymbol mss,
             IPointConversion converter,
             Object clipArea,
@@ -1044,33 +870,6 @@ public final class clsRenderer {
                     new RendererException("Failed inside renderWithPolylines", exc));
         }
     }
-
-    /**
-     */
-//    private static void reversePoints(TGLight tg) {
-//        int j = 0;
-//        ArrayList pts = null;
-//        switch (tg.get_LineType()) {
-//            case TacticalLines.SINGLEC://reverse single concertina
-//            case TacticalLines.SINGLEC2:
-//                if (tg.Pixels != null) {
-//                    pts = (ArrayList<POINT2>) tg.Pixels.clone();
-//                    for (j = 0; j < tg.Pixels.size(); j++) {
-//                        tg.Pixels.set(j, (POINT2) pts.get(pts.size() - j - 1));
-//                    }
-//                }
-//                if (tg.LatLongs != null) {
-//                    pts = (ArrayList<POINT2>) tg.LatLongs.clone();
-//                    for (j = 0; j < tg.LatLongs.size(); j++) {
-//                        tg.LatLongs.set(j, (POINT2) pts.get(pts.size() - j - 1));
-//                    }
-//                }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
     /**
      * See render_GE below for comments
      *
@@ -1094,7 +893,6 @@ public final class clsRenderer {
             ShapeInfo shape = shapeInfos.get(0);
             clsUtility.createBitmapShader(tg, shape, context);
         }
-        return;
     }
 
     /**
@@ -1687,122 +1485,4 @@ public final class clsRenderer {
 
         }
     }
-
-    /**
-     * the time cannot instantiate a MilStdSymbol from a METOC symbol code other
-     * than that it is identical to the same named function that takes mss as
-     * the 1st parameter
-     * @param tg
-     * @param converter
-     * @param shapeInfos
-     * @param modifierShapeInfos
-     * @param clipBounds
-     */
-//    public static void render(TGLight tg,
-//            IPointConversion converter,
-//            ArrayList<ShapeInfo> shapeInfos,
-//            ArrayList<ShapeInfo> modifierShapeInfos,
-//            Rectangle2D clipBounds) {
-//        //Graphic g = null;
-//        try {
-//            setHostileLC(tg);
-//            boolean isChange1Area = armyc2.c2sd.JavaTacticalRenderer.clsUtility.IsChange1Area(tg.get_LineType(), null);
-//
-//            boolean isTextFlipped = false;
-//            ArrayList<POINT2> farLeftPixels = new ArrayList();
-//            ArrayList<POINT2> farRightPixels = new ArrayList();
-//            if (isChange1Area == false) {
-//                clsUtilityCPOF.GetFarPixels(tg, converter, farLeftPixels, farRightPixels);
-//            }
-//
-//            //CPOF 6.0 TextSpecs diagnostic
-//            BufferedImage bi = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
-//            Graphics2D g2d = bi.createGraphics();
-//
-//            ArrayList<Shape2> shapesLeft = new ArrayList();
-//            ArrayList<Shape2> shapesRight = new ArrayList();
-//            ArrayList<Shape2> shapes = null;   //use this to collect all the shapes
-//
-//            //CPOF 6.0 diagnostic
-//            ArrayList<Shape2> textSpecsLeft = null;
-//            ArrayList<Shape2> textSpecsRight = null;
-//            //Note: DisplayModifiers3 returns early if textSpecs are null
-//            textSpecsLeft = new ArrayList();
-//            textSpecsRight = new ArrayList();
-//            //}
-//            if (farLeftPixels.size() > 0) {
-//                tg.Pixels = farLeftPixels;
-//                shapesLeft = clsRenderer2.GetLineArray(tg, converter, isTextFlipped, clipBounds);
-//                //CPOF 6.0
-//                //returns early if textSpecs are null
-//                //clsModifier.DisplayModifiers3(tg, g2d, textSpecsLeft, isTextFlipped);
-//                armyc2.c2sd.JavaTacticalRenderer.Modifier2.DisplayModifiers2(tg, g2d, textSpecsLeft, isTextFlipped, null);
-//            }
-//            if (farRightPixels.size() > 0) {
-//                tg.Pixels = farRightPixels;
-//                shapesRight = clsRenderer2.GetLineArray(tg, converter, isTextFlipped, clipBounds);
-//                //CPOF 6.0
-//                //returns early if textSpecs are null
-//                //clsModifier.DisplayModifiers3(tg, g2d, textSpecsRight, isTextFlipped);
-//                armyc2.c2sd.JavaTacticalRenderer.Modifier2.DisplayModifiers2(tg, g2d, textSpecsRight, isTextFlipped, null);
-//            }
-//
-//            //CPOF 6.0 diagnostic
-//            //ArrayList<TextSpec>textSpecs=new ArrayList();
-//            ArrayList<Shape2> textSpecs = new ArrayList();
-//
-//            if (shapesLeft.isEmpty() || shapesRight.isEmpty()) {
-//                ArrayList linesWithFillShapes = clsClipPolygon2.LinesWithFill(tg, clipBounds);
-//
-//                //diagnostic: comment two lines if using the WW tester
-//                if (clsUtilityCPOF.canClipPoints(tg) && clipBounds != null) {
-//                    clsClipPolygon2.ClipPolygon(tg, clipBounds);
-//                }
-//
-//                shapes = clsRenderer2.GetLineArray(tg, converter, isTextFlipped, clipBounds);
-//
-//                //undo any fillcolor for lines with fill
-//                clsUtilityCPOF.LinesWithSeparateFill(tg.get_LineType(), shapes);
-//                clsClipPolygon2.addAbatisFill(tg, shapes);
-//
-//                //if this line is commented then the extra line in testbed goes away
-//                if (shapes != null && linesWithFillShapes != null && linesWithFillShapes.size() > 0) {
-//                    shapes.addAll(0, linesWithFillShapes);
-//                }
-//
-//                //CPOF 6.0 diagnostic
-//                //returns early if textSpecs are null
-//                if (shapes != null && shapes.size() > 0) {
-//                    //clsModifier.DisplayModifiers3(tg, g2d, textSpecs, isTextFlipped);
-//                    armyc2.c2sd.JavaTacticalRenderer.Modifier2.DisplayModifiers2(tg, g2d, textSpecs, isTextFlipped, null);
-//                    Shape2ToShapeInfo(modifierShapeInfos, textSpecs);
-//                }
-//            } else //symbol was more than 180 degrees wide, use left and right symbols
-//            {
-//                shapes = shapesLeft;
-//                shapes.addAll(shapesRight);
-//
-//                //CPOF 6.0 diagnostic
-//                if (textSpecs != null) {
-//                    textSpecs.addAll(textSpecsLeft);
-//                    textSpecs.addAll(textSpecsRight);
-//                }
-//            }
-//            //post-clip the points if the tg could not be pre-clipped
-//            if (clsUtilityCPOF.canClipPoints(tg) == false && clipBounds != null) {
-//                shapes = clsUtilityCPOF.postClipShapes(tg, shapes, clipBounds);
-//            }
-//
-//            //ShapeSpec[] shapeSpecs = Shape2ToShapeSpec(shapes);
-//            Shape2ToShapeInfo(shapeInfos, shapes);
-//
-//        } catch (Exception exc) {
-//            ErrorLogger.LogException(_className, "render",
-//                    new RendererException("Failed inside render", exc));
-//
-//            //throw exc;
-//        }
-//        //return g;
-//    }
-
 }

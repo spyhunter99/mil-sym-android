@@ -145,84 +145,6 @@ public class clsClipQuad {
         }        
         return result;
     }
-    /**
-     * @param polygon
-     * @param clipBounds
-     * @return 
-     */
-//    private static int AddBoundaryPointsForLines(ArrayList<Point2D> polygon,
-//            Rectangle2D clipBounds) {
-//        int result = 0;
-//        try {
-//            double ulx = 0, uly = 0, lrx = 0, lry = 0;
-//            ulx = clipBounds.getMinX();
-//            uly = clipBounds.getMinY();
-//            lrx = clipBounds.getMaxX();
-//            lry = clipBounds.getMaxY();
-//            //move these inside by 10 pixels so the algoithm will treat them as inside points
-//            Point2D ul = new Point2D.Double(ulx + 10, uly + 10);
-//            Point2D lr = new Point2D.Double(lrx - 10, lry - 10);
-//
-//            Point2D pt0 = polygon.get(0);
-//            Point2D ptn = polygon.get(polygon.size() - 1);
-//            Boolean addToFront = false, addToEnd = false;            
-//            //add a point to the begining of the array
-//            if (pt0.getY() < uly) //above the top clip
-//            {
-//                polygon.add(0, ul);
-//                addToFront = true;
-//            } else if (pt0.getX() < ulx) //outside the left clip
-//            {
-//                polygon.add(0, ul);
-//                addToFront = true;
-//            } else if (pt0.getX() > lrx) //outside the right clip
-//            {
-//                polygon.add(0, lr);
-//                addToFront = true;
-//            } else if (pt0.getY() > lry) //below the bottom clip
-//            {
-//                polygon.add(0, lr);
-//                addToFront = true;
-//            }
-//
-//            //add a point to the end of the array
-//            if (ptn.getY() < uly) //above the top clip
-//            {
-//                polygon.add(ul);
-//                addToEnd = true;
-//            } else if (ptn.getX() < ulx) //outside the left clip
-//            {
-//                polygon.add(ul);
-//                addToEnd = true;
-//            } else if (ptn.getX() > lrx) //outside the right clip
-//            {
-//                polygon.add(lr);
-//                addToEnd = true;
-//            } else if (ptn.getY() > lry) //below the bottom clip
-//            {
-//                polygon.add(lr);
-//                addToEnd = true;
-//            }
-//
-//            if (addToFront == false && addToEnd == false) {
-//                result = 0;
-//            }
-//            if (addToFront == true && addToEnd == false) {
-//                result = 1;
-//            }
-//            if (addToFront == false && addToEnd == true) {
-//                result = 2;
-//            }
-//            if (addToFront == true && addToEnd == true) {
-//                result = 3;
-//            }
-//
-//        } catch (Exception exc) {
-//            ErrorLogger.LogException(_className, "AddBoundaryPointsForLines",
-//                    new RendererException("Failed inside AddBoundaryPointsForLines", exc));
-//        }
-//        return result;
-//    }
     private static Point2D CalcTrueIntersectDouble(double m1,
                                             double b1,
                                             double m2,
@@ -232,7 +154,6 @@ public class clsClipQuad {
                                             double X1,	//x intercept if line1 is vertical
                                             double X2)
     {
-        //POINT2 ptIntersect=new POINT2();
         Point2D ptIntersect=new Point2D.Double(X1,X2);
         try
         {
@@ -497,7 +418,6 @@ public class clsClipQuad {
             ErrorLogger.LogException(_className, "addAbatisFill",
                     new RendererException("Failed inside addAbatisFill", exc));
         }
-        return;
     }
     /**
      * for lines with glyphs the fill must be handled (clipped) as a separate shape.
@@ -617,7 +537,6 @@ public class clsClipQuad {
             ErrorLogger.LogException(_className, "closeAreaTG",
                     new RendererException("Failed inside closeAreaTG", exc));
         }
-        return;
     }
     /**
      * DMA, DMAF fill must be handled separately because of the feint

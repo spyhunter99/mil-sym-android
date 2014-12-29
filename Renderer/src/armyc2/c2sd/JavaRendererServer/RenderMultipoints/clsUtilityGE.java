@@ -1300,7 +1300,6 @@ public final class clsUtilityGE {
             ErrorLogger.LogException(_className, "buildHatchFills",
                     new RendererException("Failed inside buildHatcHFills", exc));
         }
-       return;
     }
     /*
      * GE has no hatch utility, we need to create a shape the client can use as hatch fill
