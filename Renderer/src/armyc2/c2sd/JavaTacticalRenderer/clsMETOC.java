@@ -3019,50 +3019,49 @@ public final class clsMETOC {
      * Called by Splines2TG to get straight channel lines for splines.
      *
      * @param tg - TGlight
-     * @deprecated
      *
      * @return An ArrayList to use for building the parallel splines
      */
-    private static ArrayList ParallelLines(TGLight tg,int rev) {
-        ArrayList<POINT2> channelPoints2 = new ArrayList();
-        try {
-            double[] pLinePoints = new double[tg.Pixels.size() * 2];
-            double[] channelPoints = new double[6 * tg.Pixels.size()];
-            int j = 0;
-            int n=tg.Pixels.size();
-            //for (j = 0; j < tg.Pixels.size(); j++) 
-            for (j = 0; j < n; j++) 
-            {
-                pLinePoints[2 * j] = tg.Pixels.get(j).x;
-                pLinePoints[2 * j + 1] = tg.Pixels.get(j).y;
-            }
-            int numPoints = tg.Pixels.size();
-            int channelWidth = 20;
-            int usePtr = 0;
-            ArrayList<Shape2> shapes = null;
-
-            try {
-                CELineArray.CGetChannel2Double(pLinePoints, pLinePoints, channelPoints, numPoints, numPoints, (int) TacticalLines.CHANNEL, channelWidth, usePtr, shapes,rev);
-            } catch (Exception e) {
-                ErrorLogger.LogException(_className, "ParallelLines",
-                    new RendererException("Failed inside ParallelLines", e));
-            }
-
-            POINT2 pt2 = null;
-            int style = 0;
-            n=channelPoints.length;
-            //for (j = 0; j < channelPoints.length / 3; j++) 
-            for (j = 0; j < n / 3; j++) 
-            {
-                pt2 = new POINT2(channelPoints[3 * j], channelPoints[3 * j + 1], style);
-                channelPoints2.add(pt2);
-            }
-        } catch (Exception exc) {
-            ErrorLogger.LogException(_className, "ParallelLines",
-                    new RendererException("Failed inside ParallelLines", exc));
-        }
-        return channelPoints2;
-    }
+//    private static ArrayList ParallelLines(TGLight tg,int rev) {
+//        ArrayList<POINT2> channelPoints2 = new ArrayList();
+//        try {
+//            double[] pLinePoints = new double[tg.Pixels.size() * 2];
+//            double[] channelPoints = new double[6 * tg.Pixels.size()];
+//            int j = 0;
+//            int n=tg.Pixels.size();
+//            //for (j = 0; j < tg.Pixels.size(); j++) 
+//            for (j = 0; j < n; j++) 
+//            {
+//                pLinePoints[2 * j] = tg.Pixels.get(j).x;
+//                pLinePoints[2 * j + 1] = tg.Pixels.get(j).y;
+//            }
+//            int numPoints = tg.Pixels.size();
+//            int channelWidth = 20;
+//            int usePtr = 0;
+//            ArrayList<Shape2> shapes = null;
+//
+//            try {
+//                CELineArray.CGetChannel2Double(pLinePoints, pLinePoints, channelPoints, numPoints, numPoints, (int) TacticalLines.CHANNEL, channelWidth, usePtr, shapes,rev);
+//            } catch (Exception e) {
+//                ErrorLogger.LogException(_className, "ParallelLines",
+//                    new RendererException("Failed inside ParallelLines", e));
+//            }
+//
+//            POINT2 pt2 = null;
+//            int style = 0;
+//            n=channelPoints.length;
+//            //for (j = 0; j < channelPoints.length / 3; j++) 
+//            for (j = 0; j < n / 3; j++) 
+//            {
+//                pt2 = new POINT2(channelPoints[3 * j], channelPoints[3 * j + 1], style);
+//                channelPoints2.add(pt2);
+//            }
+//        } catch (Exception exc) {
+//            ErrorLogger.LogException(_className, "ParallelLines",
+//                    new RendererException("Failed inside ParallelLines", exc));
+//        }
+//        return channelPoints2;
+//    }
     /**
      * Call this function with segment
      * @param Pixels a segment of tg.Pixels

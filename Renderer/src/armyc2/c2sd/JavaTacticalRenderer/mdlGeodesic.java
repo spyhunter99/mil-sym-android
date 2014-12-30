@@ -6,7 +6,6 @@
 package armyc2.c2sd.JavaTacticalRenderer;
 import armyc2.c2sd.JavaLineArray.POINT2;
 import armyc2.c2sd.JavaLineArray.ref;
-import armyc2.c2sd.JavaLineArray.TacticalLines;
 import java.util.ArrayList;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
 import armyc2.c2sd.renderer.utilities.RendererException;
@@ -405,86 +404,6 @@ public final class mdlGeodesic {
         }
         return ptResult;
     }
-
-    /**
-     * BELT and other decorated lines require pre-segmenting to create simpler shapes for fill.
-     * @param geoPoints
-     * @param interval
-     * @return
-     */
-//    public static ArrayList<POINT2>SegmentGeoPoints(ArrayList<POINT2>geoPoints, 
-//            double interval,
-//            int lineType)
-//    {
-//        ArrayList<POINT2>resultPts=new ArrayList();
-//        try
-//        {
-//            //return early for those lines not requiring pre-segmenting geo points
-//            switch(lineType)
-//            {
-//                case TacticalLines.DMAF:
-//                case TacticalLines.STRONG:
-//                case TacticalLines.TRIPLE:
-//                case TacticalLines.DOUBLEC:
-//                case TacticalLines.SINGLEC:
-//                case TacticalLines.HWFENCE:
-//                case TacticalLines.LWFENCE:
-//                case TacticalLines.DOUBLEA:
-//                case TacticalLines.DFENCE:
-//                case TacticalLines.SFENCE:
-//                case TacticalLines.LINE:
-//                case TacticalLines.LC:
-//                case TacticalLines.FLOT:
-//                case TacticalLines.ATWALL:
-//                case TacticalLines.ENCIRCLE:
-//                case TacticalLines.ZONE:
-//                case TacticalLines.OBSAREA:
-//                case TacticalLines.OBSFAREA:
-//                case TacticalLines.ATDITCH:
-//                case TacticalLines.ATDITCHC:
-//                case TacticalLines.ATDITCHM:
-//                case TacticalLines.FORT:
-//                case TacticalLines.FORTL:
-//                case TacticalLines.BELT:
-//                case TacticalLines.BELT1:
-//                    break;
-//                default:
-//                    return geoPoints;
-//            }
-//            int j=0,k=0,n=0;
-//            POINT2 pt0=null,pt1=null,pt=null;
-//            double dist=0;
-//            double az=0;
-//            double remainder=0;
-//            int t=geoPoints.size();
-//            //for(j=0;j<geoPoints.size()-1;j++)
-//            for(j=0;j<t-1;j++)
-//            {
-//                pt0=geoPoints.get(j);
-//                pt1=geoPoints.get(j+1);
-//                az=GetAzimuth(pt0,pt1);
-//                dist=geodesic_distance(geoPoints.get(j),geoPoints.get(j+1),null,null);
-//                n=(int)(dist/interval);
-//                //don't use too-short segments
-//                remainder=dist-n*interval;
-//                if(remainder<interval/2)
-//                    n-=1;
-//                
-//                resultPts.add(pt0);
-//                for(k=1;k<=n;k++)
-//                {
-//                    pt=geodesic_coordinate(pt0,interval*k,az);
-//                    resultPts.add(pt);
-//                }
-//            }
-//            resultPts.add(pt1);
-//        }
-//        catch (Exception exc) {
-//            ErrorLogger.LogException(_className, "SegmentGeoPoints",
-//                    new RendererException("Failed inside SegmentGeoPoints", exc));
-//        }
-//        return resultPts;
-//    }
     /**
      * Normalizes geo points for arrays which span the IDL
      *
@@ -616,5 +535,4 @@ public final class mdlGeodesic {
         }
         return pt;
     }
-
 }

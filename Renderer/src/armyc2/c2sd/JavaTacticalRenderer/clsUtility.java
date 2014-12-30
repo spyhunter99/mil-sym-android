@@ -569,7 +569,6 @@ public final class clsUtility {
                ErrorLogger.LogException(_className ,"shiftModifiersLeft",
                     new RendererException("Failed inside shiftModifiersLeft", exc));
         }
-        return;
     }
     /**
      * Overrides shape properties for symbols based on Mil-Std-2525
@@ -885,7 +884,6 @@ public final class clsUtility {
                ErrorLogger.LogException(_className ,"tweakFillColor",
                     new RendererException("Failed inside tweakFillColor", exc));
         }
-        return;
     }
     /**
      * @deprecated
@@ -1211,7 +1209,6 @@ public final class clsUtility {
                ErrorLogger.LogException(_className ,"SetShapeProperties",
                     new RendererException("Failed inside SetShapeProperties", exc));
         }
-        return;
     }
     /**
      * Returns a boolean indicating whether the line type is a change 1 area
@@ -1342,7 +1339,6 @@ public final class clsUtility {
             ErrorLogger.LogException(_className, "CalcIntersectPt",
                     new RendererException("Failed inside CalcIntersectPt", exc));
         }
-        return;
     }
 
     /**
@@ -1710,89 +1706,7 @@ public final class clsUtility {
                     new RendererException("Failed inside FilterVerticalSegments", exc));
 
         }
-        return;
     }
-    /**
-     * used for BELT to prevent vertical client segments
-     * @param pixels
-     */
-//    public static void MovePixels2(ArrayList<POINT2>pixels2)
-//    {
-//        try
-//        {
-//            double[]pixels=new double[pixels2.size()*2];
-//            int j=0;
-//            POINT2 ptTemp=null;
-//            for(j=0;j<pixels2.size();j++)
-//            {
-//                ptTemp=pixels2.get(j);
-//                pixels[2*j]=ptTemp.x;
-//                pixels[2*j+1]=ptTemp.y;
-//            }
-//            MovePixels(pixels,pixels2.size());
-//            for(j=0;j<pixels2.size();j++)
-//            {
-//                ptTemp=new POINT2(pixels[2*j],pixels[2*j+1]);
-//                pixels2.set(j, ptTemp);
-//            }
-//        }
-//        catch (Exception exc) {
-//            //clsUtility.WriteFile("Error in clsUtility.ReorderPixels");
-//            ErrorLogger.LogException(_className, "MovePixels2",
-//                    new RendererException("Failed inside MovePixels2", exc));
-//        }
-//    }
-    /**
-     * Called by clsChannelUtility to prevent pixels from being on top of each other.
-     * @param pixels OUT -  client points as 2 tuples x,y
-     * @param count the number of client points.
-     */
-//    protected static void MovePixels(double[] pixels, int count) {
-//        try {
-//            boolean bolNoRepeats = false;
-//            int j;
-//            double x1;
-//            double y1;
-//            double x2;
-//            double y2;
-//            int count2;
-//            if (count > 0) {
-//                count2 = count;
-//            } else {
-//                count2 = pixels.length / 2;
-//            }
-//            bolNoRepeats = false;
-//            do {
-//                bolNoRepeats = true;
-//                for (j = 0; j < count2 - 1; j++) {
-//                    x1 = pixels[2 * j];
-//                    y1 = pixels[2 * j + 1];
-//                    x2 = pixels[2 * j + 2];
-//                    y2 = pixels[2 * j + 3];
-//                    //if ((int)x1 == (int)x2)
-//                    if (Math.abs(x2 - x1) < 1d) {
-//                        bolNoRepeats = false;
-//                        pixels[2 * j + 2] = x1 + 1d; //move the point
-//                        //WriteFile("x repeats");
-//                        break;
-//                    }
-//                    //if ((int)y1 == (int)y2)
-//                    if (Math.abs(y2 - y1) < 1d) {
-//                        bolNoRepeats = false;
-//                        pixels[2 * j + 3] = y1 + 1d; //move the point
-//                        break;
-//                    }
-//                }
-//            } while (bolNoRepeats == false);
-//            return;
-//        } catch (Exception exc) {
-//            //System.out.println(e.getMessage());
-//            //clsUtility.WriteFile("Error in clsUtility.MovePixels");
-//            ErrorLogger.LogException(_className, "MovePixels",
-//                    new RendererException("Failed inside MovePixels", exc));
-//        }
-//    }
-
     /**
      * Client utility to calculate the channel points for channel types.
      * This code was ported from CJMTK.
@@ -1905,7 +1819,6 @@ public final class clsUtility {
             ErrorLogger.LogException(_className, "GetSegments",
                     new RendererException("Failed inside GetSegments", exc));
         }
-        return;
     }
 
     /**
@@ -1996,7 +1909,6 @@ public final class clsUtility {
             ErrorLogger.LogException(_className, "ReverseUSASLCPointsByQuadrant",
                     new RendererException("Failed inside ReverseUSASLCPointsByQuadrant", exc));
         }
-        return;
     }//end ReverseUSASLCPointsByQuadrant
     /**
      * 
@@ -2524,7 +2436,6 @@ public final class clsUtility {
             ErrorLogger.LogException(_className ,"initializeLinetypes",
                 new RendererException("Failed inside initializeLinetypes", exc));
         }
-        return;
     }
     /**
      * use str if tg is null
@@ -2686,7 +2597,6 @@ public final class clsUtility {
             ErrorLogger.LogException(_className ,"setRevC",
                     new RendererException("Failed inside setRevC", exc));
         }
-        return;
     }
     /**
      * 
