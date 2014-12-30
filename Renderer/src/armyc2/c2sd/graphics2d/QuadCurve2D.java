@@ -244,37 +244,7 @@ public /*abstract*/ final class QuadCurve2D /*implements Shape, Cloneable*/ {
 	eqn[0] = c1 - val;
 	eqn[1] = cp + cp - c1 - c1;
 	eqn[2] = c1 - cp - cp + c2;
-	return;
     }
-
-    /**
-     * Evaluate the t values in the first num slots of the vals[] array
-     * and place the evaluated values back into the same array.  Only
-     * evaluate t values that are within the range <0, 1>, including
-     * the 0 and 1 ends of the range iff the include0 or include1
-     * booleans are true.  If an "inflection" equation is handed in,
-     * then any points which represent a point of inflection for that
-     * quadratic equation are also ignored.
-     */
-//    private static int evalQuadratic(double vals[], int num,
-//				     boolean include0,
-//				     boolean include1,
-//				     double inflect[],
-//				     double c1, double ctrl, double c2) {
-//	int j = 0;
-//	for (int i = 0; i < num; i++) {
-//	    double t = vals[i];
-//	    if ((include0 ? t >= 0 : t > 0) &&
-//		(include1 ? t <= 1 : t < 1) &&
-//		(inflect == null ||
-//		 inflect[1] + 2*inflect[2]*t != 0))
-//	    {
-//		double u = 1 - t;
-//		vals[j++] = c1*u*u + 2*ctrl*t*u + c2*t*t;
-//	    }
-//	}
-//	return j;
-//    }
 
     private static final int BELOW = -2;
     private static final int LOWEDGE = -1;

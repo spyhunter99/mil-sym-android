@@ -440,38 +440,7 @@ public /* abstract */ final class CubicCurve2D /*implements Shape, Cloneable*/ {
 	eqn[1] = (cp1 - c1) * 3.0;
 	eqn[2] = (cp2 - cp1 - cp1 + c1) * 3.0;
 	eqn[3] = c2 + (cp1 - cp2) * 3.0 - c1;
-	return;
     }
-
-    /*
-     * Evaluate the t values in the first num slots of the vals[] array
-     * and place the evaluated values back into the same array.  Only
-     * evaluate t values that are within the range <0, 1>, including
-     * the 0 and 1 ends of the range iff the include0 or include1
-     * booleans are true.  If an "inflection" equation is handed in,
-     * then any points which represent a point of inflection for that
-     * cubic equation are also ignored.
-     */
-//    private static int evalCubic(double vals[], int num,
-//				 boolean include0,
-//				 boolean include1,
-//				 double inflect[],
-//				 double c1, double cp1,
-//				 double cp2, double c2) {
-//	int j = 0;
-//	for (int i = 0; i < num; i++) {
-//	    double t = vals[i];
-//	    if ((include0 ? t >= 0 : t > 0) &&
-//		(include1 ? t <= 1 : t < 1) &&
-//		(inflect == null ||
-//		 inflect[1] + (2*inflect[2] + 3*inflect[3]*t)*t != 0))
-//	    {
-//		double u = 1 - t;
-//		vals[j++] = c1*u*u*u + 3*cp1*t*u*u + 3*cp2*t*t*u + c2*t*t*t;
-//	    }
-//	}
-//	return j;
-//    }
 
     private static final int BELOW = -2;
     private static final int LOWEDGE = -1;

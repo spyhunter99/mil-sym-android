@@ -201,9 +201,6 @@ public class ArcIterator /* implements PathIterator */{
 	if (index == 0) {
 	    coords[0] = (float) (x + Math.cos(angle) * w);
 	    coords[1] = (float) (y + Math.sin(angle) * h);
-//	    if (affine != null) {
-//		affine.transform(coords, 0, coords, 0, 1);
-//	    }
 	    return PathIterator.SEG_MOVETO;
 	}
 	if (index > arcSegs) {
@@ -212,9 +209,6 @@ public class ArcIterator /* implements PathIterator */{
 	    }
 	    coords[0] = (float) x;
 	    coords[1] = (float) y;
-//	    if (affine != null) {
-//		affine.transform(coords, 0, coords, 0, 1);
-//	    }
 	    return PathIterator.SEG_LINETO;
 	}
 	angle += increment * (index - 1);
@@ -229,9 +223,6 @@ public class ArcIterator /* implements PathIterator */{
 	coords[3] = (float) (y + (rely - cv * relx) * h);
 	coords[4] = (float) (x + relx * w);
 	coords[5] = (float) (y + rely * h);
-//	if (affine != null) {
-//	    affine.transform(coords, 0, coords, 0, 3);
-//	}
 	return PathIterator.SEG_CUBICTO;
     }
 
@@ -261,9 +252,6 @@ public class ArcIterator /* implements PathIterator */{
 	if (index == 0) {
 	    coords[0] = x + Math.cos(angle) * w;
 	    coords[1] = y + Math.sin(angle) * h;
-//	    if (affine != null) {
-//		affine.transform(coords, 0, coords, 0, 1);
-//	    }
 	    return PathIterator.SEG_MOVETO;
 	}
 	if (index > arcSegs) {
@@ -272,9 +260,6 @@ public class ArcIterator /* implements PathIterator */{
 	    }
 	    coords[0] = x;
 	    coords[1] = y;
-//	    if (affine != null) {
-//		affine.transform(coords, 0, coords, 0, 1);
-//	    }
 	    return PathIterator.SEG_LINETO;
 	}
 	angle += increment * (index - 1);
@@ -289,9 +274,6 @@ public class ArcIterator /* implements PathIterator */{
 	coords[3] = y + (rely - cv * relx) * h;
 	coords[4] = x + relx * w;
 	coords[5] = y + rely * h;
-//	if (affine != null) {
-//	    affine.transform(coords, 0, coords, 0, 3);
-//	}
 	return PathIterator.SEG_CUBICTO;
     }
 }

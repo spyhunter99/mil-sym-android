@@ -62,21 +62,14 @@ public class GeneralPath implements Shape
     }
     public boolean contains (int x, int y)
     {
-//        Region region=new Region(this.getBounds());        
-//        region.setPath(_path, region);
-//        return region.contains(x, y); 
         return false;
     }
     public boolean contains (Point2D pt)
     {
-//        Region region=new Region(this.getBounds());        
-//        region.setPath(_path, region);
-//        return region.contains((int)pt.getX(), (int)pt.getY()); 
         return false;
     }
     public boolean contains (int x, int y, int width, int height)
     {
-        //Rectangle rect=new Rectangle(x,y,width,height);
         Rectangle rect2=this.getBounds();
         return rect2.contains(x, y, width, height);
     }

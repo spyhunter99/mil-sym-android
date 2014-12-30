@@ -29,7 +29,6 @@ public class Area extends GeneralPath{
             else
                 lineTo(poly.xpoints[j],poly.ypoints[j]);
         }
-        return;
     }
     public Area(Shape shape)
     {
@@ -54,7 +53,6 @@ public class Area extends GeneralPath{
                     break;
             }
         }    
-        return;
     }
     /**
      * organizes intersect points by increasing distance from the hatch line origin
@@ -123,7 +121,6 @@ public class Area extends GeneralPath{
             ErrorLogger.LogException(_className, "reorderPointsByDistance",
                     new RendererException("Failed inside reorderPointsByDistance", exc));
         }
-        return;
     }
     Rectangle2D getMBR(ArrayList<POINT2>polygon)
     {
@@ -249,11 +246,6 @@ public class Area extends GeneralPath{
         }
         return pts;
     }
-//    Area shapeArea=new Area(shape.getShape());
-//    hatchLineArea=new Area(hatchLineShape.getShape());
-//    //intersect the hatch lines with the original shape area to get the fill
-//    hatchLineArea.intersect(shapeArea);
-//    hatchLineShape.setShape(hatchLineArea);
     /**
      * this is functionality for clsUtilityGE.buildHatchFillwhich calls hatchLineArea.intersect(shapeArea).
      * so it assumes that this._pts is the hatch lines so it is hatchLines.intersect(shape) where
@@ -317,7 +309,6 @@ public class Area extends GeneralPath{
                 }
             }      
             this.getPathIterator(null).reset();
-            return;
         }
         catch(Exception exc)
         {

@@ -119,7 +119,7 @@ public class Rectangle implements Shape{
     //must complete this function
     public void grow(int h, int v)  
     {
-        return;
+        //return;
     }
     public void setRect(Rectangle rect)
     {

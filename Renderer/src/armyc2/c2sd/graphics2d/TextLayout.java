@@ -17,7 +17,7 @@ public class TextLayout {
     {
         _font=font;
         _str=s;
-        return;
+        //return;
     }
     public Shape getOutline(AffineTransform tx)
     {

@@ -405,7 +405,6 @@ public class BasicStroke implements Stroke, Shape{
             //first handle the case of vertical lines.
             if (pt0.x == pt1.x && pt1.x == pt2.x) {
                 intersectPt = new POINT2(pt01);
-                //intersectPoints.push(intersectPt);
                 intersectPoints.add(intersectPt);
                 continue;
             }
@@ -413,23 +412,17 @@ public class BasicStroke implements Stroke, Shape{
             //simply use pt01 or pt10 since they already uniquely define the intesection
             lineutility.CalcTrueSlopeDouble2(pt00, pt01, m01);
             lineutility.CalcTrueSlopeDouble2(pt10, pt11, m12);
-            //if(m01.dbl==m12.dbl)					
             if (m01.value[0] == m12.value[0]) {
                 intersectPt = new POINT2(pt01);
-                //intersectPoints.push(intersectPt);
                 intersectPoints.add(intersectPt);
                 continue;
             }
             //now we are assuming a non-trivial intersection
             //calculate the y-intercepts using y=mx+b (use b=y-mx)
-            //b01=pt01.y-m01.dbl*pt01.x;
-            //b12=pt11.y-m12.dbl*pt11.x;
             b01 = pt01.y - m01.value[0] * pt01.x;
             b12 = pt11.y - m12.value[0] * pt11.x;
 
-            //intersectPt=lineutility.CalcTrueIntersectDouble2(m01.dbl,b01,m12.dbl,b12,1,1,0,0);
             intersectPt = lineutility.CalcTrueIntersectDouble2(m01.value[0], b01, m12.value[0], b12, 1, 1, 0, 0);
-            //intersectPoints.push(intersectPt);				
             intersectPoints.add(intersectPt);
         }//end for
         return intersectPoints;

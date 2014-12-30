@@ -36,15 +36,15 @@ public class Graphics2D {
     }
     public void setColor(Color color)
     {
-        return;
+        //return;
     }
     public void setBackground(Color color)
     {
-        return;
+        //return;
     }
     public void setTransform(AffineTransform id)
     {
-        return;
+        //return;
     }
     public AffineTransform getTransform()
     {
@@ -52,27 +52,27 @@ public class Graphics2D {
     }
     public void setStroke(BasicStroke stroke)
     {
-        return;
+        //return;
     }
     public void drawLine(double x1, double y1, double x2, double y2 )
     {
-        return;
+        //return;
     }
     public void dispose()
     {
-        return;
+        //return;
     }
     public void rotate(double theta, double x, double y)
     {
-        return;
+        //return;
     }
     public void clearRect(double x, double y, double width, double height)
     {
-        return;
+        //return;
     }
     public void drawString(String s, double x, double y)
     {
-        return;
+        //return;
     }
     public FontRenderContext getFontRenderContext()
     {
