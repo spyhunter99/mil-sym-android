@@ -3,45 +3,40 @@
  * and open the template in the editor.
  */
 package sec.sun.awt.geom;
+
 import armyc2.c2sd.graphics2d.Rectangle2D;
+
 /**
  *
  * @author Michael Deutch
  */
 public class CurveObject {
-    private Order0 order0=null;
-    private Order1 order1=null;
-    private Order2 order2=null;
-    private Order3 order3=null;
-    int order=-1;
-    public CurveObject(Object obj)
-    {
-        if(obj instanceof Order0)
-        {
-            order0=(Order0)obj;
-            order=0;
-        }
-        else if(obj instanceof Order1)
-        {
-            order1=(Order1)obj;
-            order=1;
-        }
-        else if(obj instanceof Order2)
-        {
-            order2=(Order2)obj;
-            order=2;
-        }
-        else if(obj instanceof Order3)
-        {
-            order3=(Order3)obj;
-            order=3;
+
+    private Order0 order0 = null;
+    private Order1 order1 = null;
+    private Order2 order2 = null;
+    private Order3 order3 = null;
+    int order = -1;
+
+    public CurveObject(Object obj) {
+        if (obj instanceof Order0) {
+            order0 = (Order0) obj;
+            order = 0;
+        } else if (obj instanceof Order1) {
+            order1 = (Order1) obj;
+            order = 1;
+        } else if (obj instanceof Order2) {
+            order2 = (Order2) obj;
+            order = 2;
+        } else if (obj instanceof Order3) {
+            order3 = (Order3) obj;
+            order = 3;
         }
         setParent();
     }
-    private void setParent()
-    {
-        switch(order)
-        {
+
+    private void setParent() {
+        switch (order) {
             case 0:
                 order0.setParent(this);
                 break;
@@ -59,10 +54,9 @@ public class CurveObject {
         }
         return;
     }
-    public Object getCurve()
-    {
-        switch(order)
-        {
+
+    public Object getCurve() {
+        switch (order) {
             case 0:
                 return order0;
             case 1:
@@ -75,15 +69,13 @@ public class CurveObject {
                 return null;
         }
     }
-    public int getOrder()
-    {
+
+    public int getOrder() {
         return order;
     }
-    
-    public double getXTop()
-    {
-        switch(order)
-        {
+
+    public double getXTop() {
+        switch (order) {
             case 0:
                 return order0.getXTop();
             case 1:
@@ -92,35 +84,33 @@ public class CurveObject {
                 return order2.getXTop();
             case 3:
                 return order3.getXTop();
-        default:
-            return -7;
+            default:
+                return -7;
         }
     }
+
     public CurveObject(int direction) {
         //this.direction = direction;
-        switch(order)
-        {
+        switch (order) {
             case 0:
-                order0.direction=direction;
+                order0.direction = direction;
                 break;
             case 1:
-                order1.direction=direction;
+                order1.direction = direction;
                 break;
             case 2:
-                order2.direction=direction;
+                order2.direction = direction;
                 break;
             case 3:
-                order3.direction=direction;
+                order3.direction = direction;
                 break;
             default:
                 break;
         }
     }
-    
-    public double getYTop()
-    {
-        switch(order)
-        {
+
+    public double getYTop() {
+        switch (order) {
             case 0:
                 return order0.getYTop();
             case 1:
@@ -129,14 +119,13 @@ public class CurveObject {
                 return order2.getYTop();
             case 3:
                 return order3.getYTop();
-        default:
-            return -7;
-        }        
+            default:
+                return -7;
+        }
     }
-    public double getXBot()
-    {
-        switch(order)
-        {
+
+    public double getXBot() {
+        switch (order) {
             case 0:
                 return order0.getXBot();
             case 1:
@@ -145,15 +134,14 @@ public class CurveObject {
                 return order2.getXBot();
             case 3:
                 return order3.getXBot();
-        default:
-            return -7;
+            default:
+                return -7;
         }
-        
+
     }
-    public double getYBot()
-    {
-        switch(order)
-        {
+
+    public double getYBot() {
+        switch (order) {
             case 0:
                 return order0.getYBot();
             case 1:
@@ -162,16 +150,14 @@ public class CurveObject {
                 return order2.getYBot();
             case 3:
                 return order3.getYBot();
-        default:
-            return -7;
+            default:
+                return -7;
         }
-        
+
     }
 
-    public double getXMin()
-    {
-        switch(order)
-        {
+    public double getXMin() {
+        switch (order) {
             case 0:
                 return order0.getXMin();
             case 1:
@@ -180,14 +166,13 @@ public class CurveObject {
                 return order2.getXMin();
             case 3:
                 return order3.getXMin();
-        default:
-            return -7;
-        }        
+            default:
+                return -7;
+        }
     }
-    public double getXMax()
-    {
-        switch(order)
-        {
+
+    public double getXMax() {
+        switch (order) {
             case 0:
                 return order0.getXMax();
             case 1:
@@ -196,14 +181,14 @@ public class CurveObject {
                 return order2.getXMax();
             case 3:
                 return order3.getXMax();
-        default:
-            return -7;
-        }        
+            default:
+                return -7;
+        }
     }
+
     public final int getDirection() {
         //return direction;
-        switch(order)
-        {
+        switch (order) {
             case 0:
                 return order0.direction;
             case 1:
@@ -216,9 +201,9 @@ public class CurveObject {
                 return -1;
         }
     }
+
     public double XforY(double y) {
-        switch(order)
-        {
+        switch (order) {
             case 0:
                 return order0.XforY(y);
             case 1:
@@ -227,14 +212,13 @@ public class CurveObject {
                 return order2.XforY(y);
             case 3:
                 return order3.XforY(y);
-        default:
-            return -7;
-        }        
+            default:
+                return -7;
+        }
     }
-    public Object getReversedCurve()
-    {
-        switch(order)
-        {
+
+    public Object getReversedCurve() {
+        switch (order) {
             case 0:
                 return order0.getReversedCurve();
             case 1:
@@ -243,14 +227,13 @@ public class CurveObject {
                 return order2.getReversedCurve();
             case 3:
                 return order3.getReversedCurve();
-        default:
-            return null;
-        }                    
+            default:
+                return null;
+        }
     }
-    public double getX0()
-    {
-        switch(order)
-        {
+
+    public double getX0() {
+        switch (order) {
             case 0:
                 return order0.getX0();
             case 1:
@@ -259,14 +242,13 @@ public class CurveObject {
                 return order2.getX0();
             case 3:
                 return order3.getX0();
-        default:
-            return -7;
-        }                    
+            default:
+                return -7;
+        }
     }
-    public double getY0()
-    {
-        switch(order)
-        {
+
+    public double getY0() {
+        switch (order) {
             case 0:
                 return order0.getY0();
             case 1:
@@ -275,14 +257,13 @@ public class CurveObject {
                 return order2.getY0();
             case 3:
                 return order3.getY0();
-        default:
-            return -7;
-        }                    
+            default:
+                return -7;
+        }
     }
-    public double getX1()
-    {
-        switch(order)
-        {
+
+    public double getX1() {
+        switch (order) {
             case 0:
                 return order0.getX1();
             case 1:
@@ -291,14 +272,13 @@ public class CurveObject {
                 return order2.getX1();
             case 3:
                 return order3.getX1();
-        default:
-            return -7;
-        }                    
+            default:
+                return -7;
+        }
     }
-    public double getY1()
-    {
-        switch(order)
-        {
+
+    public double getY1() {
+        switch (order) {
             case 0:
                 return order0.getY1();
             case 1:
@@ -307,14 +287,13 @@ public class CurveObject {
                 return order2.getY1();
             case 3:
                 return order3.getY1();
-        default:
-            return -7;
-        }                    
+            default:
+                return -7;
+        }
     }
-    public double XforT(double t)
-    {
-        switch(order)
-        {
+
+    public double XforT(double t) {
+        switch (order) {
             case 0:
                 return order0.XforT(t);
             case 1:
@@ -323,14 +302,13 @@ public class CurveObject {
                 return order2.XforT(t);
             case 3:
                 return order3.XforT(t);
-        default:
-            return -7;
-        }                    
+            default:
+                return -7;
+        }
     }
-    public double YforT(double t)
-    {
-        switch(order)
-        {
+
+    public double YforT(double t) {
+        switch (order) {
             case 0:
                 return order0.YforT(t);
             case 1:
@@ -339,14 +317,13 @@ public class CurveObject {
                 return order2.YforT(t);
             case 3:
                 return order3.YforT(t);
-        default:
-            return -7;
-        }                    
+            default:
+                return -7;
+        }
     }
-    public double TforY(double t)
-    {
-        switch(order)
-        {
+
+    public double TforY(double t) {
+        switch (order) {
             case 0:
                 return order0.TforY(t);
             case 1:
@@ -355,14 +332,13 @@ public class CurveObject {
                 return order2.TforY(t);
             case 3:
                 return order3.TforY(t);
-        default:
-            return -7;
-        }                    
+            default:
+                return -7;
+        }
     }
-    public double nextVertical(double t0, double t1)
-    {
-        switch(order)
-        {
+
+    public double nextVertical(double t0, double t1) {
+        switch (order) {
             case 0:
                 return order0.nextVertical(t0, t1);
             case 1:
@@ -371,14 +347,13 @@ public class CurveObject {
                 return order2.nextVertical(t0, t1);
             case 3:
                 return order3.nextVertical(t0, t1);
-        default:
-            return -7;
-        }                    
+            default:
+                return -7;
+        }
     }
-    public String controlPointString()            
-    {
-        switch(order)
-        {
+
+    public String controlPointString() {
+        switch (order) {
             case 0:
                 return "";
             case 1:
@@ -387,21 +362,23 @@ public class CurveObject {
                 return order2.controlPointString();
             case 3:
                 return order3.controlPointString();
-        default:
-            return "";
-        }                    
+            default:
+                return "";
+        }
     }
+
     @Override
     public String toString() {
-        return ("Curve["+
-                getOrder()+", "+
-                ("("+Curve.round(this.getX0())+", "+Curve.round(this.getY0())+"), ")+
-                this.controlPointString()+
-                ("("+Curve.round(getX1())+", "+Curve.round(getY1())+"), ")+
-                //(direction == Curve.INCREASING ? "D" : "U")+
-                (this.getDirection() == Curve.INCREASING ? "D" : "U")+
-                "]");
+        return ("Curve["
+                + getOrder() + ", "
+                + ("(" + Curve.round(this.getX0()) + ", " + Curve.round(this.getY0()) + "), ")
+                + this.controlPointString()
+                + ("(" + Curve.round(getX1()) + ", " + Curve.round(getY1()) + "), ")
+                + //(direction == Curve.INCREASING ? "D" : "U")+
+                (this.getDirection() == Curve.INCREASING ? "D" : "U")
+                + "]");
     }
+
     public int crossingsFor(double x, double y) {
         if (y >= this.getYTop() && y < this.getYBot()) {
             if (x < this.getXMax() && (x < this.getXMin() || x < this.XforY(y))) {
@@ -410,6 +387,7 @@ public class CurveObject {
         }
         return 0;
     }
+
     public boolean accumulateCrossings(CrossingsObject c) {
         double xhi = c.getXHi();
         if (getXMin() >= xhi) {
@@ -467,6 +445,7 @@ public class CurveObject {
         }
         return false;
     }
+
     public double refineTforY(double t0, double yt0, double y0) {
         double t1 = 1;
         while (true) {
@@ -485,32 +464,31 @@ public class CurveObject {
             }
         }
     }
+
     public boolean findIntersect(CurveObject that, double yrange[], double ymin,
-                                 int slevel, int tlevel,
-                                 double s0, double xs0, double ys0,
-                                 double s1, double xs1, double ys1,
-                                 double t0, double xt0, double yt0,
-                                 double t1, double xt1, double yt1)
-    {
+            int slevel, int tlevel,
+            double s0, double xs0, double ys0,
+            double s1, double xs1, double ys1,
+            double t0, double xt0, double yt0,
+            double t1, double xt1, double yt1) {
         /*
-        String pad = "        ";
-        pad = pad+pad+pad+pad+pad;
-        pad = pad+pad;
-        System.out.println("----------------------------------------------");
-        System.out.println(pad.substring(0, slevel)+ys0);
-        System.out.println(pad.substring(0, slevel)+ys1);
-        System.out.println(pad.substring(0, slevel)+(s1-s0));
-        System.out.println("-------");
-        System.out.println(pad.substring(0, tlevel)+yt0);
-        System.out.println(pad.substring(0, tlevel)+yt1);
-        System.out.println(pad.substring(0, tlevel)+(t1-t0));
-        */
+         String pad = "        ";
+         pad = pad+pad+pad+pad+pad;
+         pad = pad+pad;
+         System.out.println("----------------------------------------------");
+         System.out.println(pad.substring(0, slevel)+ys0);
+         System.out.println(pad.substring(0, slevel)+ys1);
+         System.out.println(pad.substring(0, slevel)+(s1-s0));
+         System.out.println("-------");
+         System.out.println(pad.substring(0, tlevel)+yt0);
+         System.out.println(pad.substring(0, tlevel)+yt1);
+         System.out.println(pad.substring(0, tlevel)+(t1-t0));
+         */
         if (ys0 > yt1 || yt0 > ys1) {
             return false;
         }
-        if (Math.min(xs0, xs1) > Math.max(xt0, xt1) ||
-            Math.max(xs0, xs1) < Math.min(xt0, xt1))
-        {
+        if (Math.min(xs0, xs1) > Math.max(xt0, xt1)
+                || Math.max(xs0, xs1) < Math.min(xt0, xt1)) {
             return false;
         }
         // Bounding boxes intersect - back off the larger of
@@ -522,8 +500,8 @@ public class CurveObject {
             double xs = this.XforT(s);
             double ys = this.YforT(s);
             if (s == s0 || s == s1) {
-                System.out.println("s0 = "+s0);
-                System.out.println("s1 = "+s1);
+                System.out.println("s0 = " + s0);
+                System.out.println("s1 = " + s1);
                 throw new InternalError("no s progress!");
             }
             if (t1 - t0 > Curve.TMIN) {
@@ -531,50 +509,50 @@ public class CurveObject {
                 double xt = that.XforT(t);
                 double yt = that.YforT(t);
                 if (t == t0 || t == t1) {
-                    System.out.println("t0 = "+t0);
-                    System.out.println("t1 = "+t1);
+                    System.out.println("t0 = " + t0);
+                    System.out.println("t1 = " + t1);
                     throw new InternalError("no t progress!");
                 }
                 if (ys >= yt0 && yt >= ys0) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel+1,
-                                      s0, xs0, ys0, s, xs, ys,
-                                      t0, xt0, yt0, t, xt, yt)) {
+                    if (findIntersect(that, yrange, ymin, slevel + 1, tlevel + 1,
+                            s0, xs0, ys0, s, xs, ys,
+                            t0, xt0, yt0, t, xt, yt)) {
                         return true;
                     }
                 }
                 if (ys >= yt) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel+1,
-                                      s0, xs0, ys0, s, xs, ys,
-                                      t, xt, yt, t1, xt1, yt1)) {
+                    if (findIntersect(that, yrange, ymin, slevel + 1, tlevel + 1,
+                            s0, xs0, ys0, s, xs, ys,
+                            t, xt, yt, t1, xt1, yt1)) {
                         return true;
                     }
                 }
                 if (yt >= ys) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel+1,
-                                      s, xs, ys, s1, xs1, ys1,
-                                      t0, xt0, yt0, t, xt, yt)) {
+                    if (findIntersect(that, yrange, ymin, slevel + 1, tlevel + 1,
+                            s, xs, ys, s1, xs1, ys1,
+                            t0, xt0, yt0, t, xt, yt)) {
                         return true;
                     }
                 }
                 if (ys1 >= yt && yt1 >= ys) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel+1,
-                                      s, xs, ys, s1, xs1, ys1,
-                                      t, xt, yt, t1, xt1, yt1)) {
+                    if (findIntersect(that, yrange, ymin, slevel + 1, tlevel + 1,
+                            s, xs, ys, s1, xs1, ys1,
+                            t, xt, yt, t1, xt1, yt1)) {
                         return true;
                     }
                 }
             } else {
                 if (ys >= yt0) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel,
-                                      s0, xs0, ys0, s, xs, ys,
-                                      t0, xt0, yt0, t1, xt1, yt1)) {
+                    if (findIntersect(that, yrange, ymin, slevel + 1, tlevel,
+                            s0, xs0, ys0, s, xs, ys,
+                            t0, xt0, yt0, t1, xt1, yt1)) {
                         return true;
                     }
                 }
                 if (yt1 >= ys) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel,
-                                      s, xs, ys, s1, xs1, ys1,
-                                      t0, xt0, yt0, t1, xt1, yt1)) {
+                    if (findIntersect(that, yrange, ymin, slevel + 1, tlevel,
+                            s, xs, ys, s1, xs1, ys1,
+                            t0, xt0, yt0, t1, xt1, yt1)) {
                         return true;
                     }
                 }
@@ -584,21 +562,21 @@ public class CurveObject {
             double xt = that.XforT(t);
             double yt = that.YforT(t);
             if (t == t0 || t == t1) {
-                System.out.println("t0 = "+t0);
-                System.out.println("t1 = "+t1);
+                System.out.println("t0 = " + t0);
+                System.out.println("t1 = " + t1);
                 throw new InternalError("no t progress!");
             }
             if (yt >= ys0) {
-                if (findIntersect(that, yrange, ymin, slevel, tlevel+1,
-                                  s0, xs0, ys0, s1, xs1, ys1,
-                                  t0, xt0, yt0, t, xt, yt)) {
+                if (findIntersect(that, yrange, ymin, slevel, tlevel + 1,
+                        s0, xs0, ys0, s1, xs1, ys1,
+                        t0, xt0, yt0, t, xt, yt)) {
                     return true;
                 }
             }
             if (ys1 >= yt) {
-                if (findIntersect(that, yrange, ymin, slevel, tlevel+1,
-                                  s0, xs0, ys0, s1, xs1, ys1,
-                                  t, xt, yt, t1, xt1, yt1)) {
+                if (findIntersect(that, yrange, ymin, slevel, tlevel + 1,
+                        s0, xs0, ys0, s1, xs1, ys1,
+                        t, xt, yt, t1, xt1, yt1)) {
                     return true;
                 }
             }
@@ -632,13 +610,13 @@ public class CurveObject {
         }
         return false;
     }
+
     public int compareTo(CurveObject that, double yrange[]) {
         /*
-        System.out.println(this+".compareTo("+that+")");
-        System.out.println("target range = "+yrange[0]+"=>"+yrange[1]);
-        */
-        if(order==1)
-        {
+         System.out.println(this+".compareTo("+that+")");
+         System.out.println("target range = "+yrange[0]+"=>"+yrange[1]);
+         */
+        if (order == 1) {
             return order1.compareTo(that, yrange);
         }
         double y0 = yrange[0];
@@ -646,10 +624,10 @@ public class CurveObject {
         //y1 = Math.min(Math.min(y1, this.getYBot()), that.getYBot());
         y1 = Math.min(Math.min(y1, this.getYBot()), that.getYBot());
         if (y1 <= yrange[0]) {
-            System.err.println("this == "+this);
-            System.err.println("that == "+that);
-            System.out.println("target range = "+yrange[0]+"=>"+yrange[1]);
-            throw new InternalError("backstepping from "+yrange[0]+" to "+y1);
+            System.err.println("this == " + this);
+            System.err.println("that == " + that);
+            System.out.println("target range = " + yrange[0] + "=>" + yrange[1]);
+            throw new InternalError("backstepping from " + yrange[0] + " to " + y1);
         }
         yrange[1] = y1;
         if (this.getXMax() <= that.getXMin()) {
@@ -726,12 +704,12 @@ public class CurveObject {
         }
         //double ymin = y1 * 1E-14;
         if (ymin <= 0) {
-            System.out.println("ymin = "+ymin);
+            System.out.println("ymin = " + ymin);
         }
         /*
-        System.out.println("s range = "+s0+" to "+s1);
-        System.out.println("t range = "+t0+" to "+t1);
-        */
+         System.out.println("s range = "+s0+" to "+s1);
+         System.out.println("t range = "+t0+" to "+t1);
+         */
         while (s0 < s1 && t0 < t1) {
             double sh = this.nextVertical(s0, s1);
             double xsh = this.XforT(sh);
@@ -740,23 +718,23 @@ public class CurveObject {
             double xth = that.XforT(th);
             double yth = that.YforT(th);
             /*
-            System.out.println("sh = "+sh);
-            System.out.println("th = "+th);
-            */
-        try {
-            if (findIntersect(that, yrange, ymin, 0, 0,
-                              s0, xs0, ys0, sh, xsh, ysh,
-                              t0, xt0, yt0, th, xth, yth)) {
-                break;
+             System.out.println("sh = "+sh);
+             System.out.println("th = "+th);
+             */
+            try {
+                if (findIntersect(that, yrange, ymin, 0, 0,
+                        s0, xs0, ys0, sh, xsh, ysh,
+                        t0, xt0, yt0, th, xth, yth)) {
+                    break;
+                }
+            } catch (Throwable t) {
+                System.err.println("Error: " + t);
+                System.err.println("y range was " + yrange[0] + "=>" + yrange[1]);
+                System.err.println("s y range is " + ys0 + "=>" + ysh);
+                System.err.println("t y range is " + yt0 + "=>" + yth);
+                System.err.println("ymin is " + ymin);
+                return 0;
             }
-        } catch (Throwable t) {
-            System.err.println("Error: "+t);
-            System.err.println("y range was "+yrange[0]+"=>"+yrange[1]);
-            System.err.println("s y range is "+ys0+"=>"+ysh);
-            System.err.println("t y range is "+yt0+"=>"+yth);
-            System.err.println("ymin is "+ymin);
-            return 0;
-        }
             if (ysh < yth) {
                 if (ysh > yrange[0]) {
                     if (ysh < yrange[1]) {
@@ -781,26 +759,25 @@ public class CurveObject {
         }
         double ymid = (yrange[0] + yrange[1]) / 2;
         /*
-        System.out.println("final this["+s0+", "+sh+", "+s1+"]");
-        System.out.println("final    y["+ys0+", "+ysh+"]");
-        System.out.println("final that["+t0+", "+th+", "+t1+"]");
-        System.out.println("final    y["+yt0+", "+yth+"]");
-        System.out.println("final order = "+orderof(this.XforY(ymid),
-                                                    that.XforY(ymid)));
-        System.out.println("final range = "+yrange[0]+"=>"+yrange[1]);
-        */
+         System.out.println("final this["+s0+", "+sh+", "+s1+"]");
+         System.out.println("final    y["+ys0+", "+ysh+"]");
+         System.out.println("final that["+t0+", "+th+", "+t1+"]");
+         System.out.println("final    y["+yt0+", "+yth+"]");
+         System.out.println("final order = "+orderof(this.XforY(ymid),
+         that.XforY(ymid)));
+         System.out.println("final range = "+yrange[0]+"=>"+yrange[1]);
+         */
         /*
-        System.out.println("final sx = "+this.XforY(ymid));
-        System.out.println("final tx = "+that.XforY(ymid));
-        System.out.println("final order = "+orderof(this.XforY(ymid),
-                                                    that.XforY(ymid)));
-        */
+         System.out.println("final sx = "+this.XforY(ymid));
+         System.out.println("final tx = "+that.XforY(ymid));
+         System.out.println("final order = "+orderof(this.XforY(ymid),
+         that.XforY(ymid)));
+         */
         return Curve.orderof(this.XforY(ymid), that.XforY(ymid));
     }
-    public int getSegment(double coords[])
-    {
-        switch(order)
-        {
+
+    public int getSegment(double coords[]) {
+        switch (order) {
             case 0:
                 return order0.getSegment(coords);
             case 1:
@@ -809,14 +786,14 @@ public class CurveObject {
                 return order2.getSegment(coords);
             case 3:
                 return order3.getSegment(coords);
-        default:
-            return -7;
-        }                    
-        
+            default:
+                return -7;
+        }
+
     }
+
     public Object getSubCurve(double ystart, double yend, int dir) {    //did return Curve
-        switch(order)
-        {
+        switch (order) {
             case 0:
                 return order0.getSubCurve(ystart, yend, dir);
             case 1:
@@ -825,14 +802,13 @@ public class CurveObject {
                 return order2.getSubCurve(ystart, yend, dir);
             case 3:
                 return order3.getSubCurve(ystart, yend, dir);
-        default:
-            return null;
-        }                           
+            default:
+                return null;
+        }
     }
-    public void enlarge(Rectangle2D r) 
-    {
-        switch(order)
-        {
+
+    public void enlarge(Rectangle2D r) {
+        switch (order) {
             case 0:
                 order0.enlarge(r);
             case 1:
@@ -841,15 +817,15 @@ public class CurveObject {
                 order2.enlarge(r);
             case 3:
                 order3.enlarge(r);
-        default:
-            return;
-        }                    
+            default:
+                return;
+        }
     }
+
     public Object getWithDirection(int direction) {
         //return (this.direction == direction ? this : getReversedCurve());
         //return (this.getDirection() == direction ? this : getReversedCurve());
-        switch(order)
-        {
+        switch (order) {
             case 0:
                 return order0.getWithDirection(direction);
             case 1:

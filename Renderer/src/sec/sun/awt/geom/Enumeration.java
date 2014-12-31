@@ -3,30 +3,35 @@
  * and open the template in the editor.
  */
 package sec.sun.awt.geom;
+
 import java.util.ArrayList;
+
 /**
  *
  * @author Michael Deutch
  */
 public class Enumeration {
-    private ArrayList _vector=null;
-    private int currentIndex=0;
-    public Enumeration(ArrayList vector)
-    {
-        _vector=vector;
+
+    private ArrayList _vector = null;
+    private int currentIndex = 0;
+
+    public Enumeration(ArrayList vector) {
+        _vector = vector;
     }
-    public Object nextElement()
-    {
-        if(currentIndex<_vector.size())
+
+    public Object nextElement() {
+        if (currentIndex < _vector.size()) {
             return _vector.get(currentIndex++);
-        else
+        } else {
             return null;
+        }
     }
-    public boolean hasMoreElements()
-    {
-        if(currentIndex<_vector.size())
+
+    public boolean hasMoreElements() {
+        if (currentIndex < _vector.size()) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }

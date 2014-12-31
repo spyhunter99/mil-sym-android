@@ -56,10 +56,6 @@ public class Vector {
     protected void add(Object obj)
     {
         _vector.add(obj);
-//        if(obj instanceof Order1)
-//        {
-//            double x=7;
-//        }
     }
     protected void clear()
     {

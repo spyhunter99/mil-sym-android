@@ -115,12 +115,13 @@ public class EvenOdd {
     public final double getYHi() {
         return yhi;
     }
+
     public final boolean isEmpty() {
         return (limit == 0);
     }
+
     public boolean accumulateLine(double x0, double y0,
-                                  double x1, double y1)
-    {
+            double x1, double y1) {
         if (y0 <= y1) {
             return accumulateLine2(x0, y0, x1, y1, 1);
         } else {
@@ -129,9 +130,8 @@ public class EvenOdd {
     }
 
     public boolean accumulateLine2(double x0, double y0,
-                                  double x1, double y1,
-                                  int direction)
-    {
+            double x1, double y1,
+            int direction) {
         if (yhi <= y0 || ylo >= y1) {
             return false;
         }

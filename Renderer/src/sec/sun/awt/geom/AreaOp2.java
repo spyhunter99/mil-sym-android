@@ -24,10 +24,6 @@ public class AreaOp2 {
     public static final int RSTAG_INSIDE = 1;
     public static final int RSTAG_OUTSIDE = -1;
 
-    //public abstract void newRow();
-    //public abstract int classify(Edge e);
-    //public abstract int getState();
-    //private int _type=-1;
     private EOWindOp eo=null;
     private NZWindOp nz=null;
     public AreaOp2(int type) {

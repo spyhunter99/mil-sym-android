@@ -22,7 +22,6 @@
  * CA 95054 USA or visit www.sun.com if you need additional information or
  * have any questions.
  */
-
 package sec.sun.awt.geom;
 
 //import java.awt.geom.Rectangle2D;
@@ -30,18 +29,21 @@ package sec.sun.awt.geom;
 //import java.util.Vector;
 import armyc2.c2sd.graphics2d.PathIterator;
 import armyc2.c2sd.graphics2d.Rectangle2D;
-final class Order0 /* extends Curve */{
-    
+
+final class Order0 /* extends Curve */ {
+
     private double x;
     private double y;
-    public int direction=-1;
+    public int direction = -1;
+
     public Order0(double x, double y) {
         //super(INCREASING);
-        direction=Curve.INCREASING;
-        
+        direction = Curve.INCREASING;
+
         this.x = x;
         this.y = y;
     }
+
     public int getOrder() {
         return 0;
     }
@@ -119,10 +121,10 @@ final class Order0 /* extends Curve */{
     }
 
     public boolean accumulateCrossings(Crossings c) {
-        return (x > c.getXLo() &&
-                x < c.getXHi() &&
-                y > c.getYLo() &&
-                y < c.getYHi());
+        return (x > c.getXLo()
+                && x < c.getXHi()
+                && y > c.getYLo()
+                && y < c.getYHi());
     }
 
     public void enlarge(Rectangle2D r) {
@@ -142,19 +144,21 @@ final class Order0 /* extends Curve */{
         coords[1] = y;
         return PathIterator.SEG_MOVETO;
     }
+
     public String controlPointString() {
         return "";
     }
+
     public Order0 getWithDirection(int direction) {
         return (this.direction == direction ? this : getReversedCurve());
     }
-    private CurveObject _parent=null;
-    protected void setParent(CurveObject parent)
-    {
-        _parent=parent;
+    private CurveObject _parent = null;
+
+    protected void setParent(CurveObject parent) {
+        _parent = parent;
     }
-    protected CurveObject getParent()
-    {
+
+    protected CurveObject getParent() {
         return _parent;
     }
 }

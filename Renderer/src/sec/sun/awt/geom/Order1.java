@@ -22,27 +22,28 @@
  * CA 95054 USA or visit www.sun.com if you need additional information or
  * have any questions.
  */
-
 package sec.sun.awt.geom;
 
 //import java.awt.geom.Rectangle2D;
 //import java.awt.geom.PathIterator;
 import armyc2.c2sd.graphics2d.PathIterator;
 import armyc2.c2sd.graphics2d.Rectangle2D;
-final class Order1 /* extends Curve */{
+
+final class Order1 /* extends Curve */ {
+
     private double x0;
     private double y0;
     private double x1;
     private double y1;
     private double xmin;
     private double xmax;
-    public int direction=-1;
+    public int direction = -1;
+
     public Order1(double x0, double y0,
-                  double x1, double y1,
-                  int direction)
-    {
+            double x1, double y1,
+            int direction) {
         //super(direction);
-        this.direction=direction;
+        this.direction = direction;
         this.x0 = x0;
         this.y0 = y0;
         this.x1 = x1;
@@ -131,23 +132,23 @@ final class Order1 /* extends Curve */{
 
     public double dXforT(double t, int deriv) {
         switch (deriv) {
-        case 0:
-            return x0 + t * (x1 - x0);
-        case 1:
-            return (x1 - x0);
-        default:
-            return 0;
+            case 0:
+                return x0 + t * (x1 - x0);
+            case 1:
+                return (x1 - x0);
+            default:
+                return 0;
         }
     }
 
     public double dYforT(double t, int deriv) {
         switch (deriv) {
-        case 0:
-            return y0 + t * (y1 - y0);
-        case 1:
-            return (y1 - y0);
-        default:
-            return 0;
+            case 0:
+                return y0 + t * (y1 - y0);
+            case 1:
+                return (y1 - y0);
+            default:
+                return 0;
         }
     }
 
@@ -198,6 +199,7 @@ final class Order1 /* extends Curve */{
         r.add(x0, y0);
         r.add(x1, y1);
     }
+
     public Order1 getWithDirection(int direction) {
         return (this.direction == direction ? this : getReversedCurve());
     }
@@ -221,19 +223,15 @@ final class Order1 /* extends Curve */{
     }
 
     public int compareTo(Object other, double yrange[]) {   //other was Curve
-//        if (!(other instanceof Order1)) {
-//            return super.compareTo(other, yrange);            
-//        }
-        //Order1 c1 = (Order1) other;
-        CurveObject curve=(CurveObject)other;
-        Order1 c1=(Order1)curve.getCurve();
-        
+        CurveObject curve = (CurveObject) other;
+        Order1 c1 = (Order1) curve.getCurve();
+
         if (yrange[1] <= yrange[0]) {
             throw new InternalError("yrange already screwed up...");
         }
         yrange[1] = Math.min(Math.min(yrange[1], y1), c1.y1);
         if (yrange[1] <= yrange[0]) {
-            throw new InternalError("backstepping from "+yrange[0]+" to "+yrange[1]);
+            throw new InternalError("backstepping from " + yrange[0] + " to " + yrange[1]);
         }
         if (xmax <= c1.xmin) {
             return (xmin == c1.xmax) ? 0 : -1;
@@ -281,8 +279,8 @@ final class Order1 /* extends Curve */{
         double y;
         if (denom != 0) {
             double num = ((x0 - c1.x0) * dya * dyb
-                          - y0 * dxa * dyb
-                          + c1.y0 * dxb * dya);
+                    - y0 * dxa * dyb
+                    + c1.y0 * dxb * dya);
             y = num / denom;
             if (y <= yrange[0]) {
                 // intersection is above us
@@ -316,16 +314,17 @@ final class Order1 /* extends Curve */{
         }
         return PathIterator.SEG_LINETO;
     }
+
     public String controlPointString() {
         return "";
     }
-    private CurveObject _parent=null;
-    protected void setParent(CurveObject parent)
-    {
-        _parent=parent;
+    private CurveObject _parent = null;
+
+    protected void setParent(CurveObject parent) {
+        _parent = parent;
     }
-    protected CurveObject getParent()
-    {
+
+    protected CurveObject getParent() {
         return _parent;
     }
 }

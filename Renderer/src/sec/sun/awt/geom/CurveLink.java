@@ -22,12 +22,11 @@
  * CA 95054 USA or visit www.sun.com if you need additional information or
  * have any questions.
  */
-
 package sec.sun.awt.geom;
 
 //import sun.awt.geom.*;
-
 final class CurveLink {
+
     CurveObject curve;
     double ytop;
     double ybot;
@@ -41,7 +40,7 @@ final class CurveLink {
         this.ybot = yend;
         this.etag = etag;
         if (ytop < curve.getYTop() || ybot > curve.getYBot()) {
-            throw new InternalError("bad curvelink ["+ytop+"=>"+ybot+"] for "+curve);
+            throw new InternalError("bad curvelink [" + ytop + "=>" + ybot + "] for " + curve);
         }
     }
 
@@ -50,13 +49,12 @@ final class CurveLink {
     }
 
     public boolean absorb2(CurveObject curve, double ystart, double yend, int etag) {
-        if (this.curve != curve || this.etag != etag ||
-            ybot < ystart || ytop > yend)
-        {
+        if (this.curve != curve || this.etag != etag
+                || ybot < ystart || ytop > yend) {
             return false;
         }
         if (ystart < curve.getYTop() || yend > curve.getYBot()) {
-            throw new InternalError("bad curvelink ["+ystart+"=>"+yend+"] for "+curve);
+            throw new InternalError("bad curvelink [" + ystart + "=>" + yend + "] for " + curve);
         }
         this.ytop = Math.min(ytop, ystart);
         this.ybot = Math.max(ybot, yend);
@@ -80,8 +78,8 @@ final class CurveLink {
 
     public CurveObject getMoveto() {
         //return new Order0(getXTop(), getYTop());
-        Order0 order0=new Order0(getXTop(), getYTop());
-        return  new CurveObject(order0);
+        Order0 order0 = new Order0(getXTop(), getYTop());
+        return new CurveObject(order0);
     }
 
     public double getXTop() {

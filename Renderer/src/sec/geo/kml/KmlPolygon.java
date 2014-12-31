@@ -13,14 +13,14 @@ public class KmlPolygon {
     private AltitudeMode altitudeMode = AltitudeMode.ABSOLUTE;
 
     protected static final Ellipsoid REFERENCE_ELLIPSOID = Ellipsoid.WGS84;
-    private String altitudeModeField = "#ALTITUDEMODE#";
+    private static final String altitudeModeField = "#ALTITUDEMODE#";
 
-    private String PREFIX = ""
+    private static final String PREFIX = ""
             + "				<Polygon>\n"
             + "					<tessellate>1</tessellate>\n"
             + "					<altitudeMode>" + altitudeModeField + "</altitudeMode>\n"
             + "					<outerBoundaryIs><LinearRing><coordinates>";
-    private String SUFFIX = ""
+    private static final String SUFFIX = ""
             + "					</coordinates></LinearRing></outerBoundaryIs>\n"
             + "				</Polygon>\n";
 

@@ -192,7 +192,7 @@ public class XsltCoordinateWrapper {
 	public static String[] plotPolyarc(String[] points, double pivotX, double pivotY, KmlOptions.AltitudeMode altitudeMode, double radius,
 			double leftAzimuth, double rightAzimuth, double minAltitude, double maxAltitude) {
 		KmlRenderer renderer = new KmlRenderer();
-		return renderer.getCoords(getPolyarc(points, pivotX, pivotY, altitudeMode, radius, leftAzimuth, rightAzimuth, minAltitude, maxAltitude));
+		          return renderer.getCoords(getPolyarc(points, pivotX, pivotY, altitudeMode, radius, leftAzimuth, rightAzimuth, minAltitude, maxAltitude));
 	}
 		
 	private static void addPoints(String[] points, AExtObject path) {

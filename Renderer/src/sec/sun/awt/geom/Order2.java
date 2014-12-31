@@ -22,7 +22,6 @@
  * CA 95054 USA or visit www.sun.com if you need additional information or
  * have any questions.
  */
-
 package sec.sun.awt.geom;
 
 //import java.awt.geom.Rectangle2D;
@@ -30,7 +29,8 @@ package sec.sun.awt.geom;
 import armyc2.c2sd.graphics2d.PathIterator;
 import armyc2.c2sd.graphics2d.Rectangle2D;
 
-final class Order2 /* extends Curve */{
+final class Order2 /* extends Curve */ {
+
     private double x0;
     private double y0;
     private double cx0;
@@ -46,13 +46,13 @@ final class Order2 /* extends Curve */{
     private double ycoeff0;
     private double ycoeff1;
     private double ycoeff2;
-    public int direction=-1;
+    public int direction = -1;
+
     public static void insert(Vector curves, double tmp[],
-                              double x0, double y0,
-                              double cx0, double cy0,
-                              double x1, double y1,
-                              int direction)
-    {
+            double x0, double y0,
+            double cx0, double cy0,
+            double x1, double y1,
+            int direction) {
         int numparams = getHorizontalParams(y0, cy0, y1, tmp);
         if (numparams == 0) {
             // We are using addInstance here to avoid inserting horisontal
@@ -62,23 +62,26 @@ final class Order2 /* extends Curve */{
         }
         // assert(numparams == 1);
         double t = tmp[0];
-        tmp[0] = x0;  tmp[1] = y0;
-        tmp[2] = cx0; tmp[3] = cy0;
-        tmp[4] = x1;  tmp[5] = y1;
+        tmp[0] = x0;
+        tmp[1] = y0;
+        tmp[2] = cx0;
+        tmp[3] = cy0;
+        tmp[4] = x1;
+        tmp[5] = y1;
         split(tmp, 0, t);
-        int i0 = (direction == Curve.INCREASING)? 0 : 4;
+        int i0 = (direction == Curve.INCREASING) ? 0 : 4;
         int i1 = 4 - i0;
         addInstance(curves, tmp[i0], tmp[i0 + 1], tmp[i0 + 2], tmp[i0 + 3],
-                    tmp[i0 + 4], tmp[i0 + 5], direction);
+                tmp[i0 + 4], tmp[i0 + 5], direction);
         addInstance(curves, tmp[i1], tmp[i1 + 1], tmp[i1 + 2], tmp[i1 + 3],
-                    tmp[i1 + 4], tmp[i1 + 5], direction);
+                tmp[i1 + 4], tmp[i1 + 5], direction);
     }
 
     public static void addInstance(Vector curves,
-                                   double x0, double y0,
-                                   double cx0, double cy0,
-                                   double x1, double y1,
-                                   int direction) {
+            double x0, double y0,
+            double cx0, double cy0,
+            double x1, double y1,
+            int direction) {
         if (y0 > y1) {
             curves.add(new Order2(x1, y1, cx0, cy0, x0, y0, -direction));
         } else if (y1 > y0) {
@@ -109,7 +112,7 @@ final class Order2 /* extends Curve */{
      * means outside of this method.
      */
     public static int getHorizontalParams(double c0, double cp, double c1,
-                                          double ret[]) {
+            double ret[]) {
         if (c0 <= cp && cp <= c1) {
             return 0;
         }
@@ -137,33 +140,32 @@ final class Order2 /* extends Curve */{
      */
     public static void split(double coords[], int pos, double t) {
         double x0, y0, cx, cy, x1, y1;
-        coords[pos+8] = x1 = coords[pos+4];
-        coords[pos+9] = y1 = coords[pos+5];
-        cx = coords[pos+2];
-        cy = coords[pos+3];
+        coords[pos + 8] = x1 = coords[pos + 4];
+        coords[pos + 9] = y1 = coords[pos + 5];
+        cx = coords[pos + 2];
+        cy = coords[pos + 3];
         x1 = cx + (x1 - cx) * t;
         y1 = cy + (y1 - cy) * t;
-        x0 = coords[pos+0];
-        y0 = coords[pos+1];
+        x0 = coords[pos + 0];
+        y0 = coords[pos + 1];
         x0 = x0 + (cx - x0) * t;
         y0 = y0 + (cy - y0) * t;
         cx = x0 + (x1 - x0) * t;
         cy = y0 + (y1 - y0) * t;
-        coords[pos+2] = x0;
-        coords[pos+3] = y0;
-        coords[pos+4] = cx;
-        coords[pos+5] = cy;
-        coords[pos+6] = x1;
-        coords[pos+7] = y1;
+        coords[pos + 2] = x0;
+        coords[pos + 3] = y0;
+        coords[pos + 4] = cx;
+        coords[pos + 5] = cy;
+        coords[pos + 6] = x1;
+        coords[pos + 7] = y1;
     }
 
     public Order2(double x0, double y0,
-                  double cx0, double cy0,
-                  double x1, double y1,
-                  int direction)
-    {
+            double cx0, double cy0,
+            double x1, double y1,
+            int direction) {
         //super(direction);
-        this.direction=direction;
+        this.direction = direction;
         // REMIND: Better accuracy in the root finding methods would
         //  ensure that cy0 is in range.  As it stands, it is never
         //  more than "1 mantissa bit" out of range...
@@ -261,8 +263,7 @@ final class Order2 /* extends Curve */{
     }
 
     public static double TforY(double y,
-                               double ycoeff0, double ycoeff1, double ycoeff2)
-    {
+            double ycoeff0, double ycoeff1, double ycoeff2) {
         // The caller should have already eliminated y values
         // outside of the y0 to y1 range.
         ycoeff0 -= y;
@@ -352,27 +353,27 @@ final class Order2 /* extends Curve */{
 
     public double dXforT(double t, int deriv) {
         switch (deriv) {
-        case 0:
-            return (xcoeff2 * t + xcoeff1) * t + xcoeff0;
-        case 1:
-            return 2 * xcoeff2 * t + xcoeff1;
-        case 2:
-            return 2 * xcoeff2;
-        default:
-            return 0;
+            case 0:
+                return (xcoeff2 * t + xcoeff1) * t + xcoeff0;
+            case 1:
+                return 2 * xcoeff2 * t + xcoeff1;
+            case 2:
+                return 2 * xcoeff2;
+            default:
+                return 0;
         }
     }
 
     public double dYforT(double t, int deriv) {
         switch (deriv) {
-        case 0:
-            return (ycoeff2 * t + ycoeff1) * t + ycoeff0;
-        case 1:
-            return 2 * ycoeff2 * t + ycoeff1;
-        case 2:
-            return 2 * ycoeff2;
-        default:
-            return 0;
+            case 0:
+                return (ycoeff2 * t + ycoeff1) * t + ycoeff0;
+            case 1:
+                return 2 * ycoeff2 * t + ycoeff1;
+            case 2:
+                return 2 * ycoeff2;
+            default:
+                return 0;
         }
     }
 
@@ -392,6 +393,7 @@ final class Order2 /* extends Curve */{
         }
         r.add(x1, y1);
     }
+
     public Order2 getWithDirection(int direction) {
         return (this.direction == direction ? this : getReversedCurve());
     }
@@ -428,10 +430,10 @@ final class Order2 /* extends Curve */{
             split(eqn, 0, t0 / t1);
             i = 4;
         }
-        return new Order2(eqn[i+0], ystart,
-                          eqn[i+2], eqn[i+3],
-                          eqn[i+4], yend,
-                          dir);
+        return new Order2(eqn[i + 0], ystart,
+                eqn[i + 2], eqn[i + 3],
+                eqn[i + 4], yend,
+                dir);
     }
 
     public Order2 getReversedCurve() {  //did return Curve
@@ -452,15 +454,15 @@ final class Order2 /* extends Curve */{
     }
 
     public String controlPointString() {
-        return ("("+Curve.round(cx0)+", "+Curve.round(cy0)+"), ");
+        return ("(" + Curve.round(cx0) + ", " + Curve.round(cy0) + "), ");
     }
-    private CurveObject _parent=null;
-    protected void setParent(CurveObject parent)
-    {
-        _parent=parent;
+    private CurveObject _parent = null;
+
+    protected void setParent(CurveObject parent) {
+        _parent = parent;
     }
-    protected CurveObject getParent()
-    {
+
+    protected CurveObject getParent() {
         return _parent;
     }
 }
