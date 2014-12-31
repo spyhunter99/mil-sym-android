@@ -1056,9 +1056,8 @@ public final class clsUtilityCPOF {
             while (removedPt==true)
             {
                 removedPt=false;
-                n=pts.size();
-                //for(j=0;j<pts.size()-1;j++)
-                for(j=0;j<n-1;j++)
+                //n=pts.size();
+                for(j=0;j<pts.size()-1;j++)
                 {
                     pt0=pts.get(j);
                     pt1=pts.get(j+1);
@@ -1124,6 +1123,7 @@ public final class clsUtilityCPOF {
                             break outer;
                         }
                     }
+                    //n=pts.size();
                 }
             }
             tg.Pixels=pts;
