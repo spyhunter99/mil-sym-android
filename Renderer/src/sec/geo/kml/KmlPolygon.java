@@ -163,6 +163,7 @@ public class KmlPolygon {
      * ArrayList from fromIndex, inclusive to toIndex, exclusive
      * 
      */
+
     private ArrayList subList(ArrayList al, int fromIndex, int toIndex) {
         ArrayList result = new ArrayList();
         int j = 0;
@@ -175,6 +176,7 @@ public class KmlPolygon {
     /*
      * reverses the order of an arraylist
      */
+
     private ArrayList reverse(ArrayList al) {
         int j = 0;
         ArrayList result = new ArrayList();

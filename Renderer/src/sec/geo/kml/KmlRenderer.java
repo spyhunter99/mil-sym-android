@@ -355,6 +355,6 @@ public class KmlRenderer {
 		for (Point p : points) {
 			returnPoints.add(new Point(p.getLongitude(), p.getLatitude(), altitudeMeters));
 		}
-		return returnPoints;
+		          return returnPoints;
 	}
 }

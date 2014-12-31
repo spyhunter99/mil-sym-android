@@ -19,7 +19,7 @@ public class XsltCoordinateWrapper {
 		line.setMaxAltitude(maxAltitude);		
                 AExtObject aext=new AExtObject(line);
 		addPoints(points, aext);
-		return line;
+		          return line;
 	}
 	
 	public static Circle getCircle(double pivotX, double pivotY, KmlOptions.AltitudeMode altitudeMode, double radius, double minAltitude,

@@ -689,14 +689,15 @@ public final class clsUtility {
                     {
                         tg.Pixels.remove(j);
                         tg.LatLongs.remove(j);
+                        n=tg.Pixels.size();
                     }
                 }
             }
         }
         catch(Exception exc)
         {
-            ErrorLogger.LogException("clsUtility", "FilterVerticalSegments",
-                    new RendererException("Failed inside FilterVerticalSegments", exc));
+            ErrorLogger.LogException("clsUtility", "RemoveDuplicatePoints",
+                    new RendererException("Failed inside RemoveDuplicatePoints", exc));
 
         }
     }

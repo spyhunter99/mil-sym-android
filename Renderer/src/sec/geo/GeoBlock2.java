@@ -93,7 +93,7 @@ public class GeoBlock2 /*extends GeoPath*/ {
 	
 	
 	public ArrayList<GeoPoint> getToPoints() {
-		return toPoints;
+		          return toPoints;
 	}
 	public final void closePath() {
             
