@@ -144,7 +144,7 @@ public class MyView {
         if (_points == null) {
             return;
         }
-        if (_points.size() < 2) {
+        if (_points.size() < 1) {
             _points.clear();
             return;
         }
