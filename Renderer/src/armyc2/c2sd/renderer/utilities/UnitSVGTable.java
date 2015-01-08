@@ -86,7 +86,7 @@ public class UnitSVGTable {
 		  String index = XMLParser.getAttribute((Element)nl.item(i), "unicode");
 		  String strPath = XMLParser.getAttribute((Element)nl.item(i), "d");
 		  
-		  if(strPath != null && strPath != "" && index != null && index.length() > 3 )
+		  if(strPath != null && strPath.equals("") != true && index != null && index.length() > 3 )
 		  {
 			  index = index.replace("&#x", "");
 			  index = index.replace(";", "");
