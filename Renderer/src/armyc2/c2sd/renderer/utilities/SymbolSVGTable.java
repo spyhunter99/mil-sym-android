@@ -92,7 +92,7 @@ public class SymbolSVGTable {
 			  String index = XMLParser.getAttribute((Element)nl.item(i), "unicode");
 			  String strPath = XMLParser.getAttribute((Element)nl.item(i), "d");
 			  
-			  if(strPath != null && strPath != "" && index != null && index.length() > 3 )
+			  if(strPath != null && strPath.equals("") != true && index != null && index.length() > 3 )
 			  {
 				  index = index.substring(3);
 				  path = new SVGPath(index, strPath);

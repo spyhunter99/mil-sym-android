@@ -178,8 +178,8 @@ public class MultiPointHandler {
             bottom = Double.MAX_VALUE;
             for (i = 0; i < len; i++) {
                 String[] coordPair = coordinates[i].split(",");
-                Double latitude = Double.valueOf(coordPair[1].trim()).doubleValue();
-                Double longitude = Double.valueOf(coordPair[0].trim()).doubleValue();
+                Double latitude = Double.valueOf(coordPair[1].trim());
+                Double longitude = Double.valueOf(coordPair[0].trim());
                 if (longitude < left) {
                     left = longitude;
                 }
@@ -412,7 +412,7 @@ public class MultiPointHandler {
     }
 
     /**
-     *
+     * 
      * @param id
      * @param name
      * @param description
@@ -421,8 +421,9 @@ public class MultiPointHandler {
      * @param scale
      * @param bbox
      * @param symbolModifiers
+     * @param symbolAttributes
      * @param format
-     * @return
+     * @return 
      */
     public static String RenderSymbol(String id,
             String name,
@@ -452,10 +453,10 @@ public class MultiPointHandler {
         double scale = origScale;
         try {
             String[] bounds = bbox.split(",");
-            double left = Double.valueOf(bounds[0]).doubleValue();
-            double right = Double.valueOf(bounds[2]).doubleValue();
-            double top = Double.valueOf(bounds[3]).doubleValue();
-            double bottom = Double.valueOf(bounds[1]).doubleValue();
+            double left = Double.valueOf(bounds[0]);
+            double right = Double.valueOf(bounds[2]);
+            double top = Double.valueOf(bounds[3]);
+            double bottom = Double.valueOf(bounds[1]);
             POINT2 ul = new POINT2(left, top);
             POINT2 ur = new POINT2(right, top);
             double widthInMeters = mdlGeodesic.geodesic_distance(ul, ur, null, null);
@@ -588,10 +589,10 @@ public class MultiPointHandler {
             } else//rectangle
             {
                 bounds = bbox.split(",");
-                left = Double.valueOf(bounds[0]).doubleValue();
-                right = Double.valueOf(bounds[2]).doubleValue();
-                top = Double.valueOf(bounds[3]).doubleValue();
-                bottom = Double.valueOf(bounds[1]).doubleValue();
+                left = Double.valueOf(bounds[0]);
+                right = Double.valueOf(bounds[2]);
+                top = Double.valueOf(bounds[3]);
+                bottom = Double.valueOf(bounds[1]);
                 scale = getReasonableScale(bbox, scale);
                 ipc = new PointConverter(left, top, scale);
             }
@@ -622,15 +623,16 @@ public class MultiPointHandler {
 
         for (int i = 0; i < len; i++) {
             String[] coordPair = coordinates[i].split(",");
-            Double latitude = Double.valueOf(coordPair[1].trim()).doubleValue();
-            Double longitude = Double.valueOf(coordPair[0].trim()).doubleValue();
+            Double latitude = Double.valueOf(coordPair[1].trim());
+            Double longitude = Double.valueOf(coordPair[0].trim());
             geoCoords.add(new Point2D.Double(longitude, latitude));
         }
         if (ipc == null) {
             Point2D ptCoordsUL = getGeoUL(geoCoords);
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
-        if (crossesIDL(geoCoords) == true) {
+        if(crossesIDL(geoCoords) == true) 
+        {
             normalize = true;
         } else {
             normalize = false;
@@ -751,8 +753,7 @@ public class MultiPointHandler {
     }
 
     /**
-     * for 3d maps
-     *
+     * 
      * @param id
      * @param name
      * @param description
@@ -760,8 +761,10 @@ public class MultiPointHandler {
      * @param controlPoints
      * @param scale
      * @param bbox
-     * @param shapes
-     * @param symStd 0=2525Bch2, 1=2525C
+     * @param symbolModifiers
+     * @param symbolAttributes
+     * @param symStd
+     * @return 
      */
     public static MilStdSymbol RenderSymbolAsMilStdSymbol(String id,
             String name,
@@ -789,8 +792,8 @@ public class MultiPointHandler {
 
         String[] coordinates = controlPoints.split(" ");
         TGLight tgl = new TGLight();
-        ArrayList<ShapeInfo> shapes = new ArrayList<ShapeInfo>();
-        ArrayList<ShapeInfo> modifiers = new ArrayList<ShapeInfo>();
+        ArrayList<ShapeInfo> shapes = null;//new ArrayList<ShapeInfo>();
+        ArrayList<ShapeInfo> modifiers = null;//new ArrayList<ShapeInfo>();
         //ArrayList<Point2D> pixels = new ArrayList<Point2D>();
         ArrayList<Point2D> geoCoords = new ArrayList<Point2D>();
         int len = coordinates.length;
@@ -856,10 +859,10 @@ public class MultiPointHandler {
             {   //System.out.println("rect");
                 String[] bounds = bbox.split(",");
 
-                left = Double.valueOf(bounds[0]).doubleValue();
-                right = Double.valueOf(bounds[2]).doubleValue();
-                top = Double.valueOf(bounds[3]).doubleValue();
-                bottom = Double.valueOf(bounds[1]).doubleValue();
+                left = Double.valueOf(bounds[0]);
+                right = Double.valueOf(bounds[2]);
+                top = Double.valueOf(bounds[3]);
+                bottom = Double.valueOf(bounds[1]);
 
                 controlLong = left;
                 controlLat = top;
@@ -892,8 +895,8 @@ public class MultiPointHandler {
 
         for (int i = 0; i < len; i++) {
             String[] coordPair = coordinates[i].split(",");
-            Double latitude = Double.valueOf(coordPair[1].trim()).doubleValue();
-            Double longitude = Double.valueOf(coordPair[0].trim()).doubleValue();
+            Double latitude = Double.valueOf(coordPair[1].trim());
+            Double longitude = Double.valueOf(coordPair[0].trim());
             geoCoords.add(new Point2D.Double(longitude, latitude));
         }
         if (ipc == null) {
@@ -1064,6 +1067,8 @@ public class MultiPointHandler {
      * Multipoint Rendering on flat 2D maps
      *
      * @param id A unique ID for the symbol. only used in KML currently
+     * @param name
+     * @param description
      * @param symbolCode
      * @param controlPoints
      * @param pixelWidth pixel dimensions of the viewable map area
@@ -1071,11 +1076,8 @@ public class MultiPointHandler {
      * @param bbox The viewable area of the map. Passed in the format of a
      * string "lowerLeftX,lowerLeftY,upperRightX,upperRightY." example:
      * "-50.4,23.6,-42.2,24.2"
-     * @param symbolModifiers A JSON string representing all the possible symbol
-     * modifiers represented in the MIL-STD-2525C. Format of the string will be
-     * {"modifiers": {"attributeName":"value"[,"attributeNamen":"valuen"]...}}
-     * The quotes are literal in the above notation. Example: {"modifiers":
-     * {"quantity":"4","speed":"300","azimuth":[100,200]}}
+     * @param symbolModifiers Modifier with multiple values should be comma delimited
+     * @param symbolAttributes
      * @param format An enumeration: 0 for KML, 1 for JSON.
      * @return A JSON or KML string representation of the graphic.
      */
@@ -1096,8 +1098,9 @@ public class MultiPointHandler {
     }
     /**
      * Multipoint Rendering on flat 2D maps
-     *
      * @param id A unique ID for the symbol. only used in KML currently
+     * @param name
+     * @param description
      * @param symbolCode
      * @param controlPoints
      * @param pixelWidth pixel dimensions of the viewable map area
@@ -1105,11 +1108,8 @@ public class MultiPointHandler {
      * @param bbox The viewable area of the map. Passed in the format of a
      * string "lowerLeftX,lowerLeftY,upperRightX,upperRightY." example:
      * "-50.4,23.6,-42.2,24.2"
-     * @param symbolModifiers A JSON string representing all the possible symbol
-     * modifiers represented in the MIL-STD-2525C. Format of the string will be
-     * {"modifiers": {"attributeName":"value"[,"attributeNamen":"valuen"]...}}
-     * The quotes are literal in the above notation. Example: {"modifiers":
-     * {"quantity":"4","speed":"300","azimuth":[100,200]}}
+     * @param symbolModifiers Modifier with multiple values should be comma delimited
+     * @param symbolAttributes
      * @param format An enumeration: 0 for KML, 1 for JSON.
      * @param symStd An enumeration: 0 for 2525Bch2, 1 for 2525C.
      * @return A JSON or KML string representation of the graphic.
@@ -1431,222 +1431,7 @@ public class MultiPointHandler {
 
     }
 
-    /**
-     *
-     * @param symbolID
-     * @param coordinates
-     * @param scale
-     * @param bboxTL
-     * @param bboxBR
-     * @param modifiers
-     * @param X_Altitude
-     * @param AM_Distance
-     * @param AN_Azimuth
-     * @return
-     * @deprecated
-     */
-    public static SymbolInfo RenderSymbol3DWW(
-            String symbolID,
-            ArrayList<Point2D> coordinates,
-            Double scale,
-            Point2D bboxTL,
-            Point2D bboxBR,
-            SparseArray<String> modifiers,
-            ArrayList<Double> X_Altitude,
-            ArrayList<Double> AM_Distance,
-            ArrayList<Double> AN_Azimuth) {
-        try {
-            MilStdSymbol symbol = new MilStdSymbol(symbolID, null, coordinates, modifiers);
-            if (AM_Distance != null) {
-                symbol.setModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE, AM_Distance);
-            }
-            if (AN_Azimuth != null) {
-                symbol.setModifiers_AM_AN_X(ModifiersTG.AN_AZIMUTH, AN_Azimuth);
-            }
-            if (X_Altitude != null) {
-                symbol.setModifiers_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, X_Altitude);
-            }
 
-            symbol = RenderSymbol3DWW(symbol, scale, bboxTL, bboxBR);
-
-            SymbolInfo si = MilStdSymbolToSymbolInfo(symbol);
-
-            return si;
-        } catch (Exception exc) {
-            System.err.println(exc.getMessage());
-            exc.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     *
-     * @param symbol
-     * @param scale
-     * @param bboxTL
-     * @param bboxBR
-     * @return
-     * @deprecated
-     */
-    public static MilStdSymbol RenderSymbol3DWW(
-            MilStdSymbol symbol,
-            Double scale,
-            Point2D bboxTL,
-            Point2D bboxBR)//,
-    //ArrayList<ShapeInfo>shapes)
-    {
-        try {
-            boolean normalize = false;
-            Double controlLat = 0.0;
-            Double controlLong = 0.0;
-
-            Rectangle2D rect = null;
-            TGLight tgl = new TGLight();
-            ArrayList<ShapeInfo> shapes = new ArrayList<ShapeInfo>();
-            ArrayList<ShapeInfo> modifiers = new ArrayList<ShapeInfo>();
-            //ArrayList<Point2D> pixels = new ArrayList<Point2D>();
-            ArrayList<Point2D> geoCoords = new ArrayList<Point2D>();
-            String symbolCode = symbol.getSymbolID();
-
-            IPointConversion ipc = null;
-
-            //Deutch moved section 6-29-11
-            Double left = 0.0;
-            Double right = 0.0;
-            Double top = 0.0;
-            Double bottom = 0.0;
-            Point2D temp = null;
-            int width = 0;
-            int height = 0;
-            int leftX = 0;
-            int topY = 0;
-            int bottomY = 0;
-            int rightX = 0;
-            Point2D pt2d = null;
-            if (bboxTL != null && bboxBR != null) {
-
-                left = bboxTL.getX();
-                right = bboxBR.getX();
-                top = bboxTL.getY();
-                bottom = bboxBR.getY();
-
-                controlLong = left;
-                controlLat = top;
-                ipc = new PointConverter(controlLong, controlLat, scale);
-
-                pt2d = new Point2D.Double(left, top);
-                temp = ipc.GeoToPixels(pt2d);
-                leftX = (int) temp.getX();
-                topY = (int) temp.getY();
-
-                pt2d = new Point2D.Double(right, bottom);
-                temp = ipc.GeoToPixels(pt2d);
-                bottomY = (int) temp.getY();
-                rightX = (int) temp.getX();
-
-                width = (int) Math.abs(rightX - leftX);
-                height = (int) Math.abs(bottomY - topY);
-
-                rect = new Rectangle2D.Double(leftX, topY, width, height);
-            } else {
-                rect = null;
-            }
-
-            geoCoords = symbol.getCoordinates();
-
-            if (crossesIDL(geoCoords) == true) {
-                normalize = true;
-            } else {
-                normalize = false;
-            }
-
-            //seems to work ok at world view
-            if (normalize) {
-                NormalizeGECoordsToGEExtents(0, 360, geoCoords);
-            }
-
-            //use an ipc based on the geocoords because of normalizing, not on the bbox
-            pt2d = getControlPoint(geoCoords);
-            controlLong = pt2d.getX();
-            controlLat = pt2d.getY();
-            ipc = new PointConverter(controlLong, controlLat, scale);
-
-            //M. Deutch 10-3-11
-            //must shift the rect pixels to synch with the new ipc
-            //the old ipc was in synch with the bbox, so rect x,y was always 0,0
-            //the new ipc synchs with the upper left of the geocoords so the boox is shifted
-            //and therefore the clipping rectangle must shift by the delta x,y between
-            //the upper left corner of the original bbox and the upper left corner of the geocoords
-            ArrayList<Point2D> geoCoords2 = new ArrayList<Point2D>();
-            geoCoords2.add(new Point2D.Double(left, top));
-            geoCoords2.add(new Point2D.Double(right, bottom));
-
-            if (normalize) {
-                NormalizeGECoordsToGEExtents(0, 360, geoCoords2);
-            }
-
-            if (rect != null) {
-                left = geoCoords2.get(0).getX();
-                top = geoCoords2.get(0).getY();
-                //M. Deutch 10-5-11 added on line
-                //ipc = new PointConverter(left, top, scale);
-                right = geoCoords2.get(1).getX();
-                bottom = geoCoords2.get(1).getY();
-                //temp = ipc.GeoToPixels(new Point2D(left, top));
-                pt2d = new Point2D.Double(left, top);
-                temp = ipc.GeoToPixels(pt2d);
-                leftX = (int) temp.getX();
-                topY = (int) temp.getY();
-                //temp = ipc.GeoToPixels(new Point2D(right, bottom));
-                pt2d = new Point2D.Double(right, bottom);
-                temp = ipc.GeoToPixels(pt2d);
-                bottomY = (int) temp.getY();
-                rightX = (int) temp.getX();
-                width = (int) Math.abs(rightX - leftX);
-                height = (int) Math.abs(bottomY - topY);
-                rect = new Rectangle2D.Double(leftX, topY, width, height);
-            }
-            //disable clipping
-            if (ShouldClipSymbol(symbolCode) == false) {
-                rect = null;//disable clipping
-            }
-            tgl.set_SymbolId(symbolCode);// "GFGPSLA---****X" AMBUSH symbol code
-            tgl.set_Pixels(null);
-
-            try {
-
-                symbol.setCoordinates(geoCoords);
-
-                clsRenderer.renderWithPolylines(symbol, ipc, rect);
-
-                shapes = symbol.getSymbolShapes();
-                modifiers = symbol.getModifierShapes();
-
-                MakeWWReady(shapes, modifiers, ipc, normalize);
-
-                symbol.setSymbolShapes(shapes);
-                symbol.setModifierShapes(modifiers);
-
-                return symbol;
-
-            } catch (Exception exc) {
-                System.err.println(exc.getMessage());
-                exc.printStackTrace();
-            }
-
-            boolean debug = false;
-            if (debug == true) {
-                System.out.println("Symbol Code: " + symbolCode);
-                System.out.println("Scale: " + scale);
-            }
-        } catch (Exception excf) {
-            System.err.println(excf.getMessage());
-            excf.printStackTrace();
-        }
-
-        return null;
-
-    }
 
     private static SymbolInfo MilStdSymbolToSymbolInfo(MilStdSymbol symbol) {
         SymbolInfo si = null;
@@ -1776,7 +1561,7 @@ public class MultiPointHandler {
                     altitudes = new ArrayList<Double>();
                     String[] arrAltitudes = String.valueOf(saModifiers.get(ModifiersTG.X_ALTITUDE_DEPTH)).split(",");
                     for (String x : arrAltitudes) {
-                        if (x != "") {
+                        if (x.equals("") != true) {
                             altitudes.add(Double.parseDouble(x));
                         }
                     }
@@ -1786,7 +1571,7 @@ public class MultiPointHandler {
                     distances = new ArrayList<Double>();
                     String[] arrDistances = String.valueOf(saModifiers.get(ModifiersTG.AM_DISTANCE)).split(",");
                     for (String am : arrDistances) {
-                        if (am != "") {
+                        if (am.equals("") != true) {
                             distances.add(Double.parseDouble(am));
                         }
                     }
@@ -1796,7 +1581,7 @@ public class MultiPointHandler {
                     azimuths = new ArrayList<Double>();
                     String[] arrAzimuths = String.valueOf(saModifiers.get(ModifiersTG.AN_AZIMUTH)).split(",");;
                     for (String an : arrAzimuths) {
-                        if (an != "") {
+                        if (an.equals("") != true) {
                             azimuths.add(Double.parseDouble(an));
                         }
                     }

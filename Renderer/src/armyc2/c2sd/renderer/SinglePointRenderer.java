@@ -634,7 +634,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             if (pixelSize > 0)
             {
                 symbolBounds = SymbolDimensions.getSymbolBounds(basicSymbolID, symStd, fontSize);
-                rect = SymbolDimensions.getSymbolBounds(basicSymbolID, symStd, fontSize);
+                rect = new Rect(symbolBounds);
 
                 if (keepUnitRatio == true)
                 {
@@ -661,7 +661,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                 fontSize = fontSize * ratio;
             }
 
-            symbolBounds = SymbolDimensions.getSymbolBounds(basicSymbolID, symStd, fontSize);
+            //symbolBounds = SymbolDimensions.getSymbolBounds(basicSymbolID, symStd, fontSize);
 
             ////////////////////////////////////////////////////////////////////
             if (SymbolUtilities.isTGSPWithFill(symbolID) && fillColor != null)
