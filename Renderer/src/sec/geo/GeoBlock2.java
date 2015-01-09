@@ -35,17 +35,21 @@ public class GeoBlock2 /*extends GeoPath*/ {
 		double a2 = curve.getReverseAzimuth();             
 		double leftRadius = leftWidthMeters;                
                 double rightRadius = rightWidthMeters;                
-                
+                //diagnostic to prevent error in calculate global coords if points are identical
+                if(p1.x==p2.x && p1.y==p2.y)
+                    return;
+                //end section
 		GlobalCoordinates c = geoCalc.calculateEndingGlobalCoordinates(REFERENCE_ELLIPSOID, c1, a1 - 90, leftRadius);                
-		moveToLatLong(c.getLongitude(), c.getLatitude());
-		c = geoCalc.calculateEndingGlobalCoordinates(REFERENCE_ELLIPSOID, c2, a2 + 90, leftRadius);                
-		lineToLatLong(c.getLongitude(), c.getLatitude());
-		c = geoCalc.calculateEndingGlobalCoordinates(REFERENCE_ELLIPSOID, c2, a2 - 90, rightRadius);                
-		lineToLatLong(c.getLongitude(), c.getLatitude());
-		c = geoCalc.calculateEndingGlobalCoordinates(REFERENCE_ELLIPSOID, c1, a1 + 90, rightRadius);                
-		lineToLatLong(c.getLongitude(), c.getLatitude());
-		closePath();  
-	}
+                c = geoCalc.calculateEndingGlobalCoordinates(REFERENCE_ELLIPSOID, c1, a1 - 90, leftRadius);
+                moveToLatLong(c.getLongitude(), c.getLatitude());
+                c = geoCalc.calculateEndingGlobalCoordinates(REFERENCE_ELLIPSOID, c2, a2 + 90, leftRadius);                
+                lineToLatLong(c.getLongitude(), c.getLatitude());
+                c = geoCalc.calculateEndingGlobalCoordinates(REFERENCE_ELLIPSOID, c2, a2 - 90, rightRadius);                
+                lineToLatLong(c.getLongitude(), c.getLatitude());
+                c = geoCalc.calculateEndingGlobalCoordinates(REFERENCE_ELLIPSOID, c1, a1 + 90, rightRadius);                
+                lineToLatLong(c.getLongitude(), c.getLatitude());
+                closePath();  
+ 	}
 	public void moveTo(GeoPoint point) {
 		path.moveTo(point.x, point.y);
 		toPoints.add(point);
