@@ -1469,10 +1469,11 @@ public final class utility {
                 g2d.rotate((float) stringAngle, (float) position.getX(), (float) position.getY());
                 //draw the text twice
                 paint = new Paint();
+                paint.setTextAlign(Paint.Align.CENTER);
                 paint.setStrokeWidth(2);
                 paint.setColor(Color.WHITE.toARGB());
                 paint.setTextSize(size);
-                paint.setStyle(Paint.Style.STROKE);
+                paint.setStyle(Paint.Style.STROKE);               
                 //paint.setTextAlign(Paint.Align.LEFT);                      
                 x = (float) position.getX();
                 y = (float) position.getY();
@@ -1481,6 +1482,7 @@ public final class utility {
                 //g2d.drawText(spec.getModifierString(), (float)position.getX(), (float)position.getY(),paint);
                 //g2d.rotate(-(float)stringAngle);
                 paint = new Paint();
+                paint.setTextAlign(Paint.Align.CENTER);
                 paint.setColor(spec.getLineColor().toARGB());
                 paint.setStyle(Paint.Style.FILL);
                 //paint.setTextAlign(Paint.Align.LEFT);                               
