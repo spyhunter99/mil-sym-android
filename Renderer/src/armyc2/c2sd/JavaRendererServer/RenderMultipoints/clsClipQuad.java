@@ -627,8 +627,8 @@ public class clsClipQuad {
         try 
         {            
             //diagnostic
-            //Boolean isClosed = clsUtility.isClosedPolygon(tg.get_LineType());            
-            Boolean isClosed = isClosed(tg.Pixels);
+            Boolean isClosed = clsUtility.isClosedPolygon(tg.get_LineType());            
+            //Boolean isClosed = isClosed(tg.Pixels);
             //M. Deutch commented one line 12-27-12
             //clipBounds=clsUtilityGE.expandPolygon(clipBounds, 20);
             int n=clipBounds.size();
