@@ -678,6 +678,10 @@ public final class clsUtility {
             POINT2 ptCurrent=null;
             POINT2 ptLast=null;
             int n=tg.Pixels.size();
+            Boolean isClosedPolygon=armyc2.c2sd.JavaTacticalRenderer.clsUtility.isClosedPolygon(tg.get_LineType());
+            int minSize=2;
+            if(isClosedPolygon)
+                minSize=3;
             //for(int j=1;j<tg.Pixels.size();j++)
             for(int j=1;j<n;j++)
             {
@@ -685,7 +689,8 @@ public final class clsUtility {
                 ptCurrent=new POINT2(tg.Pixels.get(j));
                 if(ptCurrent.x==ptLast.x && ptCurrent.y==ptLast.y)
                 {
-                    if(tg.Pixels.size()>2)
+                    //if(tg.Pixels.size()>2)
+                    if(tg.Pixels.size()>minSize)
                     {
                         tg.Pixels.remove(j);
                         tg.LatLongs.remove(j);
