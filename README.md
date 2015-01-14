@@ -1,4 +1,3 @@
-#BETA BETA BETA BETA
 
 mil-sym-android
 =========
