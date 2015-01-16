@@ -520,6 +520,22 @@ public final class arraysupport
                 default:
                     break;
             }
+            //reverse direction for ICING
+            switch(lineType)
+            {
+                case TacticalLines.ICING:
+                    if(nDirection==extendLeft)
+                        nDirection=extendRight;
+                    else if(nDirection==extendRight)
+                        nDirection=extendLeft;
+                    else if(nDirection==extendAbove)
+                        nDirection=extendBelow;
+                    else if(nDirection==extendBelow)
+                        nDirection=extendAbove;
+                    break;
+                default:
+                    break;
+            }
         } catch (Exception exc)
             {
                 ErrorLogger.LogException(_className, "GetInsideOutsideDouble2",
