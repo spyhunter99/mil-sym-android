@@ -2873,7 +2873,7 @@ public class Modifier2 {
 
                     if (tg.Pixels.size() == 2) //one segment
                     {
-                        pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.7 * stringWidth);
+                        pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.0 * stringWidth);//was 1.7
                         AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
                         AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
                         AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
@@ -2881,7 +2881,7 @@ public class Modifier2 {
                         {
                             pt0 = tg.Pixels.get(tg.Pixels.size() - 1);
                             pt1 = tg.Pixels.get(tg.Pixels.size() - 2);
-                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.7 * stringWidth);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.0 * stringWidth);//was 1.7
                             AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
@@ -2890,7 +2890,7 @@ public class Modifier2 {
                     {
                         double dist3 = lineutility.CalcDistanceDouble(pt0, pt2);
                         if (dist > stringWidth + 5 || dist >= dist2 || dist3 > stringWidth + 5) {
-                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.7 * stringWidth);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.0 * stringWidth);//was 1.7
                             AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
@@ -2898,7 +2898,7 @@ public class Modifier2 {
                         if (dist2 > stringWidth + 5 || dist2 > dist || dist3 > stringWidth + 5) {
                             pt0 = tg.Pixels.get(tg.Pixels.size() - 1);
                             pt1 = tg.Pixels.get(tg.Pixels.size() - 2);
-                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.7 * stringWidth);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.0 * stringWidth);//was 1.7
                             AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
@@ -2932,7 +2932,7 @@ public class Modifier2 {
 
                     if (tg.Pixels.size() == 2) //one segment
                     {
-                        pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.7 * stringWidth);
+                        pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.0 * stringWidth);//was 1.7
                         AddModifier2(tg, label + " " + tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
                         AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
                         AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
@@ -2940,7 +2940,7 @@ public class Modifier2 {
                         {
                             pt0 = tg.Pixels.get(tg.Pixels.size() - 1);
                             pt1 = tg.Pixels.get(tg.Pixels.size() - 2);
-                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.7 * stringWidth);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.0 * stringWidth);//was 1.7
                             AddModifier2(tg, label + " " + tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
@@ -2949,7 +2949,7 @@ public class Modifier2 {
                     {
                         double dist3 = lineutility.CalcDistanceDouble(pt0, pt2);
                         if (dist > stringWidth + 5 || dist >= dist2 || dist3 > stringWidth + 5) {
-                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.7 * stringWidth);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.0 * stringWidth);//was 1.7
                             AddModifier2(tg, label + " " + tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
@@ -2957,7 +2957,7 @@ public class Modifier2 {
                         if (dist2 > stringWidth + 5 || dist2 > dist || dist3 > stringWidth + 5) {
                             pt0 = tg.Pixels.get(tg.Pixels.size() - 1);
                             pt1 = tg.Pixels.get(tg.Pixels.size() - 2);
-                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.7 * stringWidth);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, 1.0 * stringWidth);//was 1.7
                             AddModifier2(tg, label + " " + tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
                             AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
