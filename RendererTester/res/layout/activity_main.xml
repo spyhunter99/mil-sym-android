@@ -4,66 +4,93 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
-
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/etSymbolID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="65dp"
-        android:layout_toLeftOf="@+id/textView1"
         android:ems="10"
-        android:hint="SFGP------*****" />
-
-    <Button
-        android:id="@+id/button1"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/editText1"
-        android:layout_alignBottom="@+id/editText1"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_marginLeft="30dp"
-        android:text="@string/btn_draw_label"
-        android:onClick="drawSymbol"         
-        />
+        android:hint="@string/symbolid_hint"/>
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_below="@+id/button1"
+        android:layout_alignLeft="@+id/etSymbolID"
+        android:layout_below="@+id/etSymbolID"
         android:layout_marginTop="63dp"
-        android:src="@drawable/ic_launcher" />
-
-    <Button
-        android:id="@+id/button2"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_toRightOf="@+id/button1"
-        android:onClick="speedTest"
-        android:text="Speed Test" />
+        android:src="@drawable/ic_launcher" 
+        android:contentDescription="@string/iv_content_description"/>
 
        <Button
-        android:id="@+id/button3"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+           android:id="@+id/btnDraw"
+           style="?android:attr/buttonStyleSmall"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+           android:layout_alignParentTop="true"
+           android:layout_marginRight="15dp"
+           android:layout_marginTop="22dp"
+           android:onClick="drawSymbol"
+           android:text="@string/btn_draw_label" />
+
+       <Button
+           android:id="@+id/btnSpeedTest"
+           style="?android:attr/buttonStyleSmall"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+           android:layout_below="@+id/btnDraw"
+           android:onClick="speedTest"
+           android:text="@string/btn_speed_test" />
+
+       <Button
+           android:id="@+id/btnFlotTest"
+           style="?android:attr/buttonStyleSmall"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+           android:layout_below="@+id/btnSpeedTest"
+           android:onClick="flotTest"
+           android:text="@string/btn_flot_test" />
+
+       <TextView
+           android:id="@+id/tvStatus"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentLeft="true"
+           android:layout_alignParentRight="true"
+           android:layout_alignParentTop="true"
+           android:text="@string/hello_world" />
+
+       <CheckBox
+           android:id="@+id/cbModifiers"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/btnFlotTest"
+           android:layout_alignParentRight="true"
+           android:text="@string/cb_modifiers" />
+       
+       <TextView
+           android:id="@+id/tvPixelSize"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/cbModifiers"
+           android:layout_toLeftOf="@+id/etPixelSize"
+           android:text="Pixel Size: " />
+
+       <EditText
+        android:id="@+id/etPixelSize"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button2"
-        android:layout_alignBottom="@+id/button2"
-        android:layout_toRightOf="@+id/button2"
-        android:onClick="flotTest"
-        android:text="FLOT Test" />
+        android:layout_below="@+id/cbModifiers"
+        android:layout_alignParentRight="true"
+        android:inputType="number"
+        android:ems="10"
+        android:hint="60"/>
+       
+
+           
     
 </RelativeLayout>

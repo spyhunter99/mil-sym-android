@@ -1,4 +1,4 @@
-package armyc2.c2sd;
+package sptester;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,9 +20,12 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import armyc2.c2sd.R;
 import armyc2.c2sd.graphics2d.BasicStroke;
 import armyc2.c2sd.renderer.IconRenderer;
 import armyc2.c2sd.renderer.MilStdIconRenderer;
@@ -77,7 +80,7 @@ public class MainActivity extends Activity {
 	
 	public void loadRenderer()
 	{
-		TextView t = (TextView)findViewById(R.id.textView1);
+		TextView t = (TextView)findViewById(R.id.tvStatus);
     	t.setText("Initializing Renderer");
     	
     	//depending on screen size and DPI you may want to change the font size.
@@ -99,6 +102,7 @@ public class MainActivity extends Activity {
     	getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
     	int dpi = metrics.densityDpi;
     	//RendererSettings.getInstance().setDeviceDPI(dpi);
+    	
 		t.setText("Renderer Initialized");
 		
 		
@@ -117,7 +121,8 @@ public class MainActivity extends Activity {
     		}
     		
 	    	//Intent intent = new Intent(this, DisplayMessageActivity.class);
-	    	EditText editText = (EditText) findViewById(R.id.editText1);
+	    	EditText editText = (EditText) findViewById(R.id.etSymbolID);
+	    	EditText etPixelSize = (EditText) findViewById(R.id.etPixelSize);
 	    	ImageView imageView = (ImageView) findViewById(R.id.imageView1);
 	    	imageView.clearAnimation();//helps with memory?
 	    	imageView.setBackgroundColor(Color.GREEN);
@@ -131,7 +136,15 @@ public class MainActivity extends Activity {
 	    	SparseArray<String> modifiers = new SparseArray<String>();
 	    	SparseArray<String> attributes = new SparseArray<String>();
 	    	
-	    	attributes.put(MilStdAttributes.PixelSize,"240");
+	    	String strPixelSize =  etPixelSize.getText().toString();
+	    	
+	    	if(strPixelSize != null && strPixelSize.equals("") == false)
+	    		attributes.put(MilStdAttributes.PixelSize,strPixelSize);
+	    	else
+	    		attributes.put(MilStdAttributes.PixelSize,"240");
+	    	
+	    	
+	    	populateModifiers = ((CheckBox)findViewById(R.id.cbModifiers)).isChecked();
 	    	
 	    	if(populateModifiers==true)
 	    	{
@@ -243,7 +256,8 @@ public class MainActivity extends Activity {
     		}
     		
 	    	//Intent intent = new Intent(this, DisplayMessageActivity.class);
-	    	EditText editText = (EditText) findViewById(R.id.editText1);
+	    	EditText editText = (EditText) findViewById(R.id.etSymbolID);
+	    	EditText etPixelSize = (EditText) findViewById(R.id.etPixelSize);
 	    	ImageView imageView = (ImageView) findViewById(R.id.imageView1);
 	    	imageView.clearAnimation();//helps with memory?
 	    	imageView.setBackgroundColor(Color.GREEN);
@@ -256,10 +270,19 @@ public class MainActivity extends Activity {
 	    	
 	    	SparseArray<String> modifiers = new SparseArray<String>();
 	    	SparseArray<String> attributes = new SparseArray<String>();
-	    	attributes.put(MilStdAttributes.PixelSize, "60");
+	    	
+    		String strPixelSize =  etPixelSize.getText().toString();
+	    	
+	    	if(strPixelSize != null && strPixelSize.equals("") == false)
+	    		attributes.put(MilStdAttributes.PixelSize,strPixelSize);
+	    	else
+	    		attributes.put(MilStdAttributes.PixelSize,"60");
+	    	
 	    	
 	    	//RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE_QUICK);
 	    	//RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE);
+	    	populateModifiers = ((CheckBox)findViewById(R.id.cbModifiers)).isChecked();
+	    	
 	    	if(populateModifiers==true)
 	    	{
 		    	if(symbolID.charAt(0)=='G' || symbolID.charAt(0)=='W')
@@ -286,7 +309,7 @@ public class MainActivity extends Activity {
 	    	double elapsed = (stop - start) / 1000;
 	    	elapsed = (dStop.getTime() - dStart.getTime()) / 1000.0;
 	    	
-	    	TextView t = (TextView)findViewById(R.id.textView1);
+	    	TextView t = (TextView)findViewById(R.id.tvStatus);
 	    	t.setText("1k symbols generated in: " + String.valueOf(elapsed) + " seconds.");
 	    	
 	    	Bitmap msBmp = ii.getImage();
@@ -424,7 +447,7 @@ public class MainActivity extends Activity {
 	    	double elapsed = (stop - start) / 1000;
 	    	elapsed = (dStop.getTime() - dStart.getTime()) / 1000.0;
 	    	
-	    	TextView t = (TextView)findViewById(R.id.textView1);
+	    	TextView t = (TextView)findViewById(R.id.tvStatus);
 	    	t.setText("1k FLOT symbols generated in: " + String.valueOf(elapsed) + " seconds.");
 	    	
     		ArrayList<ShapeInfo> sShapes = flot.getSymbolShapes();
@@ -457,6 +480,16 @@ public class MainActivity extends Activity {
     		Log.e(TAG, exc.getMessage());
     		Log.e(TAG, MainActivity.getStackTrace(exc));
     	}
+    }
+    
+    public void cbModifiersChanged(View view)
+    {
+    	
+    }
+    
+    public void sPixelSizeChanged(View view)
+    {
+    	
     }
     
     public static String getStackTrace(Throwable thrown)
