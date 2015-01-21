@@ -695,14 +695,14 @@ public class MultiPointHandler {
             } else if (format == 0) {
 
                 Color textColor = null;
-                if (symbolCode.charAt(0) == 'G') {
-                    textColor = mSymbol.getLineColor();
-                    String hexColor = textColor.toHexString();
-                    if (hexColor.equals("#FF000000"))//black
-                    {
-                        textColor = Color.white;//textColor = "#FFFFFFFF";
-                    }
+            
+                textColor = mSymbol.getLineColor();
+                String hexColor = textColor.toHexString();
+                if (hexColor.equals("#FF000000"))//black
+                {
+                    textColor = Color.white;//textColor = "#FFFFFFFF";
                 }
+                
                 jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
 
                 //if there's a symbol fill or line pattern, add to KML//////////
@@ -1241,15 +1241,15 @@ public class MultiPointHandler {
                     fillColor = Integer.toHexString(mSymbol.getFillColor().toARGB());//Integer.toHexString(shapeInfo.getFillColor().getRGB()
                 }
                 Color textColor = null;
-                if (symbolCode.charAt(0) == 'G') {
-                    textColor = mSymbol.getLineColor();
-                    //String hexColor = SymbolUtilities.colorToHexString(textColor, true);
-                    String hexColor = textColor.toHexString();
-                    if (hexColor.equals("#FF000000"))//black
-                    {
-                        textColor = Color.white;//textColor = "#FFFFFFFF";
-                    }
+            
+                textColor = mSymbol.getLineColor();
+                //String hexColor = SymbolUtilities.colorToHexString(textColor, true);
+                String hexColor = textColor.toHexString();
+                if (hexColor.equals("#FF000000"))//black
+                {
+                    textColor = Color.white;//textColor = "#FFFFFFFF";
                 }
+                
                 jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
 
                 //if there's a symbol fill or line pattern, add to KML//////////

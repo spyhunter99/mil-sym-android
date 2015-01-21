@@ -740,11 +740,15 @@ public final class SECWebRenderer /* extends Applet */ {
 	 *            but can speed up rendering in some cases. example:
 	 *            "-50.4,23.6,-42.2,24.2"
 	 * @param modifiers
-	 *            A JSON string representing all the possible symbol modifiers
-	 *            represented in the MIL-STD-2525C. Format of the string will be
-	 *            {"attributeName":"value"[,"attributeNamen":"valuen"]...}} The
-	 *            quotes are literal in the above notation. Example:
-	 *            {"quantity":"4","speed":"300","azimuth":[100,200]}}
+	 *            Used like:
+	 *            modifiers.put(ModifiersTG.T_UNIQUE_DESIGNATION_1, "T");
+	 *            Or
+	 *            modifiers.put(ModifiersTG.AM_DISTANCE, "1000,2000,3000");
+	 * @param attributes
+	 * 			  Used like:
+	 *            attributes.put(MilStdAttributes.LineWidth, "3");
+	 *            Or
+	 *            attributes.put(MilStdAttributes.LineColor, "#00FF00");
 	 * @param symStd
 	 *            An enumeration: 0 for 2525Bch2, 1 for 2525C.
      * @return MilStdSymbol
@@ -755,7 +759,7 @@ public final class SECWebRenderer /* extends Applet */ {
 		MilStdSymbol mSymbol = null;
 		try 
 		{
-
+			
 			if (JavaRendererUtilities.is3dSymbol(symbolCode, modifiers)==false) 
             {
                 mSymbol = MultiPointHandler.RenderSymbolAsMilStdSymbol(id, name, description, symbolCode, 
