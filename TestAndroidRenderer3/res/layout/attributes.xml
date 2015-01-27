@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    />
+    <EditText android:id="@+id/edit_AM"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="AM_DISTANCE"
+   />    
+       <EditText android:id="@+id/edit_AN"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="AN_AZIMUTH"
+   />        
+       <EditText android:id="@+id/edit_X"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="X_DEPTH"
+   />        
+</LinearLayout>

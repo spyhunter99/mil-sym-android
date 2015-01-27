@@ -33,6 +33,18 @@ public final class utility {
     private static double upperLatitude;
     private static double lowerLatitude;
 
+    public static String linetype = "";
+    public static String T = "";
+    public static String T1 = "";
+    public static String H = "";
+    public static String H1 = "";
+    public static String W = "";
+    public static String W1 = "";
+    public static String linecolor = "";
+    public static String fillcolor = "";
+    public static String AM="";
+    public static String AN="";
+    public static String X="";
     /**
      * uses the PointConversion to convert to geo
      *
@@ -1057,21 +1069,52 @@ public final class utility {
 
         }
         mss.setSymbologyStandard(RendererSettings.Symbology_2525C);
-        mss.setFillColor(Color.ORANGE);
+        if(fillcolor.isEmpty())
+            fillcolor="ff0000";
+        Color fillColor=SymbolUtilities.getColorFromHexString(fillcolor);
+        //mss.setFillColor(Color.ORANGE);
+        mss.setFillColor(fillColor);
         // mss.setFillColor(null);
-        mss.setLineColor(Color.blue);
+        if(linecolor.isEmpty())
+            linecolor="00ff00";
+        Color lineColor=SymbolUtilities.getColorFromHexString(linecolor);
+        if(AM.isEmpty())
+            AM="7000,6000,5000";
+        if(AN.isEmpty())
+            AN="45,315";
+        if(X.isEmpty())
+            X="27,54";
+        String[]am=AM.split(",");
+        String[] an=AN.split(",");
+        String[]x=X.split(",");
+        
+        Double[]amd=new Double[am.length];
+        Double[]and=new Double[an.length];
+        Double[]xd=new Double[x.length];
+        int j=0;
+        for(j=0;j<am.length;j++)
+            amd[j]=Double.parseDouble(am[j]);
+        for(j=0;j<an.length;j++)
+            and[j]=Double.parseDouble(an[j]);
+        for(j=0;j<x.length;j++)
+            xd[j]=Double.parseDouble(x[j]);
+        
+        //mss.setLineColor(Color.blue);
+        mss.setLineColor(lineColor);
         mss.setLineWidth(2);
         // mss.setCoordinates(null)
         // mss.setFillStyle(3);
-        mss.setModifier(ModifiersTG.T_UNIQUE_DESIGNATION_1, "LONG NAME");
-        mss.setModifier(ModifiersTG.T1_UNIQUE_DESIGNATION_2, "5000");
-        mss.setModifier(ModifiersTG.H_ADDITIONAL_INFO_1, "5000");
-        mss.setModifier(ModifiersTG.H1_ADDITIONAL_INFO_2, "H1");
+        //mss.setModifier(ModifiersTG.T_UNIQUE_DESIGNATION_1, "LONG NAME");
+        mss.setModifier(ModifiersTG.T_UNIQUE_DESIGNATION_1, T);
+        //mss.setModifier(ModifiersTG.T1_UNIQUE_DESIGNATION_2, "5000");
+        mss.setModifier(ModifiersTG.T1_UNIQUE_DESIGNATION_2, T1);
+        mss.setModifier(ModifiersTG.H_ADDITIONAL_INFO_1, H);
+        mss.setModifier(ModifiersTG.H1_ADDITIONAL_INFO_2, H1);
         mss.setModifier(ModifiersTG.H2_ADDITIONAL_INFO_3, "H2");
-        mss.setModifier(ModifiersTG.W_DTG_1, "VERY LONG W");
-        mss.setModifier(ModifiersTG.W1_DTG_2, "VERY LONG W1");
+        mss.setModifier(ModifiersTG.W_DTG_1, W);
+        mss.setModifier(ModifiersTG.W1_DTG_2, W1);
         mss.setModifier(ModifiersTG.N_HOSTILE, "ENY");
-        int j = 0;
+        //int j = 0;
         if (linetype == TacticalLines.AC || linetype == TacticalLines.SAAFR
                 || linetype == TacticalLines.LLTR
                 || linetype == TacticalLines.UAV
@@ -1082,9 +1125,9 @@ public final class utility {
             // //1000 meters
             // }
             // try custon sizes
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 4000d, 0); // 1000
+            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 0); // 4000
             // meters
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 3000d, 1); // 1000
+            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[1], 1); // 3000
             // meters
             // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 3000d, 2);
             // //1000 meters
@@ -1092,35 +1135,35 @@ public final class utility {
             // //1000 meters
             // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 1000d, 4);
             // //1000 meters
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, 27d, 0);// alt
+            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[0], 0);//27
             // kill
             // box
             // purple
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, 54d, 1);// alt
+            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[1], 1);//54
             // kill
             // box
             // purple
         } else if (linetype == TacticalLines.RANGE_FAN
                 || linetype == TacticalLines.RANGE_FAN_SECTOR) {
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 1332d, 0);
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 2665d, 1);
+            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 0); //1332
+            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[1], 1);//2665
             // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 41330d, 2);
             // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 42269d, 3);
             // left, right azimuth
-            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 315d, 0); // left
-            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 45d, 1);// right
+            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[0], 0); //315
+            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[1], 1);//45
             // mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 315d, 2);//left
             // mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 45d, 3); //right
             // mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 320d, 4);//left
             // mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 240d, 5);//right
             // altitude
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, 27d, 0);// alt
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, 33d, 1);// alt
+            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[0], 0);//27
+            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[1], 1);//33
             // mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, 44d,
             // 2);//alt
         } else// fire support areas
         {
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 7000d, 0);// radius
+            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 0);// radius
             // for
             // circles
             // or
@@ -1129,17 +1172,17 @@ public final class utility {
             // rectangles,
             // rectangular
             // tgt
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 7000d, 1);// length
+            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 1);// length
             // rectangular
             // tgt
-            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 600d, 0); // attitude
+            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[0], 0); // attitude
             // rectangulat
             // tgt
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, 27d, 0);// alt
+            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[0], 0);// alt
             // kill
             // box
             // purple
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, 54d, 1);// alt
+            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[1], 1);// alt
             // kill
             // box
             // purple

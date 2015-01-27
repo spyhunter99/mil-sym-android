@@ -28,7 +28,15 @@ import java.io.IOException;
 public class MyView extends View {
 
     public static String linetype = "";
-
+//    public static String T = "";
+//    public static String T1 = "";
+//    public static String H = "";
+//    public static String H1 = "";
+//    public static String W = "";
+//    public static String W1 = "";
+//    public static String linecolor = "";
+//    public static String fillcolor = "";
+    
     public MyView(Context context) {
         super(context);
         this.context = context;
