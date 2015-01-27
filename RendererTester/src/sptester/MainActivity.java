@@ -172,7 +172,7 @@ public class MainActivity extends Activity {
 		    	outline.setStyle(Style.STROKE);
 		    	outline.setStrokeWidth(1);
 		    	msCanvas.drawRect(ii.getSymbolBounds(), outline);
-		    	msCanvas.drawRect(ii.getCenterPoint().x, ii.getCenterPoint().y, ii.getCenterPoint().x+1, ii.getCenterPoint().y+1, outline);//*/
+		    	msCanvas.drawRect(ii.getCenterPoint().x-1, ii.getCenterPoint().y-1, ii.getCenterPoint().x+1, ii.getCenterPoint().y+1, outline);//*/
 		    	
 		    	if(msBmp != null)
 		    		imageView.setImageBitmap(msBmp);
@@ -248,6 +248,7 @@ public class MainActivity extends Activity {
     
     public void speedTest(View view)
     {
+    	
     	try
     	{
     		if(mir == null)
@@ -299,10 +300,16 @@ public class MainActivity extends Activity {
 	    	long start = System.currentTimeMillis();//java.lang.System.nanoTime();
 	    	Date dStart = new Date();
 	    	ImageInfo ii = null;
+	    	
+	    	boolean trace = false;
+	    	if(trace == true)
+	    		android.os.Debug.startMethodTracing("SPSPEEDTEST");
 	    	for(int i = 0; i < 1000; i++)
 	    	{
 	    		ii = mir.RenderIcon(symbolID, modifiers, attributes);
 	    	}
+	    	if(trace == true)
+	    		android.os.Debug.stopMethodTracing();
 	    	
 	    	long stop = System.currentTimeMillis();// java.lang.System.nanoTime();
 	    	Date dStop = new Date();

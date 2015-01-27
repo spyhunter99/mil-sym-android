@@ -51,7 +51,7 @@ public class ModifierRenderer
         ImageInfo newii = null;
         Rect symbolBounds = new Rect(ii.getSymbolBounds());
         Rect imageBounds = new Rect(ii.getImageBounds());
-        Point centerPoint = ii.getCenterPoint();
+        Point centerPoint = new Point(ii.getCenterPoint());
         TextInfo tiEchelon = null;
         TextInfo tiAM = null;
         Rect echelonBounds = null;
@@ -132,13 +132,13 @@ public class ModifierRenderer
                 else if (mobility.equals("MQ"))
                 {
                     //round rectangle
-                    PathUtilties.addRoundedRect(mobilityPath, x, bottomY, width, rrHeight, rrArcWidth, rrHeight);
+                    PathUtilties.addRoundedRect(mobilityPath, x, bottomY, width, rrHeight, rrHeight/2, rrHeight);
 
                 }
                 else if (mobility.equals("MR"))
                 {
                     //round rectangle
-                    PathUtilties.addRoundedRect(mobilityPath, x, bottomY, width, rrHeight, rrArcWidth, rrHeight);
+                    PathUtilties.addRoundedRect(mobilityPath, x, bottomY, width, rrHeight, wheelSize/2, rrHeight);
 
                     //left circle
                     PathUtilties.addEllipse(mobilityPath, x - wheelSize - wheelSize, bottomY, wheelSize, wheelSize);
@@ -176,33 +176,34 @@ public class ModifierRenderer
                 }
                 else if (mobility.equals("MU"))
                 {
+                	float halfWidth = (rrArcWidth * 0.5f);
                     mobilityPath.moveTo(x, bottomY);
-                    mobilityPath.lineTo(x + 5, bottomY + 5);
-                    mobilityPath.lineTo(x + width, bottomY + 5);
+                    mobilityPath.lineTo(x + halfWidth, bottomY + halfWidth);
+                    mobilityPath.lineTo(x + width, bottomY + halfWidth);
                 }
                 else if (mobility.equals("MV"))
                 {
                     mobilityPath.moveTo(x, bottomY);
 
-                    mobilityPath.cubicTo(x, bottomY, x - rrArcWidth, bottomY + 3, x, bottomY + rrHeight);
+                    mobilityPath.cubicTo(x, bottomY, x - rrHeight, bottomY + rrHeight/2, x, bottomY + rrHeight);
                     //mobilityPath.bezierCurveTo(x, bottomY, x-rrArcWidth, bottomY+3, x, bottomY+rrHeight);
 
                     mobilityPath.lineTo(x + width, bottomY + rrHeight);
 
-                    mobilityPath.cubicTo(x + width, bottomY + rrHeight, x + width + rrArcWidth, bottomY + 3, x + width, bottomY);
+                    mobilityPath.cubicTo(x + width, bottomY + rrHeight, x + width + rrHeight, bottomY + rrHeight/2, x + width, bottomY);
                     //shapeMobility.curveTo(x + width, bottomY + rrHeight, x+ width + rrArcWidth, bottomY+3, x + width, bottomY);
                 }
                 else if (mobility.equals("MW"))
                 {
                     centerX = Math.round(RectUtilities.getCenterX(symbolBounds));
+                    int angleWidth = rrHeight / 2;
+                    mobilityPath.moveTo(centerX, bottomY + rrHeight + 2);
+                    mobilityPath.lineTo(centerX - angleWidth, bottomY);
+                    mobilityPath.lineTo(centerX - angleWidth*2, bottomY + rrHeight + 2);
 
                     mobilityPath.moveTo(centerX, bottomY + rrHeight + 2);
-                    mobilityPath.lineTo(centerX - 3, bottomY);
-                    mobilityPath.lineTo(centerX - 6, bottomY + rrHeight + 2);
-
-                    mobilityPath.moveTo(centerX, bottomY + rrHeight + 2);
-                    mobilityPath.lineTo(centerX + 3, bottomY);
-                    mobilityPath.lineTo(centerX + 6, bottomY + rrHeight + 2);
+                    mobilityPath.lineTo(centerX + angleWidth, bottomY);
+                    mobilityPath.lineTo(centerX + angleWidth*2, bottomY + rrHeight + 2);
                 }
                 else if (mobility.equals("MX"))
                 {
@@ -874,15 +875,18 @@ public class ModifierRenderer
             Paint mobilityPaint = new Paint();
             mobilityPaint.setStyle(Style.STROKE);
             mobilityPaint.setColor(Color.black.toInt());
+            
             //ctx.lineCap = "butt";
             //ctx.lineJoin = "miter";
             if (symbolID.charAt(10) == ('M'))
             {
                 mobilityPaint.setStrokeWidth(3f);
+                mobilityPaint.setAntiAlias(true);
             }
             else //NS or NL
             {
                 mobilityPaint.setStrokeWidth(3f);
+                //mobilityPaint.setAntiAlias(true);
             }
 
             ctx.drawPath(mobilityPath, mobilityPaint);
@@ -1208,7 +1212,7 @@ public class ModifierRenderer
 
         Rect bounds = new Rect(ii.getSymbolBounds());
         Rect symbolBounds = new Rect(ii.getSymbolBounds());
-        Point centerPoint = ii.getCenterPoint();
+        Point centerPoint = new Point(ii.getCenterPoint());
         Rect imageBounds = new Rect(ii.getImageBounds());
         Rect imageBoundsOld = new Rect(ii.getImageBounds());
 
@@ -1865,7 +1869,7 @@ public class ModifierRenderer
 
         Rect bounds = new Rect(ii.getSymbolBounds());
         Rect symbolBounds = new Rect(ii.getSymbolBounds());
-        Point centerPoint = ii.getCenterPoint();
+        Point centerPoint = new Point(ii.getCenterPoint());
         Rect imageBounds = new Rect(ii.getImageBounds());
 
         if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
@@ -2484,7 +2488,7 @@ public class ModifierRenderer
 
         Rect bounds = new Rect(ii.getSymbolBounds());
         Rect symbolBounds = new Rect(ii.getSymbolBounds());
-        Point centerPoint = ii.getCenterPoint();
+        Point centerPoint = new Point(ii.getCenterPoint());
         Rect imageBounds = new Rect(ii.getImageBounds());
 
         centerPoint = new Point(Math.round(ii.getCenterPoint().x), Math.round(ii.getCenterPoint().y));
