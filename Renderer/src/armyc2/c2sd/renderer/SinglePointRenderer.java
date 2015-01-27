@@ -311,7 +311,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                 //symbolBounds = RectUtilities.makeRect(0, 0, dimensions[2], dimensions[3]);
                 //get centerpoint of the image
                 Point centerPoint = new Point(Math.round(symbolBounds.width() / 2), Math.round(symbolBounds.height() / 2));
-
+                Point centerCache = new Point(centerPoint);
                 //y offset to get centerpoint so we set back to zero when done.
                 symbolBounds.top = 0;
 
@@ -407,7 +407,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
                 if (icon == false)
                 {
-                    _unitCache.put(key, ii);
+                    _unitCache.put(key, new ImageInfo(bmp, new Point(centerCache), new Rect(symbolBounds)));
                 }
             }
 

@@ -37,64 +37,54 @@ public class SymbolUtilities
     {
         try
         {
-            String strRetSymbolID = null;
+            StringBuilder sb = new StringBuilder();
             if ((strSymbolID != null) && (strSymbolID.equals("") == false) && (strSymbolID.length() == 15))
             {
                 // Check to make sure it is a tacitcal graphic symbol.
-                if ((isWeather(strSymbolID)) || (isBasicShape(strSymbolID)) || (isBridge(strSymbolID)))
+                if ((isWeather(strSymbolID)) || (isBasicShape(strSymbolID)))
                 {
                     return strSymbolID;
                 }
                 else if (isTacticalGraphic(strSymbolID) == true)
                 {
-                    strRetSymbolID = strSymbolID.substring(0, 1)
-                            + "*"
-                            + strSymbolID.substring(2, 3)
-                            + "*"
-                            + strSymbolID.substring(4, 10)
-                            + "****"
-                            + "X";
+                    sb.append(strSymbolID.charAt(0));
+                    sb.append("*");
+                    sb.append(strSymbolID.charAt(2));
+                    sb.append("*");
+                    sb.append(strSymbolID.substring(4, 10));
+                    sb.append("****");
+                    sb.append("X");
 
                     if (isEMSNaturalEvent(strSymbolID) == true)
                     {
-                        strRetSymbolID = strRetSymbolID.substring(0, 14) + "*";
+                        sb.deleteCharAt(14).append("*");
                     }
 
-                    return strRetSymbolID;
+                    return sb.toString();
                 }
                 else if (isWarfighting(strSymbolID))
                 {
-                    strRetSymbolID = strSymbolID.substring(0, 1)
-                            + "*"
-                            + strSymbolID.substring(2, 3)
-                            + "*"
-                            //+ strSymbolID.substring(4, 15);
-                            + strSymbolID.substring(4, 10);
+                    sb.append(strSymbolID.charAt(0));
+                    sb.append("*");
+                    sb.append(strSymbolID.charAt(2));
+                    sb.append("*");
+                    sb.append(strSymbolID.substring(4, 10));
+                    sb.append("****");
+                    sb.append("X");
+                    
                     if (isSIGINT(strSymbolID))
                     {
-                        strRetSymbolID = strRetSymbolID + "--***";
+                        sb.append("--***");
                     }
                     else if (isInstallation(strSymbolID))
                     {
-                        strRetSymbolID = strRetSymbolID + "H****";
+                        sb.append("H****");
                     }
                     else
                     {
-                        strRetSymbolID = strRetSymbolID + "*****";
+                        sb.append("*****");
                     }
-                    return strRetSymbolID;
-                }
-                else if (isEngineeringOverlayObstacle(strSymbolID))
-                {
-                    strRetSymbolID = strSymbolID.substring(0, 1)
-                            + "*"
-                            + strSymbolID.substring(2, 3)
-                            + "*"
-                            + strSymbolID.substring(4, 10)
-                            + "****"
-                            + "X";
-                    return strRetSymbolID;
-
+                    return sb.toString();
                 }
                 else // Don't do anything for bridge symbols
                 {
@@ -1136,7 +1126,7 @@ public class SymbolUtilities
 
         try
         {
-            String switchChar;
+            char switchChar;
             // We can't get the fill color if there is no symbol id, since that also means there is no affiliation
             if ((symbolID == null) || (symbolID.equals("")))
             {
@@ -1161,34 +1151,34 @@ public class SymbolUtilities
                 }
                 else
                 {
-                    switchChar = symbolID.substring(1, 2);
-                    if (switchChar.equals("F")
-                            || switchChar.equals("A")
-                            || switchChar.equals("D")
-                            || switchChar.equals("M"))
+                    switchChar = symbolID.charAt(1);
+                    if (switchChar == 'F'
+                            || switchChar == 'A'
+                            || switchChar == 'D'
+                            || switchChar == 'M')
                     {
                         retColor = AffiliationColors.FriendlyGraphicFillColor;//0x00ffff;	// Cyan
 
                     }
-                    else if (switchChar.equals("H")
-                            || switchChar.equals("S")
-                            || switchChar.equals("J")
-                            || switchChar.equals("K"))
+                    else if (switchChar == 'H'
+                            || switchChar == 'S'
+                            || switchChar == 'J'
+                            || switchChar == 'K')
                     {
                         retColor = AffiliationColors.HostileGraphicFillColor;//0xfa8072;	// Salmon
 
                     }
-                    else if (switchChar.equals("N")
-                            || switchChar.equals("L"))
+                    else if (switchChar == 'N'
+                            || switchChar == 'L')
                     {
                         retColor = AffiliationColors.NeutralGraphicFillColor;//0x7fff00;	// Light Green
 
                     }
-                    else if (switchChar.equals("U")
-                            || switchChar.equals("P")
-                            || switchChar.equals("O")
-                            || switchChar.equals("G")
-                            || switchChar.equals("W"))
+                    else if (switchChar == 'U'
+                            || switchChar == 'P'
+                            || switchChar == 'O'
+                            || switchChar == 'G'
+                            || switchChar == 'W')
                     {
                         retColor = new Color(255, 250, 205); //0xfffacd;	// LemonChiffon 255 250 205
                     }
@@ -1200,34 +1190,34 @@ public class SymbolUtilities
             } // End if(SymbolUtilities.IsTacticalGraphic(this._strSymbolID))
             else
             {
-                switchChar = symbolID.substring(1, 2);
-                if (switchChar.equals("F")
-                        || switchChar.equals("A")
-                        || switchChar.equals("D")
-                        || switchChar.equals("M"))
+                switchChar = symbolID.charAt(1);
+                if (switchChar == 'F'
+                        || switchChar == 'A'
+                        || switchChar == 'D'
+                        || switchChar == 'M')
                 {
                     retColor = AffiliationColors.FriendlyUnitFillColor;//0x00ffff;	// Cyan
 
                 }
-                else if (switchChar.equals("H")
-                        || switchChar.equals("S")
-                        || switchChar.equals("J")
-                        || switchChar.equals("K"))
+                else if (switchChar == 'H'
+                        || switchChar == 'S'
+                        || switchChar == 'J'
+                        || switchChar == 'K')
                 {
                     retColor = AffiliationColors.HostileUnitFillColor;//0xfa8072;	// Salmon
 
                 }
-                else if (switchChar.equals("N")
-                        || switchChar.equals("L"))
+                else if (switchChar == 'N'
+                        || switchChar == 'L')
                 {
                     retColor = AffiliationColors.NeutralUnitFillColor;//0x7fff00;	// Light Green
 
                 }
-                else if (switchChar.equals("U")
-                        || switchChar.equals("P")
-                        || switchChar.equals("O")
-                        || switchChar.equals("G")
-                        || switchChar.equals("W"))
+                else if (switchChar == 'U'
+                        || switchChar == 'P'
+                        || switchChar == 'O'
+                        || switchChar == 'G'
+                        || switchChar == 'W')
                 {
                     retColor = AffiliationColors.UnknownUnitFillColor;//new Color(255,250, 205); //0xfffacd;	// LemonChiffon 255 250 205
                 }
@@ -1510,9 +1500,9 @@ public class SymbolUtilities
          // var arrSD:ArrayCollection;
          String[] arrUD;
          String[] arrSD;
-         if(strHierarchy.substring(0, 1).equals("1")
-         || strHierarchy.substring(0, 1).equals("4")
-         || strHierarchy.substring(0, 1).equals("5"))
+         if(strHierarchy.charAt(0) == ("1")
+         || strHierarchy.charAt(0) == ("4")
+         || strHierarchy.charAt(0) == ("5"))
          {
          arrUD = unitDefTable.searchByHierarchy(strHierarchy);
          if((arrUD != null) && (arrUD.length > 0) && (arrUD[0] != null))
@@ -1520,7 +1510,7 @@ public class SymbolUtilities
          // strBasicID = UnitDef(arrUD[0]).basicSymbolId;
          }
          }
-         else if(strHierarchy.substring(0, 1).equals("2") || strHierarchy.substring(0, 1).equals("3"))
+         else if(strHierarchy.charAt(0) == ("2") || strHierarchy.charAt(0) == ("3"))
          {
          // arrSD = symDefTable.searchByHierarchy(strHierarchy);
          arrSD = new String[] {};
@@ -1558,50 +1548,6 @@ public class SymbolUtilities
         return "";
     }
 
-    /**
-     * @name copyModifiers
-     *
-     * @desc Copies the symbol modifier data from one symbol code to another.
-     * This data includes the echelon, country, affiliation, etc.
-     *
-     * NOTE: This operation will return null if there is problem copying the
-     * data or one of the items passed in is null. You must check for null.
-     *
-     * @param strFromCode - IN - Code containing data to copy
-     * @param strToCode - IN - Code to copy data to
-     * @return Symbol modifier data.
-     * @deprecated
-     */
-    public static
-            String copyModifiers(String strFromCode, String strToCode)
-    {
-        String sb = null;
-        if ((strFromCode != null) && (strToCode != null))
-        {
-            try
-            {
-                sb = strToCode;
-                sb = sb.substring(0, 1)
-                        + strFromCode.substring(1, 2)
-                        + sb.substring(2, 3)
-                        + strFromCode.substring(3, 4)
-                        + sb.substring(4, 10)
-                        + strFromCode.substring(10, 14)
-                        + sb.substring(14, 15);
-                /*
-                 * sb[1] = strFromCode.charAt(1); sb[3] = strFromCode.charAt(3); sb[10] =
-                 * strFromCode.charAt(10); sb[11] = strFromCode.charAt(11); sb[12] =
-                 * strFromCode.charAt(12); sb[13] = strFromCode.charAt(13);
-                 */
-            }
-            catch (Throwable t)
-            {
-                System.out.println(t);
-                return null;
-            }
-        }
-        return sb.toString();
-    } // End CopyModifiers
 
     /**
      * Determines if the symbol is a tactical graphic
@@ -1610,8 +1556,7 @@ public class SymbolUtilities
      * @return true if symbol starts with "G", or is a weather graphic, or a
      * bridge graphic
      */
-    public static
-            boolean isTacticalGraphic(String strSymbolID)
+    public static boolean isTacticalGraphic(String strSymbolID)
     {
         try
         {
@@ -1619,8 +1564,8 @@ public class SymbolUtilities
             {
                 return false;
             }
-            if ((strSymbolID.substring(0, 1).equals("G")) || (isWeather(strSymbolID))
-                    || (isBridge(strSymbolID)) || isEMSNaturalEvent(strSymbolID)
+            if ((strSymbolID.charAt(0) == 'G') || (isWeather(strSymbolID))
+                    || isEMSNaturalEvent(strSymbolID)
                     || isBasicShape(strSymbolID))
             {
                 return true;
@@ -1633,12 +1578,11 @@ public class SymbolUtilities
         return false;
     }
 
-    public static
-            boolean isBasicShape(String symbolID)
+    public static boolean isBasicShape(String symbolID)
     {
         if (symbolID != null && symbolID.length() >= 2)
         {
-            if (symbolID.startsWith("BS_"))
+            if (symbolID.startsWith("BS_") || symbolID.startsWith("BBS_"))
             {
                 return true;
             }
@@ -1668,8 +1612,8 @@ public class SymbolUtilities
             {
                 return false;
             }
-            if ((strSymbolID.substring(0, 1).equals("O")) || (strSymbolID.substring(0, 1).equals("S"))
-                    || (strSymbolID.substring(0, 1).equals("I")) || (strSymbolID.substring(0, 1).equals("E") && strSymbolID.substring(2, 3).equals("N") == false))
+            if ((strSymbolID.charAt(0) == 'O' || (strSymbolID.charAt(0) == 'S')
+                    || (strSymbolID.charAt(0) == 'I') || (strSymbolID.charAt(0) == 'E' && strSymbolID.charAt(2) != 'N')))
             {
                 return true;
             }
@@ -1692,8 +1636,10 @@ public class SymbolUtilities
     {
         try
         {
-            boolean blRetVal = strSymbolID.substring(0, 1).equals("W");
-            return blRetVal;
+            if(strSymbolID.charAt(0) == 'W')
+            	return true;
+            else
+            	return false;
         }
         catch (Throwable t)
         {
@@ -1867,70 +1813,6 @@ public class SymbolUtilities
         }
     }
 
-    /**
-     * Determines if symbols is a Bridge symbol
-     *
-     * @param strSymbolID
-     * @return true if symbolID starts with "ESRI"
-     */
-    public static
-            boolean isBridge(String strSymbolID)
-    {
-        try
-        {
-            boolean blRetVal = strSymbolID.substring(0, 4).equals("ESRI");
-            return blRetVal;
-        }
-        catch (Throwable t)
-        {
-            System.out.println(t);
-        }
-        return false;
-    }
-
-    /**
-     * Engineering overlay graphics including bridges and overlays at 2.X.7
-     * Non-MilStd
-     *
-     * @param strSymbolID
-     * @return
-     */
-    public static
-            boolean isEngineeringOverlayGraphic(String strSymbolID)
-    {
-        try
-        {
-            boolean blRetVal = (isBridge(strSymbolID) || isEngineeringOverlayObstacle(strSymbolID));
-            return blRetVal;
-        }
-        catch (Throwable t)
-        {
-            System.out.println(t);
-        }
-        return false;
-    }
-
-    /**
-     * Determines if symbol is an Engineering Overlay Obstacle
-     *
-     * @param strSymbolID
-     * @return
-     */
-    public static
-            boolean isEngineeringOverlayObstacle(String strSymbolID)
-    {
-        try
-        {
-            boolean blRetVal = (strSymbolID.substring(0, 1).equals("E")
-                    && strSymbolID.substring(2, 3).equals("G"));
-            return blRetVal;
-        }
-        catch (Throwable t)
-        {
-            System.out.println(t);
-        }
-        return false;
-    }
 
     /**
      * Symbols that don't exist outside of MCS
@@ -2254,7 +2136,7 @@ public class SymbolUtilities
     {
         try
         {
-            if (strSymbolID.substring(0, 1).equals("O"))
+            if (strSymbolID.charAt(0) == 'O')
             {
                 return true;
             }
@@ -2286,7 +2168,7 @@ public class SymbolUtilities
     {
         try
         {
-            if (strSymbolID.substring(0, 1).equals("O"))
+            if (strSymbolID.charAt(0) == 'O')
             {
                 return true;
             }
@@ -2366,9 +2248,10 @@ public class SymbolUtilities
     {
         try
         {
-            boolean blRetVal = ((strSymbolID.substring(10, 11).equals("A"))
-                    || (strSymbolID.substring(10, 11).equals("B"))
-                    || (strSymbolID.substring(10, 11).equals("C")) || (strSymbolID.substring(10, 11).equals("D")));
+            char mod1 = strSymbolID.charAt(10);
+            boolean blRetVal = (mod1 == 'A'
+                    || mod1 == 'B'
+                    || mod1 == 'C' || mod1 == 'D');
             return blRetVal;
         }
         catch (Throwable t)
@@ -2394,9 +2277,10 @@ public class SymbolUtilities
         try
         {
             // Return whether or not task force is included in the symbol id.
-            boolean blRetVal = ((strSymbolID.substring(10, 11).equals("B"))
-                    || (strSymbolID.substring(10, 11).equals("D"))
-                    || (strSymbolID.substring(10, 11).equals("E")) || (strSymbolID.substring(10, 11).equals("G")));
+            char mod1 = strSymbolID.charAt(10);
+            boolean blRetVal = (mod1 == 'B'
+                    || mod1 == 'D'
+                    || mod1 == 'E' || mod1 == 'G');
             return blRetVal;
         }
         catch (Throwable t)
@@ -2421,10 +2305,12 @@ public class SymbolUtilities
     {
         try
         {
+            char mod1 = strSymbolID.charAt(10);
             // Return whether or not feintdummy is included in the symbol id.
-            boolean blRetVal = ((strSymbolID.substring(10, 11).equals("C"))
-                    || (strSymbolID.substring(10, 11).equals("D"))
-                    || (strSymbolID.substring(10, 11).equals("F")) || (strSymbolID.substring(10, 11).equals("G")));
+            boolean blRetVal = (mod1 == 'C'
+                    || mod1 == 'D'
+                    || mod1 == 'F' || mod1 == 'G');
+
             return blRetVal;
         }
         catch (Throwable t)
@@ -2453,8 +2339,8 @@ public class SymbolUtilities
         {
             // See if the mobility wheeled modifier is on.
             mobilityWheeledIsOn = (isEquipment(strSymbolID)
-                    && strSymbolID.substring(10, 11).equals("M")
-                    && strSymbolID.substring(11, 12).equals("O"));
+                    && strSymbolID.charAt(10) == 'M'
+                    && strSymbolID.charAt(11) == 'O');
         }
         catch (Throwable t)
         {
@@ -2476,22 +2362,22 @@ public class SymbolUtilities
         boolean mobilityIsOn = false;
         try
         {
-
+            String mod = strSymbolID.substring(10, 12);
             //if(isEquipment(strSymbolID))
             //{
-            if (strSymbolID.substring(10, 12).equals("MO")
-                    || strSymbolID.substring(10, 12).equals("MP")
-                    || strSymbolID.substring(10, 12).equals("MQ")
-                    || strSymbolID.substring(10, 12).equals("MR")
-                    || strSymbolID.substring(10, 12).equals("MS")
-                    || strSymbolID.substring(10, 12).equals("MT")
-                    || strSymbolID.substring(10, 12).equals("MU")
-                    || strSymbolID.substring(10, 12).equals("MV")
-                    || strSymbolID.substring(10, 12).equals("MW")
-                    || strSymbolID.substring(10, 12).equals("MX")
-                    || strSymbolID.substring(10, 12).equals("MY")
-                    || strSymbolID.substring(10, 12).equals("NS")
-                    || strSymbolID.substring(10, 12).equals("NL"))
+            if (mod.equals("MO")
+                    || mod.equals("MP")
+                    || mod.equals("MQ")
+                    || mod.equals("MR")
+                    || mod.equals("MS")
+                    || mod.equals("MT")
+                    || mod.equals("MU")
+                    || mod.equals("MV")
+                    || mod.equals("MW")
+                    || mod.equals("MX")
+                    || mod.equals("MY")
+                    || mod.equals("NS")
+                    || mod.equals("NL"))
             {
                 mobilityIsOn = true;
             }
@@ -2511,13 +2397,13 @@ public class SymbolUtilities
      * @param strSymbolID
      * @return
      */
-    public static
-            Boolean isTarget(String strSymbolID)
+    public static Boolean isTarget(String strSymbolID)
     {
         String basicID = SymbolUtilities.getBasicSymbolID(strSymbolID);
-        if (basicID.substring(0, 6).equals("G*F*PT") ||//fire support/point/point target
-                basicID.substring(0, 6).equals("G*F*LT") ||//fire support/lines/linear target
-                basicID.substring(0, 6).equals("G*F*AT"))//fire support/area/area target
+        String sub = basicID.substring(0, 6);
+        if (sub.equals("G*F*PT") ||//fire support/point/point target
+                sub.equals("G*F*LT") ||//fire support/lines/linear target
+                sub.equals("G*F*AT"))//fire support/area/area target
         {
             return true;
         }
@@ -2533,8 +2419,7 @@ public class SymbolUtilities
      * @param strSymbolID
      * @return
      */
-    public static
-            Boolean isAirTrack(String strSymbolID)
+    public static Boolean isAirTrack(String strSymbolID)
     {
         if (strSymbolID.charAt(0) == 'S'
                 && strSymbolID.charAt(2) == 'A')
@@ -2565,7 +2450,7 @@ public class SymbolUtilities
             // An Obstacle is denoted by the symbol code "G*M*O"
             // So see if it is a tactical graphic then check to see
             // if we have the M and then the O in the correct position.
-            boolean blRetVal = ((isTacticalGraphic(strSymbolID)) && ((strSymbolID.substring(2, 3).equals("M")) && (strSymbolID.substring(4, 5).equals("O"))));
+            boolean blRetVal = ((isTacticalGraphic(strSymbolID)) && ((strSymbolID.charAt(2) == 'M') && (strSymbolID.charAt(4) == 'O')));
             return blRetVal;
         }
         catch (Throwable t)
@@ -2751,9 +2636,9 @@ public class SymbolUtilities
     {
         try
         {
-            boolean blRetVal = ((strSymbolID.substring(0, 1).equals("S"))
-                    && (strSymbolID.substring(2, 3).equals("G"))
-                    && (strSymbolID.substring(4, 5).equals("U")));
+            boolean blRetVal = ((strSymbolID.charAt(0) == 'S')
+                    && (strSymbolID.charAt(2) == 'G')
+                    && (strSymbolID.charAt(4) == 'U'));
             return blRetVal;
         }
         catch (Throwable t)
@@ -3047,7 +2932,7 @@ public class SymbolUtilities
     {
         try
         {
-            boolean blRetVal = ((strSymbolID.substring(0, 1).equals("S")) && (strSymbolID.substring(2, 3).equals("F")));
+            boolean blRetVal = ((strSymbolID.charAt(0) == 'S') && (strSymbolID.charAt(2) == 'F'));
             return blRetVal;
         }
         catch (Throwable t)
@@ -3095,7 +2980,7 @@ public class SymbolUtilities
     {
         try
         {
-            boolean blRetVal = ((strSymbolID.substring(0, 1).equals("S")) && (strSymbolID.substring(2, 3).equals("S")));
+            boolean blRetVal = ((strSymbolID.charAt(0) == 'S') && (strSymbolID.charAt(2) == 'S'));
             return blRetVal;
         }
         catch (Throwable t)
@@ -3119,7 +3004,7 @@ public class SymbolUtilities
     {
         try
         {
-            boolean blRetVal = ((strSymbolID.substring(0, 1).equals("S")) && (strSymbolID.substring(2, 3).equals("U")));
+            boolean blRetVal = ((strSymbolID.charAt(0) == 'S') && (strSymbolID.charAt(2) == 'U'));
             return blRetVal;
         }
         catch (Throwable t)
@@ -3269,9 +3154,9 @@ public class SymbolUtilities
     {
         try
         {
-            boolean blRetVal = ((strSymbolID.substring(0, 1).equals("S"))
-                    && (strSymbolID.substring(2, 3).equals("G"))
-                    && (strSymbolID.substring(4, 5).equals("E")));
+            boolean blRetVal = ((strSymbolID.charAt(0) == 'S')
+                    && (strSymbolID.charAt(2) == 'G')
+                    && (strSymbolID.charAt(4) == 'E'));
             // || isEMSEquipment(strSymbolID); //uncomment when supporting 2525C
             return blRetVal;
         }
@@ -3412,8 +3297,7 @@ public class SymbolUtilities
     {
         try
         {
-            boolean blRetVal = ((strSymbolID.substring(0, 1).equals("S")) && (strSymbolID.substring(2, 3).equals("G")) && (strSymbolID.substring(4,
-                    5).equals("I")));
+            boolean blRetVal = ((strSymbolID.charAt(0) == 'S') && (strSymbolID.charAt(2) == 'G') && (strSymbolID.charAt(4) == 'I'));
             return blRetVal;
         }
         catch (Throwable t)
@@ -3437,7 +3321,7 @@ public class SymbolUtilities
     {
         try
         {
-            boolean blRetVal = (strSymbolID.substring(0, 1).equals("I"));
+            boolean blRetVal = (strSymbolID.charAt(0) == 'I');
             return blRetVal;
         }
         catch (Throwable t)
@@ -3464,7 +3348,7 @@ public class SymbolUtilities
         try
         {
             // See if the feint dummy installation is on.
-            feintDummyInstallationIsOn = (strSymbolID.substring(10, 11).equals("H") && strSymbolID.substring(11, 12).equals("B"));
+            feintDummyInstallationIsOn = (strSymbolID.charAt(10) == 'H' && strSymbolID.charAt(11) == 'B');
         }
         catch (Throwable t)
         {
@@ -4028,9 +3912,7 @@ public class SymbolUtilities
         try
         {
             if ((strSymbolID.length() == 15)
-                    && (!isBridge(strSymbolID))
-                    && (!isWeather(strSymbolID))
-                    && (!isJWARN(strSymbolID)))
+                    && (!isWeather(strSymbolID)) && (!isBasicShape(strSymbolID)))
             {
                 if (strStatusID.toLowerCase().equals("present"))
                 {

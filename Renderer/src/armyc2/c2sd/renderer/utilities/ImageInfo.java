@@ -15,6 +15,14 @@ public class ImageInfo {
 	private Rect _imageBounds = null;
 	private Bitmap _image = null;
 	
+	public ImageInfo(ImageInfo original)
+	{
+		_centerPoint = new Point(original.getCenterPoint());
+		_symbolBounds = new Rect(original.getSymbolBounds());
+		_image = original.getImage();
+		_imageBounds = new Rect(original.getImageBounds());
+	}
+	
 	public ImageInfo(Bitmap image, Point centerPoint, Rect symbolBounds)
 	{
 		_centerPoint = centerPoint;
@@ -22,9 +30,16 @@ public class ImageInfo {
 		_image = image;
 		
 		_imageBounds = RectUtilities.makeRect(0, 0, image.getWidth(), image.getHeight());
-		
 	}
-
+	
+	/**
+	 * Not a full clone.  Only centerPoint and symbolBounds are copies.  Bitmap is still a reference. 
+	 */
+	public ImageInfo getLightClone()
+	{
+		return new ImageInfo(_image, new Point(_centerPoint), new Rect(_symbolBounds));
+	}
+	
 	public Bitmap getImage()
 	{
 		return _image;

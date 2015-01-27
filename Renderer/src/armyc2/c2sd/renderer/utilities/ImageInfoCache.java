@@ -39,7 +39,12 @@ public class ImageInfoCache
 
     public synchronized ImageInfo get(String key)
     {
-        return _cache.get(key);
+    	return _cache.get(key);
+    	/*ImageInfo returnVal = _cache.get(key);
+    	if(returnVal != null)
+    		return returnVal.getLightClone();
+    	else
+    		return null;*/
     }
 
     public static String makeKey(String symbolID, int lineColor, int fillColor, int size, boolean keepUnitRatio, int symStd)
