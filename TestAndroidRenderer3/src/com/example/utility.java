@@ -1646,13 +1646,13 @@ public final class utility {
         String hString = "0:FFFF00FF,1:FFFF00FF,2:FFFF00FF,3:FFFF00FF,4:FFFF00FF,5:FF00FFFF,6:FF00FFFF,7:FF00FFFF,8:FF00FFFF,9:FF00FFFF,10:FF00FFFF,11:FF00FFFF,12:FFFFFF00,13:FFFFFF00,14:FFFFFF00,15:FFFFFF00,16:FFFFFF00,17:FFFFFF00,18:FFFFFF00,19:FF0000FF,20:FF0000FF,21:FF0000FF,22:FF0000FF,23:FF0000FF,24:FFFF00FF,25:FFFF00FF,26:FFFF00FF,27:FFFF00FF,28:FFFF00FF,29:FFFF0000,30:FFFF0000,31:FFFF0000,32:FFFF0000,33:FFFF0000,34:FF00FFFF,35:FF00FFFF,36:FF00FFFF,37:FF00FFFF,38:FF00FFFF";
 
         SparseArray<String> modifiers = new SparseArray<String>();
-        modifiers.put(ModifiersTG.T_UNIQUE_DESIGNATION_1, "NAME");
-        modifiers.put(ModifiersTG.T1_UNIQUE_DESIGNATION_2, "T1");
-        modifiers.put(ModifiersTG.H_ADDITIONAL_INFO_1, hString);
-        modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, "H1");
-        modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, "H1");
-        modifiers.put(ModifiersTG.W_DTG_1, "W");
-        modifiers.put(ModifiersTG.W1_DTG_2, "W1");
+        modifiers.put(ModifiersTG.T_UNIQUE_DESIGNATION_1, T);
+        modifiers.put(ModifiersTG.T1_UNIQUE_DESIGNATION_2, T1);
+        modifiers.put(ModifiersTG.H_ADDITIONAL_INFO_1, H);
+        modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, H1);
+        modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, "H2");
+        modifiers.put(ModifiersTG.W_DTG_1, W);
+        modifiers.put(ModifiersTG.W1_DTG_2, W1);
 
         SparseArray<String> attributes = new SparseArray<String>();
 
@@ -1662,15 +1662,15 @@ public final class utility {
         boolean renderAirControls=isAirspace(defaultText);
         //Mil-Std-2525 symbols
         if (!renderAirControls) {
-            modifiers.put(ModifiersTG.T_UNIQUE_DESIGNATION_1, "NAME");
-            modifiers.put(ModifiersTG.T1_UNIQUE_DESIGNATION_2, "T1");
-            modifiers.put(ModifiersTG.AM_DISTANCE, "20000,30000,40000");
-            modifiers.put(ModifiersTG.AN_AZIMUTH, "315,45,270,65");
-            modifiers.put(ModifiersTG.X_ALTITUDE_DEPTH, "27000,33000,17000,46000");
-            modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, "H1");
-            modifiers.put(ModifiersTG.W_DTG_1, "W");
-            modifiers.put(ModifiersTG.W1_DTG_2, "W1");
-            attributes.put(MilStdAttributes.FillColor, "00FF00");
+            modifiers.put(ModifiersTG.T_UNIQUE_DESIGNATION_1, T);
+            modifiers.put(ModifiersTG.T1_UNIQUE_DESIGNATION_2, T1);
+            modifiers.put(ModifiersTG.AM_DISTANCE, AM);
+            modifiers.put(ModifiersTG.AN_AZIMUTH, AN);
+            modifiers.put(ModifiersTG.X_ALTITUDE_DEPTH, X);
+            modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, H1);
+            modifiers.put(ModifiersTG.W_DTG_1, W);
+            modifiers.put(ModifiersTG.W1_DTG_2, W1);
+            attributes.put(MilStdAttributes.FillColor, fillcolor);
             if (JavaRendererUtilities.is3dSymbol(defaultText, modifiers)) {
 
                 attributes.put(MilStdAttributes.FillColor, "FF00FF00");
