@@ -1671,6 +1671,7 @@ public final class utility {
             modifiers.put(ModifiersTG.W_DTG_1, W);
             modifiers.put(ModifiersTG.W1_DTG_2, W1);
             attributes.put(MilStdAttributes.FillColor, fillcolor);
+            attributes.put(MilStdAttributes.LineColor, linecolor);
             if (JavaRendererUtilities.is3dSymbol(defaultText, modifiers)) {
 
                 attributes.put(MilStdAttributes.FillColor, "FF00FF00");

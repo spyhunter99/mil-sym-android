@@ -80,7 +80,7 @@ public class MyView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
-        if (_points==null || _points.size() < 2) {
+        if (_points==null || _points.size() < 1) {
             return;
         }
         super.onDraw(canvas);
