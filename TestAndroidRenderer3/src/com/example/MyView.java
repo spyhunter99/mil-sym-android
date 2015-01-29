@@ -55,24 +55,24 @@ public class MyView extends View {
             if (_points.size() >= qty || _points.size() >= 4) {
                 invalidate();
             }
-            if (_points.size() >= 3 && linetype.equalsIgnoreCase("track")) {
-                invalidate();
-            }
-            if (_points.size() >= 3 && linetype.equalsIgnoreCase("saafr")) {
-                invalidate();
-            }
-            if (_points.size() >= 3 && linetype.equalsIgnoreCase("lltr")) {
-                invalidate();
-            }
-            if (_points.size() >= 3 && linetype.equalsIgnoreCase("mrr")) {
-                invalidate();
-            }
-            if (_points.size() >= 3 && linetype.equalsIgnoreCase("uav")) {
-                invalidate();
-            }
-            if (_points.size() >= 3 && linetype.equalsIgnoreCase("ac")) {
-                invalidate();
-            }
+//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("track")) {
+//                invalidate();
+//            }
+//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("saafr")) {
+//                invalidate();
+//            }
+//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("lltr")) {
+//                invalidate();
+//            }
+//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("mrr")) {
+//                invalidate();
+//            }
+//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("uav")) {
+//                invalidate();
+//            }
+//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("ac")) {
+//                invalidate();
+//            }
         }
         return true;
     }

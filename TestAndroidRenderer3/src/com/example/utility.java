@@ -18,6 +18,7 @@ import android.graphics.Path;
 import android.content.Context;
 import android.util.SparseArray;
 import static armyc2.c2sd.JavaLineArray.lineutility.CalcDistanceDouble;
+import sec.web.json.utilities.JSONObject;
 import sec.web.render.SECWebRenderer;
 import sec.web.render.PointConverter;
 import sec.web.render.utilities.JavaRendererUtilities;
@@ -868,6 +869,15 @@ public final class utility {
         int numPts = -1;
         // linetype=utility.GetLinetype(jTextField1.getText());
         int linetype = GetLinetype(str, rev);
+        if (str.equalsIgnoreCase("cylinder"))
+            return 1;
+        if (str.equalsIgnoreCase("cylinder-------"))
+            return 1;
+        if (str.equalsIgnoreCase("radarc"))
+            return 1;
+        if (str.equalsIgnoreCase("radarc---------"))
+            return 1;
+                
         switch (linetype) {
             case TacticalLines.FIX:
             case TacticalLines.FOLLA:
@@ -1003,7 +1013,7 @@ public final class utility {
             case TacticalLines.GUARD_REVC:
             case TacticalLines.SEIZE_REVC:
                 numPts = 4;
-                break;
+                break;            
             default:
                 numPts = 1000;
                 break;
@@ -1072,9 +1082,7 @@ public final class utility {
         if(fillcolor.isEmpty())
             fillcolor="ff0000";
         Color fillColor=SymbolUtilities.getColorFromHexString(fillcolor);
-        //mss.setFillColor(Color.ORANGE);
         mss.setFillColor(fillColor);
-        // mss.setFillColor(null);
         if(linecolor.isEmpty())
             linecolor="00ff00";
         Color lineColor=SymbolUtilities.getColorFromHexString(linecolor);
@@ -1099,14 +1107,9 @@ public final class utility {
         for(j=0;j<x.length;j++)
             xd[j]=Double.parseDouble(x[j]);
         
-        //mss.setLineColor(Color.blue);
         mss.setLineColor(lineColor);
         mss.setLineWidth(2);
-        // mss.setCoordinates(null)
-        // mss.setFillStyle(3);
-        //mss.setModifier(ModifiersTG.T_UNIQUE_DESIGNATION_1, "LONG NAME");
         mss.setModifier(ModifiersTG.T_UNIQUE_DESIGNATION_1, T);
-        //mss.setModifier(ModifiersTG.T1_UNIQUE_DESIGNATION_2, "5000");
         mss.setModifier(ModifiersTG.T1_UNIQUE_DESIGNATION_2, T1);
         mss.setModifier(ModifiersTG.H_ADDITIONAL_INFO_1, H);
         mss.setModifier(ModifiersTG.H1_ADDITIONAL_INFO_2, H1);
@@ -1114,79 +1117,57 @@ public final class utility {
         mss.setModifier(ModifiersTG.W_DTG_1, W);
         mss.setModifier(ModifiersTG.W1_DTG_2, W1);
         mss.setModifier(ModifiersTG.N_HOSTILE, "ENY");
-        //int j = 0;
-        if (linetype == TacticalLines.AC || linetype == TacticalLines.SAAFR
-                || linetype == TacticalLines.LLTR
-                || linetype == TacticalLines.UAV
-                || linetype == TacticalLines.MRR) {
-            // for(j=0;j<mss.getCoordinates().size();j++)
-            // {
-            // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 3000d, j);
-            // //1000 meters
-            // }
-            // try custon sizes
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 0); // 4000
-            // meters
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[1], 1); // 3000
-            // meters
-            // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 3000d, 2);
-            // //1000 meters
-            // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 2000d, 3);
-            // //1000 meters
-            // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 1000d, 4);
-            // //1000 meters
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[0], 0);//27
-            // kill
-            // box
-            // purple
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[1], 1);//54
-            // kill
-            // box
-            // purple
-        } else if (linetype == TacticalLines.RANGE_FAN
-                || linetype == TacticalLines.RANGE_FAN_SECTOR) {
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 0); //1332
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[1], 1);//2665
-            // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 41330d, 2);
-            // mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, 42269d, 3);
-            // left, right azimuth
-            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[0], 0); //315
-            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[1], 1);//45
-            // mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 315d, 2);//left
-            // mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 45d, 3); //right
-            // mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 320d, 4);//left
-            // mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, 240d, 5);//right
-            // altitude
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[0], 0);//27
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[1], 1);//33
-            // mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, 44d,
-            // 2);//alt
-        } else// fire support areas
-        {
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 0);// radius
-            // for
-            // circles
-            // or
-            // width
-            // for
-            // rectangles,
-            // rectangular
-            // tgt
-            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 1);// length
-            // rectangular
-            // tgt
-            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[0], 0); // attitude
-            // rectangulat
-            // tgt
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[0], 0);// alt
-            // kill
-            // box
-            // purple
-            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[1], 1);// alt
-            // kill
-            // box
-            // purple
-        }
+        for(j=0;j<amd.length;j++)            
+            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[j], j);
+        for(j=0;j<and.length;j++)            
+            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[j], j);
+        for(j=0;j<xd.length;j++)            
+            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[j], j);
+//        if (linetype == TacticalLines.AC || linetype == TacticalLines.SAAFR
+//                || linetype == TacticalLines.LLTR
+//                || linetype == TacticalLines.UAV
+//                || linetype == TacticalLines.MRR) {
+//            // try custon sizes
+//            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 0); // 4000
+//            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[1], 1); // 3000
+//            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[0], 0);//27
+//            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[1], 1);//54
+//        } else if (linetype == TacticalLines.RANGE_FAN
+//                || linetype == TacticalLines.RANGE_FAN_SECTOR) {
+//            for(j=0;j<amd.length;j++)            
+//                mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[j], j);
+//            for(j=0;j<amd.length;j++)            
+//                mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[j], j);
+//            for(j=0;j<xd.length;j++)            
+//                mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[j], j);
+//                
+//            
+//        } else// fire support areas
+//        {
+//            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 0);// radius
+//            // for
+//            // circles
+//            // or
+//            // width
+//            // for
+//            // rectangles,
+//            // rectangular
+//            // tgt
+//            mss.setModifier_AM_AN_X(ModifiersTG.AM_DISTANCE, amd[0], 1);// length
+//            // rectangular
+//            // tgt
+//            mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[0], 0); // attitude
+//            // rectangulat
+//            // tgt
+//            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[0], 0);// alt
+//            // kill
+//            // box
+//            // purple
+//            mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[1], 1);// alt
+//            // kill
+//            // box
+//            // purple
+//        }
         return mss;
     }
 
@@ -1237,6 +1218,7 @@ public final class utility {
         //String str2=str.toString();
         int linetype = GetLinetype(str, rev);
         String str2 = str;
+        str2=str2.toUpperCase();
         if (linetype < 0) {
             //return a valid string the client can use for the symbol id
             int n=str2.length();
@@ -1684,18 +1666,54 @@ public final class utility {
         }
         else    //Airspaces 
         {
+//            String[]tempAM=AM.split(",");
+//            int t=tempAM.length;
+//            String[]tempAN=AN.split(",");
+//            int u=tempAN.length;
+//            String[]tempX=X.split(",");
+//            int v=tempX.length;
+//            if(u<t)
+//                for(j=u;j<t;j++)
+//                    AN+=",0";            
+//            if(v<t)
+//                for(j=v;j<t;j++)
+//                    X+=",0";
+            
+            if(AM.isEmpty())
+            {
+                AM="6000,10000,4000,4000,5000,2000";
+                AN="15,345,60,100,30,150";
+                X="200,500,300,600,100,400";
+            }           
+            String[]am=AM.split(",");
+            String[]an=AN.split(",");
+            String[]x=X.split(",");
+            //{attributes:[{radius1:5000, radius2:7500, minalt:0, maxalt:4000, leftAzimuth:180, rightAzimuth:270},{radius1:6000, radius2:8000, minalt:0, maxalt:8000, leftAzimuth:160, rightAzimuth:230}]}
+            String str="";
+            try
+            {
+                //attributesJSON=new JSONObject();               
+                for(j=0;j<am.length/2;j++)
+                {
+                    str+="{radius1:"+am[2*j]+", "+"radius2:"+am[2*j+1]+", "+"minalt:"+x[2*j]+", "+"maxalt:"+x[2*j+1]+", "+"leftAzimuth:"+an[2*j]+", "+"rightAzimuth:"+an[2*j+1]+"}";
+                    if(j<am.length/2-1)
+                        str+=",";
+                }                
+            }
+            catch(Exception e)
+            {
+                
+            }
+            str="["+str+"]";
+            String acAttributes="{attributes:"+str+"}";
             //must add altitudes to control pts 
             controlPtsStr = addAltitudes(controlPtsStr);
-            String acAttributes = "{attributes:[{radius1:5000, radius2:7500, minalt:0, maxalt:100, leftAzimuth:20, rightAzimuth:180}]}";
-            //attributes="{attributes:[{radius1:5000, radius2:7500, minalt:0, maxalt:100, leftAzimuth:120, rightAzimuth:180},{radius1:6000, radius2:8500, minalt:0, maxalt:70, leftAzimuth:20, rightAzimuth:80}]}";            
-            acAttributes = "{attributes:[{radius1:5000, radius2:7500, minalt:0, maxalt:100, leftAzimuth:120, rightAzimuth:180},{radius1:6000, radius2:8000, minalt:0, maxalt:70, leftAzimuth:160, rightAzimuth:230}]}";
-            acAttributes = "{attributes:[{radius1:5000, radius2:7500, minalt:0, maxalt:4000, leftAzimuth:180, rightAzimuth:270},{radius1:6000, radius2:8000, minalt:0, maxalt:8000, leftAzimuth:160, rightAzimuth:230}]}";
-            //attributes = "{attributes:[{radius1:5000, radius2:7500, minalt:0, maxalt:100, leftAzimuth:180, rightAzimuth:270}]}";
-            //attributes = "{attributes:[{radius1:2000, minalt:1524, maxalt:2438, leftAzimuth:314, rightAzimuth:44}]}";
-            //attributes = "{attributes:[{radius1:2000, minalt:1524, maxalt:2438, leftAzimuth:44, rightAzimuth:314}]}";
+            //String acAttributes = "{attributes:[{radius1:5000, radius2:7500, minalt:0, maxalt:100, leftAzimuth:20, rightAzimuth:180}]}";
+            //acAttributes = "{attributes:[{radius1:5000, radius2:7500, minalt:0, maxalt:100, leftAzimuth:120, rightAzimuth:180},{radius1:6000, radius2:8000, minalt:0, maxalt:70, leftAzimuth:160, rightAzimuth:230}]}";
+            //acAttributes = "{attributes:[{radius1:5000, radius2:7500, minalt:0, maxalt:4000, leftAzimuth:180, rightAzimuth:270},{radius1:6000, radius2:8000, minalt:0, maxalt:8000, leftAzimuth:160, rightAzimuth:230}]}";
             String strCake = "";
             SECWebRenderer sec = new SECWebRenderer();
-            //strCake=r.Render3dSymbol("name", "id", defaultText, "desc", "ff0000ff", "", controlPtsStr, attributes);
+            //acAttributes=str;
             strCake = sec.Render3dSymbol("name", "id", defaultText, "", "ff0000ff", "", controlPtsStr, acAttributes);
             strResult = strCake;
             ArrayList<String> coordStrings = new ArrayList();
