@@ -92,8 +92,8 @@ public class MyView extends View {
         utility.set_displayPixelsWidth(canvas.getWidth());
         utility.set_displayPixelsHeight(canvas.getHeight());
         //utility.SetExtents(50, 51, 5, 4);
-        //utility.SetExtents(50, 55, 10, 4);
-        utility.SetExtents(178, -178, 32, 28);
+        utility.SetExtents(50, 55, 10, 4);
+        //utility.SetExtents(178, -178, 32, 28);
         utility.DoubleClickGE(_points, linetype, canvas, context);
         String kmlStr=utility.DoubleClickSECRenderer(_points, linetype, canvas);
         String fileName="temp";

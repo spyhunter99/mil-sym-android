@@ -879,6 +879,10 @@ public final class utility {
             return 1;
                 
         switch (linetype) {
+            case TacticalLines.RANGE_FAN_SECTOR:
+            case TacticalLines.RANGE_FAN:
+                numPts=1;
+                break;
             case TacticalLines.FIX:
             case TacticalLines.FOLLA:
             case TacticalLines.FOLSP:
