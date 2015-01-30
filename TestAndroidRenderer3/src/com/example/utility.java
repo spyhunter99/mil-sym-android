@@ -1606,8 +1606,6 @@ public final class utility {
             else
                 rev=1;
         }
-        else
-            Rev="C";
         RendererSettings.getInstance().setSymbologyStandard(rev);
         int linetype = utility.GetLinetype(defaultText, rev);
         if (linetype < 0) {
@@ -1679,7 +1677,7 @@ public final class utility {
             modifiers.put(ModifiersTG.W1_DTG_2, W1);
             attributes.put(MilStdAttributes.FillColor, fillcolor);
             attributes.put(MilStdAttributes.LineColor, linecolor);
-            attributes.put(MilStdAttributes.SymbologyStandard, Rev);
+            attributes.put(MilStdAttributes.SymbologyStandard, Integer.toString(rev));
             if (JavaRendererUtilities.is3dSymbol(defaultText, modifiers)) {
 
                 attributes.put(MilStdAttributes.FillColor, "FF00FF00");
