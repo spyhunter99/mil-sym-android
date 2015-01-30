@@ -1084,7 +1084,7 @@ public final class utility {
         } catch (Exception e) {
 
         }
-        mss.setSymbologyStandard(RendererSettings.Symbology_2525C);
+        //mss.setSymbologyStandard(RendererSettings.Symbology_2525C);
         if(fillcolor.isEmpty())
             fillcolor="ff0000";
         Color fillColor=SymbolUtilities.getColorFromHexString(fillcolor);
@@ -1261,7 +1261,7 @@ public final class utility {
         clipArea.add(new Point2D.Double(displayWidth, displayHeight));
         clipArea.add(new Point2D.Double(0, displayHeight));
         clipArea.add(new Point2D.Double(0, 0));
-        int rev = RendererSettings.getInstance().getSymbologyStandard();
+        int rev = 1;
         if(Rev.isEmpty()==false)
         {
             if(Rev.equalsIgnoreCase("B"))                        
@@ -1269,7 +1269,7 @@ public final class utility {
             else
                 rev=1;
         }
-            
+        RendererSettings.getInstance().setSymbologyStandard(rev);
         int linetype = utility.GetLinetype(defaultText, rev);
         if (linetype < 0) {
             defaultText = utility.GetLinetype2(defaultText, rev);
@@ -1306,6 +1306,7 @@ public final class utility {
         //comment the line to allow renderer to calculate the dashes
         useDashArray=true;
         mss.setUseDashArray(useDashArray);
+        mss.setSymbologyStandard(rev);
         clsRenderer.renderWithPolylines(mss, converter, clipArea, context);
 
         drawShapeInfosGE(g2d, mss.getSymbolShapes(),useDashArray,mss.getSymbolID());
@@ -1597,7 +1598,7 @@ public final class utility {
     protected static String DoubleClickSECRenderer(ArrayList<Point> pts,
             String defaultText, Canvas g2d) {
         String strResult = "";
-        int rev = RendererSettings.getInstance().getSymbologyStandard();
+        int rev = 1;
         if(Rev.isEmpty()==false)
         {
             if(Rev.equalsIgnoreCase("B"))                        
@@ -1605,6 +1606,9 @@ public final class utility {
             else
                 rev=1;
         }
+        else
+            Rev="C";
+        RendererSettings.getInstance().setSymbologyStandard(rev);
         int linetype = utility.GetLinetype(defaultText, rev);
         if (linetype < 0) {
             defaultText = utility.GetLinetype2(defaultText, rev);
@@ -1675,6 +1679,7 @@ public final class utility {
             modifiers.put(ModifiersTG.W1_DTG_2, W1);
             attributes.put(MilStdAttributes.FillColor, fillcolor);
             attributes.put(MilStdAttributes.LineColor, linecolor);
+            attributes.put(MilStdAttributes.SymbologyStandard, Rev);
             if (JavaRendererUtilities.is3dSymbol(defaultText, modifiers)) {
 
                 attributes.put(MilStdAttributes.FillColor, "FF00FF00");
