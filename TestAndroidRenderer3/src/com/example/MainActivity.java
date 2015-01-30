@@ -26,6 +26,8 @@ public class MainActivity extends Activity {
     private String AM="";
     private String AN="";
     private String X="";
+    private String extents="";
+    private String rev="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,10 @@ public class MainActivity extends Activity {
             AN=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_X);
             X=editText.getText().toString();
+            editText = (EditText) findViewById(R.id.edit_Extents);
+            extents=editText.getText().toString();            
+            editText = (EditText) findViewById(R.id.edit_Revision);
+            rev=editText.getText().toString();            
         }
         else if(lastContext=="modifiers")
         {
@@ -82,6 +88,8 @@ public class MainActivity extends Activity {
             case R.id.DRAW:                
                 utility.linetype=linetype;
                 MyView.linetype = linetype;
+                MyView.extents=extents;
+                MyView.Rev=rev;
                 utility.T=T;
                 utility.T1=T1;
                 utility.H=H;
@@ -93,6 +101,7 @@ public class MainActivity extends Activity {
                 utility.AM=AM;                
                 utility.AN=AN;
                 utility.X=X;
+                utility.Rev=rev;
                 lastContext="draw";
                 setContentView(myView);
                 break;
@@ -128,6 +137,10 @@ public class MainActivity extends Activity {
                 editText.setText(AN);
                 editText = (EditText) findViewById(R.id.edit_X);
                 editText.setText(X);                
+                editText = (EditText) findViewById(R.id.edit_Revision);
+                editText.setText(rev);                
+                editText = (EditText) findViewById(R.id.edit_Extents);
+                editText.setText(extents);                
                 break;
             default:
                 break;

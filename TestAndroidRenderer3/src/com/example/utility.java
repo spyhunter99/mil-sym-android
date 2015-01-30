@@ -46,6 +46,8 @@ public final class utility {
     public static String AM="";
     public static String AN="";
     public static String X="";
+    //public static String extents="";
+    public static String Rev="";
     /**
      * uses the PointConversion to convert to geo
      *
@@ -1260,6 +1262,14 @@ public final class utility {
         clipArea.add(new Point2D.Double(0, displayHeight));
         clipArea.add(new Point2D.Double(0, 0));
         int rev = RendererSettings.getInstance().getSymbologyStandard();
+        if(Rev.isEmpty()==false)
+        {
+            if(Rev.equalsIgnoreCase("B"))                        
+                rev=0;            
+            else
+                rev=1;
+        }
+            
         int linetype = utility.GetLinetype(defaultText, rev);
         if (linetype < 0) {
             defaultText = utility.GetLinetype2(defaultText, rev);
@@ -1588,6 +1598,13 @@ public final class utility {
             String defaultText, Canvas g2d) {
         String strResult = "";
         int rev = RendererSettings.getInstance().getSymbologyStandard();
+        if(Rev.isEmpty()==false)
+        {
+            if(Rev.equalsIgnoreCase("B"))                        
+                rev=0;            
+            else
+                rev=1;
+        }
         int linetype = utility.GetLinetype(defaultText, rev);
         if (linetype < 0) {
             defaultText = utility.GetLinetype2(defaultText, rev);

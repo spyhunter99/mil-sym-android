@@ -23,4 +23,14 @@
         android:layout_width="match_parent"
         android:hint="X_DEPTH"
    />        
+       <EditText android:id="@+id/edit_Extents"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Extents: left,right,top,bottom"
+   />        
+       <EditText android:id="@+id/edit_Revision"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Revision"
+   />        
 </LinearLayout>

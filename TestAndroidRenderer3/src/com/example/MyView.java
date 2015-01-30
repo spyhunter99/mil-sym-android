@@ -28,6 +28,8 @@ import java.io.IOException;
 public class MyView extends View {
 
     public static String linetype = "";
+    public static String extents="";
+    public static String Rev="";
 //    public static String T = "";
 //    public static String T1 = "";
 //    public static String H = "";
@@ -49,6 +51,12 @@ public class MyView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int rev = RendererSettings.getInstance().getSymbologyStandard();
+        if(Rev.isEmpty()==false)
+        {
+            if(Rev.equalsIgnoreCase("B"))
+                rev=0;
+            else rev=1;
+        }
         int qty = utility.GetAutoshapeQty(linetype, rev);
         if (event.getAction() == event.ACTION_DOWN) {
             _points.add(new Point((int) event.getAxisValue(MotionEvent.AXIS_X), (int) event.getAxisValue(MotionEvent.AXIS_Y)));
@@ -93,6 +101,15 @@ public class MyView extends View {
         utility.set_displayPixelsHeight(canvas.getHeight());
         //utility.SetExtents(50, 51, 5, 4);
         utility.SetExtents(50, 55, 10, 4);
+        if(extents.isEmpty()==false)
+        {
+            String ex[]=extents.split(",");
+            double left=Double.parseDouble(ex[0]);
+            double right=Double.parseDouble(ex[1]);
+            double top=Double.parseDouble(ex[2]);
+            double bottom=Double.parseDouble(ex[3]);
+            utility.SetExtents(left, right, top, bottom);
+        }
         //utility.SetExtents(178, -178, 32, 28);
         utility.DoubleClickGE(_points, linetype, canvas, context);
         String kmlStr=utility.DoubleClickSECRenderer(_points, linetype, canvas);
