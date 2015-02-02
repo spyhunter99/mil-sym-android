@@ -3,7 +3,7 @@ mil-sym-android
 =========
 mil-sym-android is a android port of the java-based mil-std rendering libraries that have been used in US Army Mission Command software for years.  In November 2013 Mission Command was given the approval to release and maintain these libraries as public open source.  
 
-[JS Renderer Developer's Guide Wiki](https://github.com/missioncommand/mil-sym-android/wiki)  
+[Android Renderer Developer's Guide Wiki](https://github.com/missioncommand/mil-sym-android/wiki)  
 [Google Group Discussion Forum](https://groups.google.com/forum/#!forum/mission-command-milstd-renderer)  
 
 MIL-STD-2525
