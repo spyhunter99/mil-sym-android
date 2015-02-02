@@ -29,10 +29,10 @@ import sec.web.render.utilities.JavaRendererUtilities;
 
 public final class utility {
 
-    private static double leftLongitude;
-    private static double rightLongitude;
-    private static double upperLatitude;
-    private static double lowerLatitude;
+    protected static double leftLongitude;
+    protected static double rightLongitude;
+    protected static double upperLatitude;
+    protected static double lowerLatitude;
 
     public static String linetype = "";
     public static String T = "";

@@ -10,9 +10,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Environment;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import armyc2.c2sd.graphics2d.Point;
+import armyc2.c2sd.graphics2d.Point2D;
+import armyc2.c2sd.renderer.utilities.IPointConversion;
 import java.util.ArrayList;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
 import java.io.BufferedWriter;
@@ -20,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import sec.web.render.PointConverter;
 
 /**
  *
@@ -48,6 +52,30 @@ public class MyView extends View {
     private static ArrayList<Point> _points = new ArrayList();
     private static Context context = null;
 
+    /**
+     * assumes utility extents have been set before call
+     * @param event 
+     */
+    private static void displayGeo(MotionEvent event)
+    {
+        
+        double sizeSquare = Math.abs(utility.rightLongitude - utility.leftLongitude);
+        if (sizeSquare > 180) {
+            sizeSquare = 360 - sizeSquare;
+        }
+
+        double scale = 541463 * sizeSquare;
+
+        Point2D ptPixels = null;
+        Point2D ptGeo = null;
+
+        IPointConversion converter = null;
+        converter = new PointConverter(utility.leftLongitude, utility.upperLatitude, scale);
+        Point pt=new Point((int) event.getAxisValue(MotionEvent.AXIS_X), (int) event.getAxisValue(MotionEvent.AXIS_Y));
+        ptGeo=converter.PixelsToGeo(pt);
+        int n = Log.i("onTouchEvent", "longitude = " + Double.toString(ptGeo.getX()));
+    }
+    
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int rev = RendererSettings.getInstance().getSymbologyStandard();
@@ -60,6 +88,9 @@ public class MyView extends View {
         int qty = utility.GetAutoshapeQty(linetype, rev);
         if (event.getAction() == event.ACTION_DOWN) {
             _points.add(new Point((int) event.getAxisValue(MotionEvent.AXIS_X), (int) event.getAxisValue(MotionEvent.AXIS_Y)));
+            
+            //int n = Log.i("onTouchEvent", "longitude = " + Double.toString(ptGeo.longitude));
+            displayGeo(event);
             if (_points.size() >= qty || _points.size() >= 4) {
                 invalidate();
             }
