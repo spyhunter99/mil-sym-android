@@ -29,49 +29,74 @@ import armyc2.c2sd.singlepointrenderer.R;
  */
 public final class clsUtility {
     private static final String _className="clsUtility";
+    private static Bitmap[] fillBMP = null;
+    
     protected static boolean createBitmapShader(TGLight tg,
             ShapeInfo shape,
             Context context)
     {
-        try
+        try        
         {
-            Bitmap fillBMP=null;
+            if(fillBMP==null)
+            {
+                fillBMP=new Bitmap[8];
+                for(int j=0;j<8;j++)
+                    fillBMP[j]=null;
+            }
             BitmapShader fillBMPshader=null;
             int linetype=tg.get_LineType();            
+            int useIndex=-1;
             switch(linetype)
             {
                 case TacticalLines.WEIRS:
-                    fillBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.weirs); 
+                    if(fillBMP[0]==null)
+                        fillBMP[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.weirs); 
+                    useIndex=0;
                     break;
                 case TacticalLines.BEACH_SLOPE_MODERATE:
-                    fillBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.beach_slope_moderate); 
+                    if(fillBMP[1]==null)
+                        fillBMP[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.beach_slope_moderate); 
+                    useIndex=1;
                     break;
                 case TacticalLines.BEACH_SLOPE_STEEP:
-                    fillBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.beach_slope_steep); 
+                    if(fillBMP[2]==null)
+                        fillBMP[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.beach_slope_steep); 
+                    useIndex=2;
                     break;
                 case TacticalLines.KELP:
-                    fillBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.kelp); 
+                    if(fillBMP[3]==null)
+                        fillBMP[3] = BitmapFactory.decodeResource(context.getResources(), R.drawable.kelp); 
+                    useIndex=3;
                     break;
                 case TacticalLines.OIL_RIG_FIELD:
-                    fillBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.oil_rig_field); 
+                    if(fillBMP[4]==null)
+                        fillBMP[4] = BitmapFactory.decodeResource(context.getResources(), R.drawable.oil_rig_field); 
+                    useIndex=4;
                     break;
                 case TacticalLines.BEACH:
-                    fillBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.beige_stipple); 
+                    if(fillBMP[5]==null)
+                        fillBMP[5] = BitmapFactory.decodeResource(context.getResources(), R.drawable.beige_stipple); 
+                    useIndex=5;
                     break;
                 case TacticalLines.FOUL_GROUND:
-                    fillBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.foul_ground); 
+                    if(fillBMP[6]==null)
+                        fillBMP[6] = BitmapFactory.decodeResource(context.getResources(), R.drawable.foul_ground); 
+                    useIndex=6;
                     break;
                 case TacticalLines.SWEPT_AREA:
-                    fillBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.swep_tarea); 
+                    if(fillBMP[7]==null)
+                        fillBMP[7] = BitmapFactory.decodeResource(context.getResources(), R.drawable.swep_tarea); 
+                    useIndex=7;
                     break;
                 default:    //we do not use pattern fill for these
                     return false;
             }
-            if(fillBMP != null)
+            if(useIndex >= 0)
             {
-                fillBMPshader = new BitmapShader(fillBMP, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+                fillBMPshader = new BitmapShader(fillBMP[useIndex], Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
                 shape.setShader(fillBMPshader);
-                shape.setFillColor(Color.WHITE);
+                shape.setFillColor(Color.WHITE);       
+                //fillBMP.recycle();
             }
         }
         catch(Exception exc)
