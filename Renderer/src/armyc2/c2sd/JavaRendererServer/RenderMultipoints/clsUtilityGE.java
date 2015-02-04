@@ -338,6 +338,8 @@ public final class clsUtilityGE {
                     return null;
             if(dash==null || dash.length<2)
                 return null;   
+            if(shape.getFillColor()==null)
+                return null;
             
             //if we reach this point we know it is a dashed line so we need a separate fill shape
             int j=0,k=0;
