@@ -2819,9 +2819,9 @@ public class Modifier2 {
                 case TacticalLines.LOA:
                 case TacticalLines.LOD:
                 case TacticalLines.LDLC:
-                    AddIntegralAreaModifier(tg, "(PL " + tg.get_Name() + ")", toEnd, 1 * csFactor, pt0, pt1, false);
+                    //AddIntegralAreaModifier(tg, "(PL " + tg.get_Name() + ")", toEnd, 1 * csFactor, pt0, pt1, false);
                     AddIntegralAreaModifier(tg, label, toEnd, 0, pt0, pt1, false);
-                    AddIntegralAreaModifier(tg, "(PL " + tg.get_Name() + ")", toEnd, 1 * csFactor, ptLast, ptNextToLast, false);
+                    //AddIntegralAreaModifier(tg, "(PL " + tg.get_Name() + ")", toEnd, 1 * csFactor, ptLast, ptNextToLast, false);
                     AddIntegralAreaModifier(tg, label, toEnd, 0, ptLast, ptNextToLast, false);
                     break;
                 case TacticalLines.RELEASE:
