@@ -52,6 +52,10 @@ public class MainActivity extends Activity {
         }
         if(lastContext=="attributes")
         {
+            editText = (EditText) findViewById(R.id.edit_LineColor);
+            linecolor=editText.getText().toString();
+            editText = (EditText) findViewById(R.id.edit_FillColor);
+            fillcolor=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_AM);
             AM=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_AN);
@@ -67,10 +71,6 @@ public class MainActivity extends Activity {
         {
             editText = (EditText) findViewById(R.id.edit_message);                
             linetype=editText.getText().toString();
-            editText = (EditText) findViewById(R.id.edit_LineColor);
-            linecolor=editText.getText().toString();
-            editText = (EditText) findViewById(R.id.edit_FillColor);
-            fillcolor=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_T);
             T=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_T1);
@@ -110,10 +110,6 @@ public class MainActivity extends Activity {
                 setContentView(R.layout.main);
                 editText = (EditText) findViewById(R.id.edit_message);                
                 editText.setText(linetype);
-                editText = (EditText) findViewById(R.id.edit_LineColor);
-                editText.setText(linecolor);
-                editText = (EditText) findViewById(R.id.edit_FillColor);
-                editText.setText(fillcolor);
                 editText = (EditText) findViewById(R.id.edit_T);
                 editText.setText(T);
                 editText = (EditText) findViewById(R.id.edit_T1);
@@ -131,6 +127,10 @@ public class MainActivity extends Activity {
             case R.id.ATTRIBUTES:
                 lastContext="attributes";
                 setContentView(R.layout.attributes);
+                editText = (EditText) findViewById(R.id.edit_LineColor);
+                editText.setText(linecolor);
+                editText = (EditText) findViewById(R.id.edit_FillColor);
+                editText.setText(fillcolor);
                 editText = (EditText) findViewById(R.id.edit_AM);
                 editText.setText(AM);                
                 editText = (EditText) findViewById(R.id.edit_AN);

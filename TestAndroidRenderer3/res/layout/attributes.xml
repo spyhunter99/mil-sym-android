@@ -8,20 +8,30 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     />
+       <EditText android:id="@+id/edit_LineColor"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="line color"
+   />        
+       <EditText android:id="@+id/edit_FillColor"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="fill color"              
+   />        
     <EditText android:id="@+id/edit_AM"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:hint="AM_DISTANCE"
+        android:hint="AM_DISTANCE: 5000,6000,7000"       
    />    
        <EditText android:id="@+id/edit_AN"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:hint="AN_AZIMUTH"
+        android:hint="AN_AZIMUTH: 45,315"
    />        
        <EditText android:id="@+id/edit_X"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:hint="X_DEPTH"
+        android:hint="X_ALTITUDE_DEPTH: 44,78"
    />        
        <EditText android:id="@+id/edit_Extents"
         android:layout_height="wrap_content"

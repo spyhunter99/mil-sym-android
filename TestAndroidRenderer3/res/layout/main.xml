@@ -14,16 +14,6 @@
         android:hint="line type"
    />    
     <requestFocus/>    
-       <EditText android:id="@+id/edit_LineColor"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:hint="line color"
-   />        
-       <EditText android:id="@+id/edit_FillColor"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:hint="fill color"
-   />        
        <EditText android:id="@+id/edit_T"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
