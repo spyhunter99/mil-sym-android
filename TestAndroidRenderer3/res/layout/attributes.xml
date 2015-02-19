@@ -11,12 +11,12 @@
        <EditText android:id="@+id/edit_LineColor"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:hint="line color"
+        android:hint="line color: 00FF00"
    />        
        <EditText android:id="@+id/edit_FillColor"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:hint="fill color"              
+        android:hint="fill color: FF0000"              
    />        
     <EditText android:id="@+id/edit_AM"
         android:layout_height="wrap_content"
