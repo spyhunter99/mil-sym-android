@@ -18,6 +18,11 @@
         android:layout_width="match_parent"
         android:hint="fill color: FF0000"              
    />        
+       <EditText android:id="@+id/edit_LineWidth"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="line width: 2"              
+   />        
     <EditText android:id="@+id/edit_AM"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

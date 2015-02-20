@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
     private String X="";
     private String extents="";
     private String rev="";
+    private String lineWidth="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,8 @@ public class MainActivity extends Activity {
             linecolor=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_FillColor);
             fillcolor=editText.getText().toString();
+            editText = (EditText) findViewById(R.id.edit_LineWidth);
+            lineWidth=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_AM);
             AM=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_AN);
@@ -85,7 +88,8 @@ public class MainActivity extends Activity {
             W1=editText.getText().toString();
         }
         switch (item.getItemId()) {
-            case R.id.DRAW:                
+            case R.id.DRAW:      
+                utility.lineWidth=lineWidth;
                 utility.linetype=linetype;
                 MyView.linetype = linetype;
                 MyView.extents=extents;
@@ -131,6 +135,8 @@ public class MainActivity extends Activity {
                 editText.setText(linecolor);
                 editText = (EditText) findViewById(R.id.edit_FillColor);
                 editText.setText(fillcolor);
+                editText = (EditText) findViewById(R.id.edit_LineWidth);
+                editText.setText(lineWidth);
                 editText = (EditText) findViewById(R.id.edit_AM);
                 editText.setText(AM);                
                 editText = (EditText) findViewById(R.id.edit_AN);

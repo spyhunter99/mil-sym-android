@@ -34,14 +34,6 @@ public class MyView extends View {
     public static String linetype = "";
     public static String extents="";
     public static String Rev="";
-//    public static String T = "";
-//    public static String T1 = "";
-//    public static String H = "";
-//    public static String H1 = "";
-//    public static String W = "";
-//    public static String W1 = "";
-//    public static String linecolor = "";
-//    public static String fillcolor = "";
     
     public MyView(Context context) {
         super(context);
@@ -94,24 +86,6 @@ public class MyView extends View {
             if (_points.size() >= qty || _points.size() >= 4) {
                 invalidate();
             }
-//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("track")) {
-//                invalidate();
-//            }
-//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("saafr")) {
-//                invalidate();
-//            }
-//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("lltr")) {
-//                invalidate();
-//            }
-//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("mrr")) {
-//                invalidate();
-//            }
-//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("uav")) {
-//                invalidate();
-//            }
-//            if (_points.size() >= 3 && linetype.equalsIgnoreCase("ac")) {
-//                invalidate();
-//            }
         }
         return true;
     }

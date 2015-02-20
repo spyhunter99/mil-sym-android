@@ -46,6 +46,7 @@ public final class utility {
     public static String AM="";
     public static String AN="";
     public static String X="";
+    public static String lineWidth="";
     //public static String extents="";
     public static String Rev="";
     /**
@@ -1127,7 +1128,11 @@ public final class utility {
             xd[j]=Double.parseDouble(x[j]);
         
         mss.setLineColor(lineColor);
-        mss.setLineWidth(2);
+        //mss.setLineWidth(2);
+        if(!lineWidth.isEmpty())
+            mss.setLineWidth(Integer.parseInt(lineWidth));
+        else
+            mss.setLineWidth(2);
         mss.setModifier(ModifiersTG.T_UNIQUE_DESIGNATION_1, T);
         mss.setModifier(ModifiersTG.T1_UNIQUE_DESIGNATION_2, T1);
         mss.setModifier(ModifiersTG.H_ADDITIONAL_INFO_1, H);
