@@ -1085,13 +1085,26 @@ public final class utility {
 
         }
         //mss.setSymbologyStandard(RendererSettings.Symbology_2525C);
-        if(fillcolor.isEmpty())
-            fillcolor="ff0000";
-        Color fillColor=SymbolUtilities.getColorFromHexString(fillcolor);
-        mss.setFillColor(fillColor);
+        Color fillColor = null;
+        if(fillcolor.isEmpty()==false)
+        {    
+        	fillColor=SymbolUtilities.getColorFromHexString(fillcolor);
+        }
+        if(fillColor != null)
+        	mss.setFillColor(fillColor);
+        
+        Color lineColor = null;
         if(linecolor.isEmpty())
-            linecolor="00ff00";
-        Color lineColor=SymbolUtilities.getColorFromHexString(linecolor);
+        {
+        	if(SymbolUtilities.isWeather(symbolId))
+        		lineColor = SymbolUtilities.getLineColorOfWeather(symbolId);
+        	else
+        		lineColor=SymbolUtilities.getLineColorOfAffiliation(symbolId);
+        }
+        else
+        {
+        	lineColor=SymbolUtilities.getColorFromHexString(linecolor);
+        }
         if(AM.isEmpty())
             AM="7000,6000,5000";
         if(AN.isEmpty())
