@@ -64,26 +64,20 @@ public class SymbolUtilities
                 }
                 else if (isWarfighting(strSymbolID))
                 {
+                	
                     sb.append(strSymbolID.charAt(0));
                     sb.append("*");
                     sb.append(strSymbolID.charAt(2));
                     sb.append("*");
                     sb.append(strSymbolID.substring(4, 10));
-                    sb.append("****");
-                    sb.append("X");
-                    
-                    if (isSIGINT(strSymbolID))
-                    {
-                        sb.append("--***");
-                    }
-                    else if (isInstallation(strSymbolID))
-                    {
-                        sb.append("H****");
-                    }
-                    else
-                    {
-                        sb.append("*****");
-                    }
+
+                	if(isSIGINT(strSymbolID))
+                		sb.append("--***");
+                	else if(isInstallation(strSymbolID))
+                		sb.append("H****");
+                	else
+                		sb.append("*****");
+
                     return sb.toString();
                 }
                 else // Don't do anything for bridge symbols
