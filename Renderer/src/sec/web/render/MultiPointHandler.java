@@ -2158,9 +2158,6 @@ public class MultiPointHandler {
                 lineWidth = (int) stroke.getLineWidth();
             }
 
-            while (googleLineColor.length() < 8) {
-                googleLineColor = "0" + googleLineColor;
-            }
 
             googleLineColor = JavaRendererUtilities.ARGBtoABGR(googleLineColor);
 
@@ -2174,9 +2171,6 @@ public class MultiPointHandler {
         fillColor = shapeInfo.getFillColor();
         if (fillColor != null) {
             googleFillColor = Integer.toHexString(shapeInfo.getFillColor().toARGB());
-            while (googleFillColor.length() < 8) {
-                googleFillColor = "0" + googleFillColor;
-            }
 
             googleFillColor = JavaRendererUtilities.ARGBtoABGR(googleFillColor);
 
@@ -2521,9 +2515,9 @@ public class MultiPointHandler {
         String cdataStart = "<![CDATA[";
         String cdataEnd = "]]>";
 
-        //String color = SymbolUtilities.colorToHexString(textColor, true);
-        String color = textColor.toHexString();
-        color = JavaRendererUtilities.ARGBtoABGR(color.substring(1));
+        
+        String color = Integer.toHexString(textColor.toARGB());
+        color = JavaRendererUtilities.ARGBtoABGR(color);
 
         if (text != null && text.equals("") == false) {
             kml.append("<Placemark>");//("<Placemark id=\"" + id + "_lp" + i + "\">");

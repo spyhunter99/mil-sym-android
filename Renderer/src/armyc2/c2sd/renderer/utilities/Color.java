@@ -233,20 +233,7 @@ public class Color {
     
     public String toHexString()
     {
-		String hexAlphabet = "0123456789ABCDEF";
-		String hex = "0x";
-		
-		int[] triplet = {_A,_R,_G,_B};
-		
-		int int1=0;
-		int int2=0;
-		for(int i=0; i<4; i++)
-		{
-			int1 = triplet[i] /16;
-			int2 = triplet[i] %16;
-			hex += hexAlphabet.charAt(int1) + hexAlphabet.charAt(int2); 
-		}
-		return hex;
+		return Integer.toHexString(this.toARGB());
     }
     
     @Override
