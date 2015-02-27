@@ -79,6 +79,8 @@ public class MilStdAttributes {
     
     public static final int LineWidth = 12;
     
+    
+    
     /**
      * If false, the renderer will create a bunch of little lines to create
      * the "dash" effect (expensive but necessary for KML).  
@@ -86,6 +88,8 @@ public class MilStdAttributes {
      * DashArray from the Stroke object from the ShapeInfo object.
      */
     public static final int UseDashArray = 13;
+    
+    public static final int AltitudeMode = 14;
     
     public static ArrayList<Integer> GetModifierList()
     {

@@ -71,6 +71,8 @@ public class MilStdSymbol
     public static final int Symbology_2525C = 1;
 
     private static int _SymbologyStandard = 0;
+    
+    private static String _AltitudeMode = "";
 
     private static boolean _useDashArray = true;
 
@@ -235,6 +237,16 @@ public class MilStdSymbol
         return _SymbologyStandard;
     }
 
+    public String getAltitudeMode()
+    {
+        return _AltitudeMode;
+    }
+
+    public void setAltitudeMode(String value)
+    {
+        _AltitudeMode = value;
+    }
+    
     public boolean getUseDashArray()
     {
         return _useDashArray;

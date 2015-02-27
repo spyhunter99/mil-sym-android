@@ -1,6 +1,7 @@
 package sec.web.render.utilities;
 
 import android.util.SparseArray;
+import armyc2.c2sd.renderer.utilities.MilStdAttributes;
 import armyc2.c2sd.renderer.utilities.ModifiersTG;
 import armyc2.c2sd.renderer.utilities.SymbolUtilities;
 import armyc2.c2sd.graphics2d.*;
@@ -72,6 +73,14 @@ public class JavaRendererUtilities {
         }
 
         return newSymbolCode;
+    }
+    
+    public static void addAltModeToModifiersString(SparseArray<String> attributes, String altMode)
+    {
+    	if(altMode.equals("relativeToGround"))
+            attributes.put(MilStdAttributes.AltitudeMode, "AGL");
+        else if(altMode.equals("absolute"))
+        	attributes.put(MilStdAttributes.AltitudeMode, "MSL");
     }
 
     /**

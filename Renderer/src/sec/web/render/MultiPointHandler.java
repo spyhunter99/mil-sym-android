@@ -1498,6 +1498,7 @@ public class MultiPointHandler {
 
         int lineWidth = 0;
         int symstd = 0;
+        String altMode = null;
         boolean useDashArray = symbol.getUseDashArray();
 
         String symbolFillIDs = null;
@@ -1605,6 +1606,10 @@ public class MultiPointHandler {
                 if (saAttributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0) {
                     symstd = Integer.parseInt(saAttributes.get(MilStdAttributes.SymbologyStandard));
                 }
+                
+                if (saAttributes.indexOfKey(MilStdAttributes.AltitudeMode) >= 0) {
+                    altMode = saAttributes.get(MilStdAttributes.AltitudeMode);
+                }
 
                 if (saAttributes.indexOfKey(MilStdAttributes.UseDashArray) >= 0) {
                     useDashArray = Boolean.parseBoolean(saAttributes.get(MilStdAttributes.UseDashArray));
@@ -1626,6 +1631,9 @@ public class MultiPointHandler {
             if (lineWidth > 0) {
                 symbol.setLineWidth(lineWidth);
             }
+            
+            if(altMode != null)
+            	symbol.setAltitudeMode(altMode);
             
             symbol.setUseDashArray(useDashArray);
 

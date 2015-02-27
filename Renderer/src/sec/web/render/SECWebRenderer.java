@@ -284,7 +284,9 @@ public final class SECWebRenderer /* extends Applet */ {
             double scale, String bbox, SparseArray<String> modifiers, SparseArray<String> attributes,  int format, int symStd) {
         
         String output = "";
-        try {                
+        try {         
+        	
+        	JavaRendererUtilities.addAltModeToModifiersString(attributes,altitudeMode);
         
             if (JavaRendererUtilities.is3dSymbol(symbolCode, modifiers))
             {
