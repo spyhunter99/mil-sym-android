@@ -38,6 +38,7 @@ import armyc2.c2sd.renderer.utilities.RendererSettings;
 public final class clsRenderer {
 
     private static final String _className = "clsRenderer";
+    private static double feetPerMeter=3.28084;
 
     /**
      * Set tg geo points from the client points
@@ -214,7 +215,13 @@ public final class clsRenderer {
                 armyc2.c2sd.JavaTacticalRenderer.clsUtility.ClosePolygon(tg.Pixels);
                 armyc2.c2sd.JavaTacticalRenderer.clsUtility.ClosePolygon(tg.LatLongs);
             }
-
+            
+            //implement meters to feet for altitude labels
+            String altitudeLabel=milStd.getAltitudeMode();
+            if(altitudeLabel==null)
+                altitudeLabel="";
+            double x_alt=0;
+            String strXAlt="";
             //construct the H1 and H2 modifiers for sector from the mss AM, AN, and X arraylists
             if (lineType == TacticalLines.RANGE_FAN_SECTOR) {
                 ArrayList<Double> AM = milStd.getModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE);
@@ -243,8 +250,13 @@ public final class clsRenderer {
                 }
                 if (X != null) {
                     String strH1 = "";
-                    for (int j = 0; j < X.size(); j++) {
-                        strH1 += Double.toString(X.get(j));
+                    for (int j = 0; j < X.size(); j++) 
+                    {
+                        //strH1 += Double.toString(X.get(j));
+                        x_alt = X.get(j)*feetPerMeter;
+                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        strH1+=strXAlt;
+                        
                         if (j < X.size() - 1) {
                             strH1 += ",";
                         }
@@ -361,11 +373,19 @@ public final class clsRenderer {
                 case TacticalLines.ACA_RECTANGULAR:
                 case TacticalLines.ACA_CIRCULAR:
                     ArrayList<Double> X = milStd.getModifiers_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH);
-                    if (X != null && X.size() > 0) {
-                        tg.set_H(Double.toString(X.get(0)));
+                    if (X != null && X.size() > 0) 
+                    {
+                        //tg.set_H(Double.toString(X.get(0)));
+                        x_alt=X.get(0)*feetPerMeter;
+                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        tg.set_H(strXAlt);
                     }
-                    if (X != null && X.size() > 1) {
-                        tg.set_H1(Double.toString(X.get(1)));
+                    if (X != null && X.size() > 1) 
+                    {
+                        //tg.set_H1(Double.toString(X.get(1)));
+                        x_alt=X.get(1)*feetPerMeter;
+                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        tg.set_H1(strXAlt);
                     }
                     break;
                 case TacticalLines.UAV:
@@ -454,11 +474,19 @@ public final class clsRenderer {
                     tg.set_H2(Double.toString(maxWidthMeters));
                     //use X, X1 to set tg.H, tg.H1
                     X = milStd.getModifiers_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH);
-                    if (X != null && X.size() > 0) {
-                        tg.set_H(Double.toString(X.get(0)));
+                    if (X != null && X.size() > 0) 
+                    {
+                        //tg.set_H(Double.toString(X.get(0)));
+                        x_alt=X.get(0)*feetPerMeter;
+                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        tg.set_H(strXAlt);
                     }
-                    if (X != null && X.size() > 1) {
-                        tg.set_H1(Double.toString(X.get(1)));
+                    if (X != null && X.size() > 1) 
+                    {
+                        //tg.set_H1(Double.toString(X.get(1)));
+                        x_alt=X.get(1)*feetPerMeter;
+                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        tg.set_H1(strXAlt);
                     }
                     break;
                 default:
@@ -471,9 +499,13 @@ public final class clsRenderer {
                 case TacticalLines.KILLBOXPURPLE_RECTANGULAR:
                     ArrayList<Double> X = milStd.getModifiers_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH);
                     String strH1 = "";
-                    if (X != null) {
-                        strH1 = Double.toString(X.get(0));
-                        tg.set_H1(strH1);
+                    if (X != null) 
+                    {
+                        //strH1 = Double.toString(X.get(0));
+                        //tg.set_H1(strH1);
+                        x_alt=X.get(0)*feetPerMeter;
+                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        tg.set_H1(strXAlt);
                     }
                     break;
                 default:
@@ -492,8 +524,12 @@ public final class clsRenderer {
                             strH2 += ",";
                         }
 
-                        if (X != null && j < X.size()) {
-                            strH1 += Double.toString(X.get(j));
+                        if (X != null && j < X.size()) 
+                        {
+                            //strH1 += Double.toString(X.get(j));
+                            x_alt=X.get(j)*feetPerMeter;
+                            strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                            strH1+=strXAlt;
                             if (j < X.size() - 1) {
                                 strH1 += ",";
                             }
