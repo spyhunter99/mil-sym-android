@@ -218,8 +218,8 @@ public final class clsRenderer {
             
             //implement meters to feet for altitude labels
             String altitudeLabel=milStd.getAltitudeMode();
-            if(altitudeLabel==null)
-                altitudeLabel="";
+            if(altitudeLabel==null || altitudeLabel.isEmpty())
+                altitudeLabel="MSL";
             double x_alt=0;
             String strXAlt="";
             //construct the H1 and H2 modifiers for sector from the mss AM, AN, and X arraylists
@@ -254,7 +254,8 @@ public final class clsRenderer {
                     {
                         //strH1 += Double.toString(X.get(j));
                         x_alt = X.get(j)*feetPerMeter;
-                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        //strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        strXAlt=Integer.toString((int)x_alt)+" ft. "+altitudeLabel;
                         strH1+=strXAlt;
                         
                         if (j < X.size() - 1) {
@@ -377,14 +378,16 @@ public final class clsRenderer {
                     {
                         //tg.set_H(Double.toString(X.get(0)));
                         x_alt=X.get(0)*feetPerMeter;
-                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        //strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        strXAlt=Integer.toString((int)x_alt)+" ft. "+altitudeLabel;
                         tg.set_H(strXAlt);
                     }
                     if (X != null && X.size() > 1) 
                     {
                         //tg.set_H1(Double.toString(X.get(1)));
                         x_alt=X.get(1)*feetPerMeter;
-                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        //strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        strXAlt=Integer.toString((int)x_alt)+" ft. "+altitudeLabel;
                         tg.set_H1(strXAlt);
                     }
                     break;
@@ -478,14 +481,16 @@ public final class clsRenderer {
                     {
                         //tg.set_H(Double.toString(X.get(0)));
                         x_alt=X.get(0)*feetPerMeter;
-                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        //strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        strXAlt=Integer.toString((int)x_alt)+" ft. "+altitudeLabel;
                         tg.set_H(strXAlt);
                     }
                     if (X != null && X.size() > 1) 
                     {
                         //tg.set_H1(Double.toString(X.get(1)));
                         x_alt=X.get(1)*feetPerMeter;
-                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        //strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        strXAlt=Integer.toString((int)x_alt)+" ft. "+altitudeLabel;
                         tg.set_H1(strXAlt);
                     }
                     break;
@@ -504,7 +509,8 @@ public final class clsRenderer {
                         //strH1 = Double.toString(X.get(0));
                         //tg.set_H1(strH1);
                         x_alt=X.get(0)*feetPerMeter;
-                        strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        //strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                        strXAlt=Integer.toString((int)x_alt)+" ft. "+altitudeLabel;
                         tg.set_H1(strXAlt);
                     }
                     break;
@@ -528,7 +534,8 @@ public final class clsRenderer {
                         {
                             //strH1 += Double.toString(X.get(j));
                             x_alt=X.get(j)*feetPerMeter;
-                            strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                            //strXAlt=Double.toString(x_alt)+" ft. "+altitudeLabel;
+                            strXAlt=Integer.toString((int)x_alt)+" ft. "+altitudeLabel;
                             strH1+=strXAlt;
                             if (j < X.size() - 1) {
                                 strH1 += ",";
