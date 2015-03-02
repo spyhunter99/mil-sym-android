@@ -364,12 +364,12 @@ public class ModifierRenderer
 
                 //There will never be lowercase characters in an echelon so trim that fat.    
                 //Remove the descent from the bounding box.
-                tiEchelon.getTextBounds();//.shiftBR(0,Math.round(-(echelonBounds.height()*0.3)));                         
+                tiEchelon.getTextOutlineBounds();//.shiftBR(0,Math.round(-(echelonBounds.height()*0.3)));                         
 
-                //adjust for outline.
+                //make echelon bounds a little more spacious for things like nearby labels and Task Force.
                 RectUtilities.grow(echelonBounds, outlineOffset);
                 //tiEchelon.getTextOutlineBounds();
-                RectUtilities.shift(echelonBounds, x, -outlineOffset);
+//                RectUtilities.shift(echelonBounds, x, -outlineOffset);
                 //echelonBounds.shift(0,-outlineOffset);// - Math.round(echelonOffset/2));
                 tiEchelon.setLocation(x, y - outlineOffset);
 
@@ -425,14 +425,11 @@ public class ModifierRenderer
         {
             if (echelonBounds != null)
             {
-                tfRectangle = new Rect(echelonBounds.left - 1,
-                        echelonBounds.top - 1,// + outlineOffset,
-                        echelonBounds.right + 3,
-                        echelonBounds.bottom + 3);
-                tfBounds = new Rect(echelonBounds.left - 2,
-                        echelonBounds.top - 2,
-                        echelonBounds.right + 5,
-                        echelonBounds.bottom + 4);
+                tfRectangle = new Rect(echelonBounds.left,
+                        echelonBounds.top,// + outlineOffset,
+                        echelonBounds.right,
+                        symbolBounds.top-1);
+                tfBounds = new Rect(tfRectangle);
             }
             else
             {
@@ -963,6 +960,88 @@ public class ModifierRenderer
         }
 
     }
+    
+    private static double getYPositionForSCC(String symbolID)
+    {
+        double yPosition = 0.32;
+        String temp = symbolID.substring(4, 10);
+        char affiliation = symbolID.charAt(1);
+
+        if(temp.equals("WMGC--"))//GROUND (BOTTOM) MILCO
+        {
+            if(affiliation == 'H' || 
+                    affiliation == 'S')//suspect
+                yPosition = 0.29;
+            else if(affiliation == 'N' ||
+                    affiliation == 'L')//exercise neutral
+                yPosition = 0.32;
+            else if(affiliation == 'F' ||
+                    affiliation == 'A' ||//assumed friend
+                    affiliation == 'D' ||//exercise friend
+                    affiliation == 'M' ||//exercise assumed friend
+                    affiliation == 'K' ||//faker
+                    affiliation == 'J')//joker
+                yPosition = 0.32;
+            else
+                yPosition = 0.34;
+        }
+        else if(temp.equals("WMMC--"))//MOORED MILCO
+        {
+            if(affiliation == 'H' || 
+                    affiliation == 'S')//suspect
+                yPosition = 0.25;
+            else if(affiliation == 'N' ||
+                    affiliation == 'L')//exercise neutral
+                yPosition = 0.25;
+            else if(affiliation == 'F' ||
+                    affiliation == 'A' ||//assumed friend
+                    affiliation == 'D' ||//exercise friend
+                    affiliation == 'M' ||//exercise assumed friend
+                    affiliation == 'K' ||//faker
+                    affiliation == 'J')//joker
+                yPosition = 0.25;
+            else
+                yPosition = 0.28;
+        }
+        else if(temp.equals("WMFC--"))//FLOATING MILCO
+        {
+            if(affiliation == 'H' || 
+                    affiliation == 'S')//suspect
+                yPosition = 0.29;
+            else if(affiliation == 'N' ||
+                    affiliation == 'L')//exercise neutral
+                yPosition = 0.32;
+            else if(affiliation == 'F' ||
+                    affiliation == 'A' ||//assumed friend
+                    affiliation == 'D' ||//exercise friend
+                    affiliation == 'M' ||//exercise assumed friend
+                    affiliation == 'K' ||//faker
+                    affiliation == 'J')//joker
+                yPosition = 0.32;
+            else
+                yPosition = 0.34;
+        }
+        else if(temp.equals("WMC---"))//GENERAL MILCO
+        {
+            if(affiliation == 'H' || 
+                    affiliation == 'S')//suspect
+                yPosition = 0.33;
+            else if(affiliation == 'N' ||
+                    affiliation == 'L')//exercise neutral
+                yPosition = 0.36;
+            else if(affiliation == 'F' ||
+                    affiliation == 'A' ||//assumed friend
+                    affiliation == 'D' ||//exercise friend
+                    affiliation == 'M' ||//exercise assumed friend
+                    affiliation == 'K' ||//faker
+                    affiliation == 'J')//joker
+                yPosition = 0.36;
+            else
+                yPosition = 0.36;
+        }
+        
+        return yPosition;
+    }
 
     /**
      *
@@ -1402,7 +1481,7 @@ public class ModifierRenderer
 
             x = bounds.left - labelBounds.width() - bufferXL;
 
-            y = (bounds.height());//checkpoint, get box above the point
+            y = (bounds.height());
             y = (int) ((y * 0.5f) + ((labelHeight - descent) * 0.5f));
             y = bounds.top + y;
 
@@ -1749,6 +1828,29 @@ public class ModifierRenderer
 
             tiTemp.setLocation(x, y);
             tiArray.add(tiTemp);
+        }
+        
+        if (modifiers.indexOfKey(ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE) >= 0)
+        {
+        	int scc = 0;
+            modifierValue = modifiers.get(ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE);
+            
+            if(SymbolUtilities.isNumber(modifierValue) && SymbolUtilities.hasModifier(symbolID, ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE))
+            {
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            x = (int) ((symbolBounds.left + (symbolBounds.width() * 0.5f)) - (labelWidth * 0.5f));
+	
+	            double yPosition = getYPositionForSCC(symbolID);
+	            y = (bounds.height() );//checkpoint, get box above the point
+                y = (int)(((y * yPosition) + ((labelHeight-descent) * 0.5)));
+                y = bounds.top + y;
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
+            }
         }
 
         if (modifiers.indexOfKey(ModifiersUnits.CN_CPOF_NAME_LABEL) >= 0)

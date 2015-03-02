@@ -212,6 +212,7 @@ public class MainActivity extends Activity {
         modifiers.put(ModifiersUnits.F_REINFORCED_REDUCED,"RD");
         modifiers.put(ModifiersUnits.L_SIGNATURE_EQUIP,"!");
         //modifiers[armyc2.c2sd.renderer.utilities.ModifiersUnits.AA_SPECIAL_C2_HQ] = "AA";
+        modifiers.put(ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE,"5");
         modifiers.put(ModifiersUnits.G_STAFF_COMMENTS,"Gj");
         //symbol.symbolicon A
         modifiers.put(ModifiersUnits.V_EQUIP_TYPE,"Vj");
