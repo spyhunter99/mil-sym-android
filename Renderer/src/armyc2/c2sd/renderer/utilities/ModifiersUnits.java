@@ -340,6 +340,12 @@ public class ModifiersUnits {
      * Pulled from the SymbolID.  Not something the user should set directly.
      */
     public static final int CC_COUNTRY_CODE = 42;
+    
+    /**
+     * Sonar Classification Confidence level. valid values are 1-5.
+     * Only applies to the 4 subsurface MILCO sea mines
+     */
+    public static final int SCC_SONAR_CLASSIFICATION_CONFIDENCE = 50;
 
     /**
      * A generic name label that goes to the right of the symbol and
