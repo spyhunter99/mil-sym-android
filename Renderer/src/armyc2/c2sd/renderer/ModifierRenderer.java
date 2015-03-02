@@ -364,12 +364,12 @@ public class ModifierRenderer
 
                 //There will never be lowercase characters in an echelon so trim that fat.    
                 //Remove the descent from the bounding box.
-                tiEchelon.getTextBounds();//.shiftBR(0,Math.round(-(echelonBounds.height()*0.3)));                         
+                tiEchelon.getTextOutlineBounds();//.shiftBR(0,Math.round(-(echelonBounds.height()*0.3)));                         
 
-                //adjust for outline.
+                //make echelon bounds a little more spacious for things like nearby labels and Task Force.
                 RectUtilities.grow(echelonBounds, outlineOffset);
                 //tiEchelon.getTextOutlineBounds();
-                RectUtilities.shift(echelonBounds, x, -outlineOffset);
+//                RectUtilities.shift(echelonBounds, x, -outlineOffset);
                 //echelonBounds.shift(0,-outlineOffset);// - Math.round(echelonOffset/2));
                 tiEchelon.setLocation(x, y - outlineOffset);
 
@@ -425,14 +425,11 @@ public class ModifierRenderer
         {
             if (echelonBounds != null)
             {
-                tfRectangle = new Rect(echelonBounds.left - 1,
-                        echelonBounds.top - 1,// + outlineOffset,
-                        echelonBounds.right + 3,
-                        echelonBounds.bottom + 3);
-                tfBounds = new Rect(echelonBounds.left - 2,
-                        echelonBounds.top - 2,
-                        echelonBounds.right + 5,
-                        echelonBounds.bottom + 4);
+                tfRectangle = new Rect(echelonBounds.left,
+                        echelonBounds.top,// + outlineOffset,
+                        echelonBounds.right,
+                        symbolBounds.top-1);
+                tfBounds = new Rect(tfRectangle);
             }
             else
             {
@@ -1484,7 +1481,7 @@ public class ModifierRenderer
 
             x = bounds.left - labelBounds.width() - bufferXL;
 
-            y = (bounds.height());//checkpoint, get box above the point
+            y = (bounds.height());
             y = (int) ((y * 0.5f) + ((labelHeight - descent) * 0.5f));
             y = bounds.top + y;
 

@@ -19,8 +19,9 @@ public class TextInfo {
 	
 	public void setLocation(int x, int y)
 	{
+		_bounds.offset(x - _location.x, y - _location.y);
 		_location = new Point(x,y);
-		_bounds.offsetTo(x, y - (_bounds.bottom - _bounds.top));
+		//_bounds.offsetTo(x, y - (_bounds.bottom - _bounds.top));
 	}
 	
 	public Point getLocation()
