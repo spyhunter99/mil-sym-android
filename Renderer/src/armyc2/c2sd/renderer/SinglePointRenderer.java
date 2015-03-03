@@ -129,7 +129,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             //get MilStdAttributes
             if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
             {
-                symStd = Integer.parseInt(modifiers.get(MilStdAttributes.SymbologyStandard));
+                symStd = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
             }
 
             if (symStd > RendererSettings.Symbology_2525Bch2_USAS_13_14)
@@ -539,6 +539,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
                 symbolID = "G" + SymbolUtilities.getAffiliation(symbolID)
                         + "G" + SymbolUtilities.getStatus(symbolID) + "GPP---****X";
+                basicSymbolID = SymbolUtilities.getBasicSymbolID(symbolID);
                 lookup = SinglePointLookup.getInstance().getSPLookupInfo(basicSymbolID, symStd);
                 lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
                 fillColor = null;//SymbolUtilities.getFillColorOfAffiliation(symbolID);
