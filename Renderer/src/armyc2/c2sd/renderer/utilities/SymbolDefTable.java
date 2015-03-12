@@ -173,7 +173,7 @@ public class SymbolDefTable {
      * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525C
      * @return 
      */
-    public ArrayList GetAllSymbolDefDups(int symStd)
+    public ArrayList<SymbolDef> GetAllSymbolDefDups(int symStd)
     {
         if(symStd==RendererSettings.Symbology_2525Bch2_USAS_13_14)
             return _SymbolDefDupsB;

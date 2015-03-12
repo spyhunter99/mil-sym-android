@@ -90,7 +90,7 @@ public class UnitDefTable {
   private static void populateLookup(String xml, int symStd)
   {
      UnitDef ud = null;
-    ArrayList al = XMLUtil.getItemList(xml, "<SYMBOL>", "</SYMBOL>");
+    ArrayList<String> al = XMLUtil.getItemList(xml, "<SYMBOL>", "</SYMBOL>");
     for(int i = 0; i < al.size(); i++)
     {
       String data = (String)al.get(i);
