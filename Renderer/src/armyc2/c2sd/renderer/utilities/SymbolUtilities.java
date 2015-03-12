@@ -2490,6 +2490,7 @@ public class SymbolUtilities
      * @param symStd RendererSettings.Symbology_2525C
      * @return True if the graphic displays an echelon, false if it ignores the
      * echelon field
+     * @deprecated
      */
     public static
             boolean isEchelonGraphic(String strSymbolID, int symStd)
@@ -2509,9 +2510,13 @@ public class SymbolUtilities
             {
                 SymbolDefTable symDefTable = SymbolDefTable.getInstance();
                 SymbolDef sd = symDefTable.getSymbolDef(basicID, symStd);
-                if (sd.getGeometry().equals("point"))
+                /*if (sd.getGeometry().equals("point"))
                 {
                     blIsSinglePointTG = true;
+                }//*/
+                if(sd.getDrawCategory() == SymbolDef.DRAW_CATEGORY_POINT)
+                {
+                	blIsSinglePointTG = true;
                 }
             }
             boolean blRetVal = (((isUnit(strSymbolID))/* || (isMOOTW(strSymbolID))*/

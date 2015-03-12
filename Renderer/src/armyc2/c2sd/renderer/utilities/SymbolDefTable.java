@@ -106,16 +106,7 @@ public class SymbolDefTable {
       //String alphaHierarchy = XMLUtil.parseTagValue(data, "<ALPHAHIERARCHY>", "</ALPHAHIERARCHY>");
       String path = XMLUtil.parseTagValue(data, "<PATH>", "</PATH>");
 
-      sd = new SymbolDef();
-      sd.setBasicSymbolId(symbolID);
-      sd.setDescription(description);
-      sd.setDrawCategory(Integer.valueOf(drawCategory));
-      sd.setHierarchy(hierarchy);
-      sd.setGeometry(geometry);
-      sd.setMinPoints(Integer.valueOf(minpoints));
-      sd.setMaxPoints(Integer.valueOf(maxpoints));
-      sd.setModifiers(modifiers);
-      sd.setFullPath(path);
+      sd = new SymbolDef(symbolID, description, Integer.valueOf(drawCategory), hierarchy, Integer.valueOf(minpoints), Integer.valueOf(maxpoints), modifiers, path);
 
 
       boolean isMCSSpecific = SymbolUtilities.isMCSSpecificTacticalGraphic(sd);

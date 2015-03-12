@@ -13,6 +13,7 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Typeface;
 import android.util.Log;
+import android.util.LruCache;
 import android.util.SparseArray;
 
 import armyc2.c2sd.renderer.utilities.Color;
@@ -51,8 +52,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
     private float _modifierFontHeight = 10;
     private int _deviceDPI = 72;
 
-    private final ImageInfoCache _unitCache = new ImageInfoCache();
-    private final ImageInfoCache _tgCache = new ImageInfoCache();
+    private final LruCache<String, ImageInfo> _unitCache = new LruCache<String, ImageInfo>(50);
+    private final LruCache<String, ImageInfo> _tgCache = new LruCache<String, ImageInfo>(50);
 
     private SinglePointRenderer()
     {

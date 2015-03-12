@@ -8,7 +8,7 @@
     <string name="symbolid_hint">SFGP------*****</string>
     <string name="btn_draw_label">Draw</string>
     <string name="btn_speed_test">Speed Test</string>
-    <string name="btn_flot_test">FLOT Test</string>
+    <string name="btn_thread_test">Thread Test</string>
     <string name="cb_modifiers">Modifiers</string>
     <string-array name="size_array">
     	<item>15</item>

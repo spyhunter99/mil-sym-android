@@ -121,9 +121,17 @@ public class SymbolDef {
     */
    static public final int DRAW_CATEGORY_UNKNOWN = 99;
 
-   public SymbolDef()
+   public SymbolDef(String basicSymbolID, String description, int drawCategory, String hierarchy, int minPoints, int maxPoints, String modifiers, String fullPath)
    {
-
+	   _strBasicSymbolId = basicSymbolID;
+	   _strDescription = description;
+	   _intDrawCategory = drawCategory;
+	   _strHierarchy = hierarchy;
+	   _intMinPoints = minPoints;  
+	   _intMaxPoints = maxPoints;
+	   _strModifiers = modifiers;
+	   _strFullPath = fullPath;
+	      
    }
 
 
@@ -138,14 +146,6 @@ public class SymbolDef {
    }
 
    /**
-    * 
-    */
-   public void setBasicSymbolId(String value)
-   {
-           _strBasicSymbolId = value;
-   }
-
-   /**
     * The description of this tactical graphic.  Typically the name of the tactical graphic in MIL-STD-2525B.
     */
    public String getDescription()
@@ -153,47 +153,7 @@ public class SymbolDef {
            return _strDescription;
    }
 
-   /**
-    * 
-    */
-   public void setDescription(String value)
-   {
-           _strDescription = value;
-   }
 
-   /**
-    * What kind of symbol is it? (Bridge, Critical Point, Check Point, Road, Route, etc)
-    * @deprecated 
-    */
-   public String getSymbolType()
-   {
-           return _strSymbolType;
-   }
-
-   /**
-    * What kind of symbol is it? (Bridge, Critical Point, Check Point, Road, Route, etc)
-    * @deprecated 
-    */
-   public String setSymbolType(String value)
-   {
-           return _strSymbolType = value;
-   }
-
-   /**
-    * 
-    */
-   public String getGeometry()
-   {
-           return _strGeometry;
-   }
-
-   /**
-    * 
-    */
-   public void setGeometry(String value)
-   {
-           _strGeometry = value;
-   }
 
    /**
     * How does this draw? (autoshape, superautoshape, polygon)
@@ -204,13 +164,6 @@ public class SymbolDef {
            return _intDrawCategory;
    }
 
-   /**
-    * 
-    */
-   public void setDrawCategory(int value)
-   {
-           _intDrawCategory = value;
-   }
    
    /**
     * Defines the minimum points fields.
@@ -218,14 +171,6 @@ public class SymbolDef {
    public int getMinPoints()
    {
            return _intMinPoints;
-   }
-
-   /**
-    * 
-    */
-   public void setMinPoints(int value)
-   {
-           _intMinPoints = value;
    }
 
    /**
@@ -275,40 +220,6 @@ public class SymbolDef {
        }
    }
    
-   /**
-    * 
-    */
-   public void setMaxPoints(int value)
-   {
-           _intMaxPoints = value;
-   }
-
-   /**
-    * Checks if the symbol has required modifiers that influence the shape of the symbol.
-    * @deprecated  Use the draw category to determine if the symbol has a 
-    * channel width point or required modifiers (AM or AN) that affect how
-    * the symbol is rendered.
-    * @return 
-    */
-   public Boolean HasWidth()
-   {
-       Boolean returnVal = false;
-       switch(_intDrawCategory)
-       {
-           case SymbolDef.DRAW_CATEGORY_RECTANGULAR_PARAMETERED_AUTOSHAPE:
-           case SymbolDef.DRAW_CATEGORY_SECTOR_PARAMETERED_AUTOSHAPE:
-           case SymbolDef.DRAW_CATEGORY_TWO_POINT_RECT_PARAMETERED_AUTOSHAPE: 
-           case SymbolDef.DRAW_CATEGORY_CIRCULAR_PARAMETERED_AUTOSHAPE:
-           case SymbolDef.DRAW_CATEGORY_CIRCULAR_RANGEFAN_AUTOSHAPE:
-           case SymbolDef.DRAW_CATEGORY_ROUTE:
-               returnVal = true;
-               break;
-           default:
-               returnVal = false;
-       }
-       return returnVal;
-   }
-
 
    /**
     *
@@ -316,14 +227,6 @@ public class SymbolDef {
    public String getModifiers()
    {
            return _strModifiers;
-   }
-
-   /**
-    * 
-    */
-   public void setModifiers(String value)
-   {
-           _strModifiers = value;
    }
 
    /**
@@ -335,14 +238,6 @@ public class SymbolDef {
            return _strHierarchy;
    }
 
-   /**
-    *
-    */
-   public void setHierarchy(String value)
-   {
-           _strHierarchy = value;
-   }
-
     /**
     * Defines where the symbol goes in the ms2525 hierarchy.
      * TacticalGraphics/Areas/stuff...
@@ -350,14 +245,6 @@ public class SymbolDef {
    public String getFullPath()
    {
            return _strFullPath;
-   }
-
-   /**
-    *
-    */
-   public void setFullPath(String value)
-   {
-           _strFullPath = value;
    }
 
 }

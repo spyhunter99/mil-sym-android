@@ -46,14 +46,14 @@
            android:text="@string/btn_speed_test" />
 
        <Button
-           android:id="@+id/btnFlotTest"
+           android:id="@+id/btnThreadTest"
            style="?android:attr/buttonStyleSmall"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_alignParentRight="true"
            android:layout_below="@+id/btnSpeedTest"
-           android:onClick="flotTest"
-           android:text="@string/btn_flot_test" />
+           android:onClick="threadTest"
+           android:text="@string/btn_thread_test" />
 
        <TextView
            android:id="@+id/tvStatus"
@@ -68,7 +68,7 @@
            android:id="@+id/cbModifiers"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_below="@+id/btnFlotTest"
+           android:layout_below="@+id/btnThreadTest"
            android:layout_alignParentRight="true"
            android:text="@string/cb_modifiers" />
        

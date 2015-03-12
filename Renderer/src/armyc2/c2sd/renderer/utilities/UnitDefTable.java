@@ -102,21 +102,16 @@ public class UnitDefTable {
       String alphaHierarchy = XMLUtil.parseTagValue(data, "<ALPHAHIERARCHY>", "</ALPHAHIERARCHY>");
       String path = XMLUtil.parseTagValue(data, "<PATH>", "</PATH>");
 
-      ud = new UnitDef();
-
-
+      
       if(SymbolUtilities.isInstallation(symbolID))
             symbolID = symbolID.substring(0, 10) + "H****";
 
-      ud.setBasicSymbolId(symbolID);
-      ud.setDescription(description);
-      if(drawCategory == null || drawCategory.equals(""))
-          ud.setDrawCategory(Integer.valueOf(0));
-      else
-          ud.setDrawCategory(Integer.valueOf(drawCategory));
-      ud.setHierarchy(hierarchy);
-      ud.setAlphaHierarchy(alphaHierarchy);
-      ud.setFullPath(path);
+      int idc = 0;
+      if(drawCategory != null || drawCategory.equals("")==false)
+          idc = Integer.valueOf(drawCategory);
+
+      
+      ud = new UnitDef(symbolID, description, idc, hierarchy, path);
 
 
       boolean isMCSSpecificFE = SymbolUtilities.isMCSSpecificForceElement(ud);

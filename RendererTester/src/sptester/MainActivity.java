@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+import sptester.RenderSPThreadTest;
 import sec.web.render.SECWebRenderer;
 import android.os.Bundle;
 import android.app.Activity;
@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.support.v4.util.SparseArrayCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -37,6 +38,7 @@ import armyc2.c2sd.renderer.utilities.ModifiersTG;
 import armyc2.c2sd.renderer.utilities.ModifiersUnits;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
 import armyc2.c2sd.renderer.utilities.ShapeInfo;
+import java.util.Random;
 
 
 public class MainActivity extends Activity {
@@ -212,7 +214,6 @@ public class MainActivity extends Activity {
         modifiers.put(ModifiersUnits.F_REINFORCED_REDUCED,"RD");
         modifiers.put(ModifiersUnits.L_SIGNATURE_EQUIP,"!");
         //modifiers[armyc2.c2sd.renderer.utilities.ModifiersUnits.AA_SPECIAL_C2_HQ] = "AA";
-        modifiers.put(ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE,"5");
         modifiers.put(ModifiersUnits.G_STAFF_COMMENTS,"Gj");
         //symbol.symbolicon A
         modifiers.put(ModifiersUnits.V_EQUIP_TYPE,"Vj");
@@ -354,52 +355,45 @@ public class MainActivity extends Activity {
     	}
     }
     
-    private void threadTest(String symbolID)
-    {
-    	SparseArray<String> modifiers = new SparseArray();
-    	//populateModifiersForUnits(modifiers);
-    	SparseArray<String> attributes = new SparseArray();
-    	
-    	int count = 1000;
-    	float fcount = count;
-    	for(int i = 1; i <= count; i++)
-    	{
-    		mir.RenderIcon(symbolID, modifiers, attributes);
-    		if(i % 100 == 0)
-    		{
-    			String message = symbolID + ": " + String.valueOf((int)(i/fcount * 100f)) + "% complete";
-    			Log.i("threadTest",message);
-    		}
-    	}
 
-    }
     
-    public void flotTest(View view)
+    public void threadTest(View view)
     {
     	try
-    	{
-    		/*//thread test for single points///////////////////////////////////
-    		Thread t1 = new Thread(new Runnable(){
-    			public void run(){
-    				threadTest("SUPPT----------");
-    				Log.i("T1","T1 done");	
-    			}
-    		});
+    	{   
+            //SPTestThread
+    		//thread test for single points///////////////////////////////////
+           
+            //reusing to test random symbols
+            boolean ra = ((CheckBox)findViewById(R.id.cbModifiers)).isChecked();
+            RenderSPThreadTest r1 = new RenderSPThreadTest();
+            r1._name = "r1";
+            r1._randomAffiliation = ra;
+            r1._symbolID = "SUPPT----------";
+        
+            Thread t1 = new Thread(r1);
     		
-    		Thread t2 = new Thread(new Runnable(){
-    			public void run(){
-    				threadTest("SFPPT----------");
-    				Log.i("T2","T2 done");	
-    			}
-    		});
+            RenderSPThreadTest r2 = new RenderSPThreadTest();
+            r2._name = "r2";
+            //r2._randomAffiliation = ra;
+            r2._symbolID = "SUPPT----------";
+    		Thread t2 = new Thread(r2);
+                
+            RenderSPThreadTest r3 = new RenderSPThreadTest();
+            r3._name = "r3";
+            //r3._randomAffiliation = ra;
+            r3._symbolID = "SUPPT----------";
+    		Thread t3 = new Thread(r3);
+    		
     		
     		long start = System.currentTimeMillis();//java.lang.System.nanoTime();
 	    	Date dStart = new Date();
     		t1.start();
     		t2.start();
+                t3.start();
     		
     		int sleepCount = 0;
-    		while(t1.isAlive() || t2.isAlive())
+    		while(t1.isAlive() || t2.isAlive() || t3.isAlive())
     		{
     			sleepCount++;
     			Thread.sleep(100);
@@ -412,8 +406,24 @@ public class MainActivity extends Activity {
 	    	
 	    	try
 	    	{
-		    	TextView t = (TextView)findViewById(R.id.textView1);
-		    	t.setText("Threads done in: " + String.valueOf(elapsed) + " seconds.  SleepCount: " + String.valueOf(sleepCount));
+                    String status = "Threads done in: " + String.valueOf(elapsed) + " seconds.  SleepCount: " + String.valueOf(sleepCount);
+		    	TextView t = (TextView)findViewById(R.id.tvStatus);
+                        
+                        if(r1._done && r1._result)
+                            status += " T1 success";
+                        else
+                            status += " T1 fail";
+                        if(r2._done && r2._result)
+                            status += ", T2 success";
+                        else
+                            status += ", T2 fail";
+                        if(r3._done && r3._result)
+                            status += ", T3 success.";
+                        else
+                            status += ", T3 fail.";
+                                    
+		    	t.setText(status);
+                        
 	    	}
 	    	catch(Exception exc)
 	    	{
@@ -423,7 +433,7 @@ public class MainActivity extends Activity {
     		//*///End thread test for singlepoints//////////////////////////////
     		
     		//FLOT TEST/////////////////////////////////////////////////////////
-    		
+    		/*
     		StringBuilder message = new StringBuilder();
     		String id = "id";
     		String name = "name";
@@ -445,7 +455,7 @@ public class MainActivity extends Activity {
 	    	Date dStart = new Date();
 	    	ImageInfo ii = null;
 	    	
-    		for(int i = 0; i < 1000; i++)
+    		for(int i = 0; i < 1; i++)
 	    	{
     			flot = SECWebRenderer.RenderMultiPointAsMilStdSymbol(id, name, description, symbolCode, controlPoints, altitudeMode, scale, bbox, modifiers, attributes, symStd);
 	    	}
@@ -525,4 +535,5 @@ public class MainActivity extends Activity {
         return "";
     }//*/
     
+
 }
