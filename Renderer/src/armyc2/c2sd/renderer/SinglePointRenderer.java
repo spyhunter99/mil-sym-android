@@ -20,7 +20,6 @@ import armyc2.c2sd.renderer.utilities.Color;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
 import armyc2.c2sd.renderer.utilities.FontManager;
 import armyc2.c2sd.renderer.utilities.ImageInfo;
-import armyc2.c2sd.renderer.utilities.ImageInfoCache;
 import armyc2.c2sd.renderer.utilities.MilStdAttributes;
 import armyc2.c2sd.renderer.utilities.ModifiersTG;
 import armyc2.c2sd.renderer.utilities.RectUtilities;
@@ -291,7 +290,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
         try
         {
             ImageInfo ii = null;
-            String key = ImageInfoCache.makeKey(symbolID, lineColor.toInt(), fillColor.toInt(), pixelSize, keepUnitRatio, symStd);
+            String key = makeCacheKey(symbolID, lineColor.toInt(), fillColor.toInt(), pixelSize, keepUnitRatio, symStd);
 
             //see if it's in the cache
             ii = _unitCache.get(key);
@@ -707,7 +706,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             {
                 intFill = fillColor.toInt();
             }
-            String key = ImageInfoCache.makeKey(symbolID, lineColor.toInt(), intFill, pixelSize, keepUnitRatio, symStd);
+            String key = makeCacheKey(symbolID, lineColor.toInt(), intFill, pixelSize, keepUnitRatio, symStd);
 
             //see if it's in the cache
             ii = _tgCache.get(key);
@@ -993,6 +992,12 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
         return temp;
     }//*/
+    
+    public static String makeCacheKey(String symbolID, int lineColor, int fillColor, int size, boolean keepUnitRatio, int symStd)
+    {
+        String key = symbolID.substring(0, 10) + String.valueOf(lineColor) + String.valueOf(fillColor) + String.valueOf(size) + String.valueOf(keepUnitRatio) + String.valueOf(symStd);
+        return key;
+    }
 
     public void logError(String tag, Throwable thrown)
     {
