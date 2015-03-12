@@ -200,7 +200,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                 lookup = ResolveUnitFontLookupInfo(symbolID, symStd);
             }
 
-            //TODO: pixel size calculations
+            
             ////////////////////////////////////////////////////////////////////
             dimensions = SymbolDimensions.getUnitBounds(charFillIndex, 50);
             symbolBounds = RectUtilities.makeRect(0f, 0f, dimensions[2], dimensions[3]);

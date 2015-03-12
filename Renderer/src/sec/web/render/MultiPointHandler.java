@@ -1618,13 +1618,13 @@ public class MultiPointHandler {
 
             symbol.setModifierMap(modifiers);
 
-            if (fillColor != null) {
+            if (fillColor != null && fillColor.equals("") == false) {
                 symbol.setFillColor(SymbolUtilities.getColorFromHexString(fillColor));
             } else {
                 symbol.setFillColor(null);
             }
 
-            if (lineColor != null) {
+            if (lineColor != null && lineColor.equals("") == false) {
                 symbol.setLineColor(SymbolUtilities.getColorFromHexString(lineColor));
             }
 

@@ -68,7 +68,7 @@ public class ModifierRenderer
 
         // <editor-fold defaultstate="collapsed" desc="Build Mobility Modifiers">
         RectF mobilityBounds = null;
-        //TODO: Test mobility modifiers
+        
         List<Path> shapes = new ArrayList<Path>();
         Path mobilityPath = null;
         Path mobilityPathFill = null;
