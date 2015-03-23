@@ -933,8 +933,16 @@ public class Modifier2 {
             POINT2 ptLl) {
         try {
             int j = 0;
-            double x = tg.Pixels.get(0).x;
-            double y = tg.Pixels.get(0).y;
+            double x = 0;
+            double y = 0;
+            ptUl.x=tg.Pixels.get(0).x;
+            ptUl.y=tg.Pixels.get(0).y;
+            ptUr.x=tg.Pixels.get(0).x;
+            ptUr.y=tg.Pixels.get(0).y;
+            ptLl.x=tg.Pixels.get(0).x;
+            ptLl.y=tg.Pixels.get(0).y;
+            ptLr.x=tg.Pixels.get(0).x;
+            ptLr.y=tg.Pixels.get(0).y;
             int n = tg.Pixels.size();
             //for (j = 1; j < tg.Pixels.size(); j++) 
             for (j = 1; j < n; j++) 

@@ -1667,7 +1667,7 @@ public final class arraysupport
             lineutility.InitializePOINT2Array(pEllipsePoints);
             for (l = 1; l < 37; l++)
             {
-                dFactor = (20.0 * l) * Math.PI / 180.0;
+                dFactor = (10.0 * l) * Math.PI / 180.0;
                 pEllipsePoints[l - 1].x = ptCenter.x + (int) (a * Math.cos(dFactor));
                 pEllipsePoints[l - 1].y = ptCenter.y + (int) (b * Math.sin(dFactor));
                 pEllipsePoints[l - 1].style = 0;
