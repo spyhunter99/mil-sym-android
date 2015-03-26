@@ -24,6 +24,7 @@ import armyc2.c2sd.JavaTacticalRenderer.clsChannelUtility;
 import armyc2.c2sd.JavaTacticalRenderer.clsMETOC;
 import armyc2.c2sd.JavaTacticalRenderer.P1;
 import armyc2.c2sd.JavaTacticalRenderer.mdlGeodesic;
+//import armyc2.c2sd.JavaTacticalRenderer.clsUtility;
 import armyc2.c2sd.renderer.utilities.Color;
 import armyc2.c2sd.graphics2d.*;
 import android.content.Context;
@@ -161,7 +162,8 @@ public final class clsRenderer {
             tg.set_SymbolId(symbolId);
             boolean useLineInterpolation = milStd.getUseLineInterpolation();
             tg.set_UseLineInterpolation(useLineInterpolation);
-            int lineType = armyc2.c2sd.JavaTacticalRenderer.clsUtility.GetLinetypeFromString(symbolId);
+            //int lineType = armyc2.c2sd.JavaTacticalRenderer.clsUtility.GetLinetypeFromString(symbolId);
+            int lineType = getRevDLinetype(tg);
             tg.set_LineType(lineType);
             String status = tg.get_Status();
             if (status != null && status.equals("A")) {
@@ -648,6 +650,9 @@ public final class clsRenderer {
                     tg.set_H2(strH2);
                 }
             }
+            //set rev D properties
+            //render_GE does this
+            //setTGProperties(tg);
         } catch (Exception exc) {
             ErrorLogger.LogException("clsRenderer", "createTGLightfromMilStdSymbol",
                     new RendererException("Failed to build multipoint TG for " + milStd.getSymbolID(), exc));
@@ -771,119 +776,119 @@ public final class clsRenderer {
      * @param shapeInfos
      * @param modifierShapeInfos
      */
-    private static void GetLineArray(TGLight tg,
-            IPointConversion converter,
-            ArrayList<ShapeInfo> shapeInfos,
-            ArrayList<ShapeInfo> modifierShapeInfos) {
-        try {
-            ArrayList<Shape2> shapes = new ArrayList();//ShapeInfoToShape2(shapeInfos);
-            ArrayList<Shape2> modifierShapes = new ArrayList();//ShapeInfoToShape2(shapeInfos);
-            int lineType = tg.get_LineType();
-            int minPoints2 = armyc2.c2sd.JavaTacticalRenderer.clsUtility.GetMinPoints(lineType);
-            ref<int[]> minPoints = new ref();
-            ArrayList<POINT2> channelPoints = new ArrayList();
-            boolean bolChange1 = armyc2.c2sd.JavaTacticalRenderer.clsUtility.IsChange1Area(lineType, minPoints);
-            int bolMeTOC = armyc2.c2sd.JavaTacticalRenderer.clsMETOC.IsWeather(tg.get_SymbolId());
-
-            tg.modifiers = new ArrayList();
-            BufferedImage bi = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2d = bi.createGraphics();
-            //Modifier2.AddModifiers(tg,g2d,null);
-            Modifier2.AddModifiersGeo(tg, g2d, null, converter);
-            int rev = tg.getSymbologyStandard();
-            //Modifier2.AddModifiers(tg,g2d);//flipped only for 3d for change 1 symbols
-            Shape2 hatchShape = null;
-            if (converter == null) {
-                armyc2.c2sd.JavaTacticalRenderer.clsUtility.getHatchShape(tg, bi);
-            }
-
-            if (tg.Pixels.size() < minPoints2) {
-                lineType = TacticalLines.MIN_POINTS;
-                bolChange1 = false;
-            }
-
-            if (bolChange1) {
-                tg.Pixels.clear();
-                //fills tg.Pixels
-                bolChange1 = armyc2.c2sd.JavaRendererServer.RenderMultipoints.clsUtilityCPOF.Change1TacticalAreas(tg, lineType, converter, shapes);
-                //points = tg.Pixels;
-            } else if (bolMeTOC > 0) {
-                try {
-                    clsMETOC.GetMeTOCShape(tg, shapes, rev);
-                } catch (Exception ex) {
-                    armyc2.c2sd.JavaTacticalRenderer.clsUtility.WriteFile("Error in ClsMETOC.GetMeTOCShape");
-                }
-            } else {
-                if (CELineArray.CIsChannel(lineType) == 0) {
-                    if (lineType != TacticalLines.BELT1) {
-                        tg.Pixels = arraysupport.GetLineArray2(lineType, tg.Pixels, shapes, null, rev);
-                        Modifier2.GetIntegralTextShapes(tg, g2d, shapes);
-                    }
-                    //points = arraysupport.points;
-                    //tg.Pixels=points;
-                    if (lineType == TacticalLines.BELT1) {
-                        //get the partitions
-                        ArrayList<Shape2> tempShapes = null;
-                        ArrayList<P1> partitions = clsChannelUtility.GetPartitions2(tg);
-                        ArrayList<POINT2> pixels = null;
-                        int l = 0, k = 0;
-                        for (l = 0; l < partitions.size(); l++) {
-                            tempShapes = new ArrayList();
-                            pixels = new ArrayList();
-                            for (k = partitions.get(l).start; k <= partitions.get(l).end_Renamed + 1; k++) {
-                                pixels.add(tg.Pixels.get(k));
-                            }
-                            pixels = arraysupport.GetLineArray2(lineType, pixels, tempShapes, null, rev);
-                            shapes.addAll(tempShapes);
-                        }
-                    }
-                } else //channel type
-                {
-                    clsChannelUtility.DrawChannel(tg.Pixels, lineType, tg, shapes, channelPoints, rev);
-                    tg.Pixels = channelPoints;
-                }
-            }
-            //if(converter.get_BestFit()==true)
-            //{
-            //assumes tg.LatLongs is filled
-            //    tg.LatLongs=clsUtility.PixelsToLatLong(tg.Pixels, converter);
-            //}
-            //BufferedImage bi=new BufferedImage(8,8,BufferedImage.TYPE_INT_ARGB);
-            armyc2.c2sd.JavaTacticalRenderer.clsUtility.SetShapeProperties(tg, shapes, bi);
-
-            //at this point tg.Pixels has the points from CELineArray
-            //the following line adds modifiers for those sybmols which require
-            //the calculated points to use for the modifiers.
-            //currentlly only BLOCK and CONTAIN use tg.Pixels for computing
-            //the modifiers after the call to GetLineArray
-            //so points will usually have nothing in it
-            Modifier2.AddModifiers2(tg);
-            //BestFitModifiers(tg,converter);
-            //build the modifier shapes
-            if (hatchShape != null) {
-                shapes.add(hatchShape);
-            }
-
-            Shape2ToShapeInfo(shapeInfos, shapes);
-
-            if (modifierShapeInfos != null)//else client is not using shapes to display modifiers
-            {
-                //bi=new BufferedImage(10,10,BufferedImage.TYPE_INT_ARGB);
-                //Graphics2D g2d=bi.createGraphics();
-                Modifier2.DisplayModifiers2(tg, g2d, modifierShapes, false, converter);
-
-                //convert to ShapeInfo ArrayLists
-                Shape2ToShapeInfo(modifierShapeInfos, modifierShapes);
-                bi.flush();
-                g2d.dispose();
-                bi = null;
-                g2d = null;
-            }
-        } catch (Exception exc) {
-            ErrorLogger.LogException("clsRenderer", "GetLineArray",
-                    new RendererException("Points calculator failed for " + tg.get_SymbolId(), exc));
-        }
-    }
+//    private static void GetLineArray(TGLight tg,
+//            IPointConversion converter,
+//            ArrayList<ShapeInfo> shapeInfos,
+//            ArrayList<ShapeInfo> modifierShapeInfos) {
+//        try {
+//            ArrayList<Shape2> shapes = new ArrayList();//ShapeInfoToShape2(shapeInfos);
+//            ArrayList<Shape2> modifierShapes = new ArrayList();//ShapeInfoToShape2(shapeInfos);
+//            int lineType = tg.get_LineType();
+//            int minPoints2 = armyc2.c2sd.JavaTacticalRenderer.clsUtility.GetMinPoints(lineType);
+//            ref<int[]> minPoints = new ref();
+//            ArrayList<POINT2> channelPoints = new ArrayList();
+//            boolean bolChange1 = armyc2.c2sd.JavaTacticalRenderer.clsUtility.IsChange1Area(lineType, minPoints);
+//            int bolMeTOC = armyc2.c2sd.JavaTacticalRenderer.clsMETOC.IsWeather(tg.get_SymbolId());
+//
+//            tg.modifiers = new ArrayList();
+//            BufferedImage bi = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
+//            Graphics2D g2d = bi.createGraphics();
+//            //Modifier2.AddModifiers(tg,g2d,null);
+//            Modifier2.AddModifiersGeo(tg, g2d, null, converter);
+//            int rev = tg.getSymbologyStandard();
+//            //Modifier2.AddModifiers(tg,g2d);//flipped only for 3d for change 1 symbols
+//            Shape2 hatchShape = null;
+//            if (converter == null) {
+//                armyc2.c2sd.JavaTacticalRenderer.clsUtility.getHatchShape(tg, bi);
+//            }
+//
+//            if (tg.Pixels.size() < minPoints2) {
+//                lineType = TacticalLines.MIN_POINTS;
+//                bolChange1 = false;
+//            }
+//
+//            if (bolChange1) {
+//                tg.Pixels.clear();
+//                //fills tg.Pixels
+//                bolChange1 = armyc2.c2sd.JavaRendererServer.RenderMultipoints.clsUtilityCPOF.Change1TacticalAreas(tg, lineType, converter, shapes);
+//                //points = tg.Pixels;
+//            } else if (bolMeTOC > 0) {
+//                try {
+//                    clsMETOC.GetMeTOCShape(tg, shapes, rev);
+//                } catch (Exception ex) {
+//                    armyc2.c2sd.JavaTacticalRenderer.clsUtility.WriteFile("Error in ClsMETOC.GetMeTOCShape");
+//                }
+//            } else {
+//                if (CELineArray.CIsChannel(lineType) == 0) {
+//                    if (lineType != TacticalLines.BELT1) {
+//                        tg.Pixels = arraysupport.GetLineArray2(lineType, tg.Pixels, shapes, null, rev);
+//                        Modifier2.GetIntegralTextShapes(tg, g2d, shapes);
+//                    }
+//                    //points = arraysupport.points;
+//                    //tg.Pixels=points;
+//                    if (lineType == TacticalLines.BELT1) {
+//                        //get the partitions
+//                        ArrayList<Shape2> tempShapes = null;
+//                        ArrayList<P1> partitions = clsChannelUtility.GetPartitions2(tg);
+//                        ArrayList<POINT2> pixels = null;
+//                        int l = 0, k = 0;
+//                        for (l = 0; l < partitions.size(); l++) {
+//                            tempShapes = new ArrayList();
+//                            pixels = new ArrayList();
+//                            for (k = partitions.get(l).start; k <= partitions.get(l).end_Renamed + 1; k++) {
+//                                pixels.add(tg.Pixels.get(k));
+//                            }
+//                            pixels = arraysupport.GetLineArray2(lineType, pixels, tempShapes, null, rev);
+//                            shapes.addAll(tempShapes);
+//                        }
+//                    }
+//                } else //channel type
+//                {
+//                    clsChannelUtility.DrawChannel(tg.Pixels, lineType, tg, shapes, channelPoints, rev);
+//                    tg.Pixels = channelPoints;
+//                }
+//            }
+//            //if(converter.get_BestFit()==true)
+//            //{
+//            //assumes tg.LatLongs is filled
+//            //    tg.LatLongs=clsUtility.PixelsToLatLong(tg.Pixels, converter);
+//            //}
+//            //BufferedImage bi=new BufferedImage(8,8,BufferedImage.TYPE_INT_ARGB);
+//            armyc2.c2sd.JavaTacticalRenderer.clsUtility.SetShapeProperties(tg, shapes, bi);
+//
+//            //at this point tg.Pixels has the points from CELineArray
+//            //the following line adds modifiers for those sybmols which require
+//            //the calculated points to use for the modifiers.
+//            //currentlly only BLOCK and CONTAIN use tg.Pixels for computing
+//            //the modifiers after the call to GetLineArray
+//            //so points will usually have nothing in it
+//            Modifier2.AddModifiers2(tg);
+//            //BestFitModifiers(tg,converter);
+//            //build the modifier shapes
+//            if (hatchShape != null) {
+//                shapes.add(hatchShape);
+//            }
+//
+//            Shape2ToShapeInfo(shapeInfos, shapes);
+//
+//            if (modifierShapeInfos != null)//else client is not using shapes to display modifiers
+//            {
+//                //bi=new BufferedImage(10,10,BufferedImage.TYPE_INT_ARGB);
+//                //Graphics2D g2d=bi.createGraphics();
+//                Modifier2.DisplayModifiers2(tg, g2d, modifierShapes, false, converter);
+//
+//                //convert to ShapeInfo ArrayLists
+//                Shape2ToShapeInfo(modifierShapeInfos, modifierShapes);
+//                bi.flush();
+//                g2d.dispose();
+//                bi = null;
+//                g2d = null;
+//            }
+//        } catch (Exception exc) {
+//            ErrorLogger.LogException("clsRenderer", "GetLineArray",
+//                    new RendererException("Points calculator failed for " + tg.get_SymbolId(), exc));
+//        }
+//    }
     private static void Shape2ToShapeInfo(ArrayList<ShapeInfo> shapeInfos, ArrayList<Shape2> shapes) {
         try {
             int j = 0;
@@ -959,6 +964,7 @@ public final class clsRenderer {
             Object clipArea,
             Context context) //was Rectangle2D
     {
+        setTGProperties(tg);
         render_GE(tg, shapeInfos, modifierShapeInfos, converter, clipArea);
         //set the BitmapShader for the 0th shape
         if (shapeInfos != null && shapeInfos.size() > 0) {
@@ -1085,8 +1091,8 @@ public final class clsRenderer {
             tg.modifiers = new ArrayList();
             BufferedImage bi = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2d = bi.createGraphics();
-            //Modifier2.AddModifiers(tg,g2d,clipArea);
-            Modifier2.AddModifiersGeo(tg, g2d, clipArea, converter);
+            //Modifier2.AddModifiersGeo(tg, g2d, clipArea, converter);
+            Modifier2.AddModifiersGeo2(tg, g2d, clipArea, converter);
 
             clsUtilityCPOF.FilterPoints2(tg, converter);
             armyc2.c2sd.JavaTacticalRenderer.clsUtility.FilterVerticalSegments(tg);
@@ -1302,7 +1308,7 @@ public final class clsRenderer {
             scale = (distanceInPixels / distanceInMeters) * (1.0d / 96.0d) * (1.0d / 39.37d);
             scale = 1.0d / scale;
             //reset the linetype for overhead wire if the sclae is large
-            if (lineType == TacticalLines.OVERHEAD_WIRE && scale >= 250000) {
+            if (lineType == TacticalLines.OVERHEAD_WIRE && scale >= 250000 && tg.get_SymbolId().length()<20) {
                 tg.set_LineType(TacticalLines.OVERHEAD_WIRE_LS);
             }
         } catch (Exception exc) {
@@ -1557,4 +1563,726 @@ public final class clsRenderer {
 
         }
     }
+    /**
+     * for Rev D symbols
+     *
+     * @param SymbolSet
+     * @param entityCode
+     * @return
+     */
+    private static int getCMLineType(String SymbolSet, String entityCode) {
+        int symbolSet = Integer.parseInt(SymbolSet);
+        if (symbolSet != 25) {
+            return -1;
+        }
+        int nCode = Integer.parseInt(entityCode);
+        switch (nCode) {
+            case 200101:
+            case 200201:
+                return TacticalLines.LAUNCH_AREA;
+            case 120100:
+                return TacticalLines.AO;
+            case 120200:
+                return TacticalLines.NAI;
+            case 120300:
+                return TacticalLines.TAI;
+            case 120400:
+                return TacticalLines.AIRFIELD;
+            case 151401:
+                return TacticalLines.AIRAOA;
+            case 151402:
+                return TacticalLines.AAAAA;
+            case 151403:
+                return TacticalLines.MAIN;
+            case 151404:
+            case 151405:
+            case 151407:
+            case 151408:
+                return TacticalLines.SPT;
+            case 151406:
+                return TacticalLines.AAFNT;
+            case 110101:                        //new label
+            case 110102:                        //new label
+                return TacticalLines.BOUNDARY;
+            case 110200:
+                return TacticalLines.LL;
+            case 120101:
+                return TacticalLines.AO;
+            case 120102:
+                return TacticalLines.NAI;
+            case 120103:
+                return TacticalLines.TAI;
+            case 120104:
+                return TacticalLines.AIRFIELD;
+            case 140100:
+            case 140101:
+            case 140102:
+            case 140103:
+            case 140104:
+                return TacticalLines.FLOT;
+            case 140200:
+                return TacticalLines.LC;
+            case 140300:
+                return TacticalLines.PL;
+            case 140400:                //new FEBA as a line, new label
+            case 140401:
+                return TacticalLines.PL;
+            case 140500:
+                return TacticalLines.PDF;
+            case 140601:
+                return TacticalLines.DIRATKAIR;
+            case 140602:
+                return TacticalLines.DIRATKGND;
+            case 140603:
+            case 140604:
+            case 140606:
+            case 140607:
+                return TacticalLines.DIRATKSPT;
+            case 140605:
+                return TacticalLines.DIRATKFNT;
+            case 140700:
+                return TacticalLines.FCL;
+            case 140800:
+                return TacticalLines.IL;
+            case 140900:
+                return TacticalLines.LOA;
+            case 141000:
+                return TacticalLines.LOD;
+            case 141100:
+                return TacticalLines.LDLC;
+            case 141200:
+                return TacticalLines.PLD;
+            case 150101:
+            case 150102:
+            case 150103:
+            case 150104:
+            case 200401:
+                return TacticalLines.PEN;
+            case 150200:
+            case 150300:
+            case 150301:
+            case 150302:
+            case 150400:
+                return TacticalLines.ASSY;
+            case 150501:
+            case 150502:
+            case 150503:
+                return TacticalLines.GENERAL;
+            case 150600:    //dz no eny
+                return TacticalLines.DZ;
+            case 150700:    //ez no eny
+                return TacticalLines.EZ;
+            case 150800:    //lz no eny
+                return TacticalLines.LZ;
+            case 150900:    //pz no eny
+                return TacticalLines.PZ;
+            case 151000:
+                return TacticalLines.FORT;
+            case 151100:
+                return TacticalLines.LAA;
+            case 151200:
+            case 151201:
+                return TacticalLines.BATTLE;
+            case 151202:
+                return TacticalLines.PNO;
+            case 151204:
+                return TacticalLines.CONTAIN;
+            case 151205:
+                return TacticalLines.RETAIN;
+            case 151300:
+                return TacticalLines.EA;
+            case 151203:
+                return TacticalLines.STRONG;
+            case 151500:
+                return TacticalLines.ASSAULT;
+            case 151600:
+                return TacticalLines.ATKPOS;
+            case 151700:
+                return TacticalLines.OBJ;
+            case 151801:
+            case 151802:
+                return TacticalLines.ENCIRCLE;
+            case 151900:
+                return TacticalLines.PEN;
+            case 152000:
+                return TacticalLines.ATKBYFIRE;
+            case 152100:
+                return TacticalLines.SPTBYFIRE;
+            case 152200:
+                return TacticalLines.SARA;
+            case 141300:
+                return TacticalLines.AIRHEAD;
+            case 141400:
+                return TacticalLines.BRDGHD;
+            case 141500:
+                return TacticalLines.HOLD;
+            case 141600:
+                return TacticalLines.RELEASE;
+            case 141700:
+                return TacticalLines.AMBUSH;
+            case 170100:
+                return TacticalLines.AC;
+            case 170200:
+                return TacticalLines.LLTR;
+            case 170300:
+                return TacticalLines.MRR;
+            case 170400:                    //SL new label
+                return TacticalLines.MRR;
+            case 170500:
+                return TacticalLines.SAAFR;
+            case 170600:                    //TC new label
+                return TacticalLines.MRR;
+            case 170700:
+                return TacticalLines.UAV;
+            case 170800:
+                return TacticalLines.PEN;   //BDZ new label
+            case 170900:
+                return TacticalLines.HIDACZ;
+            case 171000:
+                return TacticalLines.ROZ;
+            case 171100:                    // new label type AAROZ
+            case 171200:                    // new label UAROZ
+            case 171300:                    // new label WEZ
+            case 171400:                    // new label FEZ
+            case 171500:                    // new label JEZ
+                return TacticalLines.ROZ;
+            case 171600:
+                return TacticalLines.MEZ;
+            case 171700:
+                return TacticalLines.LOMEZ;
+            case 171800:
+                return TacticalLines.HIMEZ;
+            case 171900:
+                return TacticalLines.FAADZ;
+            case 172000:
+                return TacticalLines.WFZ;
+            case 190100:    //iff off new label
+            case 190200:    //iff on new label
+                return TacticalLines.FSCL;
+            case 200202:    //defended area rect
+            case 200402:
+            case 240804:
+                return TacticalLines.FSA_RECTANGULAR;    //DA new label
+            case 200300:    //no atk
+                return TacticalLines.FSA_CIRCULAR;  //no atk new label
+            case 220100:
+                return TacticalLines.BEARING;
+            case 220101:
+                return TacticalLines.ELECTRO;
+            case 220102:    //EW                //new label
+                return TacticalLines.BEARING;
+            case 220103:
+            case 220104:
+                return TacticalLines.ACOUSTIC;
+            case 220105:
+                return TacticalLines.TORPEDO;
+            case 220106:
+                return TacticalLines.OPTICAL;
+            case 218400:
+                return TacticalLines.NAVIGATION;
+            case 220107:    //Jammer                //new label
+            case 220108:    //RDF                   //new label
+                return TacticalLines.BEARING;
+            case 230100:
+            case 230200:
+                return TacticalLines.DECEIVE;
+            case 240101:
+                return TacticalLines.ACA;
+            case 240102:
+                return TacticalLines.ACA_RECTANGULAR;
+            case 240103:
+                return TacticalLines.ACA_CIRCULAR;
+
+            case 240201:
+                return TacticalLines.FFA;
+            case 240202:
+                return TacticalLines.FFA_RECTANGULAR;
+            case 240203:
+                return TacticalLines.FFA_CIRCULAR;
+
+            case 240301:
+                return TacticalLines.NFA;
+            case 240302:
+                return TacticalLines.NFA_RECTANGULAR;
+            case 240303:
+                return TacticalLines.NFA_CIRCULAR;
+
+            case 240401:
+                return TacticalLines.RFA;
+            case 240402:
+                return TacticalLines.RFA_RECTANGULAR;
+            case 240403:
+                return TacticalLines.RFA_CIRCULAR;
+
+            case 240501:
+                return TacticalLines.PAA_RECTANGULAR;
+            case 240502:
+                return TacticalLines.PAA_CIRCULAR;
+            case 260100:
+                return TacticalLines.FSCL;
+            case 260200:
+                return TacticalLines.CFL;
+            case 260300:
+                return TacticalLines.NFL;
+            case 260400:    //BCL               new label
+                return TacticalLines.FSCL;
+            case 260500:
+                return TacticalLines.RFL;
+            case 260600:
+                return TacticalLines.MFP;
+            case 240701:
+                return TacticalLines.LINTGT;
+            case 240702:
+                return TacticalLines.LINTGTS;
+            case 240703:
+                return TacticalLines.FPF;
+            case 240801:
+                return TacticalLines.AT;
+            case 240802:
+                return TacticalLines.RECTANGULAR;
+            case 240803:
+                return TacticalLines.CIRCULAR;
+            case 240805:
+                return TacticalLines.SERIES;
+            case 240806:
+            case 240807:
+                return TacticalLines.SMOKE;
+            case 240808:
+                return TacticalLines.BOMB;
+            case 241001:
+                return TacticalLines.FSA;
+            case 241002:
+                return TacticalLines.FSA_RECTANGULAR;
+            case 241003:
+                return TacticalLines.FSA_CIRCULAR;
+            case 241101:
+                return TacticalLines.ATI;
+            case 241102:
+                return TacticalLines.ATI_RECTANGULAR;
+            case 241103:
+                return TacticalLines.ATI_CIRCULAR;
+            case 241201:
+                return TacticalLines.CFFZ;
+            case 241202:
+                return TacticalLines.CFFZ_RECTANGULAR;
+            case 241203:
+                return TacticalLines.CFFZ_CIRCULAR;
+            case 241301:
+                return TacticalLines.CENSOR;
+            case 241302:
+                return TacticalLines.CENSOR_RECTANGULAR;
+            case 241303:
+                return TacticalLines.CENSOR_CIRCULAR;
+            case 241401:
+                return TacticalLines.CFZ;
+            case 241402:
+                return TacticalLines.CFZ_RECTANGULAR;
+            case 241403:
+                return TacticalLines.CFZ_CIRCULAR;
+            case 241501:
+                return TacticalLines.DA;
+            case 241502:
+                return TacticalLines.DA_RECTANGULAR;
+            case 241503:
+                return TacticalLines.DA_CIRCULAR;
+            case 241601:
+                return TacticalLines.SENSOR;
+            case 241602:
+                return TacticalLines.SENSOR_RECTANGULAR;
+            case 241603:
+                return TacticalLines.SENSOR_CIRCULAR;
+            case 241701:
+                return TacticalLines.TBA;
+            case 241702:
+                return TacticalLines.TBA_RECTANGULAR;
+            case 241703:
+                return TacticalLines.TBA_CIRCULAR;
+            case 241801:
+                return TacticalLines.TVAR;
+            case 241802:
+                return TacticalLines.TVAR_RECTANGULAR;
+            case 241803:
+                return TacticalLines.TVAR_CIRCULAR;
+            case 241901:
+                return TacticalLines.ZOR;
+            case 241902:
+                return TacticalLines.ZOR_RECTANGULAR;
+            case 241903:
+                return TacticalLines.ZOR_CIRCULAR;
+            case 242000:
+                return TacticalLines.TGMF;
+            case 242100:
+                return TacticalLines.RANGE_FAN;
+            case 242200:
+                return TacticalLines.RANGE_FAN_SECTOR;
+            case 242301:
+                return TacticalLines.KILLBOXBLUE;
+            case 242302:
+                return TacticalLines.KILLBOXBLUE_RECTANGULAR;
+            case 242303:
+                return TacticalLines.KILLBOXBLUE_CIRCULAR;
+            case 242304:
+                return TacticalLines.KILLBOXPURPLE;
+            case 242305:
+                return TacticalLines.KILLBOXPURPLE_RECTANGULAR;
+            case 242306:
+                return TacticalLines.KILLBOXPURPLE_CIRCULAR;
+            case 270100:
+                return TacticalLines.BELT;
+            case 270200:
+                return TacticalLines.ZONE;
+            case 270300:
+                return TacticalLines.OBSFAREA;
+            case 270400:
+                return TacticalLines.OBSAREA;
+            case 270501:
+                return TacticalLines.MNFLDBLK;
+            case 270502:
+                return TacticalLines.MNFLDDIS;
+            case 270503:
+                return TacticalLines.MNFLDFIX;
+            case 270504:
+                return TacticalLines.TURN;
+            case 270601:
+                return TacticalLines.EASY;
+            case 270602:
+                return TacticalLines.BYDIF;
+            case 270603:
+                return TacticalLines.BYIMP;
+            case 271100:
+                return TacticalLines.GAP;
+            case 271201:
+                return TacticalLines.PLANNED;
+            case 271202:
+                return TacticalLines.ESR1;
+            case 271203:
+                return TacticalLines.ESR2;
+            case 271204:
+                return TacticalLines.ROADBLK;
+            case 280100:
+                return TacticalLines.ABATIS;
+            case 290100:
+                return TacticalLines.LINE;
+            case 290201:
+                return TacticalLines.ATDITCH;
+            case 290202:
+                return TacticalLines.ATDITCHC;
+            case 290203:
+                return TacticalLines.ATDITCHM;
+            case 290204:
+                return TacticalLines.ATWALL;
+            case 290301:
+                return TacticalLines.UNSP;
+            case 290302:
+                return TacticalLines.SFENCE;
+            case 290303:
+                return TacticalLines.DFENCE;
+            case 290304:
+                return TacticalLines.DOUBLEA;
+            case 290305:
+                return TacticalLines.LWFENCE;
+            case 290306:
+                return TacticalLines.HWFENCE;
+            case 290307:
+                return TacticalLines.SINGLEC;
+            case 290308:
+                return TacticalLines.DOUBLEC;
+            case 290309:
+                return TacticalLines.TRIPLE;
+            case 290600:
+                return TacticalLines.MFLANE;
+            case 270706:
+                return TacticalLines.DUMMY;
+            case 270707:
+                return TacticalLines.DEPICT;
+            case 270800:
+                return TacticalLines.MINED;
+            case 270900:
+                return TacticalLines.DMA;
+            case 270901:
+                return TacticalLines.DMAF;
+            case 271000:
+                return TacticalLines.UXO;
+            case 290400:
+                return TacticalLines.CLUSTER;
+            case 290500:
+                return TacticalLines.TRIP;
+            case 282003:
+                return TacticalLines.OVERHEAD_WIRE;
+            case 271300:
+                return TacticalLines.ASLTXING;
+            case 271400:
+                return TacticalLines.BRIDGE;
+            case 271500:
+                return TacticalLines.FORDSITE;
+            case 271600:
+                return TacticalLines.FORDIF;
+            case 290700:
+                return TacticalLines.FERRY;
+            case 290800:
+                return TacticalLines.RAFT;
+            case 290900:
+                return TacticalLines.FORTL;
+            case 291000:
+                return TacticalLines.FOXHOLE;
+            case 272100:
+                return TacticalLines.MSDZ;
+            case 272200:
+                return TacticalLines.DRCL;
+
+            case 310100:
+                return TacticalLines.DHA;
+            case 310200:
+                return TacticalLines.EPW;
+            case 310300:
+                return TacticalLines.FARP;
+            case 310400:
+                return TacticalLines.RHA;
+            case 310500:
+                return TacticalLines.RSA;
+            case 310600:
+                return TacticalLines.BSA;
+            case 310700:
+                return TacticalLines.DSA;
+            case 330100:
+                return TacticalLines.CONVOY;
+            case 330200:
+                return TacticalLines.HCONVOY;
+            case 330300:
+                return TacticalLines.MSR;
+            case 330301:
+                return TacticalLines.ONEWAY;
+            case 330302:
+                return TacticalLines.TWOWAY;
+            case 330303:
+                return TacticalLines.ALT;
+
+            case 330400:
+                return TacticalLines.ASR;
+            case 330401:                    //asr one way   new label
+                return TacticalLines.ONEWAY;
+            case 330402:                    //asr two way   new label
+                return TacticalLines.TWOWAY;
+            case 330403:                    //asr alt       new label
+                return TacticalLines.ALT;
+
+            case 340100:
+                return TacticalLines.BLOCK;
+            case 340200:
+                return TacticalLines.BREACH;
+            case 340300:
+                return TacticalLines.BYPASS;
+            case 340400:
+                return TacticalLines.CANALIZE;
+            case 340500:
+                return TacticalLines.CLEAR;
+            case 340600:
+                return TacticalLines.CATK;
+            case 340700:
+                return TacticalLines.CATKBYFIRE;
+
+            case 340800:
+                return TacticalLines.DELAY;
+            case 341000:
+                return TacticalLines.DISRUPT;
+            case 341100:
+                return TacticalLines.FIX;
+            case 341200:
+                return TacticalLines.FOLLA;
+            case 341300:
+                return TacticalLines.FOLSP;
+            case 341500:
+                return TacticalLines.ISOLATE;
+            case 341700:
+                return TacticalLines.OCCUPY;
+            case 341800:
+                return TacticalLines.PENETRATE;
+            case 341900:
+                return TacticalLines.RIP;
+            case 342000:
+                return TacticalLines.RETIRE;
+            case 342100:
+                return TacticalLines.SECURE;
+            case 342201:
+                return TacticalLines.COVER;
+            case 342202:
+                return TacticalLines.GUARD;
+            case 342203:
+                return TacticalLines.SCREEN;
+            case 342300:
+                return TacticalLines.SEIZE;
+            case 342400:
+                return TacticalLines.WITHDRAW;
+            case 342500:
+                return TacticalLines.WDRAWUP;
+            case 300100:    //ICL               new label
+                return TacticalLines.FSCL;
+            default:
+                break;
+        }
+        return -1;
+    }
+    /**
+     * Rev D symbols
+     *
+     * @param tg
+     * @param setA
+     * @param setB
+     */
+    public static void setTGProperties(TGLight tg) {
+        try {
+            if (tg.get_SymbolId().length() < 20) {
+                return;
+            }
+            String setA = tg.get_SymbolId().substring(0, 10);
+            String setB = tg.get_SymbolId().substring(10);
+            //String symbolSet = getSymbolSet(setA);
+            String symbolSet=setA.substring(4,6);
+            int nSymbolSet = Integer.parseInt(symbolSet);
+            if (nSymbolSet != 25) {
+                return;
+            }
+            //String code = Modifier2.getCode(setB);
+            String code = setB.substring(0,6);
+            int nCode = Integer.parseInt(code);
+            switch (nCode) {
+                case 140101:    //friendly present flot
+                    break;
+                case 140102:
+                    tg.set_LineStyle(1);
+                    break;
+                case 140103:
+                    break;
+                case 140104:
+                case 140607:
+                case 150102:
+                case 150104:
+                    tg.set_LineStyle(1);
+                    break;
+                case 140604:
+                case 140401:
+                case 220104:
+                case 240807:
+                case 151405:
+                case 150400:
+                    tg.set_LineStyle(1);
+                    break;
+                case 151802:
+                case 140606:
+                case 150501:
+                case 150502:
+                case 150503:
+                    break;
+                case 151407:
+                    tg.set_Name("");
+                    break;
+                case 151408:
+                    tg.set_Name("");
+                    tg.set_LineStyle(1);
+                    break;
+                case 200101:
+                    tg.set_FillColor(new Color(255, 155, 0, 191));
+                    break;
+                case 200201:
+                case 200202:
+                    tg.set_FillColor(new Color(85, 119, 136, 191));
+                    break;
+                case 270100:
+                    tg.set_T1("");
+                    break;
+                case 290301:
+                case 290305:
+                case 290306:
+                case 290307:
+                case 290308:
+                case 290309:
+                    clsRenderer.reversePointsRevD(tg);
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception exc) {
+            ErrorLogger.LogException(_className, "setTGProperties",
+                    new RendererException("Failed inside setTGProperties", exc));
+        }
+    }
+    private static void reversePointsRevD(TGLight tg) {
+        try {
+            int j = 0;
+            ArrayList pts = null;
+            if (tg.get_SymbolId().length() < 20) {
+                return;
+            }
+            String setB = tg.get_SymbolId().substring(10);
+            String entityCode = setB.substring(0, 6);
+            int nCode = Integer.parseInt(entityCode);
+            switch (nCode) {
+                case 290301:
+                case 290305:
+                case 290306:
+                case 290307:
+                case 290308:
+                case 290309:
+                    if (tg.Pixels != null) {
+                        pts = (ArrayList<POINT2>) tg.Pixels.clone();
+                        for (j = 0; j < tg.Pixels.size(); j++) {
+                            tg.Pixels.set(j, (POINT2) pts.get(pts.size() - j - 1));
+                        }
+                    }
+                    if (tg.LatLongs != null) {
+                        pts = (ArrayList<POINT2>) tg.LatLongs.clone();
+                        for (j = 0; j < tg.LatLongs.size(); j++) {
+                            tg.LatLongs.set(j, (POINT2) pts.get(pts.size() - j - 1));
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        } catch (Exception exc) {
+            ErrorLogger.LogException("clsRenderer", "renderWithPolylines",
+                    new RendererException("Failed inside renderWithPolylines", exc));
+        }
+    }
+    /**
+     * sets tactical graphic line type for rev D and below
+     *
+     * @param tg
+     */
+    public static int getRevDLinetype(TGLight tg) {
+        int linetype = -1;
+        try {
+            String symbolId = tg.get_SymbolId();
+            if (symbolId.length() > 15) //rev D
+            {
+                //String setA = Modifier2.getSetA(symbolId);
+                String setA=symbolId.substring(0,10);
+                //String setB = Modifier2.getSetB(symbolId);
+                String setB=symbolId.substring(10);
+                //String code = Modifier2.getCode(setB);
+                String code=setB.substring(0,6);
+                //String symbolSet = Modifier2.getSymbolSet(setA);
+                String symbolSet=setA.substring(4,6);
+                int nSymbol = Integer.parseInt(symbolSet);
+                if (nSymbol == 25) {
+                    linetype = getCMLineType(symbolSet, code);
+                    //setTGProperties(tg);
+                } else if (nSymbol == 45 || nSymbol == 46) {
+                    linetype = clsMETOC.getWeatherLinetype(symbolSet, code);
+                }
+
+            } else //not rev D            
+            {
+                linetype = armyc2.c2sd.JavaTacticalRenderer.clsUtility.GetLinetypeFromString(symbolId);
+            }
+
+            tg.set_LineType(linetype);
+        } catch (Exception exc) {
+            ErrorLogger.LogException("clsRenderer", "setRevDLinetype",
+                    new RendererException("Failed in setRevDLinetype ", exc));
+        }
+        return linetype;
+    }
+
 }

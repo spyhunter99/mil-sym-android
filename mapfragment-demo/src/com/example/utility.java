@@ -1449,6 +1449,13 @@ public final class utility {
                 (int) displayHeight, upperLatitude, leftLongitude,
                 lowerLatitude, rightLongitude);
         String symbolCode = clsSymbolCodeUtility.GetSymbolCode(linetype, rev);
+        if (defaultText.substring(0, 2).equalsIgnoreCase("10")) 
+        {
+            if (defaultText.length() == 16) {
+                defaultText += "0000";
+            }
+            symbolCode=defaultText;
+        }
         ArrayList<POINT2> pts2 = PixelsToLatLong(pts, converter);
         if (defaultText.length() == 15) {
             symbolCode = defaultText;

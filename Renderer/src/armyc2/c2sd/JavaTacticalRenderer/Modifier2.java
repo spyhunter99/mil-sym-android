@@ -46,6 +46,7 @@ public class Modifier2 {
     public static final int aboveMiddle = 2;    //use both points
     public static final int area = 3;   //use one point
     public static final int screen = 4;   //use one point, screen, cover, guard points
+    public static final int aboveEnd = 5;   //rev D mod to replace toEnd
     public static double fillAlphaCanObscureText = 50d;
 
     private static boolean DoublesBack(POINT2 pt0, POINT2 pt1, POINT2 pt2) {
@@ -4288,4 +4289,801 @@ public class Modifier2 {
         }
         return siOutline;
     }
+    /**
+     * Channels don't return points in tg.Pixels. For Channels modifiers we only need to collect the points,
+     * don't need internal arrays, and can calculate on which segments the modifiers lie.
+     * @param shape
+     * @return 
+     */
+    private static ArrayList<POINT2> getShapePoints(Shape shape)
+    {
+        try
+        {
+            ArrayList<Point2D>ptsPoly=new ArrayList();
+            Point2D ptPoly=null;
+            float[] coords = new float[6];
+            for (PathIterator i = shape.getPathIterator(null); !i.isDone(); i.next())
+            {
+                int type = i.currentSegment(coords);
+                switch (type) {
+                    case PathIterator.SEG_MOVETO:
+                        ptPoly=new Point2D.Double(coords[0],coords[1]);
+                        ptsPoly.add(ptPoly);                        
+                        break;
+                    case PathIterator.SEG_LINETO:
+                        ptPoly=new Point2D.Double(coords[0], coords[1]);
+                        ptsPoly.add(ptPoly);
+                        break;
+                    case PathIterator.SEG_QUADTO: //quadTo was never used
+                        break;
+                    case PathIterator.SEG_CUBICTO:  //curveTo was used for HOLD, BRDGHD and some METOC's
+                        break;
+                    case PathIterator.SEG_CLOSE:    //closePath was never used
+                        break;
+                }
+            }
+            if(ptsPoly.size()>0)
+            {
+                ArrayList<POINT2>pts=null;
+                pts=new ArrayList();
+                for(int j=0;j<ptsPoly.size();j++)
+                {
+                    Point2D pt2d=ptsPoly.get(j);
+                    POINT2 pt=new POINT2(pt2d.getX(),pt2d.getY());
+                    pts.add(pt);
+                }
+                return pts;
+            }
+        }
+        catch (Exception exc) {
+            ErrorLogger.LogException(_className, "getshapePoints",
+                    new RendererException("Failed inside getShapePoints", exc));
+        }        
+        return null;
+    }
+    /**
+     * labels for Rev D symbols
+     * @param code  Rev D entity code
+     * @return 
+     */
+    private static String getRevDLabel(int code) {
+        switch (code) {
+            
+            case 200401:
+            case 200402:
+                return "AOI";
+            case 200300:
+                return "N";
+            case 200101:
+                return "LA";
+            case 200201:
+            case 200202:
+                return "DA";
+            case 170800:
+                return "BDZ";
+            case 150501:
+                return "JTAA";
+            case 150502:
+                return "SAA";
+            case 150503:
+                return "SGSA";
+            case 140700:
+                return "FCL";
+            case 151500:
+                return "ASLT";
+            case 170400:
+                return "SL";
+            case 170600:
+                return "TC";
+            case 171100:
+                return "AARROZ";
+            case 171200:
+                return "UAROZ";
+            case 171300:
+                return "WEZ";
+            case 171400:
+                return "FEZ";
+            case 171500:
+                return "JEZ";
+            case 171900:
+                return "SHORADEZ";
+            case 190100:
+                return "IFF OFF";
+            case 190200:
+                return "IFF ON";
+            case 220102:
+                return "EW";
+            case 220107:
+                return "J";
+            case 220108:
+                return "RDF";
+            case 260300:    //nfl handle like fscl
+                return "NFL";
+            case 260400:
+                return "BCL";
+            case 300100:
+                return "ICL";
+            case 140400:
+            case 140401:
+                return "FEBA";
+            case 140900:
+                return "LOA";
+            default:
+                return "";
+        }
+    }
+    /**
+     * Handles rev D codes
+     * @param tg 
+     */
+    public static void AddModifiers2RevD(TGLight tg,ArrayList<Shape2>shapes)
+    {
+        if (tg.get_SymbolId().length() < 20) {            
+                Modifier2.AddModifiers2(tg);
+                return;
+        }
+        try
+        {
+            String symbolId=tg.get_SymbolId();
+            //String setA = getSetA(tg.get_SymbolId());
+            String setA = symbolId.substring(0,10);
+            //String setB = getSetB(tg.get_SymbolId());
+            String setB = symbolId.substring(10);
+            //String code = getCode(setB);
+            String code = setB.substring(0,6);
+            int nCode=Integer.parseInt(code);
+            //String symbolSet = getSymbolSet(setA);
+            String symbolSet = setA.substring(4,6);
+            int nSymbol = Integer.parseInt(symbolSet);
+            //default values for modifiers AP and V
+            String country = "US";  //country AS modifier
+            String v = "MORTAR";    //type            
+            String ap="QC 1968";    //target designator    AP modifier
+            POINT2 pt0=null, pt1=null;
+            double csFactor=1d;
+            int n=tg.Pixels.size();
+            POINT2 ptLeft=null,ptRight=null,ptCenter=null;
+            String label = getRevDLabel(nCode);
+            String dash=" - ";
+//            POINT2 ptUl=null,ptUr=null,ptLl=null,ptLr=null;
+            switch(nCode)
+            {
+                case 200202:
+                    ptLeft = lineutility.MidPointDouble(tg.Pixels.get(0), tg.Pixels.get(1), 0);
+                    ptRight = lineutility.MidPointDouble(tg.Pixels.get(2), tg.Pixels.get(3), 0);
+                    AddIntegralAreaModifier(tg, label + " - " + tg.get_Name(), aboveMiddle, csFactor/2, ptLeft, ptRight, false);
+                    break;
+                case 290600:
+                    //pt0=tg.Pixels.get(7);
+                    //pt1=tg.Pixels.get(5);
+                    pt0=tg.Pixels.get(4);
+                    pt1=tg.Pixels.get(2);
+                    if(tg.Pixels.get(0).y<tg.Pixels.get(1).y)
+                        AddIntegralAreaModifier(tg, tg.get_DTG() + " - " + tg.get_DTG1(), aboveMiddle, csFactor/2, pt0, pt1, false);
+                    else
+                        AddIntegralAreaModifier(tg, tg.get_DTG() + " - " + tg.get_DTG1(), aboveMiddle, -csFactor/2, pt0, pt1, false);
+                    break;
+                case 200402:
+                    if(tg.Pixels.get(0).x>tg.Pixels.get(3).x)
+                        AddIntegralAreaModifier(tg, label, aboveMiddle, csFactor, tg.Pixels.get(0), tg.Pixels.get(3), false);
+                    else
+                        AddIntegralAreaModifier(tg, label, aboveMiddle, csFactor, tg.Pixels.get(1), tg.Pixels.get(2), false);
+                    break;
+                case 141500:
+                case 141400:
+                case 200300:
+                case 240804:
+                    break;
+                case 151407:    //eny spt confirmed
+                case 151408:    //eny spt anticipated
+                    Shape2 shape=shapes.get(shapes.size()-1);                    
+                    ArrayList<POINT2>pts=getShapePoints(shape.getShape());
+                    if(n==3)
+                    {
+                        pt0=pts.get(0);
+                        pt1=pts.get(1);
+                        pt1=lineutility.MidPointDouble(pt0, pt1, 0);
+                    }
+                    else
+                    {
+                        pt0=pts.get(n-4);
+                        pt1=pts.get(n-3);                        
+                    }
+                    AddIntegralAreaModifier(tg, tg.get_N(), aboveMiddle, 0, pt0, pt1, false);
+                    if(n==3)
+                    {
+                        pt0=pts.get(pts.size()-9);
+                        pt1=pts.get(pts.size()-8);
+                        pt1=lineutility.MidPointDouble(pt0, pt1, 0);
+                    }
+                    else
+                    {
+                        pt0=pts.get(pts.size()-10);
+                        pt1=pts.get(pts.size()-9);                        
+                    }
+                    AddIntegralAreaModifier(tg, tg.get_N(), aboveMiddle, 0, pt0, pt1, false);                    
+                    break;
+                default:
+                    int saveStd=tg.getSymbologyStandard();
+                    tg.setSymbologyStandard(RendererSettings.Symbology_2525C);
+                    AddModifiers2(tg);
+                    tg.setSymbologyStandard(saveStd);
+                    break;
+            }
+            
+        }
+    catch (Exception exc) {
+            //clsUtility.WriteFile("Error in Modifier2.AddModifiers");
+            ErrorLogger.LogException(_className, "AddModifiers2RevD",
+                    new RendererException("Failed inside AddModifiers2RevD", exc));
+        }
+    }
+    /**
+     * The new public interface to handle Mil-Std-2525 Rev D, replaces or calls
+     * AddModifiersGeo
+     *
+     * @param tg
+     * @param g2d
+     * @param clipBounds
+     * @param converter
+     */
+    public static void AddModifiersGeo2(TGLight tg,
+            Graphics2D g2d,
+            Object clipBounds,
+            IPointConversion converter) {
+        if (tg.get_SymbolId().length() < 20) {
+                Modifier2.AddModifiersGeo(tg, g2d, clipBounds, converter);
+                return;
+        }
+        try {
+            String symbolId=tg.get_SymbolId();
+            //String setA = getSetA(tg.get_SymbolId());
+            String setA=symbolId.substring(0,10);
+            //String setB = getSetB(tg.get_SymbolId());
+            String setB = symbolId.substring(10);
+            //String code = getCode(setB);
+            String code=setB.substring(0,6);
+            int nCode=Integer.parseInt(code);
+            //String symbolSet = getSymbolSet(setA);
+            String symbolSet=setA.substring(4,6);
+            int nSymbol = Integer.parseInt(symbolSet);
+            //default values for modifiers AP and V
+            String country = "US";  //country AS modifier
+            String v = "MORTAR";    //type            
+            String ap="QC 1968";    //target designator    AP modifier
+            //assume we are using tg.get_Location() for the Y modifier
+            //uncomment 3 lines after the methods become available           
+            //country=tg.get_AS();
+            //v=tg.get_V();
+            //ap=tg.get_AP();
+            String t = tg.get_Name();
+            String label = GetCenterLabel(tg);
+            double csFactor = 1d;
+            if (nSymbol == 45 || nSymbol == 46) {
+                Modifier2.AddModifiersGeo(tg, g2d, clipBounds, converter);
+                return;
+            }
+            if (nSymbol != 25) {
+                Modifier2.AddModifiersGeo(tg, g2d, clipBounds, converter);
+                return;
+            }
+            //at this point the symbol is a control measure
+            double factor = 1;//10d/tg.get_Font().getSize();
+            //int linetype = tg.get_LineType();
+            //boolean visibleModifiers=tg.get_VisibleLabels();
+            int j = 0, k = 0;
+            double x = 0, y = 0;
+
+            if (tg.get_Font() != null && tg.get_Font().getSize() > 0) {
+                factor = 10d / tg.get_Font().getSize();
+            } else {
+                return;
+            }
+            FontMetrics metrics = g2d.getFontMetrics();
+            int stringWidth = 0, stringWidth2 = 0;
+            String dash = "";
+            if (tg.get_DTG() != null && tg.get_DTG1() != null && tg.get_DTG().isEmpty() == false && tg.get_DTG1().isEmpty() == false) {
+                dash = " - ";
+            }
+            int lastIndex = tg.Pixels.size() - 1;
+            int nextToLastIndex = tg.Pixels.size() - 2;
+            POINT2 pt0 = new POINT2(tg.Pixels.get(0));
+            POINT2 pt1 = null;
+            POINT2 pt2 = null, pt3 = null;
+            POINT2 ptLast = new POINT2(tg.Pixels.get(lastIndex));
+            POINT2 ptNextToLast = null, midPt = null;
+
+            if (lastIndex > 0) {
+                ptNextToLast = new POINT2(tg.Pixels.get(lastIndex - 1));
+            }
+
+            if (tg.Pixels.size() > 1) {
+                pt1 = new POINT2(tg.Pixels.get(1));
+            }
+            if (tg.Pixels.size() > 2) {
+                pt2 = new POINT2(tg.Pixels.get(2));
+            }
+            if (tg.Pixels.size() > 3) {
+                pt3 = new POINT2(tg.Pixels.get(3));
+            }
+            //String label = GetCenterLabel(tg);
+            Object[] pts = tg.Pixels.toArray();
+            POINT2 ptCenter = null;
+            if (converter != null) //cpof uses latlonconverter so cpof passes null for this               
+            {
+                ptCenter = mdlGeodesic.geodesic_center(tg.LatLongs);
+                if (ptCenter != null) {
+                    Point2D pt22 = converter.GeoToPixels(new Point2D.Double(ptCenter.x, ptCenter.y));
+                    ptCenter.x = pt22.getX();
+                    ptCenter.y = pt22.getY();
+                } else {
+                    ptCenter = lineutility.CalcCenterPointDouble2(pts, pts.length);
+                }
+            } else {
+                ptCenter = lineutility.CalcCenterPointDouble2(pts, pts.length);
+            }
+            POINT2 lr = new POINT2(tg.Pixels.get(0));
+            POINT2 ll = new POINT2(tg.Pixels.get(0));
+            POINT2 ul = new POINT2(tg.Pixels.get(0));
+            POINT2 ur = new POINT2(tg.Pixels.get(0));
+            Rectangle2D clipRect = null;
+            ArrayList<Point2D> clipArray = null;
+            if (clipBounds != null && ArrayList.class.isAssignableFrom(clipBounds.getClass())) {
+                clipArray = (ArrayList<Point2D>) clipBounds;
+            }
+            if (clipBounds != null && Rectangle2D.Double.class.isAssignableFrom(clipBounds.getClass())) {
+                clipRect = (Rectangle2D.Double) clipBounds;
+            }
+            int middleSegment = (tg.Pixels.size() + 1) / 2 - 1;
+
+            if (clipRect != null) {
+                middleSegment = getVisibleMiddleSegment(tg, clipRect);
+            } else if (clipArray != null) {
+                middleSegment = getVisibleMiddleSegment(tg, clipArray);
+            }
+            double dist = 0, dist2 = 0;
+            Font font = null;
+            font = tg.get_Font();    //might have to change this
+            if (font == null) {
+                font = g2d.getFont();
+            }
+            g2d.setFont(font);
+            POINT2 ptUl=null,ptUr=null,ptLl=null,ptLr=null;
+            //switch adds the new modifiers or calls the old function if the modifiers did not change        
+            switch (nCode) {
+                case 200401:
+                    ptUr=new POINT2();
+                    ptUl=new POINT2();
+                    ptLl=new POINT2();
+                    ptLr=new POINT2();
+                    Modifier2.GetMBR(tg, ptUl, ptUr, ptLr, ptLl);
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label, aboveMiddle, csFactor, ptLl, ptLr, false);
+                    break;
+                case 110101:    //lateral boundary
+                    t += " " + "(" + country + ")";
+                    tg.set_Name(t);
+                    tg.set_T1(t);
+                    Modifier2.AddModifiersGeo(tg, g2d, clipBounds, converter);
+                    break;
+                case 110200:    //LL
+                case 141000:    //LD
+                case 141100:    //LDLC
+                case 141200:    //PLD
+                case 141400:    //BL
+                case 141500:    //HOLD
+                case 141600:    //release
+                    AddIntegralAreaModifier(tg, label, aboveEnd, -csFactor, pt0, pt1, false);
+                    AddIntegralAreaModifier(tg, label, aboveEnd, -csFactor, ptLast, ptNextToLast, false);
+                    break;
+                case 120400:
+                    ptUr=new POINT2();
+                    ptUl=new POINT2();
+                    ptLl=new POINT2();
+                    ptLr=new POINT2();
+                    Modifier2.GetMBR(tg, ptUl, ptUr, ptLr, ptLl);
+                    stringWidth = metrics.stringWidth(tg.get_H());
+                    pt0.x=ptUr.x+stringWidth/2+1;
+                    //pt0.x=ptUr.x+1;
+                    //pt0.y=(ptUr.y+ptLr.y)/2-metrics.getFont().getSize()
+                    pt0.y=(ptUr.y+ptLr.y)/2-font.getSize();
+                    AddIntegralAreaModifier(tg, tg.get_H(), area, csFactor, pt0, pt0, false);
+                    break;
+                case 200101:
+                case 200201:
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label + " - " + tg.get_Name(), area, 0, ptCenter, ptCenter, false);
+                    break;
+                case 140700:
+                case 140900:
+                case 190100:
+                case 190200:
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label, aboveEnd, -csFactor, pt0, pt1, false);
+                    AddIntegralAreaModifier(tg, label, aboveEnd, -csFactor, ptLast, ptNextToLast, false);
+                    break;
+                case 140103:
+                case 140104:
+                    //AddIntegralAreaModifier(tg, label, toEnd, 0, pt0, pt1, false);
+                    AddIntegralAreaModifier(tg, tg.get_N(), toEnd, -1 * csFactor, pt0, pt1, false);
+                    //AddIntegralAreaModifier(tg, label, toEnd, 0, ptLast, ptNextToLast, false);
+                    AddIntegralAreaModifier(tg, tg.get_N(), toEnd, -1 * csFactor, ptLast, ptNextToLast, false);
+                    break;
+                case 200402:
+//                    label = getRevDLabel(nCode);                    
+//                    AddIntegralAreaModifier(tg, label, aboveMiddle, 0, pt0, pt1, false);
+//                    break;
+                case 140101:    //flot has no labels
+                case 140102:
+                case 150101:
+                case 150102:
+                case 151801:
+                case 151900:
+                case 152000:
+                case 152100:
+                case 152200:
+                case 141700:
+                    break;
+                case 140400:    //feba has labels at end    
+                case 140401:
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label, toEnd, 0, pt0, pt1, false);
+                    AddIntegralAreaModifier(tg, label, toEnd, 0, ptLast, ptNextToLast, false);
+                    break;
+                case 150103:
+                case 150104:
+                case 151802:
+                    areasWithENY(tg, g2d);
+                    break;               
+                case 150501:
+                case 150502:
+                case 150503:
+                    areasWithENY(tg, g2d);
+                    //AddIntegralAreaModifier(tg, tg.get_Name(), area, 0, ptCenter, ptCenter, false);
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label + " " + tg.get_Name(), area, 0, ptCenter, ptCenter, false);
+                    AddIntegralAreaModifier(tg, tg.get_DTG() + dash + tg.get_DTG1(), aboveMiddle, csFactor, ptCenter, ptCenter, false);
+                    break;
+                case 151000:    //fort now has T modifier
+                    AddIntegralAreaModifier(tg, tg.get_Name(), area, 0, ptCenter, ptCenter, false);
+                    break;
+                case 151401:    //airaoa
+                case 151402:    //rotary
+                    if (tg.Pixels.size() == 3) //one segment           
+                    {
+                        midPt = lineutility.MidPointDouble(pt0, pt1, 0);
+                        AddIntegralAreaModifier(tg, tg.get_DTG(), aboveMiddle, 0, midPt, midPt, false);
+                        AddIntegralAreaModifier(tg, tg.get_DTG1(), aboveMiddle, csFactor, midPt, midPt, false);
+                        AddIntegralAreaModifier(tg, tg.get_Name(), aboveMiddle, 2 * csFactor, midPt, midPt, false);
+
+                    } else if (tg.Pixels.size() == 4) //2 segments
+                    {
+                        midPt = lineutility.MidPointDouble(pt1, pt2, 0);
+                        AddIntegralAreaModifier(tg, tg.get_DTG(), aboveMiddle, 0, midPt, midPt, false);
+                        AddIntegralAreaModifier(tg, tg.get_DTG1(), aboveMiddle, csFactor, midPt, midPt, false);
+                        AddIntegralAreaModifier(tg, tg.get_Name(), aboveMiddle, 2 * csFactor, midPt, midPt, false);
+                    } else // 3 or more segments
+                    {
+                        midPt = lineutility.MidPointDouble(pt1, pt2, 0);
+                        AddIntegralAreaModifier(tg, tg.get_DTG(), aboveMiddle, -csFactor / 2, midPt, midPt, false);
+                        AddIntegralAreaModifier(tg, tg.get_DTG1(), aboveMiddle, csFactor / 2, midPt, midPt, false);
+                        midPt = lineutility.MidPointDouble(pt2, pt3, 0);
+                        AddIntegralAreaModifier(tg, tg.get_Name(), aboveMiddle, -csFactor / 2, midPt, midPt, false);
+                    }
+                    break;
+                case 151403:    //main
+                case 151404:    //spt
+                case 151405:
+                case 151406:
+                case 151407:
+                case 151408:
+                    if (tg.Pixels.size() == 3) //one segment           
+                    {
+                        midPt = lineutility.MidPointDouble(pt0, pt1, 0);
+                        AddIntegralAreaModifier(tg, tg.get_DTG(), aboveMiddle, 0, midPt, midPt, false);
+                        AddIntegralAreaModifier(tg, tg.get_DTG1(), aboveMiddle, csFactor, midPt, midPt, false);
+                        AddIntegralAreaModifier(tg, tg.get_Name(), aboveMiddle, 2 * csFactor, midPt, midPt, false);
+
+                    } else //2 or more segments
+                    {
+                        midPt = lineutility.MidPointDouble(pt0, pt1, 0);
+                        AddIntegralAreaModifier(tg, tg.get_DTG(), aboveMiddle, -csFactor / 2, midPt, midPt, false);
+                        AddIntegralAreaModifier(tg, tg.get_DTG1(), aboveMiddle, csFactor / 2, midPt, midPt, false);
+                        midPt = lineutility.MidPointDouble(pt1, pt2, 0);
+                        AddIntegralAreaModifier(tg, tg.get_Name(), aboveMiddle, -csFactor / 2, midPt, midPt, false);
+                    }
+                    break;
+                case 140601:    //diratkair
+                case 140602:
+                case 140603:
+                case 140604:
+                case 140605:
+                    midPt = lineutility.MidPointDouble(pt0, pt1, 0);
+                    //midPt=lineutility.MidPointDouble(pt0, midPt, 0);
+                    AddIntegralAreaModifier(tg, tg.get_Name(), aboveMiddle, 0, pt0, midPt, false);
+                    AddIntegralAreaModifier(tg, tg.get_DTG() + dash + tg.get_DTG1(), aboveMiddle, csFactor, pt0, pt1, false);
+                    break;
+                case 140606:
+                case 140607:
+                    midPt = lineutility.MidPointDouble(pt0, pt1, 0);
+                    AddIntegralAreaModifier(tg, tg.get_N(), aboveMiddle, 0, pt1, midPt, false);
+                    break;
+                case 170800:    //bdz
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label, aboveMiddle, 0, ptCenter, ptCenter, false);
+                    break;
+                case 151500:    //assault pos
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label + " " + tg.get_Name(), aboveMiddle, 0, ptCenter, ptCenter, false);
+                    break;
+                case 151600:    //atk pos
+                case 151700:    //obj
+                    AddIntegralAreaModifier(tg, label + " " + tg.get_Name(), aboveMiddle, 0, ptCenter, ptCenter, false);
+                    break;
+                case 141300:
+                    GetMBR(tg, ul, ur, lr, ll);
+                    AddIntegralAreaModifier(tg, label, aboveMiddle, 1.35 * factor * csFactor, ll, lr, false);
+                    break;
+                case 170100:
+                case 170200:
+                case 170300:
+                case 170500:
+                case 170700:
+                    AddIntegralModifier(tg, label + " " + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "Max Alt: " + tg.get_H1(), aboveMiddle, -4 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "Min Alt: " + tg.get_H(), aboveMiddle, -5 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "Width: " + tg.get_H2(), aboveMiddle, -6 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "Name: " + tg.get_Name(), aboveMiddle, -7 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "DTG Start: " + tg.get_DTG(), aboveMiddle, -3 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "DTG End: " + tg.get_DTG1(), aboveMiddle, -2 * csFactor, middleSegment, middleSegment + 1, false);
+                    break;
+                case 170400:
+                case 170600:
+                    label = getRevDLabel(nCode);
+                    AddIntegralModifier(tg, label + " " + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "Max Alt: " + tg.get_H1(), aboveMiddle, -4 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "Min Alt: " + tg.get_H(), aboveMiddle, -5 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "Width: " + tg.get_H2(), aboveMiddle, -6 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "Name: " + tg.get_Name(), aboveMiddle, -7 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "DTG Start: " + tg.get_DTG(), aboveMiddle, -3 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, "DTG End: " + tg.get_DTG1(), aboveMiddle, -2 * csFactor, middleSegment, middleSegment + 1, false);
+                    break;
+                case 171100:
+                case 171200:
+                case 171300:
+                case 171400:
+                case 171500:
+                case 171900:
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label, area, -2.5, ptCenter, ptCenter, false, "");
+                    AddIntegralAreaModifier(tg, tg.get_Name(), area, -1.5, ptCenter, ptCenter, false, "T");
+                    AddIntegralAreaModifier(tg, "MIN ALT: " + tg.get_H(), area, -0.5, ptCenter, ptCenter, false, "H");
+                    AddIntegralAreaModifier(tg, "MAX ALT: " + tg.get_H1(), area, 0.5, ptCenter, ptCenter, false, "H1");
+                    AddIntegralAreaModifier(tg, "TIME FROM: " + tg.get_DTG(), area, 1.5, ptCenter, ptCenter, false, "W");
+                    AddIntegralAreaModifier(tg, "TIME TO: " + tg.get_DTG1(), area, 2.5, ptCenter, ptCenter, false, "W1");
+                    break;
+                case 200300:
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label, aboveMiddle, -1, pt0, pt0, false); //ENY or N?
+                    AddIntegralAreaModifier(tg, tg.get_DTG() + dash + tg.get_DTG1(), aboveMiddle, csFactor, pt0, pt0, false);
+                    break;
+                case 200102:
+                case 220107:
+                case 220108:
+                    label = getRevDLabel(nCode);
+                    AddIntegralAreaModifier(tg, label, aboveMiddle, 0, pt0, pt1, false); //ENY or N?
+                    break;
+                case 240101:
+                    AddIntegralAreaModifier(tg, label, area, -3 * csFactor, ptCenter, ptCenter, false);
+                    AddIntegralAreaModifier(tg, tg.get_Name(), area, -2 * csFactor, ptCenter, ptCenter, false);
+                    AddIntegralAreaModifier(tg, "MIN ALT: " + tg.get_H(), area, -1 * csFactor, ptCenter, ptCenter, false, "H");
+                    AddIntegralAreaModifier(tg, "MAX ALT: " + tg.get_H1(), area, 0, ptCenter, ptCenter, false, "H1");
+                    AddIntegralAreaModifier(tg, tg.get_Location(), area, 1 * csFactor, ptCenter, ptCenter, false, "H2");
+                    AddIntegralAreaModifier(tg, tg.get_DTG(), area, 2 * csFactor, ptCenter, ptCenter, false, "W");
+                    AddIntegralAreaModifier(tg, tg.get_DTG1(), area, 3 * csFactor, ptCenter, ptCenter, false, "W1");
+                    break;
+                case 300100:    //icl
+                    label = getRevDLabel(nCode);
+                    pt0 = tg.Pixels.get(0);
+                    pt1 = tg.Pixels.get(1);
+                    pt2 = tg.Pixels.get(tg.Pixels.size() - 1);
+                    pt3 = tg.Pixels.get(tg.Pixels.size() - 2);
+                    dist = lineutility.CalcDistanceDouble(pt0, pt1);
+                    dist2 = lineutility.CalcDistanceDouble(pt2, pt3);
+                    stringWidth = (int) ((double) metrics.stringWidth(tg.get_Name() + " " + label));
+                    stringWidth2 = (int) ((double) metrics.stringWidth(tg.get_DTG()));
+                    if (stringWidth2 > stringWidth) {
+                        stringWidth = stringWidth2;
+                    }
+
+                    if (tg.Pixels.size() == 2) //one segment
+                    {
+                        pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, stringWidth);
+                        //AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                        AddModifier2(tg, label+" "+tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                        AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
+                        AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
+                        if (dist > 3.5 * stringWidth)//was 28stringwidth+5
+                        {
+                            pt0 = tg.Pixels.get(tg.Pixels.size() - 1);
+                            pt1 = tg.Pixels.get(tg.Pixels.size() - 2);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, stringWidth);
+                            //AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, label+" "+tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
+                        }
+                    } else //more than one semgent
+                    {
+                        double dist3 = lineutility.CalcDistanceDouble(pt0, pt2);
+                        if (dist > stringWidth + 5 || dist >= dist2 || dist3 > stringWidth + 5) {
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, stringWidth);
+                            //AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, label+" "+tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
+                        }
+                        if (dist2 > stringWidth + 5 || dist2 > dist || dist3 > stringWidth + 5) {
+                            pt0 = tg.Pixels.get(tg.Pixels.size() - 1);
+                            pt1 = tg.Pixels.get(tg.Pixels.size() - 2);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, stringWidth);
+                            //AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, label+" "+tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
+                        }
+                    }
+                    break;
+                case 260300:    //nfl handle like fscl
+                case 260400:
+                    label = getRevDLabel(nCode);
+                    pt0 = tg.Pixels.get(0);
+                    pt1 = tg.Pixels.get(1);
+                    pt2 = tg.Pixels.get(tg.Pixels.size() - 1);
+                    pt3 = tg.Pixels.get(tg.Pixels.size() - 2);
+                    dist = lineutility.CalcDistanceDouble(pt0, pt1);
+                    dist2 = lineutility.CalcDistanceDouble(pt2, pt3);
+                    stringWidth = (int) ((double) metrics.stringWidth(tg.get_Name() + " " + label));
+                    stringWidth2 = (int) ((double) metrics.stringWidth(tg.get_DTG()));
+                    if (stringWidth2 > stringWidth) {
+                        stringWidth = stringWidth2;
+                    }
+
+                    if (tg.Pixels.size() == 2) //one segment
+                    {
+                        pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, stringWidth);
+                        //AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                        AddModifier2(tg, label + " " + tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                        AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
+                        AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
+                        if (dist > 3.5 * stringWidth)//was 28stringwidth+5
+                        {
+                            pt0 = tg.Pixels.get(tg.Pixels.size() - 1);
+                            pt1 = tg.Pixels.get(tg.Pixels.size() - 2);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, stringWidth);
+                            //AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, label + " " + tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
+                        }
+                    } else //more than one semgent
+                    {
+                        double dist3 = lineutility.CalcDistanceDouble(pt0, pt2);
+                        if (dist > stringWidth + 5 || dist >= dist2 || dist3 > stringWidth + 5) {
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, stringWidth);
+                            //AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, label + " " + tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
+                        }
+                        if (dist2 > stringWidth + 5 || dist2 > dist || dist3 > stringWidth + 5) {
+                            pt0 = tg.Pixels.get(tg.Pixels.size() - 1);
+                            pt1 = tg.Pixels.get(tg.Pixels.size() - 2);
+                            pt1 = lineutility.ExtendAlongLineDouble(pt0, pt1, stringWidth);
+                            //AddModifier2(tg, tg.get_Name() + " " + label, aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, label + " " + tg.get_Name(), aboveMiddle, -0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG(), aboveMiddle, 0.7 * csFactor, pt0, pt1, false);
+                            AddModifier2(tg, tg.get_DTG1(), aboveMiddle, 1.7 * csFactor, pt0, pt1, false);
+                        }
+                    }
+                    break;
+                case 260600:    //mfp
+                    pt0 = tg.Pixels.get(middleSegment);
+                    pt1 = tg.Pixels.get(middleSegment + 1);
+                    AddIntegralModifier(tg, label, aboveMiddle, 0, middleSegment, middleSegment + 1, true);
+                    AddIntegralModifier(tg, tg.get_DTG(), aboveEnd, 1 * csFactor, 0, 1, false);
+                    AddIntegralModifier(tg, tg.get_DTG1(), aboveEnd, 2 * csFactor, 0, 1, false);
+                    break;
+                case 240701:    //lintgt
+                    AddIntegralModifier(tg, ap, aboveMiddle, -0.8 * csFactor, middleSegment, middleSegment + 1, false);
+                    break;
+                case 240702:    //smoke
+                    AddIntegralModifier(tg, ap, aboveMiddle, -0.8 * csFactor, middleSegment, middleSegment + 1, false);
+                    AddIntegralModifier(tg, label, aboveMiddle, 0.8 * csFactor, middleSegment, middleSegment + 1, false);
+                    break;
+                case 240703:
+                    AddIntegralModifier(tg, ap, aboveMiddle, -1 * csFactor, 0, 1, false);
+                    AddIntegralModifier(tg, label, aboveMiddle, 1 * csFactor, 0, 1, false);
+                    AddIntegralModifier(tg, tg.get_T1(), aboveMiddle, 2 * csFactor, 0, 1, false);
+                    AddIntegralModifier(tg, v, aboveMiddle, 3 * csFactor, 0, 1, false);
+                    break;
+                case 240801:
+                    AddIntegralAreaModifier(tg, ap, area, 0, ptCenter, ptCenter, false);
+                    break;
+                case 240802:
+                case 240803:
+                    AddIntegralAreaModifier(tg, ap, area, 0, pt0, pt0, false);
+                    break;
+                case 240804:
+                    AddIntegralAreaModifier(tg, tg.get_Name(), area, 0, ptCenter, ptCenter, false);
+                    break;
+                case 240806:    //smoke
+                case 240807:
+                    AddIntegralAreaModifier(tg, ap, area, -csFactor, ptCenter, ptCenter, false);
+                    AddIntegralAreaModifier(tg, label, area, 0, ptCenter, ptCenter, false);
+                    AddIntegralAreaModifier(tg, tg.get_DTG() + dash + tg.get_DTG1(), area, 1 * csFactor, ptCenter, ptCenter, false, "W+W1");
+                    break;
+                case 242301:    //kill boxes irregular
+                case 242304:
+                    AddIntegralAreaModifier(tg, label, area, 0, ptCenter, ptCenter, false);
+                    AddIntegralAreaModifier(tg, tg.get_Name(), area, 1 * csFactor, ptCenter, ptCenter, false);
+                    GetMBR(tg, ul, ur, lr, ll);
+                    POINT2 ptLeft = ul;
+                    POINT2 ptRight = ur;
+                    if (tg.get_Client().equalsIgnoreCase("ge")) {
+                        ptLeft.x -= font.getSize() / 2;
+                        ptRight.x -= font.getSize() / 2;
+                    }
+                    AddIntegralAreaModifier(tg, tg.get_DTG(), toEnd, 0.5 * csFactor, ptLeft, ptRight, false, "W");
+                    AddIntegralAreaModifier(tg, tg.get_DTG1(), toEnd, 1.5 * csFactor, ptLeft, ptRight, false, "W1");
+                    break;
+                case 242302:    //kill box rect, circ have W,W1 outside use AddModifiers2RevD
+                case 242303:
+                case 242305:
+                case 242306:
+                case 140500:    //pdf has no label
+                    break;
+                case 290100:    //zone
+                    AddIntegralModifier(tg, tg.get_Name(), aboveMiddle, csFactor, middleSegment, middleSegment + 1, false);
+                    break;
+                case 290600:    //lane new W-W1 use addModifiers2RevD
+                    break;
+                case 270800:    //mined
+                    GetMBR(tg, ul, ur, lr, ll);
+                    AddIntegralAreaModifier(tg, tg.get_H(), aboveMiddle, -1.5 * factor * csFactor, ul, ur, false);
+                    AddIntegralAreaModifier(tg, tg.get_DTG(), aboveMiddle, 1.5 * factor * csFactor, ll, lr, false);
+                    areasWithENY(tg, g2d);
+                    break;
+                case 271300:    //ASLTXING uses W-W1 like gap
+                    if (tg.Pixels.get(1).y > tg.Pixels.get(0).y) {
+                        pt0 = tg.Pixels.get(1);
+                        pt1 = tg.Pixels.get(3);
+                        pt2 = tg.Pixels.get(0);
+                        pt3 = tg.Pixels.get(2);
+                    } else {
+                        pt0 = tg.Pixels.get(0);
+                        pt1 = tg.Pixels.get(2);
+                        pt2 = tg.Pixels.get(1);
+                        pt3 = tg.Pixels.get(3);
+                    }
+                    pt2 = lineutility.ExtendAlongLineDouble2(pt0, pt2, -20);
+                    pt3 = lineutility.ExtendAlongLineDouble2(pt1, pt3, -20);
+                    AddIntegralAreaModifier(tg, tg.get_DTG() + dash + tg.get_DTG1(), aboveMiddle, 0, pt2, pt3, false);
+                    break;
+                case 330100:    //convoys
+                case 330200:
+                    String convoyBlankString = blankString(metrics, 35);
+                    AddIntegralModifier(tg, v + convoyBlankString + tg.get_H(), aboveMiddle, 0, 0, 1, false);
+                    AddIntegralModifier(tg, tg.get_DTG() + dash + tg.get_DTG1(), aboveMiddle, 1.2 * csFactor, 0, 1, false);
+                    break;
+                default:
+                    Modifier2.AddModifiersGeo(tg, g2d, clipBounds, converter);
+                    break;
+            }
+        } catch (Exception exc) {
+            ErrorLogger.LogException(_className, "AddModifiersGeo2",
+                    new RendererException("Failed inside AddModifiersGeo2", exc));
+        }
+    }
+
 }

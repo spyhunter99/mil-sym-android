@@ -535,4 +535,69 @@ public final class mdlGeodesic {
         }
         return pt;
     }
+    /**
+     * rotates a point from a center point in degrees
+     * @param ptCenter center point to rotate about
+     * @param ptRotate point to rotate
+     * @param rotation rotation angle in degrees
+     * @return 
+     */
+    private static POINT2 geoRotatePoint(POINT2 ptCenter, POINT2 ptRotate, double rotation)
+    {
+        try
+        {
+            double bearing=GetAzimuth(ptCenter, ptRotate);
+            double dist=geodesic_distance(ptCenter,ptRotate,null,null);
+            return geodesic_coordinate(ptCenter,dist,bearing+rotation);
+        }
+        catch (Exception exc) {
+            ErrorLogger.LogException(_className, "geoRotatePoint",
+                    new RendererException("Failed inside geoRotatePoint", exc));
+        }
+        return null;
+    }
+    /**
+     * Calculates points for a geodesic ellipse and rotates the points by rotation
+     * @param ptCenter
+     * @param majorRadius
+     * @param minorRadius
+     * @param rotation  rotation angle in degrees
+     * @return 
+     */
+    public static POINT2[] getGeoEllipse(POINT2 ptCenter, double majorRadius, double minorRadius, double rotation)
+    {        
+        POINT2[]pEllipsePoints=null;
+        try
+        {
+            pEllipsePoints=new POINT2[37];
+            //int l=0;
+            POINT2 pt=null;            
+            double dFactor, azimuth=0,a=0,b=0,dist=0,bearing=0;
+            POINT2 ptLongitude=null,ptLatitude=null;
+            for (int l = 1; l < 37; l++)
+            {
+                dFactor = (10.0 * l) * Math.PI / 180.0;                
+                a=majorRadius * Math.cos(dFactor);
+                b=minorRadius * Math.sin(dFactor);
+                //dist=Math.sqrt(a*a+b*b);
+                //azimuth = (10.0 * l);// * Math.PI / 180.0;  
+                //azimuth=90-azimuth;
+                //pt = geodesic_coordinate(ptCenter,dist,azimuth);                
+                //pt = geodesic_coordinate(ptCenter,dist,azimuth);                
+                ptLongitude=geodesic_coordinate(ptCenter,a,90);
+                ptLatitude=geodesic_coordinate(ptCenter,b,0);
+                //pt=new POINT2(ptLatitude.x,ptLongitude.y);
+                pt=new POINT2(ptLongitude.x,ptLatitude.y);
+                //pEllipsePoints[l-1]=pt;
+                pEllipsePoints[l-1]=geoRotatePoint(ptCenter,pt,-rotation);
+            }            
+            pEllipsePoints[36]=new POINT2(pEllipsePoints[0]);
+        }
+        catch(Exception exc)
+        {
+            ErrorLogger.LogException(_className, "GetGeoEllipse",
+                    new RendererException("GetGeoEllipse", exc));
+        }
+        return pEllipsePoints;
+    }
 }

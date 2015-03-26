@@ -1676,8 +1676,8 @@ public final class arraysupport
         }
         catch(Exception exc)
         {
-            ErrorLogger.LogException(_className, "GetXPointsDouble",
-                    new RendererException("GetXPointsDouble", exc));
+            ErrorLogger.LogException(_className, "GetEllipsePoints",
+                    new RendererException("GetEllipsePoints", exc));
         }
         return pEllipsePoints;
     }
