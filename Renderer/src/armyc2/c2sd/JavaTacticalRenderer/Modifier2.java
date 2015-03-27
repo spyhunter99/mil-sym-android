@@ -4098,6 +4098,35 @@ public class Modifier2 {
                 pt1 = new POINT2(x2, y2);
                 midPt = new POINT2((x1 + x2) / 2, (y1 + y2) / 2);
                 switch (modifier.type) {
+                    case aboveEnd:
+                        if (x1 == x2) {
+                            x2 += 1;
+                        }
+
+                        if (x1 < x2) {
+                            //x = (int) x1 - (int) stringWidth;
+                            x = (int) x1;
+                            y = (int) y1 + (int) stringHeight / 2 + (int) (lineFactor * stringHeight);
+                        } else {
+                            //x = (int) x1;
+                            x = (int) x1 - (int) stringWidth;
+                            y = (int) y1 + (int) stringHeight / 2 + (int) (lineFactor * stringHeight);
+                        }
+                        if (lineFactor >= 0) {
+                            direction = 2;
+                        } else {
+                            direction = 3;
+                        }
+
+                        if (lineType == TacticalLines.LC || tg.get_Client().equalsIgnoreCase("ge")) {
+                            direction = switchDirection(direction);
+                        }
+
+                        //pt2 = lineutility.ExtendDirectedLine(pt1, pt0, pt1, direction, lineFactor * stringHeight);
+                        pt3 = lineutility.ExtendDirectedLine(pt1, pt0, pt0, direction, lineFactor * stringHeight);
+
+                        glyphPosition = new Point((int) pt3.x, (int) pt3.y);
+                        break;
                     case toEnd: //corresponds to LabelAndTextBeforeLineTG                                                
                         if (lineFactor >= 0) {
                             direction = 2;
@@ -4661,6 +4690,8 @@ public class Modifier2 {
                     AddIntegralAreaModifier(tg, label, aboveMiddle, csFactor, ptLl, ptLr, false);
                     break;
                 case 110101:    //lateral boundary
+                case 110102:    //fwd bdry
+                case 110103:    //rear bdry
                     t += " " + "(" + country + ")";
                     tg.set_Name(t);
                     tg.set_T1(t);

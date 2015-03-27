@@ -370,6 +370,21 @@ public final class clsRenderer {
                 default:
                     break;
             }
+            if (lineType == TacticalLines.LAUNCH_AREA) //geo ellipse
+            {
+                ArrayList<Double> AM = milStd.getModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE);
+                ArrayList<Double> AN = milStd.getModifiers_AM_AN_X(ModifiersTG.AN_AZIMUTH);
+                if (AM != null && AM.size() > 1) {
+                    String H = AM.get(0).toString();  //major axis
+                    tg.set_H(H);
+                    String T1 = AM.get(1).toString(); //minor axis
+                    tg.set_T1(T1);
+                }
+                if (AN != null && AN.size() > 0) {
+                    String H2 = AN.get(0).toString(); //rotation
+                    tg.set_H2(H2);
+                }
+            }
             switch (lineType) {
                 case TacticalLines.ROZ:
                 case TacticalLines.FAADZ:
@@ -1601,8 +1616,9 @@ public final class clsRenderer {
                 return TacticalLines.SPT;
             case 151406:
                 return TacticalLines.AAFNT;
-            case 110101:                        //new label
-            case 110102:                        //new label
+            case 110101:                        //lateral bdry
+            case 110102:                        //fwd bdry
+            case 110103:                        //rear bdry
                 return TacticalLines.BOUNDARY;
             case 110200:
                 return TacticalLines.LL;

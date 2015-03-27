@@ -100,6 +100,18 @@ public final class clsUtilityCPOF {
                     if(SymbolUtilities.isNumber(tg.get_T1()))
                         radius.value[0] = Double.parseDouble(tg.get_T1());
                     break;
+                case TacticalLines.LAUNCH_AREA:
+                    //minor radius in meters
+                    if(SymbolUtilities.isNumber(tg.get_T1()))
+                        length.value[0] = Double.parseDouble(tg.get_T1());
+                    //major radius in meters
+                    if(SymbolUtilities.isNumber(tg.get_H()))
+                        width.value[0] = Double.parseDouble(tg.get_H());
+                    //rotation angle in degrees
+                    if(SymbolUtilities.isNumber(tg.get_H2()))                    
+                        attitude.value[0] = Double.parseDouble(tg.get_H2());
+                    
+                    break;
                 case TacticalLines.RECTANGULAR:
                     if(SymbolUtilities.isNumber(tg.get_T1()))
                         length.value[0] = Double.parseDouble(tg.get_T1());
@@ -261,6 +273,15 @@ public final class clsUtilityCPOF {
             
             GetNumericFields(tg, lineType, radius, width, length, attitude);
             switch (lineType) {
+                case TacticalLines.LAUNCH_AREA:
+                    POINT2[]ellipsePts=mdlGeodesic.getGeoEllipse(pt0, width.value[0], length.value[0], attitude.value[0]);
+                    for (j = 0; j < ellipsePts.length; j++)  //was 103
+                    {
+                        pt0 = ellipsePts[j];
+                        pt1=PointLatLongToPixels(pt0,converter);
+                        tg.Pixels.add(pt1);
+                    }                    
+                    break;
                 case TacticalLines.PAA_RECTANGULAR_REVC:
                 case TacticalLines.FSA_RECTANGULAR:
                 case TacticalLines.FFA_RECTANGULAR:
