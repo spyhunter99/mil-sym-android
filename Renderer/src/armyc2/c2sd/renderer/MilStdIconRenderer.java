@@ -300,19 +300,27 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
             SymbolDef sd = SymbolDefTable.getInstance().getSymbolDef(basicSymbolID, symStd);
             if (sd == null)
             {
-                symbolID = SymbolUtilities.reconcileSymbolID(basicSymbolID);
+                symbolID = SymbolUtilities.reconcileSymbolID(symbolID);
                 basicSymbolID = SymbolUtilities.getBasicSymbolID(symbolID);
                 sd = SymbolDefTable.getInstance().getSymbolDef(basicSymbolID, symStd);
             }
 
-            if (sd != null && sd.getDrawCategory() == SymbolDef.DRAW_CATEGORY_POINT)
+            if(sd != null)
             {
-                temp = _SPR.RenderSP(symbolID, modifiers, attributes);
+	            if (sd.getDrawCategory() == SymbolDef.DRAW_CATEGORY_POINT)
+	            {
+	                temp = _SPR.RenderSP(symbolID, modifiers, attributes);
+	            }
+	            else
+	            {
+	                return renderTacticalMultipointIcon(symbolID, attributes);
+	            }
             }
             else
             {
-                return renderTacticalMultipointIcon(symbolID, attributes);
+            	temp = _SPR.RenderUnit(symbolID, modifiers, attributes);
             }
+
         }
         else
         {
