@@ -24,16 +24,16 @@ public final class Channels {
     {
         _client=value;
     }
-    private static String _affiliation="";
-    public static void setAffiliation(String value)
-    {
-        _affiliation=value;
-    }
+//    private static String _affiliation="";
+//    public static void setAffiliation(String value)
+//    {
+//        _affiliation=value;
+//    }
     private static boolean _shiftLines=true;
-    public static void setShiftLines(boolean value)
-    {
-        _shiftLines=value;
-    }
+//    public static void setShiftLines(boolean value)
+//    {
+//        _shiftLines=value;
+//    }
     public static boolean getShiftLines()
     {
         return _shiftLines;
@@ -656,7 +656,8 @@ public final class Channels {
                     break;
             }
             if (linetype != (long) TacticalLines.LC &&
-                    linetype != (long) TacticalLines.LC2) {
+                    linetype != (long) TacticalLines.LC2 &&
+                    linetype != TacticalLines.LC_HOSTILE) {
                 channelWidth /= 2;
             }
 
@@ -978,6 +979,7 @@ public final class Channels {
                 case TacticalLines.SINGLEC2:
                 case TacticalLines.LC2:
                 case TacticalLines.LC:
+                case TacticalLines.LC_HOSTILE:
                 case TacticalLines.AIRAOA:
                 case TacticalLines.AAAAA:
                 case TacticalLines.AXAD:
@@ -1447,6 +1449,7 @@ public final class Channels {
             switch(vbiDrawThis)
             {
                 case TacticalLines.LC:
+                case TacticalLines.LC_HOSTILE:
                 case TacticalLines.UNSP:
                 case TacticalLines.LWFENCE:
                 case TacticalLines.HWFENCE:
@@ -1610,6 +1613,7 @@ public final class Channels {
                     }
                     break;
                 case TacticalLines.LC:
+                case TacticalLines.LC_HOSTILE:
                 case TacticalLines.LC2:
                     if(shiftLines==true || vbiDrawThis == TacticalLines.LC2)
                     {
@@ -1639,7 +1643,8 @@ public final class Channels {
                     
                     if(shiftLines)   
                     {                        
-                        if(_affiliation != null && _affiliation.equalsIgnoreCase("H"))
+                        //if(_affiliation != null && _affiliation.equalsIgnoreCase("H"))
+                        if(vbiDrawThis==TacticalLines.LC_HOSTILE)
                             pLowerLinePoints=pOriginalLinePoints;
                         else
                             pUpperLinePoints=pOriginalLinePoints;
@@ -1745,6 +1750,7 @@ public final class Channels {
                     pLinePoints[k].style = 5;
                     break;
                 case TacticalLines.LC:
+                case TacticalLines.LC_HOSTILE:
                     lUpperFlotCount = flot.GetFlotCountDouble(pUpperLinePoints, vblUpperCounter);
                     lLowerFlotCount = flot.GetFlotCountDouble(pLowerLinePoints, vblLowerCounter);
                     if (lUpperFlotCount <= 0 || lLowerFlotCount <= 0) {
@@ -2555,6 +2561,7 @@ public final class Channels {
                     case TacticalLines.AAFNT_STRAIGHT:
                         break;
                     case TacticalLines.LC:
+                    case TacticalLines.LC_HOSTILE:
                         if(beginPath==false)
                         {
                             if(k>0)

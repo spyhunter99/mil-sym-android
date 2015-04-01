@@ -22,14 +22,14 @@ import armyc2.c2sd.renderer.utilities.Color;
 public final class arraysupport
 {
     private static final double maxLength=100;
-    private static double minLength=5;
+    private static double minLength=2.5;    //was 5
     private static double dACP=0;
     private static final String _className="arraysupport";
     
-    protected static void setMinLength(double value)
-    {
-        minLength=value;
-    }
+//    protected static void setMinLength(double value)
+//    {
+//        minLength=value;
+//    }
     private static void FillPoints(POINT2[] pLinePoints,
             int counter,
             ArrayList<POINT2>points)

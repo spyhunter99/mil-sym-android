@@ -15,13 +15,13 @@ import armyc2.c2sd.graphics2d.Rectangle2D;
 public final class countsupport
 {
     private static final double maxLength = 100;	//max arrow size
-    private static double minLength = 5;		//min arrow size
+    private static double minLength = 2.5;		//min arrow size was 5
     private static final String _className = "countsupport";
     
-    protected static void setMinLength(double mLength)
-    {
-        minLength=mLength;
-    }
+//    protected static void setMinLength(double mLength)
+//    {
+//        minLength=mLength;
+//    }
     /**
      * The main function to return the number of points needed for a symbol
      * @param vbiDrawThis the line type

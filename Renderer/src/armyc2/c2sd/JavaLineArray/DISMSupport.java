@@ -22,13 +22,13 @@ public final class DISMSupport
 
     private static final double CONST_PI = Math.PI;
     private static final double maxLength=100;
-    private static double minLength=5;    
+    private static double minLength=2.5;    //was 5    
     private static final String _className="DISMSupport";
     
-    protected static void setMinLength(double mLength)
-    {
-        minLength=mLength;
-    }
+//    protected static void setMinLength(double mLength)
+//    {
+//        minLength=mLength;
+//    }
     private static double GetTGFontSize(double iLength)
     {
         double result=-1;

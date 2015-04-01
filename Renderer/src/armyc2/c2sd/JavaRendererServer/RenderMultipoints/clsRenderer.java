@@ -1018,12 +1018,12 @@ public final class clsRenderer {
             }
             ArrayList<POINT2> origFillPixels = (ArrayList<POINT2>) tg.Pixels.clone();
 
-            boolean shiftLines = Channels.getShiftLines();
-            if (shiftLines) {
-                String affiliation = tg.get_Affiliation();
-                Channels.setAffiliation(affiliation);
-            }
-            CELineArray.setMinLength(2.5);    //2-27-2013
+//            boolean shiftLines = Channels.getShiftLines();
+//            if (shiftLines) {
+//                String affiliation = tg.get_Affiliation();
+//                Channels.setAffiliation(affiliation);
+//            }
+            //CELineArray.setMinLength(2.5);    //2-27-2013
 
             ArrayList<Point2D> clipPoints = null;
             if (clipArea != null) {
@@ -1407,7 +1407,7 @@ public final class clsRenderer {
             ArrayList<ShapeInfo> modifierShapeInfos,
             Object clipBounds) {
         try {
-            boolean shiftLines = Channels.getShiftLines();
+            //boolean shiftLines = Channels.getShiftLines();
             //end section
 
             Rectangle2D clipRect = new Rectangle2D.Double();
@@ -1418,12 +1418,11 @@ public final class clsRenderer {
             armyc2.c2sd.JavaTacticalRenderer.clsUtility.initializeLinetypes(rev);
             TGLight tg = createTGLightFromMilStdSymbol(mss, converter);
             CELineArray.setClient("generic");
-            if (shiftLines) {
-                //Channels.setClient("generic");
-                String affiliation = tg.get_Affiliation();
-                Channels.setAffiliation(affiliation);
-            }
-            CELineArray.setMinLength(2.5);    //2-27-2013
+//            if (shiftLines) {
+//                String affiliation = tg.get_Affiliation();
+//                Channels.setAffiliation(affiliation);
+//            }
+            //CELineArray.setMinLength(2.5);    //2-27-2013
 
             //if(rev==RendererSettings.Symbology_2525C)
             //{
