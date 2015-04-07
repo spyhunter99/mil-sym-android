@@ -1254,6 +1254,30 @@ public final class utility {
         }
         return str2;
     }
+    /**
+     * computes the channel point for axis of advance symbols
+     * @param pts
+     * @param linetype 
+     */
+    private static void computePoint(ArrayList<Point>pts,int linetype)
+    {
+        switch (linetype) {
+            case TacticalLines.CATK:
+            case TacticalLines.CATKBYFIRE:
+            case TacticalLines.AAFNT:
+            case TacticalLines.AAAAA:
+            case TacticalLines.AIRAOA:
+            case TacticalLines.MAIN:
+            case TacticalLines.SPT:
+            case TacticalLines.AXAD:
+            case TacticalLines.CHANNEL:
+                Point pt = utility.ComputeLastPoint(pts);
+                pts.add(pt);
+                break;
+            default:
+                break;
+        }        
+    }
 
     /**
      * The tester for the Google Earth plugin. Assumes pixels only are provided.
@@ -1293,22 +1317,8 @@ public final class utility {
             defaultText = utility.GetLinetype2(defaultText, rev);
             linetype = utility.GetLinetype(defaultText, rev);
         }
-        switch (linetype) {
-            case TacticalLines.CATK:
-            case TacticalLines.CATKBYFIRE:
-            case TacticalLines.AAFNT:
-            case TacticalLines.AAAAA:
-            case TacticalLines.AIRAOA:
-            case TacticalLines.MAIN:
-            case TacticalLines.SPT:
-            case TacticalLines.AXAD:
-            case TacticalLines.CHANNEL:
-                Point pt = utility.ComputeLastPoint(pts);
-                pts.add(pt);
-                break;
-            default:
-                break;
-        }
+        //compute channel point for axis of advance
+        computePoint(pts,linetype);
         //utility.ClosePolygon(pts, linetype);
         IPointConversion converter = new PointConversion((int) displayWidth,
                 (int) displayHeight, upperLatitude, leftLongitude,
@@ -1319,6 +1329,10 @@ public final class utility {
             if (defaultText.length() == 16) {
                 defaultText += "0000";
             }
+            String symbolSet=defaultText.substring(4, 6);
+            String entityCode=defaultText.substring(10,16);
+            linetype=clsRenderer.getCMLineType(symbolSet, entityCode);
+            computePoint(pts,linetype);
             symbolCode=defaultText;
         }
         ArrayList<POINT2> pts2 = PixelsToLatLong(pts, converter);

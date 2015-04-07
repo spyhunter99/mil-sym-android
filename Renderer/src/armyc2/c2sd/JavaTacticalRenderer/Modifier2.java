@@ -77,6 +77,9 @@ public class Modifier2 {
         String label = "";
         try {
             switch (tg.get_LineType()) {
+                case TacticalLines.SAAFR:
+                    label="SAAFR";
+                    break;
                 case TacticalLines.AC:
                     label = "AC";
                     break;

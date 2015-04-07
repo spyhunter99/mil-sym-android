@@ -1585,7 +1585,7 @@ public final class clsRenderer {
      * @param entityCode
      * @return
      */
-    private static int getCMLineType(String SymbolSet, String entityCode) {
+    public static int getCMLineType(String SymbolSet, String entityCode) {
         int symbolSet = Integer.parseInt(SymbolSet);
         if (symbolSet != 25) {
             return -1;
