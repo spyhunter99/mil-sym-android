@@ -4487,7 +4487,7 @@ public class Modifier2 {
                 case 200202:
                     ptLeft = lineutility.MidPointDouble(tg.Pixels.get(0), tg.Pixels.get(1), 0);
                     ptRight = lineutility.MidPointDouble(tg.Pixels.get(2), tg.Pixels.get(3), 0);
-                    AddIntegralAreaModifier(tg, label + " - " + tg.get_Name(), aboveMiddle, csFactor/2, ptLeft, ptRight, false);
+                    AddIntegralAreaModifier(tg, label + " - " + tg.get_Name(), aboveMiddle, -csFactor/2, ptLeft, ptRight, false);
                     break;
                 case 290600:
                     //pt0=tg.Pixels.get(7);
@@ -4874,6 +4874,7 @@ public class Modifier2 {
                     AddIntegralAreaModifier(tg, label, aboveMiddle, 1.35 * factor * csFactor, ll, lr, false);
                     break;
                 case 170100:
+                case 170101:
                 case 170200:
                 case 170300:
                 case 170500:
@@ -4916,7 +4917,6 @@ public class Modifier2 {
                     AddIntegralAreaModifier(tg, label, aboveMiddle, -1, pt0, pt0, false); //ENY or N?
                     AddIntegralAreaModifier(tg, tg.get_DTG() + dash + tg.get_DTG1(), aboveMiddle, csFactor, pt0, pt0, false);
                     break;
-                case 200102:
                 case 220107:
                 case 220108:
                     label = getRevDLabel(nCode);
