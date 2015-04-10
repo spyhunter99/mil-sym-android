@@ -4780,7 +4780,7 @@ public class Modifier2 {
                 case 140102:
                 case 150101:
                 case 150102:
-                case 151801:
+                //case 151801:
                 case 151900:
                 case 152000:
                 case 152100:
@@ -4795,7 +4795,7 @@ public class Modifier2 {
                     break;
                 case 150103:
                 case 150104:
-                case 151802:
+                //case 151802:
                     areasWithENY(tg, g2d);
                     break;               
                 case 150501:
