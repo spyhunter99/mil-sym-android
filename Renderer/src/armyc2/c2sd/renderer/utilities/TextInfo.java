@@ -11,10 +11,16 @@ public class TextInfo {
 	Rect _bounds = null;
 	public TextInfo(String text, int x, int y, Paint font)
 	{
-		_text = text;
+		if(text != null)
+		{
+			_text = text;
+		}
+
 		_location = new Point(x,y);
 		_bounds = new Rect();
+
 		font.getTextBounds(_text, 0, _text.length(), _bounds);
+	
 	}
 	
 	public void setLocation(int x, int y)

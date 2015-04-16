@@ -970,6 +970,10 @@ public class SymbolUtilities
                         case SymbolDef.DRAW_CATEGORY_CIRCULAR_RANGEFAN_AUTOSHAPE:
                             returnVal = true;
                             break;
+                        case SymbolDef.DRAW_CATEGORY_LINE://air corridor
+                        	if(sd.getModifiers().indexOf(tgModifier + ".") > -1)
+                        		returnVal = true;
+                            break;
                         default:
                             returnVal = false;
                     }
@@ -3769,6 +3773,10 @@ public class SymbolUtilities
                 case SymbolDef.DRAW_CATEGORY_SECTOR_PARAMETERED_AUTOSHAPE:
                     returnVal = true;
                     break;
+                case SymbolDef.DRAW_CATEGORY_LINE://air corridor
+                	if(sd.getModifiers().indexOf(ModifiersTG.AM_DISTANCE + ".") > -1)
+                		returnVal = true;
+                	break;
                 default:
                     returnVal = false;
             }
@@ -3783,8 +3791,7 @@ public class SymbolUtilities
         return hasAMmodifierRadius(symbolID, RendererSettings.getInstance().getSymbologyStandard());
     }
 
-    public static
-            Boolean hasAMmodifierRadius(String symbolID, int symStd)
+    public static Boolean hasAMmodifierRadius(String symbolID, int symStd)
     {
         SymbolDef sd = null;
         Boolean returnVal = false;

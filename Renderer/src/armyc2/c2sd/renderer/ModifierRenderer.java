@@ -651,24 +651,29 @@ public class ModifierRenderer
         Rect domBounds = null;
         if (modifiers.indexOfKey(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT) >= 0)
         {
-            float q = Float.valueOf(modifiers.get(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT));
-
-            boolean isY = (modifiers.indexOfKey(ModifiersUnits.Y_LOCATION) >= 0);
-
-            domPoints = createDOMArrowPoints(symbolID, symbolBounds, centerPoint, q, isY);
-
-            domBounds = new Rect(domPoints[0].x, domPoints[0].y, 1, 1);
-
-            Point temp = null;
-            for (int i = 1; i < 6; i++)
-            {
-                temp = domPoints[i];
-                if (temp != null)
-                {
-                    domBounds.union(temp.x, temp.y);
-                }
-            }
-            imageBounds.union(domBounds);
+        	String strQ = modifiers.get(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT);
+        	
+        	if(strQ != null && SymbolUtilities.isNumber(strQ))
+        	{
+	            float q = Float.valueOf(strQ);
+	
+	            boolean isY = (modifiers.indexOfKey(ModifiersUnits.Y_LOCATION) >= 0);
+	
+	            domPoints = createDOMArrowPoints(symbolID, symbolBounds, centerPoint, q, isY);
+	
+	            domBounds = new Rect(domPoints[0].x, domPoints[0].y, 1, 1);
+	
+	            Point temp = null;
+	            for (int i = 1; i < 6; i++)
+	            {
+	                temp = domPoints[i];
+	                if (temp != null)
+	                {
+	                    domBounds.union(temp.x, temp.y);
+	                }
+	            }
+	            imageBounds.union(domBounds);
+        	}
         }
 
         // </editor-fold>
@@ -1376,14 +1381,17 @@ public class ModifierRenderer
                 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.C_QUANTITY))
         {
             String text = modifiers.get(ModifiersUnits.C_QUANTITY);
-            //bounds = armyc2.c2sd.renderer.utilities.RendererUtilities.getTextOutlineBounds(_modifierFont, text, new SO.Point(0,0));
-            tiTemp = new TextInfo(text, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-            x = Math.round((symbolBounds.left + (symbolBounds.width() * 0.5f)) - (labelWidth * 0.5f));
-            y = Math.round(symbolBounds.top - bufferY - descent);
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
+            if(text != null)
+            {
+	            //bounds = armyc2.c2sd.renderer.utilities.RendererUtilities.getTextOutlineBounds(_modifierFont, text, new SO.Point(0,0));
+	            tiTemp = new TextInfo(text, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	            x = Math.round((symbolBounds.left + (symbolBounds.width() * 0.5f)) - (labelWidth * 0.5f));
+	            y = Math.round(symbolBounds.top - bufferY - descent);
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
+            }
         }
 
         //if(ModifiersUnits.X_ALTITUDE_DEPTH in modifiers || ModifiersUnits.Y_LOCATION in modifiers)
@@ -1415,59 +1423,65 @@ public class ModifierRenderer
                 modifierValue = xm + "  " + ym;
             }
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            if (!byLabelHeight)
+            if(modifierValue != null)
             {
-                x = bounds.left - labelBounds.width() - bufferXL;
-                y = bounds.top + labelHeight - descent;
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            if (!byLabelHeight)
+	            {
+	                x = bounds.left - labelBounds.width() - bufferXL;
+	                y = bounds.top + labelHeight - descent;
+	            }
+	            else
+	            {
+	                x = bounds.left - labelBounds.width() - bufferXL;
+	
+	                y = (bounds.height());
+	                y = (int) ((y * 0.5) + (labelHeight * 0.5));
+	
+	                y = y - ((labelHeight + bufferText));
+	                y = bounds.left + y;
+	            }
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
             }
-            else
-            {
-                x = bounds.left - labelBounds.width() - bufferXL;
-
-                y = (bounds.height());
-                y = (int) ((y * 0.5) + (labelHeight * 0.5));
-
-                y = y - ((labelHeight + bufferText));
-                y = bounds.left + y;
-            }
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
         }
 
         if (modifiers.indexOfKey(ModifiersUnits.G_STAFF_COMMENTS) >= 0)
         {
             modifierValue = modifiers.get(ModifiersUnits.G_STAFF_COMMENTS);
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            x = bounds.left + bounds.width() + bufferXR;
-            if (!byLabelHeight)
+            if(modifierValue != null)
             {
-                y = bounds.top + labelHeight - descent;
-            }
-            else
-            {
-                y = (bounds.height());
-                y = (int) ((y * 0.5) + (labelHeight * 0.5));
-
-                y = y - ((labelHeight + bufferText));
-                y = bounds.top + y;
-            }
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
-
-            //Concession for cpof name label
-            if ((x + labelWidth + 3) > cpofNameX)
-            {
-                cpofNameX = x + labelWidth + 3;
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            x = bounds.left + bounds.width() + bufferXR;
+	            if (!byLabelHeight)
+	            {
+	                y = bounds.top + labelHeight - descent;
+	            }
+	            else
+	            {
+	                y = (bounds.height());
+	                y = (int) ((y * 0.5) + (labelHeight * 0.5));
+	
+	                y = y - ((labelHeight + bufferText));
+	                y = bounds.top + y;
+	            }
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
+	
+	            //Concession for cpof name label
+	            if ((x + labelWidth + 3) > cpofNameX)
+	            {
+	                cpofNameX = x + labelWidth + 3;
+	            }
             }
         }
 
@@ -1475,41 +1489,47 @@ public class ModifierRenderer
         {
             modifierValue = modifiers.get(ModifiersUnits.V_EQUIP_TYPE);
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            x = bounds.left - labelBounds.width() - bufferXL;
-
-            y = (bounds.height());
-            y = (int) ((y * 0.5f) + ((labelHeight - descent) * 0.5f));
-            y = bounds.top + y;
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
+            if(modifierValue != null)
+            {
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            x = bounds.left - labelBounds.width() - bufferXL;
+	
+	            y = (bounds.height());
+	            y = (int) ((y * 0.5f) + ((labelHeight - descent) * 0.5f));
+	            y = bounds.top + y;
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
+            }
         }
 
         if (modifiers.indexOfKey(ModifiersUnits.H_ADDITIONAL_INFO_1) >= 0)
         {
             modifierValue = modifiers.get(ModifiersUnits.H_ADDITIONAL_INFO_1);
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            x = bounds.left + bounds.width() + bufferXR;
-
-            y = (bounds.height());
-            y = (int) ((y * 0.5) + ((labelHeight - descent) * 0.5));
-            y = bounds.top + y;
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
-
-            //Concession for cpof name label
-            if ((x + labelWidth + 3) > cpofNameX)
+            if(modifierValue != null)
             {
-                cpofNameX = x + labelWidth + 3;
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            x = bounds.left + bounds.width() + bufferXR;
+	
+	            y = (bounds.height());
+	            y = (int) ((y * 0.5) + ((labelHeight - descent) * 0.5));
+	            y = bounds.top + y;
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
+	
+	            //Concession for cpof name label
+	            if ((x + labelWidth + 3) > cpofNameX)
+	            {
+	                cpofNameX = x + labelWidth + 3;
+	            }
             }
         }
 
@@ -1517,28 +1537,31 @@ public class ModifierRenderer
         {
             modifierValue = modifiers.get(ModifiersUnits.T_UNIQUE_DESIGNATION_1);
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            if (!byLabelHeight)
+            if(modifierValue != null)
             {
-                x = bounds.left - labelWidth - bufferXL;
-                y = bounds.top + bounds.height();
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            if (!byLabelHeight)
+	            {
+	                x = bounds.left - labelWidth - bufferXL;
+	                y = bounds.top + bounds.height();
+	            }
+	            else
+	            {
+	                x = bounds.left - labelWidth - bufferXL;
+	
+	                y = (bounds.height());
+	                y = (int) ((y * 0.5) + (labelHeight * 0.5));
+	
+	                y = y + ((labelHeight + bufferText) - descent);
+	                y = bounds.top + y;
+	            }
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
             }
-            else
-            {
-                x = bounds.left - labelWidth - bufferXL;
-
-                y = (bounds.height());
-                y = (int) ((y * 0.5) + (labelHeight * 0.5));
-
-                y = y + ((labelHeight + bufferText) - descent);
-                y = bounds.top + y;
-            }
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
         }
 
         if (modifiers.indexOfKey(ModifiersUnits.M_HIGHER_FORMATION) >= 0 || modifiers.indexOfKey(ModifiersUnits.CC_COUNTRY_CODE) >= 0)
@@ -1590,26 +1613,29 @@ public class ModifierRenderer
         {
             modifierValue = modifiers.get(ModifiersUnits.Z_SPEED);
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            x = bounds.left - labelWidth - bufferXL;
-            if (!byLabelHeight)
+            if(modifierValue != null)
             {
-                y = Math.round(bounds.top + bounds.height() + labelHeight + bufferText);
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            x = bounds.left - labelWidth - bufferXL;
+	            if (!byLabelHeight)
+	            {
+	                y = Math.round(bounds.top + bounds.height() + labelHeight + bufferText);
+	            }
+	            else
+	            {
+	                y = (bounds.height());
+	                y = (int) ((y * 0.5) + (labelHeight * 0.5));
+	
+	                y = y + ((labelHeight + bufferText) * 2) - (descent * 2);
+	                y = Math.round(bounds.top + y);
+	            }
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
             }
-            else
-            {
-                y = (bounds.height());
-                y = (int) ((y * 0.5) + (labelHeight * 0.5));
-
-                y = y + ((labelHeight + bufferText) * 2) - (descent * 2);
-                y = Math.round(bounds.top + y);
-            }
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
         }
 
         if (modifiers.indexOfKey(ModifiersUnits.J_EVALUATION_RATING) >= 0
@@ -1706,28 +1732,31 @@ public class ModifierRenderer
         {
             modifierValue = modifiers.get(ModifiersUnits.W_DTG_1);
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            if (!byLabelHeight)
+            if(modifierValue != null)
             {
-                x = bounds.left - labelWidth - bufferXL;
-                y = bounds.top - bufferY - descent;
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            if (!byLabelHeight)
+	            {
+	                x = bounds.left - labelWidth - bufferXL;
+	                y = bounds.top - bufferY - descent;
+	            }
+	            else
+	            {
+	                x = bounds.left - labelWidth - bufferXL;
+	
+	                y = (bounds.height());
+	                y = (int) ((y * 0.5) + (labelHeight * 0.5));
+	
+	                y = y - ((labelHeight + bufferText) * 2);
+	                y = bounds.top + y;
+	            }
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
             }
-            else
-            {
-                x = bounds.left - labelWidth - bufferXL;
-
-                y = (bounds.height());
-                y = (int) ((y * 0.5) + (labelHeight * 0.5));
-
-                y = y - ((labelHeight + bufferText) * 2);
-                y = bounds.top + y;
-            }
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
         }
 
         if (modifiers.indexOfKey(ModifiersUnits.F_REINFORCED_REDUCED) >= 0 || modifiers.indexOfKey(ModifiersUnits.E_FRAME_SHAPE_MODIFIER) >= 0)
@@ -1782,33 +1811,36 @@ public class ModifierRenderer
                 }
             }
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            if (!byLabelHeight)
+            if(modifierValue != null)
             {
-                x = bounds.left + bounds.width() + bufferXR;
-                y = bounds.top - bufferY - descent;
-            }
-            else
-            {
-                x = bounds.left + bounds.width() + bufferXR;
-
-                y = (bounds.height());
-                y = (int) ((y * 0.5) + (labelHeight * 0.5));
-
-                y = y - ((labelHeight + bufferText) * 2);
-                y = bounds.top + y;
-            }
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
-
-            //Concession for cpof name label
-            if ((x + labelWidth + 3) > cpofNameX)
-            {
-                cpofNameX = x + labelWidth + 3;
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            if (!byLabelHeight)
+	            {
+	                x = bounds.left + bounds.width() + bufferXR;
+	                y = bounds.top - bufferY - descent;
+	            }
+	            else
+	            {
+	                x = bounds.left + bounds.width() + bufferXR;
+	
+	                y = (bounds.height());
+	                y = (int) ((y * 0.5) + (labelHeight * 0.5));
+	
+	                y = y - ((labelHeight + bufferText) * 2);
+	                y = bounds.top + y;
+	            }
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
+	
+	            //Concession for cpof name label
+	            if ((x + labelWidth + 3) > cpofNameX)
+	            {
+	                cpofNameX = x + labelWidth + 3;
+	            }
             }
         }
 
@@ -1816,18 +1848,21 @@ public class ModifierRenderer
         {
             modifierValue = modifiers.get(ModifiersUnits.AA_SPECIAL_C2_HQ);
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            x = (int) ((symbolBounds.left + (symbolBounds.width() * 0.5f)) - (labelWidth * 0.5f));
-
-            y = (symbolBounds.height());//checkpoint, get box above the point
-            y = (int) ((y * 0.5) + ((labelHeight - descent) * 0.5));
-            y = symbolBounds.top + y;
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
+            if(modifierValue != null)
+            {
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            x = (int) ((symbolBounds.left + (symbolBounds.width() * 0.5f)) - (labelWidth * 0.5f));
+	
+	            y = (symbolBounds.height());//checkpoint, get box above the point
+	            y = (int) ((y * 0.5) + ((labelHeight - descent) * 0.5));
+	            y = symbolBounds.top + y;
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
+            }
         }
         
         if (modifiers.indexOfKey(ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE) >= 0)
@@ -1835,7 +1870,7 @@ public class ModifierRenderer
         	int scc = 0;
             modifierValue = modifiers.get(ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE);
             
-            if(SymbolUtilities.isNumber(modifierValue) && SymbolUtilities.hasModifier(symbolID, ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE))
+            if(modifierValue != null && SymbolUtilities.isNumber(modifierValue) && SymbolUtilities.hasModifier(symbolID, ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE))
             {
 	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
 	            labelBounds = tiTemp.getTextBounds();
@@ -1857,18 +1892,21 @@ public class ModifierRenderer
         {
             modifierValue = modifiers.get(ModifiersUnits.CN_CPOF_NAME_LABEL);
 
-            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
-            labelBounds = tiTemp.getTextBounds();
-            labelWidth = labelBounds.width();
-
-            x = cpofNameX;
-
-            y = (bounds.height());//checkpoint, get box above the point
-            y = (int) ((y * 0.5) + (labelHeight * 0.5));
-            y = bounds.top + y;
-
-            tiTemp.setLocation(x, y);
-            tiArray.add(tiTemp);
+            if(modifierValue != null)
+            {
+	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
+	            labelBounds = tiTemp.getTextBounds();
+	            labelWidth = labelBounds.width();
+	
+	            x = cpofNameX;
+	
+	            y = (bounds.height());//checkpoint, get box above the point
+	            y = (int) ((y * 0.5) + (labelHeight * 0.5));
+	            y = bounds.top + y;
+	
+	            tiTemp.setLocation(x, y);
+	            tiArray.add(tiTemp);
+            }
         }
 
         // </editor-fold>
@@ -2131,16 +2169,19 @@ public class ModifierRenderer
             if (modifiers.indexOfKey(ModifiersTG.H_ADDITIONAL_INFO_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-                //One modifier symbols and modifier goes in center
-                x = bounds.left + (int) (bounds.width() * 0.5f);
-                x = x - (int) (labelWidth * 0.5f);
-                y = bounds.top + (int) (bounds.height() * 0.5f);
-                y = y + (int) (labelHeight * 0.5f);
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                //One modifier symbols and modifier goes in center
+	                x = bounds.left + (int) (bounds.width() * 0.5f);
+	                x = x - (int) (labelWidth * 0.5f);
+	                y = bounds.top + (int) (bounds.height() * 0.5f);
+	                y = y + (int) (labelHeight * 0.5f);
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
             }
         }
         else if (basicID.equals("G*G*GPRI--****X"))
@@ -2148,16 +2189,19 @@ public class ModifierRenderer
             if (modifiers.indexOfKey(ModifiersTG.T_UNIQUE_DESIGNATION_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.T_UNIQUE_DESIGNATION_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-                //One modifier symbols, top third & center
-                x = bounds.left + (int) (bounds.width() * 0.5f);
-                x = x - (int) (labelWidth * 0.5f);
-                y = bounds.top + (int) (bounds.height() * 0.25f);
-                y = y + (int) (labelHeight * 0.5f);
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                //One modifier symbols, top third & center
+	                x = bounds.left + (int) (bounds.width() * 0.5f);
+	                x = x - (int) (labelWidth * 0.5f);
+	                y = bounds.top + (int) (bounds.height() * 0.25f);
+	                y = y + (int) (labelHeight * 0.5f);
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
             }
         }
         else if (basicID.equals("G*G*GPPW--****X")
@@ -2166,15 +2210,18 @@ public class ModifierRenderer
             if (modifiers.indexOfKey(ModifiersTG.T_UNIQUE_DESIGNATION_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.T_UNIQUE_DESIGNATION_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-
-                //One modifier symbols and modifier goes right of center
-                x = bounds.left + (int) (bounds.width() * 0.75f);
-                y = bounds.top + (int) (bounds.height() * 0.5f);
-                y = y + (int) ((labelHeight - descent) * 0.5f);
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	
+	                //One modifier symbols and modifier goes right of center
+	                x = bounds.left + (int) (bounds.width() * 0.75f);
+	                y = bounds.top + (int) (bounds.height() * 0.5f);
+	                y = y + (int) ((labelHeight - descent) * 0.5f);
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
             }
         }
         else if (basicID.equals("G*G*APP---****X")
@@ -2183,16 +2230,19 @@ public class ModifierRenderer
             if (modifiers.indexOfKey(ModifiersTG.T_UNIQUE_DESIGNATION_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.T_UNIQUE_DESIGNATION_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = ti.getTextBounds().width();
-                //One modifier symbols and modifier goes just below of center
-                x = bounds.left + (int) (bounds.width() * 0.5);
-                x = x - (int) (labelWidth * 0.5);
-                y = bounds.top + (int) (bounds.height() * 0.5f);
-                y = y + (int) (((bounds.height() * 0.5f) - labelHeight) / 2) + labelHeight - descent;
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = ti.getTextBounds().width();
+	                //One modifier symbols and modifier goes just below of center
+	                x = bounds.left + (int) (bounds.width() * 0.5);
+	                x = x - (int) (labelWidth * 0.5);
+	                y = bounds.top + (int) (bounds.height() * 0.5f);
+	                y = y + (int) (((bounds.height() * 0.5f) - labelHeight) / 2) + labelHeight - descent;
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
             }
         }
         else if (basicID.equals("G*G*DPT---****X") || //T (target reference point)
@@ -2203,41 +2253,50 @@ public class ModifierRenderer
                     && basicID.equals("G*F*PTS---****X"))//H
             {
                 strText = modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-
-                x = RectUtilities.getCenterX(bounds) + (int) (bounds.width() * 0.15f);
-                y = bounds.top + (int) (bounds.height() * 0.75f);
-                y = y + (int) (labelHeight * 0.5f);
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	
+	                x = RectUtilities.getCenterX(bounds) + (int) (bounds.width() * 0.15f);
+	                y = bounds.top + (int) (bounds.height() * 0.75f);
+	                y = y + (int) (labelHeight * 0.5f);
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
             }
             if (modifiers.indexOfKey(ModifiersTG.H1_ADDITIONAL_INFO_2) >= 0
                     && basicID.equals("G*F*PTS---****X"))//H1
             {
                 strText = modifiers.get(ModifiersTG.H1_ADDITIONAL_INFO_2);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-                x = RectUtilities.getCenterX(bounds) - (int) (bounds.width() * 0.15f);
-                x = x - (labelWidth);
-                y = bounds.top + (int) (bounds.height() * 0.75f);
-                y = y + (int) (labelHeight * 0.5f);
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                x = RectUtilities.getCenterX(bounds) - (int) (bounds.width() * 0.15f);
+	                x = x - (labelWidth);
+	                y = bounds.top + (int) (bounds.height() * 0.75f);
+	                y = y + (int) (labelHeight * 0.5f);
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
             }
             if (modifiers.indexOfKey(ModifiersTG.T_UNIQUE_DESIGNATION_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.T_UNIQUE_DESIGNATION_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-
-                x = RectUtilities.getCenterX(bounds) + (int) (bounds.width() * 0.15f);
-//                    x = x - (labelBounds.width * 0.5);
-                y = bounds.top + (int) (bounds.height() * 0.25f);
-                y = y + (int) (labelHeight * 0.5f);
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	
+	                x = RectUtilities.getCenterX(bounds) + (int) (bounds.width() * 0.15f);
+//                  x = x - (labelBounds.width * 0.5);
+	                y = bounds.top + (int) (bounds.height() * 0.25f);
+	                y = y + (int) (labelHeight * 0.5f);
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
             }
 
         }
@@ -2248,129 +2307,150 @@ public class ModifierRenderer
             if (modifiers.indexOfKey(ModifiersTG.N_HOSTILE) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.N_HOSTILE);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-
-                x = bounds.left + bounds.width() + bufferXR;
-
-                if (!byLabelHeight)
+                if(strText != null)
                 {
-                    y = bounds.top + bounds.height();
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	
+	                x = bounds.left + bounds.width() + bufferXR;
+	
+	                if (!byLabelHeight)
+	                {
+	                    y = bounds.top + bounds.height();
+	                }
+	                else
+	                {
+	                    y = bounds.top + (int) ((bounds.height() * 0.5f) + ((labelHeight - descent) * 0.5) + (labelHeight - descent + bufferText));
+	                }
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
                 }
-                else
-                {
-                    y = bounds.top + (int) ((bounds.height() * 0.5f) + ((labelHeight - descent) * 0.5) + (labelHeight - descent + bufferText));
-                }
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
 
             }
             if (modifiers.indexOfKey(ModifiersTG.H_ADDITIONAL_INFO_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-
-                x = bounds.left + bounds.width() + bufferXR;
-                if (!byLabelHeight)
+                if(strText != null)
                 {
-                    y = bounds.top + labelHeight - descent;
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	
+	                x = bounds.left + bounds.width() + bufferXR;
+	                if (!byLabelHeight)
+	                {
+	                    y = bounds.top + labelHeight - descent;
+	                }
+	                else
+	                {
+	                    //y = bounds.y + ((bounds.height * 0.5) + (labelHeight * 0.5) - (labelHeight + bufferText));
+	                    y = bounds.top + (int) ((bounds.height() * 0.5f) - ((labelHeight - descent) * 0.5) + (-descent - bufferText));
+	                }
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
                 }
-                else
-                {
-                    //y = bounds.y + ((bounds.height * 0.5) + (labelHeight * 0.5) - (labelHeight + bufferText));
-                    y = bounds.top + (int) ((bounds.height() * 0.5f) - ((labelHeight - descent) * 0.5) + (-descent - bufferText));
-                }
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
             }
             if (modifiers.indexOfKey(ModifiersTG.W_DTG_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.W_DTG_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-
-                x = bounds.left - labelWidth - bufferXL;
-                if (!byLabelHeight)
+                if(strText != null)
                 {
-                    y = bounds.top + labelHeight - descent;
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	
+	                x = bounds.left - labelWidth - bufferXL;
+	                if (!byLabelHeight)
+	                {
+	                    y = bounds.top + labelHeight - descent;
+	                }
+	                else
+	                {
+	                    //y = bounds.y + ((bounds.height * 0.5) + (labelHeight * 0.5) - (labelHeight + bufferText));
+	                    y = bounds.top + (int) ((bounds.height() * 0.5) - ((labelHeight - descent) * 0.5) + (-descent - bufferText));
+	                }
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
                 }
-                else
-                {
-                    //y = bounds.y + ((bounds.height * 0.5) + (labelHeight * 0.5) - (labelHeight + bufferText));
-                    y = bounds.top + (int) ((bounds.height() * 0.5) - ((labelHeight - descent) * 0.5) + (-descent - bufferText));
-                }
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
             }
             if (basicID.equals("G*M*NZ----****X") == true && modifiers.indexOfKey(ModifiersTG.V_EQUIP_TYPE) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.V_EQUIP_TYPE);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-
-                //subset of nbc, just nuclear
-                labelWidth = Math.round(ti.getTextBounds().width());
-                x = bounds.left - labelWidth - bufferXL;
-                y = bounds.top + (int) ((bounds.height() * 0.5) + ((labelHeight - descent) * 0.5));//((bounds.height / 2) - (labelHeight/2));
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	
+	                //subset of nbc, just nuclear
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                x = bounds.left - labelWidth - bufferXL;
+	                y = bounds.top + (int) ((bounds.height() * 0.5) + ((labelHeight - descent) * 0.5));//((bounds.height / 2) - (labelHeight/2));
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
             }
             if (modifiers.indexOfKey(ModifiersTG.T_UNIQUE_DESIGNATION_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.T_UNIQUE_DESIGNATION_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-                x = bounds.left - labelWidth - bufferXL;
-                if (!byLabelHeight)
+                if(strText != null)
                 {
-                    y = bounds.top + bounds.height();
+                	ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                x = bounds.left - labelWidth - bufferXL;
+	                if (!byLabelHeight)
+	                {
+	                    y = bounds.top + bounds.height();
+	                }
+	                else
+	                {
+	                    //y = bounds.y + ((bounds.height * 0.5) + ((labelHeight-descent) * 0.5) + (labelHeight + bufferText));
+	                    y = bounds.top + (int) ((bounds.height() * 0.5) + ((labelHeight - descent) * 0.5) + (labelHeight - descent + bufferText));
+	                }
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
                 }
-                else
-                {
-                    //y = bounds.y + ((bounds.height * 0.5) + ((labelHeight-descent) * 0.5) + (labelHeight + bufferText));
-                    y = bounds.top + (int) ((bounds.height() * 0.5) + ((labelHeight - descent) * 0.5) + (labelHeight - descent + bufferText));
-                }
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
             }
             if (modifiers.indexOfKey(ModifiersTG.Y_LOCATION) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.Y_LOCATION);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-                //just NBC
-                //x = bounds.getX() + (bounds.getWidth() * 0.5);
-                //x = x - (labelWidth * 0.5);
-                x = bounds.left + (int) (bounds.width() * 0.5f);
-                x = x - (int) (labelWidth * 0.5f);
-
-                if (!byLabelHeight)
+                if(strText != null)
                 {
-                    y = bounds.top + bounds.height() + labelHeight - descent + bufferY;
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                //just NBC
+	                //x = bounds.getX() + (bounds.getWidth() * 0.5);
+	                //x = x - (labelWidth * 0.5);
+	                x = bounds.left + (int) (bounds.width() * 0.5f);
+	                x = x - (int) (labelWidth * 0.5f);
+	
+	                if (!byLabelHeight)
+	                {
+	                    y = bounds.top + bounds.height() + labelHeight - descent + bufferY;
+	                }
+	                else
+	                {
+	                    y = bounds.top + (int) ((bounds.height() * 0.5) + ((labelHeight - descent) * 0.5) + ((labelHeight + bufferText) * 2) - descent);
+	
+	                }
+	                yForY = y + descent; //so we know where to start the DOM arrow.
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
                 }
-                else
-                {
-                    y = bounds.top + (int) ((bounds.height() * 0.5) + ((labelHeight - descent) * 0.5) + ((labelHeight + bufferText) * 2) - descent);
-
-                }
-                yForY = y + descent; //so we know where to start the DOM arrow.
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
 
             }
             if (modifiers.indexOfKey(ModifiersTG.C_QUANTITY) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.C_QUANTITY);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-                //subset of NBC, just nuclear
-                x = bounds.left + (int) (bounds.width() * 0.5);
-                x = x - (int) (labelWidth * 0.5);
-                y = bounds.top - descent;
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                //subset of NBC, just nuclear
+	                x = bounds.left + (int) (bounds.width() * 0.5);
+	                x = x - (int) (labelWidth * 0.5);
+	                y = bounds.top - descent;
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
 
             }
         }
@@ -2379,53 +2459,62 @@ public class ModifierRenderer
             if (modifiers.indexOfKey(ModifiersTG.H_ADDITIONAL_INFO_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-                x = bounds.left + (int) (bounds.width() * 0.5);
-                x = x - (int) (labelWidth * 0.5);
-                y = bounds.top - descent;// + (bounds.height * 0.5);
-                //y = y + (labelHeight * 0.5);
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                x = bounds.left + (int) (bounds.width() * 0.5);
+	                x = x - (int) (labelWidth * 0.5);
+	                y = bounds.top - descent;// + (bounds.height * 0.5);
+	                //y = y + (labelHeight * 0.5);
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
 
             }
             if (modifiers.indexOfKey(ModifiersTG.W_DTG_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.W_DTG_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-                x = bounds.left + (int) (bounds.width() * 0.5);
-                x = x - (int) (labelWidth * 0.5);
-                y = bounds.top + (bounds.height());
-                y = y + (labelHeight);
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                x = bounds.left + (int) (bounds.width() * 0.5);
+	                x = x - (int) (labelWidth * 0.5);
+	                y = bounds.top + (bounds.height());
+	                y = y + (labelHeight);
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
             }
             if (modifiers.indexOfKey(ModifiersTG.N_HOSTILE) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.N_HOSTILE);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                TextInfo ti2 = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-                x = bounds.left + (bounds.width()) + bufferXR;//right
-                //x = x + labelWidth;//- (labelBounds.width * 0.75);
-
-                duplicate = true;
-
-                x2 = bounds.left;//left
-                x2 = x2 - labelWidth - bufferXL;// - (labelBounds.width * 0.25);
-
-                y = bounds.top + (int) (bounds.height() * 0.5);//center
-                y = y + (int) ((labelHeight - descent) * 0.5);
-
-                y2 = y;
-
-                ti.setLocation(Math.round(x), Math.round(y));
-                ti2.setLocation(Math.round(x2), Math.round(y2));
-                arrMods.add(ti);
-                arrMods.add(ti2);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                TextInfo ti2 = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                x = bounds.left + (bounds.width()) + bufferXR;//right
+	                //x = x + labelWidth;//- (labelBounds.width * 0.75);
+	
+	                duplicate = true;
+	
+	                x2 = bounds.left;//left
+	                x2 = x2 - labelWidth - bufferXL;// - (labelBounds.width * 0.25);
+	
+	                y = bounds.top + (int) (bounds.height() * 0.5);//center
+	                y = y + (int) ((labelHeight - descent) * 0.5);
+	
+	                y2 = y;
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                ti2.setLocation(Math.round(x2), Math.round(y2));
+	                arrMods.add(ti);
+	                arrMods.add(ti2);
+                }
             }
 
         }
@@ -2440,24 +2529,27 @@ public class ModifierRenderer
                 basicID.equals("G*M*NEC---****X")))//chemical)
         {
             strText = modifiers.get(ModifiersTG.Q_DIRECTION_OF_MOVEMENT);
-            float q = Float.parseFloat(strText);
-            Rect tempBounds = new Rect(bounds);
-            tempBounds.union(RectUtilities.getCenterX(bounds), yForY);
-
-            domPoints = createDOMArrowPoints(symbolID, tempBounds, ii.getCenterPoint(), q, false);
-
-            domBounds = RectUtilities.makeRect(domPoints[0].x, domPoints[0].y, 1, 1);
-
-            Point temp = null;
-            for (int i = 1; i < 6; i++)
+            if(strText != null && SymbolUtilities.isNumber(strText))
             {
-                temp = domPoints[i];
-                if (temp != null)
-                {
-                    domBounds.union(temp.x, temp.y);
-                }
+	            float q = Float.parseFloat(strText);
+	            Rect tempBounds = new Rect(bounds);
+	            tempBounds.union(RectUtilities.getCenterX(bounds), yForY);
+	
+	            domPoints = createDOMArrowPoints(symbolID, tempBounds, ii.getCenterPoint(), q, false);
+	
+	            domBounds = RectUtilities.makeRect(domPoints[0].x, domPoints[0].y, 1, 1);
+	
+	            Point temp = null;
+	            for (int i = 1; i < 6; i++)
+	            {
+	                temp = domPoints[i];
+	                if (temp != null)
+	                {
+	                    domBounds.union(temp.x, temp.y);
+	                }
+	            }
+	            imageBounds.union(domBounds);
             }
-            imageBounds.union(domBounds);
         }
         // </editor-fold>
 
@@ -2638,88 +2730,106 @@ public class ModifierRenderer
             if (modifiers.indexOfKey(ModifiersTG.N_HOSTILE) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.N_HOSTILE);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-
-                x = bounds.left + bounds.width() + bufferXR;
-
-                if (!byLabelHeight)
+                if(strText != null)
                 {
-                    y = ((bounds.height() / 3) * 2);//checkpoint, get box above the point
-                    y = bounds.top + y;
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	
+	                x = bounds.left + bounds.width() + bufferXR;
+	
+	                if (!byLabelHeight)
+	                {
+	                    y = ((bounds.height() / 3) * 2);//checkpoint, get box above the point
+	                    y = bounds.top + y;
+	                }
+	                else
+	                {
+	                    //y = ((labelHeight + bufferText) * 3);
+	                    //y = bounds.y + y - descent;
+	                    y = bounds.top + bounds.height();
+	                }
+	
+	                ti.setLocation(x, y);
+	                arrMods.add(ti);
                 }
-                else
-                {
-                    //y = ((labelHeight + bufferText) * 3);
-                    //y = bounds.y + y - descent;
-                    y = bounds.top + bounds.height();
-                }
-
-                ti.setLocation(x, y);
-                arrMods.add(ti);
 
             }
             if (modifiers.indexOfKey(ModifiersTG.H_ADDITIONAL_INFO_1) >= 0)
             {
-                strText = modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-
-                x = bounds.left + (int) (bounds.width() * 0.5f);
-                x = x - (int) (labelWidth * 0.5f);
-                y = bounds.top - descent;
-
-                ti.setLocation(x, y);
-                arrMods.add(ti);
+            	strText = modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1);
+            	if(strText != null)
+            	{
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	
+	                x = bounds.left + (int) (bounds.width() * 0.5f);
+	                x = x - (int) (labelWidth * 0.5f);
+	                y = bounds.top - descent;
+	
+	                ti.setLocation(x, y);
+	                arrMods.add(ti);
+            	}
             }
             if (modifiers.indexOfKey(ModifiersTG.H1_ADDITIONAL_INFO_2) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.H1_ADDITIONAL_INFO_2);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-
-                x = bounds.left + (int) (bounds.width() * 0.5);
-                x = x - (int) (labelWidth * 0.5);
-                y = bounds.top + labelHeight + (int) (bounds.height() * 0.2);
-
-                ti.setLocation(x, y);
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	
+	                x = bounds.left + (int) (bounds.width() * 0.5);
+	                x = x - (int) (labelWidth * 0.5);
+	                y = bounds.top + labelHeight + (int) (bounds.height() * 0.2);
+	
+	                ti.setLocation(x, y);
+	                arrMods.add(ti);
+                }
             }
             if (modifiers.indexOfKey(ModifiersTG.W_DTG_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.W_DTG_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-
-                x = bounds.left - labelWidth - bufferXL;
-                y = bounds.top + labelHeight - descent;
-
-                ti.setLocation(x, y);
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	
+	                x = bounds.left - labelWidth - bufferXL;
+	                y = bounds.top + labelHeight - descent;
+	
+	                ti.setLocation(x, y);
+	                arrMods.add(ti);
+                }
             }
             if (modifiers.indexOfKey(ModifiersTG.W1_DTG_2) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.W1_DTG_2);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-
-                x = bounds.left - labelWidth - bufferXL;
-
-                y = ((labelHeight - descent + bufferText) * 2);
-                y = bounds.top + y;
-
-                ti.setLocation(x, y);
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	
+	                x = bounds.left - labelWidth - bufferXL;
+	
+	                y = ((labelHeight - descent + bufferText) * 2);
+	                y = bounds.top + y;
+	
+	                ti.setLocation(x, y);
+	                arrMods.add(ti);
+                }
             }
             if (modifiers.indexOfKey(ModifiersTG.T_UNIQUE_DESIGNATION_1) >= 0)
             {
                 strText = modifiers.get(ModifiersTG.T_UNIQUE_DESIGNATION_1);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-
-                x = bounds.left + bounds.width() + bufferXR;
-                y = bounds.top + labelHeight - descent;
-
-                ti.setLocation(x, y);
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	
+	                x = bounds.left + bounds.width() + bufferXR;
+	                y = bounds.top + labelHeight - descent;
+	
+	                ti.setLocation(x, y);
+	                arrMods.add(ti);
+                }
             }
             if ((modifiers.indexOfKey(ModifiersTG.T1_UNIQUE_DESIGNATION_2) >= 0) &&//T1
                     (basicID.equals("G*O*ES----****X") || //emergency distress call
@@ -2727,19 +2837,22 @@ public class ModifierRenderer
                     basicID.equals("G*S*PX----****X")))//ambulance exchange point
             {
                 strText = modifiers.get(ModifiersTG.T1_UNIQUE_DESIGNATION_2);
-                ti = new TextInfo(strText, 0, 0, _modifierFont);
-                labelWidth = Math.round(ti.getTextBounds().width());
-
-                //points
-                x = bounds.left + (int) (bounds.width() * 0.5);
-                x = x - (int) (labelWidth * 0.5);
-                //y = bounds.y + (bounds.height * 0.5);
-
-                y = (int) ((bounds.height() * 0.60));//633333333
-                y = bounds.top + y;
-
-                ti.setLocation(x, y);
-                arrMods.add(ti);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	
+	                //points
+	                x = bounds.left + (int) (bounds.width() * 0.5);
+	                x = x - (int) (labelWidth * 0.5);
+	                //y = bounds.y + (bounds.height * 0.5);
+	
+	                y = (int) ((bounds.height() * 0.60));//633333333
+	                y = bounds.top + y;
+	
+	                ti.setLocation(x, y);
+	                arrMods.add(ti);
+                }
             }
 
         }
