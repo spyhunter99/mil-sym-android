@@ -172,8 +172,7 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
     }
 
     //@Override
-    public
-            Boolean CanRender(String symbolID, SparseArray<String> modifiers, SparseArray<String> attributes)
+    public Boolean CanRender(String symbolID, SparseArray<String> modifiers, SparseArray<String> attributes)
     {
 
         String message = null;
@@ -182,17 +181,17 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
         //ErrorLogger.LogMessage("TEST");
 
         int symStd = -1;
-        Object temp;
+        String temp;
         if (modifiers.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
         {
             temp = modifiers.get(MilStdAttributes.SymbologyStandard);
-            if (temp instanceof Integer)
+            if (SymbolUtilities.isNumber(temp))
             {
-                symStd = (Integer) temp;
+                symStd = Integer.parseInt(temp);
             }
         }
 
-        if (symStd == -1)
+        if (symStd < 0 || symStd > RendererSettings.Symbology_2525C)
         {
             symStd = RendererSettings.getInstance().getSymbologyStandard();
         }
@@ -263,8 +262,7 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
         return false;
     }
 
-    private
-            ImageInfo renderTacticalMultipointIcon(String symbolID, SparseArray<String> attributes)
+    private ImageInfo renderTacticalMultipointIcon(String symbolID, SparseArray<String> attributes)
     {
         Color lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
         if (attributes.indexOfKey(MilStdAttributes.LineColor) >= 0)
