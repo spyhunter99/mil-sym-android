@@ -459,6 +459,10 @@ public class MultiPointHandler {
             double right = Double.valueOf(bounds[2]);
             double top = Double.valueOf(bounds[3]);
             double bottom = Double.valueOf(bounds[1]);
+            if(left==-180 && right==180)
+                return origScale;
+            else if(left==180 && right==-180)
+                return origScale;
             POINT2 ul = new POINT2(left, top);
             POINT2 ur = new POINT2(right, top);
             double widthInMeters = mdlGeodesic.geodesic_distance(ul, ur, null, null);
