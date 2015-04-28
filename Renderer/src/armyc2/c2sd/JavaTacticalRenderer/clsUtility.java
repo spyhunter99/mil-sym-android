@@ -1075,6 +1075,10 @@ public final class clsUtility {
                     case TacticalLines.UAV:
                     case TacticalLines.UAV_USAS:
                     case TacticalLines.LLTR:
+                        shape=shapes.get(shapes.size()-1);
+                        shapes.clear();
+                        shapes.add(shape);
+                        break;
                     case TacticalLines.CATK:
                     case TacticalLines.AXAD:
                     case TacticalLines.AIRAOA:
@@ -1083,9 +1087,14 @@ public final class clsUtility {
                     case TacticalLines.AAFNT:		//40
                     case TacticalLines.MAIN:
                     case TacticalLines.CATKBYFIRE:	//80
-                        shape=shapes.get(shapes.size()-1);
-                        shapes.clear();
-                        shapes.add(shape);
+                        ArrayList<Shape2> tempShapes=new ArrayList();
+                        for(j=0;j<shapes.size();j++)
+                        {
+                            shape=shapes.get(j);
+                            if(shape.getShapeType() != Shape2.SHAPE_TYPE_FILL)
+                                tempShapes.add(shape);
+                        }
+                        shapes=tempShapes;
                         break;
                     default:
                         break;
