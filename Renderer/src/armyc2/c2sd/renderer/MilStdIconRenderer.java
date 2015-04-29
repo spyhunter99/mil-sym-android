@@ -182,9 +182,9 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
 
         int symStd = -1;
         String temp;
-        if (modifiers.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
+        if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
         {
-            temp = modifiers.get(MilStdAttributes.SymbologyStandard);
+            temp = attributes.get(MilStdAttributes.SymbologyStandard);
             if (SymbolUtilities.isNumber(temp))
             {
                 symStd = Integer.parseInt(temp);
