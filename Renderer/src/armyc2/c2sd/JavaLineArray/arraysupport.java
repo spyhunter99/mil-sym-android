@@ -3335,6 +3335,13 @@ public final class arraysupport
                             pt0=savepoints[0];
                             pt1=savepoints[1];
                         }
+                        else
+                        {
+                            savepoints=new POINT2[2];
+                            savepoints[0]=new POINT2(pt0);
+                            savepoints[1]=new POINT2(pt1);
+                            drawJaggies=false;
+                        }
                         
                         midpt=lineutility.MidPointDouble(pt0, pt1, 0);
                         double dist0=lineutility.CalcDistanceDouble(midpt, pt0);
