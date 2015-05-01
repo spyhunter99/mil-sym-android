@@ -616,6 +616,22 @@ public class MultiPointHandler {
 
                 bottomY = (int) temp.getY();
                 rightX = (int) temp.getX();
+                //diagnostic clipping does not work for large scales
+                if(scale>10e6)
+                {
+                    //get widest point in the AOI
+                    double midLat=0;
+                    if(bottom<0 && top >0)
+                        midLat=0;
+                    else if(bottom<0 && top<0)
+                        midLat=top;
+                    else if(bottom>0 && top>0)
+                        midLat=bottom;
+                    
+                    temp = ipc.GeoToPixels(new Point2D.Double(right, midLat));
+                    rightX = (int)temp.getX();
+                }
+                //end section
 
                 width = (int) Math.abs(rightX - leftX);
                 height = (int) Math.abs(bottomY - topY);
@@ -888,6 +904,22 @@ public class MultiPointHandler {
                 bottomY = (int) temp.getY();
                 rightX = (int) temp.getX();
                 //////////////////
+                //diagnostic clipping does not work for large scales
+                if(scale>10e6)
+                {
+                    //get widest point in the AOI
+                    double midLat=0;
+                    if(bottom<0 && top >0)
+                        midLat=0;
+                    else if(bottom<0 && top<0)
+                        midLat=top;
+                    else if(bottom>0 && top>0)
+                        midLat=bottom;
+                    
+                    temp = ipc.GeoToPixels(new Point2D.Double(right, midLat));
+                    rightX = (int)temp.getX();
+                }
+                //end section
 
                 width = (int) Math.abs(rightX - leftX);
                 height = (int) Math.abs(bottomY - topY);
