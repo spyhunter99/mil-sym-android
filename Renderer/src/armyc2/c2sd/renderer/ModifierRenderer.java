@@ -1695,7 +1695,7 @@ public class ModifierRenderer
                 modifierValue = modifierValue + " " + pm;
             }
 
-            if (modifierValue.charAt(0) == ' ')
+            if (modifierValue.length() > 2 && modifierValue.charAt(0) == ' ')
             {
                 modifierValue = modifierValue.substring(1);
             }
