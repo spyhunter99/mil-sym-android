@@ -3393,6 +3393,8 @@ public final class arraysupport
                         dExtendLength = (double) n * 5;
                         pLinePoints[pointCounter] = lineutility.ExtendLine2Double(pt4, pt5, dExtendLength - dWidth, 0);
                         pointCounter++;
+                        if(pointCounter>=pLinePoints.length-1)
+                            break;
                         n++;
                     }
                     pLinePoints[pointCounter] = new POINT2(pt1);
