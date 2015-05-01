@@ -609,18 +609,22 @@ public class Shape3DHandler {
             //ensure enough values in distance and altitude arrays for the number of points M. Deutch 4-15-15
             int numAM=attributes.AM_DISTANCE.size();
             int numX=attributes.X_ALTITUDE_DEPTH.size();
+            double nextToLastAlt=attributes.X_ALTITUDE_DEPTH.get(numX-2);
             double lastAlt=attributes.X_ALTITUDE_DEPTH.get(numX-1);
             double lastWidth=attributes.AM_DISTANCE.get(numAM-1);
-            int delta=2*(numberOfPoints-1)-numAM;   //one width per segment
-            if(delta>0)
-                for(int j=0;j<delta;j++)
-                    attributes.AM_DISTANCE.add(lastWidth);
-            
+            int delta=2*(numberOfPoints-1)-numAM;   //one width per segment            
             delta=2*(numberOfPoints-1)-numX;    //two alts per segment
+            int j=0;
             if(delta>0)
-                for(int j=0;j<delta;j++)
-                    attributes.X_ALTITUDE_DEPTH.add(lastAlt);
-            //end section
+                for(j=0;j<delta;j++)
+                    attributes.AM_DISTANCE.add(lastWidth);
+            int k=0;
+            while(k<delta)
+            {
+                attributes.X_ALTITUDE_DEPTH.add(nextToLastAlt);
+                attributes.X_ALTITUDE_DEPTH.add(lastAlt);
+                k+=2;
+            }
 
             // Ensure the track has an appropriate amount of points.
             if (numberOfPoints >= 2) {                               
