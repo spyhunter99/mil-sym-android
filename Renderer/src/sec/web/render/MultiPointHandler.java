@@ -30,7 +30,7 @@ import armyc2.c2sd.renderer.utilities.SymbolDefTable;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
 import armyc2.c2sd.renderer.utilities.RendererException;
 import java.util.logging.Level;
-
+import armyc2.c2sd.renderer.MilStdIconRenderer;
 @SuppressWarnings({"unused", "rawtypes", "unchecked"})
 public class MultiPointHandler {
 
@@ -695,7 +695,7 @@ public class MultiPointHandler {
 
             //String fillColor = null;
             MilStdSymbol mSymbol = new MilStdSymbol(symbolCode, null, geoCoords, null);
-            mSymbol.setUseDashArray(false);
+            //mSymbol.setUseDashArray(false);
             //set milstd symbology standard.
             mSymbol.setSymbologyStandard(symStd);
 
@@ -704,6 +704,16 @@ public class MultiPointHandler {
             } else {
                 mSymbol.setFillColor(null);
             }
+            String symbolIsValid = canRenderMultiPoint(mSymbol);
+            if(symbolIsValid.equals("true") == false)
+            {
+                String ErrorOutput = "";
+                ErrorOutput += ("{\"type\":\"error\",\"error\":\"There was an error creating the MilStdSymbol " + symbolCode + ": " + "- ");
+                ErrorOutput += (symbolIsValid + " - ");
+                ErrorOutput += ("\"}");
+                //ErrorLogger.LogMessage("MultiPointHandler","RenderSymbol",symbolIsValid,Level.WARNING);
+                return ErrorOutput;
+            }//*/
 
             if (bboxCoords == null) {
                 clsRenderer.renderWithPolylines(mSymbol, ipc, rect);
