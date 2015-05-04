@@ -2127,7 +2127,9 @@ public final class utility {
             SECWebRenderer sec = new SECWebRenderer();
 
             String altitudeMode = "";
-            String strRender = sec.RenderSymbol("id", "name", "description", defaultText, controlPtsStr, altitudeMode, scale, rectStr, modifiers, attributes, 0, rev);
+            String strRender="";
+            //strRender = sec.RenderSymbol("id", "name", "description", defaultText, controlPtsStr, altitudeMode, scale, rectStr, modifiers, attributes, 0, rev);            
+            strRender=sec.RenderSymbol2D("id","name","description",defaultText,controlPtsStr,(int)displayWidth,(int)displayHeight,rectStr,modifiers,attributes,0,rev);
             strResult = strRender;
         } else //Airspaces 
         {

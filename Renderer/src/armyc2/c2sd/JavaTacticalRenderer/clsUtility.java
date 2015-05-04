@@ -1062,7 +1062,7 @@ public final class clsUtility {
             boolean hasFill=LinesWithFill(lineType);
             boolean isChange1Area = clsUtility.IsChange1Area(lineType, null);
             boolean isClosedPolygon = clsUtility.isClosedPolygon(lineType);
-            int n=shapes.size();
+            //int n=shapes.size();
             //remove air corridors fill shapes if fill is null
             if(tg.get_FillColor()==null)
             {
@@ -1100,7 +1100,7 @@ public final class clsUtility {
                         break;
                 }
             }
-            for (j = 0; j < n; j++) 
+            for (j = 0; j < shapes.size(); j++) 
             {
                 shape = shapes.get(j);
                 if (shape == null || shape.getShape() == null) {

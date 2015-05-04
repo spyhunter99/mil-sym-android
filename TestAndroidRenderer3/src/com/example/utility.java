@@ -1702,6 +1702,18 @@ public final class utility {
 
         String rectStr = getRectString(0, 0);
         String controlPtsStr = controlPointsToString(latLongs);
+        String altitudeMode = "";
+//defaultText="GHGPPY--------X";  //dmaf
+//controlPtsStr="133.93718930040794,32.92804222360567";
+//altitudeMode="relativeToGround";
+//scale=23575.0;
+//rectStr="-74.74514,39.881025,-74.41555,40.038917";
+
+defaultText="GPGPOLAV------X";
+controlPtsStr="8.38200535818297,37.7911627989274 9.02289087231853,37.5967194088932 8.97777997230298,37.6293858648913";
+altitudeMode="relativeToGround ";
+scale=789850.0;
+rectStr="6.086425,33.742612,16.6333,39.044786";
 
         boolean renderAirControls=isAirspace(defaultText);
         //Mil-Std-2525 symbols
@@ -1723,7 +1735,6 @@ public final class utility {
             }
             SECWebRenderer sec = new SECWebRenderer();
 
-            String altitudeMode = "";
             String strRender = sec.RenderSymbol("id", "name", "description", defaultText, controlPtsStr, altitudeMode, scale, rectStr, modifiers, attributes, 0, rev);
             strResult = strRender;
         }

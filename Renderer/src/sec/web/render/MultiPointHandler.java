@@ -25,6 +25,11 @@ import armyc2.c2sd.JavaRendererServer.RenderMultipoints.clsRenderer;
 import armyc2.c2sd.JavaTacticalRenderer.mdlGeodesic;
 import java.util.LinkedList;
 import java.util.List;
+import armyc2.c2sd.renderer.utilities.SymbolDef;
+import armyc2.c2sd.renderer.utilities.SymbolDefTable;
+import armyc2.c2sd.renderer.utilities.ErrorLogger;
+import armyc2.c2sd.renderer.utilities.RendererException;
+import java.util.logging.Level;
 
 @SuppressWarnings({"unused", "rawtypes", "unchecked"})
 public class MultiPointHandler {
@@ -743,7 +748,7 @@ public class MultiPointHandler {
             jsonOutput.append(st);
             jsonOutput.append("\"}");
 
-            //ErrorLogger.LogException("MultiPointHandler", "RenderSymbol", exc);
+            ErrorLogger.LogException("MultiPointHandler", "RenderSymbol", exc);
         }
 
         boolean debug = false;
@@ -769,7 +774,7 @@ public class MultiPointHandler {
             }
         }
 
-        //ErrorLogger.LogMessage("MultiPointHandler", "RenderSymbol()", "exit RenderSymbol", Level.FINER);
+        ErrorLogger.LogMessage("MultiPointHandler", "RenderSymbol()", "exit RenderSymbol", Level.FINER);
         return jsonOutput.toString();
 
     }
@@ -1162,11 +1167,9 @@ public class MultiPointHandler {
             String bbox,
             SparseArray<String> symbolModifiers,
             SparseArray<String> symbolAttributes,
-            int format, int symStd)//,
-    //ArrayList<ShapeInfo>shapes)
-    {
-
-        java.lang.StringBuilder jsonOutput = new java.lang.StringBuilder();
+            int format, int symStd)
+    {        
+        StringBuilder jsonOutput = new StringBuilder();
         String jsonContent = "";
 
         Rectangle rect = null;
@@ -1179,6 +1182,7 @@ public class MultiPointHandler {
         ArrayList<ShapeInfo> modifiers = new ArrayList<ShapeInfo>();
         ArrayList<Point2D> geoCoords = new ArrayList<Point2D>();
         IPointConversion ipc = null;
+
 
         Double left = 0.0;
         Double right = 0.0;
@@ -1198,6 +1202,7 @@ public class MultiPointHandler {
             System.out.println("bbox is viewable area of the map.  Passed in the format of a string \"lowerLeftX,lowerLeftY,upperRightX,upperRightY.\" example: \"-50.4,23.6,-42.2,24.2\"");
             return "ERROR - Bad bbox value: " + bbox;
         }
+        //end section
 
         //get coordinates
         int len = coordinates.length;
@@ -1210,17 +1215,16 @@ public class MultiPointHandler {
 
         try {
             MilStdSymbol mSymbol = new MilStdSymbol(symbolCode, null, geoCoords, null);
-
             mSymbol.setUseDashArray(false);
             //set milstd symbology standard.
             mSymbol.setSymbologyStandard(symStd);
 
-            if (symbolModifiers != null || symbolAttributes != null) {
+            if (symbolModifiers != null && symbolModifiers.equals("") == false) {
                 populateModifiers(symbolModifiers, symbolAttributes, mSymbol);
-            } else {
-                mSymbol.setFillColor(null);
             }
-
+            else
+                mSymbol.setFillColor(null);
+            
             //build clipping bounds
             Point2D temp = null;
             int leftX;
@@ -1229,14 +1233,15 @@ public class MultiPointHandler {
             int rightX;
             int width;
             int height;
-            if (ShouldClipSymbol(symbolCode)) {
+            if(ShouldClipSymbol(symbolCode))
+            {
                 temp = ipc.GeoToPixels(new Point2D.Double(left, top));
-                leftX = (int) temp.getX();
-                topY = (int) temp.getY();
+                leftX = (int)temp.getX();
+                topY = (int)temp.getY();
 
                 temp = ipc.GeoToPixels(new Point2D.Double(right, bottom));
-                bottomY = (int) temp.getY();
-                rightX = (int) temp.getX();
+                bottomY = (int)temp.getY();
+                rightX = (int)temp.getX();
                 //////////////////
 
                 width = (int) Math.abs(rightX - leftX);
@@ -1246,22 +1251,28 @@ public class MultiPointHandler {
             }
 
             //check for required points & parameters
-            String symbolIsValid = "true";//canRenderMultiPoint(mSymbol);
-            if (symbolIsValid.equals("true") == false) {
+            
+            String symbolIsValid = canRenderMultiPoint(mSymbol);
+            if(symbolIsValid.equals("true") == false)
+            {
                 String ErrorOutput = "";
                 ErrorOutput += ("{\"type\":\"error\",\"error\":\"There was an error creating the MilStdSymbol " + symbolCode + ": " + "- ");
                 ErrorOutput += (symbolIsValid + " - ");
                 ErrorOutput += ("\"}");
-                //ErrorLogger.LogMessage("MultiPointHandler","RenderSymbol",symbolIsValid,Level.WARNING);
+                ErrorLogger.LogMessage("MultiPointHandler","RenderSymbol",symbolIsValid,Level.WARNING);
                 return ErrorOutput;
             }//*/
-
-            if (mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS) >= 0
-                    || mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS) >= 0) {
+            
+            if(mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS)>=0 || 
+                        mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS)>=0)
+            {
                 tgl = clsRenderer.createTGLightFromMilStdSymbol(mSymbol, ipc);
                 tgPoints = tgl.get_Pixels();
             }
-
+            
+            //new interface
+            //IMultiPointRenderer mpr = MultiPointRenderer.getInstance();
+            clsRenderer.renderWithPolylines(mSymbol, ipc, rect);
             shapes = mSymbol.getSymbolShapes();
             modifiers = mSymbol.getModifierShapes();
 
@@ -1274,38 +1285,70 @@ public class MultiPointHandler {
                 jsonOutput.append("}");
             } else if (format == 0) {
                 String fillColor = null;
-                if (mSymbol.getFillColor() != null) //fillColor = Integer.toHexString(mSymbol.getFillColor().getRGB());//Integer.toHexString(shapeInfo.getFillColor().getRGB()
+                if(mSymbol.getFillColor() != null)
                 {
-                    fillColor = Integer.toHexString(mSymbol.getFillColor().toARGB());//Integer.toHexString(shapeInfo.getFillColor().getRGB()
-                }
-                Color textColor = null;
-            
-                textColor = mSymbol.getLineColor();
-                //String hexColor = SymbolUtilities.colorToHexString(textColor, true);
-                String hexColor = textColor.toHexString();
-                if (hexColor.equals("#FF000000"))//black
-                {
-                    textColor = Color.white;//textColor = "#FFFFFFFF";
+                    //fillColor = Integer.toHexString(mSymbol.getFillColor().getRGB());
+                    fillColor = Integer.toHexString(mSymbol.getFillColor().toARGB());                
                 }
                 
-                jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
-
+                Color textColor = null;
+                
+                textColor = mSymbol.getLineColor();
+                String hexColor = SymbolUtilities.colorToHexString(textColor, true);
+                if(hexColor.equals("#FF000000"))//black
+                    textColor = Color.white;//textColor = "#FFFFFFFF";
+                
+                jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize,textColor);
+                
                 //if there's a symbol fill or line pattern, add to KML//////////
-                if (mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS) >= 0
-                        || mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS) >= 0) {
-                }///end if symbol fill or line pattern//////////////////////////
-
+//                if(mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS)>=0 || 
+//                        mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS)>=0)
+//                {
+//                    String fillKML = AddImageFillToKML(tgPoints, jsonContent, mSymbol, ipc, normalize);
+//                    if(fillKML != null && fillKML.equals("")==false)
+//                    {
+//                        jsonContent = fillKML;
+//                    }
+//                }///end if symbol fill or line pattern//////////////////////////
+//                
+//                jsonOutput.append(jsonContent);
+                
+//                if(mSymbol.getModifierMap().indexOfKey(MilStdAttributes.LookAtTag) &&
+//                        mSymbol.getModifierMap().get(MilStdAttributes.LookAtTag).toLowerCase().equals("true"))
+//                {
+//                    String LookAtTag = JavaRendererUtilities.generateLookAtTag(geoCoords,mSymbol.getModifiers_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH));
+//                    if(LookAtTag != null && LookAtTag.endsWith("</LookAt>") == true)
+//                    {
+//                        int idx = jsonContent.indexOf("<visibility>");
+//                        jsonContent = jsonContent.substring(0,idx) + LookAtTag + jsonContent.substring(idx);
+//                    }
+//                }
+            }
+            else if (format == 2)
+            {
+                jsonOutput.append("{\"type\":\"FeatureCollection\",\"features\":");
+                //jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getLineColor());
                 jsonOutput.append(jsonContent);
-
+                jsonOutput.append(",\"properties\":{\"id\":\"");
+                jsonOutput.append(id);
+                jsonOutput.append("\",\"name\":\"");
+                jsonOutput.append(name);
+                jsonOutput.append("\",\"description\":\"");
+                jsonOutput.append(description);
+                jsonOutput.append("\",\"symbolID\":\"");
+                jsonOutput.append(symbolCode);
+                jsonOutput.append("\"}}");
+                
             }
 
         } catch (Exception exc) {
-            jsonOutput = new java.lang.StringBuilder();
+            jsonOutput = new StringBuilder();
             jsonOutput.append("{\"type\":\"error\",\"error\":\"There was an error creating the MilStdSymbol " + symbolCode + ": " + "- ");
             jsonOutput.append(exc.getMessage() + " - ");
-            //jsonOutput.append(ErrorLogger.getStackTrace(exc));
+            jsonOutput.append(ErrorLogger.getStackTrace(exc));
             jsonOutput.append("\"}");
         }
+
 
         boolean debug = false;
         if (debug == true) {
@@ -1330,8 +1373,9 @@ public class MultiPointHandler {
             }
         }
 
-        return jsonOutput.toString();
-
+        //return jsonOutput.toString();
+        return jsonContent;
+        
     }
 
     /**
@@ -2639,5 +2683,142 @@ public class MultiPointHandler {
         }
 
         return JSONed.toString();
+    }
+    static String canRenderMultiPoint(MilStdSymbol symbol)
+    {
+        int symStd = symbol.getSymbologyStandard();
+        String symbolID = symbol.getSymbolID();
+        String basicID = SymbolUtilities.getBasicSymbolID(symbolID);
+        SymbolDef sd = null;
+        int dc = 99;
+        int coordCount = symbol.getCoordinates().size();
+
+        try
+        {
+            
+            String message = "";
+            if(SymbolDefTable.getInstance().HasSymbolDef(basicID, symStd))
+            {
+                sd = SymbolDefTable.getInstance().getSymbolDef(basicID, symStd);
+            }
+
+            if(sd != null)
+            {
+                dc = sd.getDrawCategory();
+                if(coordCount < sd.getMinPoints())
+                {
+                    message = ("symbolID: \"" + symbolID  + "\" requires a minimum of " + String.valueOf(sd.getMinPoints()) + " points. " + String.valueOf(coordCount) + " are present.");
+                    return message;
+                }
+            }
+            else if(symbolID.startsWith("BS_") || symbolID.startsWith("BBS_"))
+            {
+                //Will need to be updated to do a more thorough check for
+                //basic shapes and buffered basic shapes.
+                //Return true for now.
+                return "true";
+            }
+            else
+            {
+                return ("symbolID: \"" + symbolID  + "\" not recognized.");    
+            }
+
+            //now check for required modifiers\
+            ArrayList<Double> AM = symbol.getModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE);
+            ArrayList<Double>  AN = symbol.getModifiers_AM_AN_X(ModifiersTG.AN_AZIMUTH);
+            String result = hasRequiredModifiers(symbolID, dc, AM, AN);
+
+            if(result.equals("true")==false)
+            {
+                return result;
+            }
+            else
+            {
+                return "true";
+            }
+        }
+        catch(Exception exc)
+        {
+            ErrorLogger.LogException("MultiPointHandler", "canRenderMultiPoint", exc);
+            return "true";
+        }
+    }
+    static private String hasRequiredModifiers(String symbolID, int dc, ArrayList<Double> AM, ArrayList<Double> AN)
+    {
+        
+        String message = symbolID;
+        try
+        {
+            if((dc >= 16 && dc <= 20))
+            {
+                if(dc == SymbolDef.DRAW_CATEGORY_CIRCULAR_PARAMETERED_AUTOSHAPE)//16
+                {
+                    if(AM != null && AM.size() > 0)
+                        return "true";
+                    else
+                    {
+                        message += " requires a modifiers object that has 1 distance/AM value.";
+                        return message;
+                    }
+                }
+                else if(dc == SymbolDef.DRAW_CATEGORY_RECTANGULAR_PARAMETERED_AUTOSHAPE)//17
+                {
+                    if(AM != null && AM.size() >= 2 &&
+                        AN != null && AN.size() >= 1)
+                        return "true";
+                    else
+                    {
+                        message += (" requires a modifiers object that has 2 distance/AM values and 1 azimuth/AN value.");
+                        return message;
+                    }
+                }
+                else if(dc == SymbolDef.DRAW_CATEGORY_SECTOR_PARAMETERED_AUTOSHAPE)//18
+                {
+                    if(AM != null && AM.size() >= 2 &&
+                        AN != null && AN.size() >= 2)
+                        return "true";
+                    else
+                    {
+                        message += (" requires a modifiers object that has 2 distance/AM values and 2 azimuth/AN values per sector.  The first sector can have just one AM value although it is recommended to always use 2 values for each sector.");
+                        return message;
+                    }
+                }
+                else if(dc == SymbolDef.DRAW_CATEGORY_CIRCULAR_RANGEFAN_AUTOSHAPE)//19
+                {
+                    if(AM != null && AM.size() > 0)
+                        return "true";
+                    else
+                    {
+                        message += (" requires a modifiers object that has at least 1 distance/AM value");
+                        return message;
+                    }
+                }
+                else if(dc == SymbolDef.DRAW_CATEGORY_TWO_POINT_RECT_PARAMETERED_AUTOSHAPE)//20
+                {
+                    if(AM != null && AM.size() > 0)
+                        return "true";
+                    else
+                    {
+                        message += (" requires a modifiers object that has 1 distance/AM value.");
+                        return message;
+                    }
+                }
+                else
+                {
+                    //should never get here
+                    return "true";
+                }
+            }
+            else
+            {
+                //no required parameters
+                return "true";
+            }   
+        }
+        catch(Exception exc)
+        {
+            ErrorLogger.LogException("MultiPointHandler", "hasRequiredModifiers", exc);
+            return "true";
+        }
     }
 }
