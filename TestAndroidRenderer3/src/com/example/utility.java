@@ -22,6 +22,10 @@ import sec.web.json.utilities.JSONObject;
 import sec.web.render.SECWebRenderer;
 import sec.web.render.PointConverter;
 import sec.web.render.utilities.JavaRendererUtilities;
+import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 ///**
 // * 
 // * @author Michael Deutch
@@ -1734,25 +1738,19 @@ public final class utility {
                 attributes.put(MilStdAttributes.FillColor, "FF00FF00");
             }
             SECWebRenderer sec = new SECWebRenderer();
-
-            String strRender = sec.RenderSymbol("id", "name", "description", defaultText, controlPtsStr, altitudeMode, scale, rectStr, modifiers, attributes, 0, rev);
+            String strRender="";
+            boolean twod=false;
+            twod=true;
+            if(!twod)
+                strRender = sec.RenderSymbol("id", "name", "description", defaultText, controlPtsStr, altitudeMode, scale, rectStr, modifiers, attributes, 0, rev);
+            else
+                strRender = sec.RenderSymbol2D("id", "name", "description", defaultText, controlPtsStr, (int)displayWidth, (int)displayHeight, rectStr, modifiers, attributes, 0, rev);
+            
+            //WriteKMLFile(strRender);
             strResult = strRender;
         }
         else    //Airspaces 
-        {
-//            String[]tempAM=AM.split(",");
-//            int t=tempAM.length;
-//            String[]tempAN=AN.split(",");
-//            int u=tempAN.length;
-//            String[]tempX=X.split(",");
-//            int v=tempX.length;
-//            if(u<t)
-//                for(j=u;j<t;j++)
-//                    AN+=",0";            
-//            if(v<t)
-//                for(j=v;j<t;j++)
-//                    X+=",0";
-            
+        {            
             if(AM.isEmpty())
             {
                 AM="6000,10000,4000,4000,5000,2000";

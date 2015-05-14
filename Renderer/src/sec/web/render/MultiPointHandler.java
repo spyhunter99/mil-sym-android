@@ -31,6 +31,10 @@ import armyc2.c2sd.renderer.utilities.ErrorLogger;
 import armyc2.c2sd.renderer.utilities.RendererException;
 import java.util.logging.Level;
 import armyc2.c2sd.renderer.MilStdIconRenderer;
+//import java.awt.font.TextAttribute;
+//import java.awt.font.NumericShaper;
+import android.graphics.Typeface;
+
 @SuppressWarnings({"unused", "rawtypes", "unchecked"})
 public class MultiPointHandler {
 
@@ -112,10 +116,9 @@ public class MultiPointHandler {
             int j = 0;
             double x = 0, y = 0;
             Point2D pt2d = null;
-            int n=pts2d.size();
+            int n = pts2d.size();
             //for (j = 0; j < pts2d.size(); j++) 
-            for (j = 0; j < n; j++) 
-            {
+            for (j = 0; j < n; j++) {
                 pt2d = pts2d.get(j);
                 x = pt2d.getX();
                 y = pt2d.getY();
@@ -220,10 +223,9 @@ public class MultiPointHandler {
             double top = -Double.MAX_VALUE;
             double bottom = Double.MAX_VALUE;
             Point2D ptTemp = null;
-            int n=geoCoords.size();
+            int n = geoCoords.size();
             //for (int j = 0; j < geoCoords.size(); j++) 
-            for (int j = 0; j < n; j++) 
-            {
+            for (int j = 0; j < n; j++) {
                 ptTemp = geoCoords.get(j);
                 if (ptTemp.getX() < left) {
                     left = ptTemp.getX();
@@ -261,10 +263,9 @@ public class MultiPointHandler {
             double top = geoCoords.get(0).getY();
             double right = geoCoords.get(0).getX();
             double bottom = geoCoords.get(0).getY();
-            int n=geoCoords.size();
+            int n = geoCoords.size();
             //for (j = 1; j < geoCoords.size(); j++) 
-            for (j = 1; j < n; j++) 
-            {
+            for (j = 1; j < n; j++) {
                 pt = geoCoords.get(j);
                 if (pt.getX() < left) {
                     left = pt.getX();
@@ -287,9 +288,8 @@ public class MultiPointHandler {
                 //the existing value for top. Then the left value will be the least positive x value
                 left = geoCoords.get(0).getX();
                 //for (j = 1; j < geoCoords.size(); j++) 
-                n=geoCoords.size();
-                for (j = 1; j < n; j++) 
-                {
+                n = geoCoords.size();
+                for (j = 1; j < n; j++) {
                     pt = geoCoords.get(j);
                     if (pt.getX() > 0 && pt.getX() < left) {
                         left = pt.getX();
@@ -308,10 +308,9 @@ public class MultiPointHandler {
         Point2D pt2d = getControlPoint(geoCoords);
         double left = pt2d.getX();
         Point2D ptTemp = null;
-        int n=geoCoords.size();
+        int n = geoCoords.size();
         //for (int j = 0; j < geoCoords.size(); j++) 
-        for (int j = 0; j < n; j++) 
-        {
+        for (int j = 0; j < n; j++) {
             ptTemp = geoCoords.get(j);
             if (Math.abs(ptTemp.getX() - left) > 180) {
                 return true;
@@ -409,9 +408,9 @@ public class MultiPointHandler {
                 || id.equals("G*T*F-----****X") || //Tasks Fix
                 id.equals("G*T*K-----****X") || //counterattack.
                 id.equals("G*T*KF----****X") || //counterattack by fire.
-                id.equals("G*M*ORP---****X") ||
-                id.equals("G*M*ORS---****X") ||
-                id.equals("G*T*A-----****X")) {
+                id.equals("G*M*ORP---****X")
+                || id.equals("G*M*ORS---****X")
+                || id.equals("G*T*A-----****X")) {
             return true;
         } else {
             return false;
@@ -419,7 +418,7 @@ public class MultiPointHandler {
     }
 
     /**
-     * 
+     *
      * @param id
      * @param name
      * @param description
@@ -430,7 +429,7 @@ public class MultiPointHandler {
      * @param symbolModifiers
      * @param symbolAttributes
      * @param format
-     * @return 
+     * @return
      */
     public static String RenderSymbol(String id,
             String name,
@@ -464,10 +463,11 @@ public class MultiPointHandler {
             double right = Double.valueOf(bounds[2]);
             double top = Double.valueOf(bounds[3]);
             double bottom = Double.valueOf(bounds[1]);
-            if(left==-180 && right==180)
+            if (left == -180 && right == 180) {
                 return origScale;
-            else if(left==180 && right==-180)
+            } else if (left == 180 && right == -180) {
                 return origScale;
+            }
             POINT2 ul = new POINT2(left, top);
             POINT2 ur = new POINT2(right, top);
             double widthInMeters = mdlGeodesic.geodesic_distance(ul, ur, null, null);
@@ -484,9 +484,7 @@ public class MultiPointHandler {
             if (origScale > maxScale) {
                 return maxScale;
             }
-        } 
-        catch (NumberFormatException exc) 
-        {
+        } catch (NumberFormatException exc) {
         }
         return scale;
     }
@@ -579,10 +577,9 @@ public class MultiPointHandler {
                 ipc = new PointConverter(left, top, scale);
                 Point2D ptPixels = null;
                 Point2D ptGeo = null;
-                int n=bboxCoords.size();
+                int n = bboxCoords.size();
                 //for (j = 0; j < bboxCoords.size(); j++) 
-                for (j = 0; j < n; j++) 
-                {
+                for (j = 0; j < n; j++) {
                     ptGeo = bboxCoords.get(j);
                     ptPixels = ipc.GeoToPixels(ptGeo);
                     x = ptPixels.getX();
@@ -622,19 +619,19 @@ public class MultiPointHandler {
                 bottomY = (int) temp.getY();
                 rightX = (int) temp.getX();
                 //diagnostic clipping does not work for large scales
-                if(scale>10e6)
-                {
+                if (scale > 10e6) {
                     //get widest point in the AOI
-                    double midLat=0;
-                    if(bottom<0 && top >0)
-                        midLat=0;
-                    else if(bottom<0 && top<0)
-                        midLat=top;
-                    else if(bottom>0 && top>0)
-                        midLat=bottom;
-                    
+                    double midLat = 0;
+                    if (bottom < 0 && top > 0) {
+                        midLat = 0;
+                    } else if (bottom < 0 && top < 0) {
+                        midLat = top;
+                    } else if (bottom > 0 && top > 0) {
+                        midLat = bottom;
+                    }
+
                     temp = ipc.GeoToPixels(new Point2D.Double(right, midLat));
-                    rightX = (int)temp.getX();
+                    rightX = (int) temp.getX();
                 }
                 //end section
 
@@ -658,8 +655,7 @@ public class MultiPointHandler {
             Point2D ptCoordsUL = getGeoUL(geoCoords);
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
-        if(crossesIDL(geoCoords) == true) 
-        {
+        if (crossesIDL(geoCoords) == true) {
             normalize = true;
         } else {
             normalize = false;
@@ -705,8 +701,7 @@ public class MultiPointHandler {
                 mSymbol.setFillColor(null);
             }
             String symbolIsValid = canRenderMultiPoint(mSymbol);
-            if(symbolIsValid.equals("true") == false)
-            {
+            if (symbolIsValid.equals("true") == false) {
                 String ErrorOutput = "";
                 ErrorOutput += ("{\"type\":\"error\",\"error\":\"There was an error creating the MilStdSymbol " + symbolCode + ": " + "- ");
                 ErrorOutput += (symbolIsValid + " - ");
@@ -732,14 +727,14 @@ public class MultiPointHandler {
             } else if (format == 0) {
 
                 Color textColor = null;
-            
+
                 textColor = mSymbol.getLineColor();
                 String hexColor = textColor.toHexString();
                 if (hexColor.equals("#FF000000"))//black
                 {
                     textColor = Color.white;//textColor = "#FFFFFFFF";
                 }
-                
+
                 jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
 
                 //if there's a symbol fill or line pattern, add to KML//////////
@@ -790,7 +785,7 @@ public class MultiPointHandler {
     }
 
     /**
-     * 
+     *
      * @param id
      * @param name
      * @param description
@@ -801,7 +796,7 @@ public class MultiPointHandler {
      * @param symbolModifiers
      * @param symbolAttributes
      * @param symStd
-     * @return 
+     * @return
      */
     public static MilStdSymbol RenderSymbolAsMilStdSymbol(String id,
             String name,
@@ -874,10 +869,9 @@ public class MultiPointHandler {
                 ipc = new PointConverter(ptLeft, ptTop, scale);
                 Point2D ptPixels = null;
                 Point2D ptGeo = null;
-                int n=bboxCoords.size();
+                int n = bboxCoords.size();
                 //for (int j = 0; j < bboxCoords.size(); j++) 
-                for (int j = 0; j < n; j++) 
-                {
+                for (int j = 0; j < n; j++) {
                     ptGeo = bboxCoords.get(j);
                     ptPixels = ipc.GeoToPixels(ptGeo);
                     x = ptPixels.getX();
@@ -920,19 +914,19 @@ public class MultiPointHandler {
                 rightX = (int) temp.getX();
                 //////////////////
                 //diagnostic clipping does not work for large scales
-                if(scale>10e6)
-                {
+                if (scale > 10e6) {
                     //get widest point in the AOI
-                    double midLat=0;
-                    if(bottom<0 && top >0)
-                        midLat=0;
-                    else if(bottom<0 && top<0)
-                        midLat=top;
-                    else if(bottom>0 && top>0)
-                        midLat=bottom;
-                    
+                    double midLat = 0;
+                    if (bottom < 0 && top > 0) {
+                        midLat = 0;
+                    } else if (bottom < 0 && top < 0) {
+                        midLat = top;
+                    } else if (bottom > 0 && top > 0) {
+                        midLat = bottom;
+                    }
+
                     temp = ipc.GeoToPixels(new Point2D.Double(right, midLat));
-                    rightX = (int)temp.getX();
+                    rightX = (int) temp.getX();
                 }
                 //end section
 
@@ -1129,7 +1123,8 @@ public class MultiPointHandler {
      * @param bbox The viewable area of the map. Passed in the format of a
      * string "lowerLeftX,lowerLeftY,upperRightX,upperRightY." example:
      * "-50.4,23.6,-42.2,24.2"
-     * @param symbolModifiers Modifier with multiple values should be comma delimited
+     * @param symbolModifiers Modifier with multiple values should be comma
+     * delimited
      * @param symbolAttributes
      * @param format An enumeration: 0 for KML, 1 for JSON.
      * @return A JSON or KML string representation of the graphic.
@@ -1149,8 +1144,10 @@ public class MultiPointHandler {
                 pixelWidth, pixelHeight, bbox, symbolModifiers, symbolAttributes, format,
                 RendererSettings.getInstance().getSymbologyStandard());
     }
+
     /**
      * Multipoint Rendering on flat 2D maps
+     *
      * @param id A unique ID for the symbol. only used in KML currently
      * @param name
      * @param description
@@ -1161,7 +1158,8 @@ public class MultiPointHandler {
      * @param bbox The viewable area of the map. Passed in the format of a
      * string "lowerLeftX,lowerLeftY,upperRightX,upperRightY." example:
      * "-50.4,23.6,-42.2,24.2"
-     * @param symbolModifiers Modifier with multiple values should be comma delimited
+     * @param symbolModifiers Modifier with multiple values should be comma
+     * delimited
      * @param symbolAttributes
      * @param format An enumeration: 0 for KML, 1 for JSON.
      * @param symStd An enumeration: 0 for 2525Bch2, 1 for 2525C.
@@ -1177,8 +1175,7 @@ public class MultiPointHandler {
             String bbox,
             SparseArray<String> symbolModifiers,
             SparseArray<String> symbolAttributes,
-            int format, int symStd)
-    {        
+            int format, int symStd) {
         StringBuilder jsonOutput = new StringBuilder();
         String jsonContent = "";
 
@@ -1192,7 +1189,6 @@ public class MultiPointHandler {
         ArrayList<ShapeInfo> modifiers = new ArrayList<ShapeInfo>();
         ArrayList<Point2D> geoCoords = new ArrayList<Point2D>();
         IPointConversion ipc = null;
-
 
         Double left = 0.0;
         Double right = 0.0;
@@ -1231,10 +1227,10 @@ public class MultiPointHandler {
 
             if (symbolModifiers != null && symbolModifiers.equals("") == false) {
                 populateModifiers(symbolModifiers, symbolAttributes, mSymbol);
-            }
-            else
+            } else {
                 mSymbol.setFillColor(null);
-            
+            }
+
             //build clipping bounds
             Point2D temp = null;
             int leftX;
@@ -1243,15 +1239,14 @@ public class MultiPointHandler {
             int rightX;
             int width;
             int height;
-            if(ShouldClipSymbol(symbolCode))
-            {
+            if (ShouldClipSymbol(symbolCode)) {
                 temp = ipc.GeoToPixels(new Point2D.Double(left, top));
-                leftX = (int)temp.getX();
-                topY = (int)temp.getY();
+                leftX = (int) temp.getX();
+                topY = (int) temp.getY();
 
                 temp = ipc.GeoToPixels(new Point2D.Double(right, bottom));
-                bottomY = (int)temp.getY();
-                rightX = (int)temp.getX();
+                bottomY = (int) temp.getY();
+                rightX = (int) temp.getX();
                 //////////////////
 
                 width = (int) Math.abs(rightX - leftX);
@@ -1261,25 +1256,22 @@ public class MultiPointHandler {
             }
 
             //check for required points & parameters
-            
             String symbolIsValid = canRenderMultiPoint(mSymbol);
-            if(symbolIsValid.equals("true") == false)
-            {
+            if (symbolIsValid.equals("true") == false) {
                 String ErrorOutput = "";
                 ErrorOutput += ("{\"type\":\"error\",\"error\":\"There was an error creating the MilStdSymbol " + symbolCode + ": " + "- ");
                 ErrorOutput += (symbolIsValid + " - ");
                 ErrorOutput += ("\"}");
-                ErrorLogger.LogMessage("MultiPointHandler","RenderSymbol",symbolIsValid,Level.WARNING);
+                ErrorLogger.LogMessage("MultiPointHandler", "RenderSymbol", symbolIsValid, Level.WARNING);
                 return ErrorOutput;
             }//*/
-            
-            if(mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS)>=0 || 
-                        mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS)>=0)
-            {
+
+            if (mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS) >= 0
+                    || mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS) >= 0) {
                 tgl = clsRenderer.createTGLightFromMilStdSymbol(mSymbol, ipc);
                 tgPoints = tgl.get_Pixels();
             }
-            
+
             //new interface
             //IMultiPointRenderer mpr = MultiPointRenderer.getInstance();
             clsRenderer.renderWithPolylines(mSymbol, ipc, rect);
@@ -1295,21 +1287,20 @@ public class MultiPointHandler {
                 jsonOutput.append("}");
             } else if (format == 0) {
                 String fillColor = null;
-                if(mSymbol.getFillColor() != null)
-                {
+                if (mSymbol.getFillColor() != null) {
                     //fillColor = Integer.toHexString(mSymbol.getFillColor().getRGB());
-                    fillColor = Integer.toHexString(mSymbol.getFillColor().toARGB());                
+                    fillColor = Integer.toHexString(mSymbol.getFillColor().toARGB());
                 }
-                
+
                 Color textColor = null;
-                
+
                 textColor = mSymbol.getLineColor();
                 String hexColor = SymbolUtilities.colorToHexString(textColor, true);
-                if(hexColor.equals("#FF000000"))//black
+                if (hexColor.equals("#FF000000"))//black
+                {
                     textColor = Color.white;//textColor = "#FFFFFFFF";
-                
-                jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize,textColor);
-                
+                }
+                jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
                 //if there's a symbol fill or line pattern, add to KML//////////
 //                if(mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS)>=0 || 
 //                        mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS)>=0)
@@ -1322,7 +1313,6 @@ public class MultiPointHandler {
 //                }///end if symbol fill or line pattern//////////////////////////
 //                
 //                jsonOutput.append(jsonContent);
-                
 //                if(mSymbol.getModifierMap().indexOfKey(MilStdAttributes.LookAtTag) &&
 //                        mSymbol.getModifierMap().get(MilStdAttributes.LookAtTag).toLowerCase().equals("true"))
 //                {
@@ -1333,11 +1323,9 @@ public class MultiPointHandler {
 //                        jsonContent = jsonContent.substring(0,idx) + LookAtTag + jsonContent.substring(idx);
 //                    }
 //                }
-            }
-            else if (format == 2)
-            {
+            } else if (format == 2) {
                 jsonOutput.append("{\"type\":\"FeatureCollection\",\"features\":");
-                //jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getLineColor());
+                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getLineColor());
                 jsonOutput.append(jsonContent);
                 jsonOutput.append(",\"properties\":{\"id\":\"");
                 jsonOutput.append(id);
@@ -1348,7 +1336,7 @@ public class MultiPointHandler {
                 jsonOutput.append("\",\"symbolID\":\"");
                 jsonOutput.append(symbolCode);
                 jsonOutput.append("\"}}");
-                
+
             }
 
         } catch (Exception exc) {
@@ -1358,7 +1346,6 @@ public class MultiPointHandler {
             jsonOutput.append(ErrorLogger.getStackTrace(exc));
             jsonOutput.append("\"}");
         }
-
 
         boolean debug = false;
         if (debug == true) {
@@ -1385,7 +1372,7 @@ public class MultiPointHandler {
 
         //return jsonOutput.toString();
         return jsonContent;
-        
+
     }
 
     /**
@@ -1523,8 +1510,6 @@ public class MultiPointHandler {
 
     }
 
-
-
     private static SymbolInfo MilStdSymbolToSymbolInfo(MilStdSymbol symbol) {
         SymbolInfo si = null;
 
@@ -1602,8 +1587,7 @@ public class MultiPointHandler {
             // are strings and can be added on the creation of the
             // MilStdSymbol by adding to a Map and passing in the
             // modifiers parameter.
-            if(saModifiers != null)
-            {
+            if (saModifiers != null) {
                 if (saModifiers.indexOfKey(ModifiersTG.C_QUANTITY) >= 0) {
                     modifiers.put(ModifiersTG.C_QUANTITY, String.valueOf(saModifiers.get(ModifiersTG.C_QUANTITY)));
                 }
@@ -1647,7 +1631,6 @@ public class MultiPointHandler {
                 if (saModifiers.indexOfKey(ModifiersTG.W1_DTG_2) >= 0) {
                     modifiers.put(ModifiersTG.W1_DTG_2, String.valueOf(saModifiers.get(ModifiersTG.W1_DTG_2)));
                 }
-            
 
                 //Required multipoint modifier arrays
                 if (saModifiers.indexOfKey(ModifiersTG.X_ALTITUDE_DEPTH) >= 0) {
@@ -1680,8 +1663,7 @@ public class MultiPointHandler {
                     }
                 }
             }
-            if(saAttributes != null)
-            {
+            if (saAttributes != null) {
                 // These properties are ints, not labels, they are colors.//////////////////
                 if (saAttributes.indexOfKey(MilStdAttributes.FillColor) >= 0) {
                     fillColor = (String) saAttributes.get(MilStdAttributes.FillColor);
@@ -1698,7 +1680,7 @@ public class MultiPointHandler {
                 if (saAttributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0) {
                     symstd = Integer.parseInt(saAttributes.get(MilStdAttributes.SymbologyStandard));
                 }
-                
+
                 if (saAttributes.indexOfKey(MilStdAttributes.AltitudeMode) >= 0) {
                     altMode = saAttributes.get(MilStdAttributes.AltitudeMode);
                 }
@@ -1723,10 +1705,11 @@ public class MultiPointHandler {
             if (lineWidth > 0) {
                 symbol.setLineWidth(lineWidth);
             }
-            
-            if(altMode != null)
-            	symbol.setAltitudeMode(altMode);
-            
+
+            if (altMode != null) {
+                symbol.setAltitudeMode(altMode);
+            }
+
             symbol.setUseDashArray(useDashArray);
 
             symbol.setSymbologyStandard(symstd);
@@ -1840,10 +1823,9 @@ public class MultiPointHandler {
                 ptPixels = new Point2D.Double(20, 20);
                 Point2D ptGeo = ipc.PixelsToGeo(ptPixels);
                 IPointConversion ipcTemp = new PointConverter(ptGeo.getX(), ptGeo.getY(), scale);
-                int n=bboxCoords.size();
+                int n = bboxCoords.size();
                 //for (j = 0; j < bboxCoords.size(); j++) 
-                for (j = 0; j < n; j++) 
-                {
+                for (j = 0; j < n; j++) {
                     ptGeo = bboxCoords.get(j);
                     ptPixels = ipcTemp.GeoToPixels(ptGeo);
                     bboxCoords.set(j, (Point2D) ptPixels);
@@ -2060,6 +2042,266 @@ public class MultiPointHandler {
         jstr += "\"labels\": [" + labels + "]";
         return jstr;
     }
+    private static Color getIdealTextBackgroundColor(Color fgColor)
+    {
+        //ErrorLogger.LogMessage("SymbolDraw","getIdealtextBGColor", "in function", Level.SEVERE);
+        try
+        {
+            //an array of three elements containing the
+            //hue, saturation, and brightness (in that order),
+            //of the color with the indicated red, green, and blue components/
+            float hsbvals[] = new float[3];
+
+            if(fgColor != null)
+            {/*
+                Color.RGBtoHSB(fgColor.getRed(), fgColor.getGreen(), fgColor.getBlue(), hsbvals);
+
+                if(hsbvals != null)
+                {
+                    //ErrorLogger.LogMessage("SymbolDraw","getIdealtextBGColor", "length: " + String.valueOf(hsbvals.length));
+                    //ErrorLogger.LogMessage("SymbolDraw","getIdealtextBGColor", "H: " + String.valueOf(hsbvals[0]) + " S: " + String.valueOf(hsbvals[1]) + " B: " + String.valueOf(hsbvals[2]),Level.SEVERE);
+                    if(hsbvals[2] > 0.6)
+                        return Color.BLACK;
+                    else
+                        return Color.WHITE;
+                }*/
+
+                int nThreshold = RendererSettings.getInstance().getTextBackgroundAutoColorThreshold();//160;
+                int bgDelta = (int)((fgColor.getRed() * 0.299) + (fgColor.getGreen() * 0.587) + (fgColor.getBlue() * 0.114));
+                //ErrorLogger.LogMessage("bgDelta: " + String.valueOf(255-bgDelta));
+                //if less than threshold, black, otherwise white.
+                //return (255 - bgDelta < nThreshold) ? Color.BLACK : Color.WHITE;//new Color(0, 0, 0, fgColor.getAlpha())
+                return (255 - bgDelta < nThreshold) ? new Color(0, 0, 0, fgColor.getAlpha()) : new Color(255, 255, 255, fgColor.getAlpha());
+            }
+        }
+        catch(Exception exc)
+        {
+            ErrorLogger.LogException("SymbolDraw", "getIdealtextBGColor", exc);
+        }
+        return Color.WHITE;
+    }
+
+    private static String LabelToGeoJSONString(ShapeInfo shapeInfo, IPointConversion ipc, boolean normalize, Color lineColor) {
+
+        StringBuilder JSONed = new StringBuilder();
+        StringBuilder properties = new StringBuilder();
+        StringBuilder geometry = new StringBuilder();
+
+        //Color outlineColor = SymbolDraw.getIdealTextBackgroundColor(lineColor);
+        Color outlineColor = getIdealTextBackgroundColor(lineColor);
+
+        //AffineTransform at = shapeInfo.getAffineTransform();
+        //Point2D coord = (Point2D)new Point2D.Double(at.getTranslateX(), at.getTranslateY());
+        Point2D coord = (Point2D) new Point2D.Double(shapeInfo.getGlyphPosition().getX(), shapeInfo.getGlyphPosition().getY());
+        Point2D geoCoord = ipc.PixelsToGeo(coord);
+        //M. Deutch 9-27-11
+        if (normalize) {
+            geoCoord = NormalizeCoordToGECoord(geoCoord);
+        }
+        double latitude = Math.round(geoCoord.getY() * 100000000.0) / 100000000.0;
+        double longitude = Math.round(geoCoord.getX() * 100000000.0) / 100000000.0;
+        double angle = shapeInfo.getModifierStringAngle();
+        coord.setLocation(longitude, latitude);
+
+        //diagnostic M. Deutch 10-18-11
+        shapeInfo.setGlyphPosition(coord);
+
+        String text = shapeInfo.getModifierString();
+
+        RendererSettings RS = RendererSettings.getInstance();
+
+        if (text != null && text.equals("") == false) {
+
+            JSONed.append("{\"type\":\"Feature\",\"properties\":{\"label\":\"");
+            JSONed.append(text);
+            JSONed.append("\",\"pointRadius\":0,\"fontColor\":\"");
+            JSONed.append(SymbolUtilities.colorToHexString(lineColor, false));
+            JSONed.append("\",\"fontSize\":\"");
+            JSONed.append(String.valueOf(RS.getLabelFontSize()) + "pt\"");
+            JSONed.append(",\"fontFamily\":\"");
+            JSONed.append(RS.getLabelFontName());
+            JSONed.append(", sans-serif");
+
+            if (RS.getLabelFontType() == Typeface.BOLD) {
+                JSONed.append("\",\"fontWeight\":\"bold\"");
+            } else {
+                JSONed.append("\",\"fontWeight\":\"normal\"");
+            }
+
+            JSONed.append(",\"labelAlign\":\"lm\"");
+            JSONed.append(",\"labelXOffset\":0");
+            JSONed.append(",\"labelYOffset\":0");
+            JSONed.append(",\"labelOutlineColor\":\"");
+            JSONed.append(SymbolUtilities.colorToHexString(outlineColor, false));
+            JSONed.append("\",\"labelOutlineWidth\":");
+            JSONed.append(4);
+            JSONed.append(",\"rotation\":");
+            JSONed.append(angle);
+            JSONed.append(",\"angle\":");
+            JSONed.append(angle);
+            JSONed.append("},");
+
+            JSONed.append("\"geometry\":{\"type\":\"Point\",\"coordinates\":[");
+            JSONed.append(longitude);
+            JSONed.append(",");
+            JSONed.append(latitude);
+            JSONed.append("]");
+            JSONed.append("}}");
+
+        } else {
+            return "";
+        }
+
+        return JSONed.toString();
+    }
+
+    private static String ShapeToGeoJSONString(ShapeInfo shapeInfo, IPointConversion ipc, boolean normalize) {
+        StringBuilder JSONed = new StringBuilder();
+        StringBuilder properties = new StringBuilder();
+        StringBuilder geometry = new StringBuilder();
+        String geometryType = null;
+        /*
+         NOTE: Google Earth / KML colors are backwards.
+         They are ordered Alpha,Blue,Green,Red, not Red,Green,Blue,Aplha like the rest of the world
+         * */
+        Color lineColor = shapeInfo.getLineColor();
+        Color fillColor = shapeInfo.getFillColor();
+
+        if (shapeInfo.getShapeType() == ShapeInfo.SHAPE_TYPE_FILL || fillColor != null) {
+            geometryType = "\"Polygon\"";
+        } else //if(shapeInfo.getShapeType() == ShapeInfo.SHAPE_TYPE_POLYLINE)
+        {
+            geometryType = "\"MultiLineString\"";
+        }
+
+        BasicStroke stroke = null;
+        stroke = (BasicStroke) shapeInfo.getStroke();
+        int lineWidth = 4;
+
+        if (stroke != null) {
+            lineWidth = (int) stroke.getLineWidth();
+            //lineWidth++;
+            //System.out.println("lineWidth: " + String.valueOf(lineWidth));
+        }
+
+        //generate JSON properties for feature
+        properties.append("\"properties\":{");
+        properties.append("\"label\":\"\",");
+        if (lineColor != null) {
+            properties.append("\"strokeColor\":\"" + SymbolUtilities.colorToHexString(lineColor, false) + "\",");
+            properties.append("\"lineOpacity\":" + String.valueOf(lineColor.getAlpha() / 255f) + ",");
+        }
+        if (fillColor != null) {
+            properties.append("\"fillColor\":\"" + SymbolUtilities.colorToHexString(fillColor, false) + "\",");
+            properties.append("\"fillOpacity\":" + String.valueOf(fillColor.getAlpha() / 255f) + ",");
+        }
+        String strokeWidth = String.valueOf(lineWidth);
+        properties.append("\"strokeWidth\":" + strokeWidth + ",");
+        properties.append("\"strokeWeight\":" + strokeWidth + "");
+        properties.append("}");
+
+        //generate JSON geometry for feature
+        geometry.append("\"geometry\":{\"type\":");
+        geometry.append(geometryType);
+        geometry.append(",\"coordinates\":[");
+
+        ArrayList shapesArray = shapeInfo.getPolylines();
+
+        for (int i = 0; i < shapesArray.size(); i++) {
+            ArrayList pointList = (ArrayList) shapesArray.get(i);
+
+            normalize = normalizePoints(pointList, ipc);
+
+            geometry.append("[");
+
+            //System.out.println("Pixel Coords:");
+            for (int j = 0; j < pointList.size(); j++) {
+                Point2D coord = (Point2D) pointList.get(j);
+                Point2D geoCoord = ipc.PixelsToGeo(coord);
+                //M. Deutch 9-27-11
+                if (normalize) {
+                    geoCoord = NormalizeCoordToGECoord(geoCoord);
+                }
+                double latitude = Math.round(geoCoord.getY() * 100000000.0) / 100000000.0;
+                double longitude = Math.round(geoCoord.getX() * 100000000.0) / 100000000.0;
+
+                //fix for fill crossing DTL
+                if (normalize && fillColor != null) {
+                    if (longitude > 0) {
+                        longitude -= 360;
+                    }
+                }
+
+                //diagnostic M. Deutch 10-18-11
+                //set the point as geo so that the 
+                //coord.setLocation(longitude, latitude);
+                coord = new Point2D.Double(longitude, latitude);
+                pointList.set(j, coord);
+                //end section
+
+                geometry.append("[");
+                geometry.append(longitude);
+                geometry.append(",");
+                geometry.append(latitude);
+                geometry.append("]");
+
+                if (j < (pointList.size() - 1)) {
+                    geometry.append(",");
+                }
+            }
+
+            geometry.append("]");
+
+            if (i < (shapesArray.size() - 1)) {
+                geometry.append(",");
+            }
+        }
+        geometry.append("]}");
+
+        JSONed.append("{\"type\":\"Feature\",");
+        JSONed.append(properties);
+        JSONed.append(",");
+        JSONed.append(geometry);
+        JSONed.append("}");
+
+        return JSONed.toString();
+    }
+        private static String GeoJSONize(ArrayList<ShapeInfo> shapes, ArrayList<ShapeInfo> modifiers, IPointConversion ipc, boolean normalize, Color lineColor) {
+
+        String jstr = "";
+        ShapeInfo tempModifier = null;
+        StringBuilder fc = new StringBuilder();//JSON feature collection
+
+        fc.append("[");
+        
+        int len = shapes.size();
+        for (int i = 0; i < len; i++) 
+        {
+
+            String shapesToAdd = ShapeToGeoJSONString(shapes.get(i), ipc, normalize);
+            if(shapesToAdd.length() > 0)
+                fc.append(shapesToAdd);
+            if(i < len - 1)
+                fc.append(",");
+        }
+        
+        
+
+        int len2 = modifiers.size();
+
+        for (int j = 0; j < len2; j++) {
+            tempModifier = modifiers.get(j);
+            
+            String labelsToAdd = LabelToGeoJSONString(tempModifier, ipc, normalize, lineColor);
+            if (labelsToAdd.length() > 0) {
+                fc.append(",");
+                fc.append(labelsToAdd);
+            }
+        }
+        fc.append("]");
+        String GeoJSON = fc.toString();
+        return GeoJSON;
+    }
 
     /**
      *
@@ -2188,10 +2430,9 @@ public class MultiPointHandler {
 
     private static Boolean normalizePoints(ArrayList<Point2D.Double> shape, IPointConversion ipc) {
         ArrayList geoCoords = new ArrayList();
-        int n=shape.size();
+        int n = shape.size();
         //for (int j = 0; j < shape.size(); j++) 
-        for (int j = 0; j < n; j++) 
-        {
+        for (int j = 0; j < n; j++) {
             Point2D coord = shape.get(j);
             Point2D geoCoord = ipc.PixelsToGeo(coord);
             geoCoord = NormalizeCoordToGECoord(geoCoord);
@@ -2258,7 +2499,6 @@ public class MultiPointHandler {
                 lineWidth = (int) stroke.getLineWidth();
             }
 
-
             googleLineColor = JavaRendererUtilities.ARGBtoABGR(googleLineColor);
 
             kml.append("<LineStyle>");
@@ -2300,10 +2540,9 @@ public class MultiPointHandler {
                 kml.append("<tessellate>1</tessellate>");
                 kml.append("<altitudeMode>clampToGround</altitudeMode>");
                 kml.append("<coordinates>");
-                int n=shape.size();
+                int n = shape.size();
                 //for (int j = 0; j < shape.size(); j++) 
-                for (int j = 0; j < n; j++) 
-                {
+                for (int j = 0; j < n; j++) {
                     Point2D coord = (Point2D) shape.get(j);
                     Point2D geoCoord = ipc.PixelsToGeo(coord);
                     if (normalize) {
@@ -2344,10 +2583,9 @@ public class MultiPointHandler {
                 //for fills then this section will need to be commented or it will induce an error.
                 double lastLongitude = Double.MIN_VALUE;
                 if (normalize == false && IsOnePointSymbolCode(symbolCode)) {
-                    int n=shape.size();
+                    int n = shape.size();
                     //for (int j = 0; j < shape.size(); j++) 
-                    for (int j = 0; j < n; j++) 
-                    {
+                    for (int j = 0; j < n; j++) {
                         Point2D coord = (Point2D) shape.get(j);
                         Point2D geoCoord = ipc.PixelsToGeo(coord);
                         double longitude = geoCoord.getX();
@@ -2360,10 +2598,9 @@ public class MultiPointHandler {
                         lastLongitude = longitude;
                     }
                 }
-                int n=shape.size();
+                int n = shape.size();
                 //for (int j = 0; j < shape.size(); j++) 
-                for (int j = 0; j < n; j++) 
-                {
+                for (int j = 0; j < n; j++) {
                     Point2D coord = (Point2D) shape.get(j);
                     Point2D geoCoord = ipc.PixelsToGeo(coord);
 
@@ -2414,10 +2651,9 @@ public class MultiPointHandler {
             ArrayList shape = (ArrayList) shapesArray.get(i);
 
             if (shapeInfo.getLineColor() != null) {
-                int n=shape.size();
+                int n = shape.size();
                 //for (int j = 0; j < shape.size(); j++) 
-                for (int j = 0; j < n; j++) 
-                {
+                for (int j = 0; j < n; j++) {
                     Point2D coord = (Point2D) shape.get(j);
                     Point2D geoCoord = ipc.PixelsToGeo(coord);
                     //M. Deutch 9-26-11
@@ -2432,10 +2668,9 @@ public class MultiPointHandler {
             }
 
             if (shapeInfo.getFillColor() != null) {
-                int n=shape.size();
+                int n = shape.size();
                 //for (int j = 0; j < shape.size(); j++) 
-                for (int j = 0; j < n; j++) 
-                {
+                for (int j = 0; j < n; j++) {
                     Point2D coord = (Point2D) shape.get(j);
                     Point2D geoCoord = ipc.PixelsToGeo(coord);
                     //M. Deutch 9-26-11
@@ -2480,6 +2715,7 @@ public class MultiPointHandler {
 
         return shapeInfo;
     }
+
     /**
      * Google earth centers text on point rather than drawing from that point.
      * So we need to adjust the point to where the center of the text would be.
@@ -2529,10 +2765,9 @@ public class MultiPointHandler {
         }
 
         ArrayList shapesArray = shapeInfo.getPolylines();
-        int n=shapesArray.size();
+        int n = shapesArray.size();
         //for (int i = 0; i < shapesArray.size(); i++) 
-        for (int i = 0; i < n; i++) 
-        {
+        for (int i = 0; i < n; i++) {
             ArrayList shape = (ArrayList) shapesArray.get(i);
 
             if (fillColor != null) {
@@ -2541,10 +2776,9 @@ public class MultiPointHandler {
                 JSONed.append("{\"line\":[");
             }
 
-            int t=shape.size();
+            int t = shape.size();
             //for (int j = 0; j < shape.size(); j++) 
-            for (int j = 0; j < t; j++) 
-            {
+            for (int j = 0; j < t; j++) {
                 Point2D coord = (Point2D) shape.get(j);
                 Point2D geoCoord = ipc.PixelsToGeo(coord);
                 //M. Deutch 9-27-11
@@ -2615,7 +2849,6 @@ public class MultiPointHandler {
         String cdataStart = "<![CDATA[";
         String cdataEnd = "]]>";
 
-        
         String color = Integer.toHexString(textColor.toARGB());
         color = JavaRendererUtilities.ARGBtoABGR(color);
 
@@ -2694,8 +2927,8 @@ public class MultiPointHandler {
 
         return JSONed.toString();
     }
-    static String canRenderMultiPoint(MilStdSymbol symbol)
-    {
+
+    static String canRenderMultiPoint(MilStdSymbol symbol) {
         int symStd = symbol.getSymbologyStandard();
         String symbolID = symbol.getSymbolID();
         String basicID = SymbolUtilities.getBasicSymbolID(symbolID);
@@ -2703,130 +2936,100 @@ public class MultiPointHandler {
         int dc = 99;
         int coordCount = symbol.getCoordinates().size();
 
-        try
-        {
-            
+        try {
+
             String message = "";
-            if(SymbolDefTable.getInstance().HasSymbolDef(basicID, symStd))
-            {
+            if (SymbolDefTable.getInstance().HasSymbolDef(basicID, symStd)) {
                 sd = SymbolDefTable.getInstance().getSymbolDef(basicID, symStd);
             }
 
-            if(sd != null)
-            {
+            if (sd != null) {
                 dc = sd.getDrawCategory();
-                if(coordCount < sd.getMinPoints())
-                {
-                    message = ("symbolID: \"" + symbolID  + "\" requires a minimum of " + String.valueOf(sd.getMinPoints()) + " points. " + String.valueOf(coordCount) + " are present.");
+                if (coordCount < sd.getMinPoints()) {
+                    message = ("symbolID: \"" + symbolID + "\" requires a minimum of " + String.valueOf(sd.getMinPoints()) + " points. " + String.valueOf(coordCount) + " are present.");
                     return message;
                 }
-            }
-            else if(symbolID.startsWith("BS_") || symbolID.startsWith("BBS_"))
-            {
+            } else if (symbolID.startsWith("BS_") || symbolID.startsWith("BBS_")) {
                 //Will need to be updated to do a more thorough check for
                 //basic shapes and buffered basic shapes.
                 //Return true for now.
                 return "true";
-            }
-            else
-            {
-                return ("symbolID: \"" + symbolID  + "\" not recognized.");    
+            } else {
+                return ("symbolID: \"" + symbolID + "\" not recognized.");
             }
 
             //now check for required modifiers\
             ArrayList<Double> AM = symbol.getModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE);
-            ArrayList<Double>  AN = symbol.getModifiers_AM_AN_X(ModifiersTG.AN_AZIMUTH);
+            ArrayList<Double> AN = symbol.getModifiers_AM_AN_X(ModifiersTG.AN_AZIMUTH);
             String result = hasRequiredModifiers(symbolID, dc, AM, AN);
 
-            if(result.equals("true")==false)
-            {
+            if (result.equals("true") == false) {
                 return result;
-            }
-            else
-            {
+            } else {
                 return "true";
             }
-        }
-        catch(Exception exc)
-        {
+        } catch (Exception exc) {
             ErrorLogger.LogException("MultiPointHandler", "canRenderMultiPoint", exc);
             return "true";
         }
     }
-    static private String hasRequiredModifiers(String symbolID, int dc, ArrayList<Double> AM, ArrayList<Double> AN)
-    {
-        
+
+    static private String hasRequiredModifiers(String symbolID, int dc, ArrayList<Double> AM, ArrayList<Double> AN) {
+
         String message = symbolID;
-        try
-        {
-            if((dc >= 16 && dc <= 20))
-            {
-                if(dc == SymbolDef.DRAW_CATEGORY_CIRCULAR_PARAMETERED_AUTOSHAPE)//16
+        try {
+            if ((dc >= 16 && dc <= 20)) {
+                if (dc == SymbolDef.DRAW_CATEGORY_CIRCULAR_PARAMETERED_AUTOSHAPE)//16
                 {
-                    if(AM != null && AM.size() > 0)
+                    if (AM != null && AM.size() > 0) {
                         return "true";
-                    else
-                    {
+                    } else {
                         message += " requires a modifiers object that has 1 distance/AM value.";
                         return message;
                     }
-                }
-                else if(dc == SymbolDef.DRAW_CATEGORY_RECTANGULAR_PARAMETERED_AUTOSHAPE)//17
+                } else if (dc == SymbolDef.DRAW_CATEGORY_RECTANGULAR_PARAMETERED_AUTOSHAPE)//17
                 {
-                    if(AM != null && AM.size() >= 2 &&
-                        AN != null && AN.size() >= 1)
+                    if (AM != null && AM.size() >= 2
+                            && AN != null && AN.size() >= 1) {
                         return "true";
-                    else
-                    {
+                    } else {
                         message += (" requires a modifiers object that has 2 distance/AM values and 1 azimuth/AN value.");
                         return message;
                     }
-                }
-                else if(dc == SymbolDef.DRAW_CATEGORY_SECTOR_PARAMETERED_AUTOSHAPE)//18
+                } else if (dc == SymbolDef.DRAW_CATEGORY_SECTOR_PARAMETERED_AUTOSHAPE)//18
                 {
-                    if(AM != null && AM.size() >= 2 &&
-                        AN != null && AN.size() >= 2)
+                    if (AM != null && AM.size() >= 2
+                            && AN != null && AN.size() >= 2) {
                         return "true";
-                    else
-                    {
+                    } else {
                         message += (" requires a modifiers object that has 2 distance/AM values and 2 azimuth/AN values per sector.  The first sector can have just one AM value although it is recommended to always use 2 values for each sector.");
                         return message;
                     }
-                }
-                else if(dc == SymbolDef.DRAW_CATEGORY_CIRCULAR_RANGEFAN_AUTOSHAPE)//19
+                } else if (dc == SymbolDef.DRAW_CATEGORY_CIRCULAR_RANGEFAN_AUTOSHAPE)//19
                 {
-                    if(AM != null && AM.size() > 0)
+                    if (AM != null && AM.size() > 0) {
                         return "true";
-                    else
-                    {
+                    } else {
                         message += (" requires a modifiers object that has at least 1 distance/AM value");
                         return message;
                     }
-                }
-                else if(dc == SymbolDef.DRAW_CATEGORY_TWO_POINT_RECT_PARAMETERED_AUTOSHAPE)//20
+                } else if (dc == SymbolDef.DRAW_CATEGORY_TWO_POINT_RECT_PARAMETERED_AUTOSHAPE)//20
                 {
-                    if(AM != null && AM.size() > 0)
+                    if (AM != null && AM.size() > 0) {
                         return "true";
-                    else
-                    {
+                    } else {
                         message += (" requires a modifiers object that has 1 distance/AM value.");
                         return message;
                     }
-                }
-                else
-                {
+                } else {
                     //should never get here
                     return "true";
                 }
-            }
-            else
-            {
+            } else {
                 //no required parameters
                 return "true";
-            }   
-        }
-        catch(Exception exc)
-        {
+            }
+        } catch (Exception exc) {
             ErrorLogger.LogException("MultiPointHandler", "hasRequiredModifiers", exc);
             return "true";
         }
