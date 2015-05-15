@@ -2162,9 +2162,28 @@ public class ModifierRenderer
             }
         }
 
-        if (basicID.equals("G*G*GPH---****X")
-                || basicID.equals("G*G*GPPC--****X")
+        if (basicID.equals("G*G*GPPC--****X")
                 || basicID.equals("G*G*GPPD--****X"))
+        {
+            if (modifiers.indexOfKey(ModifiersTG.T_UNIQUE_DESIGNATION_1) >= 0)
+            {
+                strText = modifiers.get(ModifiersTG.T_UNIQUE_DESIGNATION_1);
+                if(strText != null)
+                {
+	                ti = new TextInfo(strText, 0, 0, _modifierFont);
+	                labelWidth = Math.round(ti.getTextBounds().width());
+	                //One modifier symbols and modifier goes in center
+	                x = bounds.left + (int) (bounds.width() * 0.5f);
+	                x = x - (int) (labelWidth * 0.5f);
+	                y = bounds.top + (int) (bounds.height() * 0.4f);
+	                y = y + (int) (labelHeight * 0.5f);
+	
+	                ti.setLocation(Math.round(x), Math.round(y));
+	                arrMods.add(ti);
+                }
+            }
+        }
+        else if (basicID.equals("G*G*GPH---****X"))
         {
             if (modifiers.indexOfKey(ModifiersTG.H_ADDITIONAL_INFO_1) >= 0)
             {

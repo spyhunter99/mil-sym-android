@@ -17,11 +17,13 @@ import armyc2.c2sd.renderer.utilities.RendererSettings;
 import armyc2.c2sd.renderer.utilities.SinglePointLookup;
 import armyc2.c2sd.renderer.utilities.SymbolDef;
 import armyc2.c2sd.renderer.utilities.SymbolDefTable;
+import armyc2.c2sd.renderer.utilities.SymbolSVGTable;
 import armyc2.c2sd.renderer.utilities.SymbolUtilities;
 import armyc2.c2sd.renderer.utilities.TacticalGraphicLookup;
 import armyc2.c2sd.renderer.utilities.UnitDef;
 import armyc2.c2sd.renderer.utilities.UnitDefTable;
 import armyc2.c2sd.renderer.utilities.UnitFontLookup;
+import armyc2.c2sd.renderer.utilities.UnitSVGTable;
 
 public class MilStdIconRenderer/* implements IIconRenderer */ {
 
@@ -31,7 +33,7 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
     private static MilStdIconRenderer _instance = null;
     private Boolean _initSucces = false;
     private SinglePointRenderer _SPR = null;
-    //private SinglePointSVGRenderer _SPSVGR = null;
+    private SinglePointSVGRenderer _SPSVGR = null;
 
     public static synchronized
             MilStdIconRenderer getInstance()
@@ -111,12 +113,14 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
                 SinglePointLookup.getInstance().init(symbolMappings);//*/
                 TacticalGraphicLookup.getInstance().init(tacticalgraphics);
 
-	    		//PROTOTYPE SVG////////////////////////////////////////
-	    		/*String USVG = getXML("unitfontsvg.svg");
+                 //PROTOTYPE SVG////////////////////////////////////////
+                 //works, but half speed
+                 /*String USVG = getXML("unitfontsvg.svg");
                  UnitSVGTable.getInstance().init(USVG);
                  String SPSVG = getXML("singlepointsvg.svg");
                  SymbolSVGTable.getInstance().init(SPSVG);//*/
                 //////////////////////////////////////////////////////
+                
                 //setup single point renderer
                 _SPR = SinglePointRenderer.getInstance();
                 //_SPSVGR = SinglePointSVGRenderer.getInstance();
@@ -280,8 +284,7 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
     }
 
     //@Override
-    public
-            ImageInfo RenderIcon(String symbolID, SparseArray<String> modifiers, SparseArray<String> attributes)
+    public ImageInfo RenderIcon(String symbolID, SparseArray<String> modifiers, SparseArray<String> attributes)
     {
 
         int symStd = 1;
@@ -322,8 +325,17 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
         }
         else
         {
-            temp = _SPR.RenderUnit(symbolID, modifiers, attributes);
-            //temp = _SPSVGR.RenderUnit(symbolID, modifiers,attributes);
+        	temp = _SPR.RenderUnit(symbolID, modifiers, attributes);
+            /*if(RendererSettings.getInstance().getIconEngine() == RendererSettings.IconEngine_FONT)
+            {
+                temp = _SPR.RenderUnit(symbolID, modifiers, attributes);
+            }
+            else
+            {
+                temp = _SPSVGR.RenderUnit(symbolID, modifiers,attributes);
+            }//*/
+            
+            
         }
 
         return temp;

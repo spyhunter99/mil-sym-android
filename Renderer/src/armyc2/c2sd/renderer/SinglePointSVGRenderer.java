@@ -39,863 +39,980 @@ import armyc2.c2sd.renderer.utilities.UnitSVGTable;
 public class SinglePointSVGRenderer
 {
 
-    private String TAG = "armyc2.c2sd.singlepointrenderer.SinglePointRenderer";
-    private static SinglePointSVGRenderer _instance = null;
-    private static Bitmap dimensionsBMP = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
+	private String TAG = "armyc2.c2sd.singlepointrenderer.SinglePointRenderer";
+	private static SinglePointSVGRenderer _instance = null;
+	// private static Bitmap dimensionsBMP = Bitmap.createBitmap(10, 10,
+	// Config.ARGB_8888);
 
-    private Typeface _tfUnits = null;
-    private Typeface _tfSP = null;
-    private Typeface _tfTG = null;
+	private Typeface _tfUnits = null;
+	private Typeface _tfSP = null;
+	private Typeface _tfTG = null;
 
-    private
-            SinglePointSVGRenderer()
-    {
+	private SinglePointSVGRenderer()
+	{
 
-    }
+	}
 
-    public static synchronized
-            SinglePointSVGRenderer getInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = new SinglePointSVGRenderer();
-        }
+	public static synchronized SinglePointSVGRenderer getInstance()
+	{
+		if (_instance == null)
+		{
+			_instance = new SinglePointSVGRenderer();
+		}
 
-        return _instance;
-    }
+		return _instance;
+	}
 
-    /**
-     *
-     * @param symbolID
-     * @param modifiers
-     * @return
-     */
-    public
-            ImageInfo RenderUnit(String symbolID, SparseArray<String> modifiers, SparseArray<String> attributes)
-    {
-        //L 1.5 = 2650 pixel units in the svg font file
-        double L1_5 = 2650;
-        Bitmap finalBmp = null;
+	/**
+	 * 
+	 * @param symbolID
+	 * @param modifiers
+	 * @return
+	 */
+	public ImageInfo RenderUnit(String symbolID, SparseArray<String> modifiers,
+			SparseArray<String> attributes)
+	{
+		// L 1.5 = 2650 pixel units in the svg font file
+		//100& normal font size
+                //double L1_5 = 2650;
+                //50% normal font size
+                double L1_5 = 1325;
+		Bitmap finalBmp = null;
 
-        Bitmap coreBMP = null;
-        try
-        {
-            Canvas g = new Canvas(dimensionsBMP);
+		Bitmap coreBMP = null;
+		try
+		{
+			Canvas g = null;// new Canvas(dimensionsBMP);
 
-            //get font character indexes
-            int fillIndex = -1;
-            int frameIndex = -1;
-            int symbol1Index = -1;
-            int symbol2Index = -1;
-            SVGPath svgFill = null;
-            SVGPath svgFrame = null;
-            SVGPath svgSymbol1 = null;
-            SVGPath svgSymbol2 = null;
+			// get font character indexes
+			int fillIndex = -1;
+			int frameIndex = -1;
+			int symbol1Index = -1;
+			int symbol2Index = -1;
+			int frameAssumeIndex = -1;
+			SVGPath svgFill = null;
+			SVGPath svgFrame = null;
+			SVGPath svgSymbol1 = null;
+			SVGPath svgSymbol2 = null;
 
-            //get attributes
-            int alpha = 255;
-            Boolean drawAsIcon = false;
-            Boolean keepUnitRatio = true;
-            int pixelSize = 0;
-            Color fillColor = SymbolUtilities.getFillColorOfAffiliation(symbolID);
-            Color frameColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
+			// get attributes
+			int alpha = 255;
+			Boolean drawAsIcon = false;
+			Boolean keepUnitRatio = true;
+			int pixelSize = 0;
+			Color fillColor = SymbolUtilities
+					.getFillColorOfAffiliation(symbolID);
+			Color lineColor = SymbolUtilities
+					.getLineColorOfAffiliation(symbolID);
 
-            if (attributes == null)
-            {
-                attributes = new SparseArray<String>();
-            }
-            if (attributes.indexOfKey(MilStdAttributes.LineColor) >= 0)
-            {
-                frameColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.LineColor));
-            }
+			boolean hasDisplayModifiers = false;
+			boolean hasTextModifiers = false;
+			boolean icon = false;
+			int symStd = RendererSettings.getInstance().getSymbologyStandard();
 
-            if (attributes.indexOfKey(MilStdAttributes.FillColor) >= 0)
-            {
-                fillColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.FillColor));
-            }
+			try
+			{
 
-            if (attributes.indexOfKey(MilStdAttributes.Alpha) >= 0)
-            {
-                alpha = Integer.parseInt(attributes.get(MilStdAttributes.Alpha));
-            }
+				// get MilStdAttributes
+				if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
+				{
+					symStd = Integer.parseInt(attributes
+							.get(MilStdAttributes.SymbologyStandard));
+				}
 
-            if (attributes.indexOfKey(MilStdAttributes.DrawAsIcon) >= 0)
-            {
-                drawAsIcon = Boolean.parseBoolean(attributes.get(MilStdAttributes.DrawAsIcon));
-            }
+				if (symStd > RendererSettings.Symbology_2525Bch2_USAS_13_14)
+				{
+					char affiliation = symbolID.charAt(1);
+					switch (affiliation)
+					{
+					case 'P':
+					case 'A':
+					case 'S':
+					case 'G':
+					case 'M':
+						frameAssumeIndex = fillIndex + 2;
+						break;
+					}
+					/*
+					 * if (frameAssumeIndex > 0) { frameAssume = (char)
+					 * (frameAssumeIndex); }
+					 */
+				}
 
-            if (attributes.indexOfKey(MilStdAttributes.PixelSize) >= 0)
-            {
-                pixelSize = Integer.parseInt(attributes.get(MilStdAttributes.PixelSize));
-            }
-            else
-            {
-                pixelSize = 35;
-            }
+				if (attributes.indexOfKey(MilStdAttributes.PixelSize) >= 0)
+				{
+					pixelSize = Integer.parseInt(attributes
+							.get(MilStdAttributes.PixelSize));
+				}
+				else
+				{
+					pixelSize = RendererSettings.getInstance()
+							.getDefaultPixelSize();
+				}
 
-            if (attributes.indexOfKey(MilStdAttributes.KeepUnitRatio) >= 0)
-            {
-                keepUnitRatio = Boolean.parseBoolean(attributes.get(MilStdAttributes.KeepUnitRatio));
-            }
+				if (attributes.indexOfKey(MilStdAttributes.KeepUnitRatio) >= 0)
+				{
+					keepUnitRatio = Boolean.parseBoolean(attributes
+							.get(MilStdAttributes.KeepUnitRatio));
+				}
 
-            UnitFontLookupInfo ufli = UnitFontLookup.getInstance().getLookupInfo(symbolID, 0);
-            fillIndex = UnitFontLookup.getFillCode(symbolID);
-            frameIndex = UnitFontLookup.getFrameCode(symbolID, fillIndex);
-            if (ufli != null)
-            {
-                symbol1Index = ufli.getMapping1(symbolID);
-                symbol2Index = ufli.getMapping2();
-            }
+				if (attributes.indexOfKey(MilStdAttributes.DrawAsIcon) >= 0)
+				{
+					icon = Boolean.parseBoolean(attributes
+							.get(MilStdAttributes.DrawAsIcon));
+				}
 
-            if (fillIndex > 0)
-            {
-                svgFill = UnitSVGTable.getInstance().getSVGPath(String.valueOf(fillIndex));
-            }
-            if (frameIndex > 0)
-            {
-                svgFrame = UnitSVGTable.getInstance().getSVGPath(String.valueOf(frameIndex));
-            }
-            if (symbol1Index > 0)
-            {
-                svgSymbol1 = UnitSVGTable.getInstance().getSVGPath(String.valueOf(symbol1Index));
-            }
-            if (symbol2Index > 0)
-            {
-                svgSymbol2 = UnitSVGTable.getInstance().getSVGPath(String.valueOf(symbol2Index));
-            }
+				if (icon)// icon won't show modifiers or display icons
+				{
+					keepUnitRatio = false;
+					hasDisplayModifiers = false;
+					hasTextModifiers = false;
+					symbolID = symbolID.substring(0, 10) + "-----";
+				}
+				else
+				{
+					hasDisplayModifiers = ModifierRenderer.hasDisplayModifiers(
+							symbolID, modifiers);
+					hasTextModifiers = ModifierRenderer.hasTextModifiers(
+							symbolID, modifiers, attributes);
+				}
 
-            //get dimensions for this symbol given the font size & fill index
-            Matrix matrix = null;
-            double heightL = 1;
-            double widthL = 1;
+				if (attributes.indexOfKey(MilStdAttributes.LineColor) >= 0)
+				{
+					lineColor = new Color(
+							attributes.get(MilStdAttributes.LineColor));
+				}
+				if (attributes.indexOfKey(MilStdAttributes.FillColor) >= 0)
+				{
+					fillColor = new Color(
+							attributes.get(MilStdAttributes.FillColor));
+				}
 
-            if (keepUnitRatio)
-            {
-                RectF rectFrame = svgFrame.getBounds();
-                double ratio = pixelSize / L1_5 / 1.5;
-                widthL = UnitFontLookup.getUnitRatioWidth(fillIndex);
-                heightL = UnitFontLookup.getUnitRatioHeight(fillIndex);
-                if (widthL > heightL)
-                {
-                    ratio = ratio * widthL;
-                }
-                else
-                {
-                    ratio = ratio * heightL;
-                }
-                pixelSize = (int) ((ratio * L1_5) + 0.5);
+			}
+			catch (Exception excModifiers)
+			{
+				ErrorLogger.LogException("MilStdIconRenderer", "RenderUnit",
+						excModifiers);
+			}
 
-            }
+			UnitFontLookupInfo ufli = UnitFontLookup.getInstance()
+					.getLookupInfo(symbolID, 0);
+			fillIndex = UnitFontLookup.getFillCode(symbolID);
+			frameIndex = UnitFontLookup.getFrameCode(symbolID, fillIndex);
+			if (ufli != null)
+			{
+				symbol1Index = ufli.getMapping1(symbolID);
+				symbol2Index = ufli.getMapping2();
+			}
 
-            matrix = svgFrame.TransformToFitDimensions(pixelSize, pixelSize);
+			if (fillIndex > 0)
+			{
+				svgFill = UnitSVGTable.getInstance().getSVGPath(
+						String.valueOf(fillIndex));
+			}
+			if (frameIndex > 0)
+			{
+				svgFrame = UnitSVGTable.getInstance().getSVGPath(
+						String.valueOf(frameIndex));
+			}
+			if (symbol1Index > 0)
+			{
+				svgSymbol1 = UnitSVGTable.getInstance().getSVGPath(
+						String.valueOf(symbol1Index));
+			}
+			if (symbol2Index > 0)
+			{
+				svgSymbol2 = UnitSVGTable.getInstance().getSVGPath(
+						String.valueOf(symbol2Index));
+			}
 
-            RectF rectF = svgFrame.getBounds();
+			// get dimensions for this symbol given the font size & fill index
+			Matrix matrix = null;
+			double heightL = 1;
+			double widthL = 1;
 
-            int w = (int) (rectF.width() + 1.5f);
-            int h = (int) (rectF.height() + 1.5f);
-            coreBMP = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-            Point centerPoint = new Point(w / 2, h / 2);
+			if (keepUnitRatio)
+			{
+				RectF rectFrame = svgFrame.getBounds();
+				double ratio = pixelSize / L1_5 / 1.5;
+				widthL = UnitFontLookup.getUnitRatioWidth(fillIndex);
+				heightL = UnitFontLookup.getUnitRatioHeight(fillIndex);
+				if (widthL > heightL)
+				{
+					ratio = ratio * widthL;
+				}
+				else
+				{
+					ratio = ratio * heightL;
+				}
+				pixelSize = (int) ((ratio * L1_5) + 0.5);
 
-            //draw location
-            PointF location = new PointF(0, 0);
-            location.x = (rectF.width() / 2.0f);// +0.5f;//use 0.5f to round up
-            location.y = -(rectF.height() / 2.0f);
+			}
 
-            //get & setup graphics object for destination BMP
-            g = new Canvas(coreBMP);
+			matrix = svgFrame.TransformToFitDimensions(pixelSize, pixelSize);
 
-            //draw symbol to BMP
-            if (svgFill != null)
-            {
-                svgFill.Transform(matrix);
-                svgFill.Draw(g, null, 0, fillColor, null);
-            }
-            if (svgFrame != null)
-            {
-                svgFrame.Draw(g, null, 0, frameColor, null);
-            }
-            if (svgSymbol2 != null)
-            {
-                svgSymbol2.Draw(g, null, 0, ufli.getColor2(), matrix);
-            }
-            if (svgSymbol1 != null)
-            {
-                svgSymbol1.Draw(g, null, 0, ufli.getColor1(), matrix);
-            }
+			RectF rectF = svgFrame.getBounds();
 
-            RectF coreDimensions = new RectF(0, 0, w, h);
-            Rect finalDimensions = new Rect(0, 0, w, h);
+			int w = (int) (rectF.width() + 1.5f);
+			int h = (int) (rectF.height() + 1.5f);
+			coreBMP = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+			Point centerPoint = new Point(w / 2, h / 2);
 
-            //adjust centerpoint for HQStaff if present
-            if (SymbolUtilities.isHQ(symbolID))
-            {
-                Point point1 = new Point();
-                Point point2 = new Point();
-                String affiliation = symbolID.substring(1, 2);
-                if (affiliation == ("F")
-                        || affiliation == ("A")
-                        || affiliation == ("D")
-                        || affiliation == ("M")
-                        || affiliation == ("J")
-                        || affiliation == ("K")
-                        || affiliation == ("N")
-                        || affiliation == ("L"))
-                {
-                    point1.x = 0;
-                    point1.y = (coreBMP.getHeight());
-                    point2.x = point1.x;
-                    point2.y = point1.y + coreBMP.getHeight();
-                }
-                else
-                {
-                    point1.x = 1;
-                    point1.y = (coreBMP.getHeight() / 2);
-                    point2.x = point1.x;
-                    point2.y = point1.y + coreBMP.getHeight();
-                }
-                centerPoint = point2;
-            }
+			// draw location
+			PointF location = new PointF(0, 0);
+			location.x = (rectF.width() / 2.0f);// +0.5f;//use 0.5f to round up
+			location.y = -(rectF.height() / 2.0f);
 
-            //process display modifiers
-            //List<PathInfo> shapes = null;// new List<SECRendererUtils.PathInfo>();
-            //shapes = ProcessUnitDisplayModifiers(symbolID, bmp, modifiers, attributes);
-            //process label modifiers
-            finalBmp = Bitmap.createBitmap(finalDimensions.right, finalDimensions.bottom, Bitmap.Config.ARGB_8888);
-            Canvas dest = new Canvas(finalBmp);
+			// get & setup graphics object for destination BMP
+			g = new Canvas(coreBMP);
 
-            dest.drawBitmap(coreBMP, new Matrix(), null);
-            //bool success = GDI.CopyImage(coreBMP, finalBmp, (int)(coreDimensions.X), (int)(coreDimensions.Y));
+			// draw symbol to BMP
+			if (svgFill != null)
+			{
+				svgFill.Transform(matrix);
+				svgFill.Draw(g, null, 0, fillColor, null);
+			}
+			if (svgFrame != null)
+			{
+				svgFrame.Draw(g, null, 0, lineColor, null);
+			}
+			if (svgSymbol2 != null)
+			{
+				svgSymbol2.Draw(g, null, 0, ufli.getColor2(), matrix);
+			}
+			if (svgSymbol1 != null)
+			{
+				svgSymbol1.Draw(g, null, 0, ufli.getColor1(), matrix);
+			}
 
-            Rect symbolBounds = new Rect(0, 0, finalBmp.getWidth(), finalBmp.getHeight());
-            ImageInfo ii = new ImageInfo(finalBmp, new Point(centerPoint.x, centerPoint.y), symbolBounds);
+			RectF coreDimensions = new RectF(0, 0, w, h);
+			Rect finalDimensions = new Rect(0, 0, w, h);
 
-            //test
-            //////
-            return ii;
-        }
-        catch (Exception exc)
-        {
-            ErrorLogger.LogException("SinglePointRenderer", "RenderUnit", exc);
-            return null;
-        }
-    }
+			// adjust centerpoint for HQStaff if present
+			if (SymbolUtilities.isHQ(symbolID))
+			{
+				Point point1 = new Point();
+				Point point2 = new Point();
+				String affiliation = symbolID.substring(1, 2);
+				if (affiliation == ("F") || affiliation == ("A")
+						|| affiliation == ("D") || affiliation == ("M")
+						|| affiliation == ("J") || affiliation == ("K")
+						|| affiliation == ("N") || affiliation == ("L"))
+				{
+					point1.x = 0;
+					point1.y = (coreBMP.getHeight());
+					point2.x = point1.x;
+					point2.y = point1.y + coreBMP.getHeight();
+				}
+				else
+				{
+					point1.x = 1;
+					point1.y = (coreBMP.getHeight() / 2);
+					point2.x = point1.x;
+					point2.y = point1.y + coreBMP.getHeight();
+				}
+				centerPoint = point2;
+			}
 
-    /**
-     *
-     * @param symbolID
-     * @param modifiers
-     * @return
-     */
-    @SuppressWarnings("unused")
-    public
-            ImageInfo RenderSP(String symbolID, SparseArray<String> modifiers)
-    {
-        ImageInfo temp = null;
-        String basicSymbolID = null;
-        float fontSize = RendererSettings.getInstance().getSPFontSize();
-        Color lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
-        Color fillColor = null;//SymbolUtilities.getFillColorOfAffiliation(symbolID);
-        int alpha = -1;
+			// process display modifiers
+			// List<PathInfo> shapes = null;// new
+			// List<SECRendererUtils.PathInfo>();
+			// shapes = ProcessUnitDisplayModifiers(symbolID, bmp, modifiers,
+			// attributes);
+			// process label modifiers
+			finalBmp = Bitmap.createBitmap(finalDimensions.right,
+					finalDimensions.bottom, Bitmap.Config.ARGB_8888);
+			Canvas dest = new Canvas(finalBmp);
 
-        int symStd = RendererSettings.getInstance().getSymbologyStandard();
-        //fill character
-        int charFillIndex = -1;
-        //frame character
-        int charFrameIndex = -1;
+			dest.drawBitmap(coreBMP, new Matrix(), null);
+			// bool success = GDI.CopyImage(coreBMP, finalBmp,
+			// (int)(coreDimensions.X), (int)(coreDimensions.Y));
 
-        SymbolDef sd = null;
+			Rect symbolBounds = new Rect(0, 0, finalBmp.getWidth(),
+					finalBmp.getHeight());
+			ImageInfo ii = new ImageInfo(finalBmp, new Point(centerPoint.x,
+					centerPoint.y), symbolBounds);
 
-        Paint fillPaint = null;
-        Paint framePaint = null;
+			// test
+			// ////
+			// return ii;
 
-        SinglePointLookupInfo lookup = null;
+			// //////////////////////////////////////////////////////////////////
+			ImageInfo iinew = null;
+			// process display modifiers
+			if (hasDisplayModifiers)
+			{
+				iinew = ModifierRenderer.processUnitDisplayModifiers(ii,
+						symbolID, modifiers, hasTextModifiers, attributes);
+			}
 
-        Rect symbolBounds = null;
-        RectF fullBounds = null;
-        Bitmap fullBMP = null;
+			if (iinew != null)
+			{
+				ii = iinew;
+			}
+			iinew = null;
 
-        try
-        {
-            if (modifiers == null)
-            {
-                modifiers = new SparseArray<String>();
-            }
-            //get MilStdAttributes
-            if (modifiers.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
-            {
-                symStd = Integer.parseInt(modifiers.get(MilStdAttributes.SymbologyStandard));
-            }
+			// process test modifiers
+			if (hasTextModifiers)
+			{
+				iinew = ModifierRenderer.processUnitTextModifiers(ii, symbolID,
+						modifiers, hasTextModifiers, attributes);
+			}
 
-            //get symbol info
-            basicSymbolID = SymbolUtilities.getBasicSymbolID(symbolID);
-            lookup = SinglePointLookup.getInstance().getSPLookupInfo(basicSymbolID, symStd);
-            if (lookup == null)//if lookup fails, fix code/use unknown symbol code.
-            {
-                //if symbolID bad, do best to find a workable code
-                if (modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1) != null)
-                {
-                    modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1));
-                }
-                modifiers.put(ModifiersTG.H_ADDITIONAL_INFO_1, symbolID.substring(0, 10));
+			if (iinew != null)
+			{
+				ii = iinew;
+			}
+			iinew = null;
 
-                symbolID = "G" + SymbolUtilities.getAffiliation(symbolID)
-                        + "G" + SymbolUtilities.getStatus(symbolID) + "GPP---****X";
-                lookup = SinglePointLookup.getInstance().getSPLookupInfo(basicSymbolID, symStd);
-                lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
-                fillColor = null;//SymbolUtilities.getFillColorOfAffiliation(symbolID);
-            }
+			// cleanup///////////////////////////////////////////////////////////
+			// bmp.recycle();
 
-            if (modifiers.indexOfKey(MilStdAttributes.LineColor) >= 0)
-            {
-                lineColor = new Color(modifiers.get(MilStdAttributes.LineColor));
-            }
-            if (modifiers.indexOfKey(MilStdAttributes.FillColor) >= 0)
-            {
-                lineColor = new Color(modifiers.get(MilStdAttributes.FillColor));
-            }
+			// //////////////////////////////////////////////////////////////////
 
-            if (SymbolUtilities.isTGSPWithFill(symbolID) && fillColor != null)
-            {
-                fillPaint = new Paint();
-                fillPaint.setStyle(Paint.Style.FILL);
-                fillPaint.setColor(fillColor.toARGB());
-                fillPaint.setTextSize(fontSize);
-                fillPaint.setAntiAlias(true);
-                fillPaint.setTextAlign(Align.CENTER);
-                fillPaint.setTypeface(_tfSP);
-            }
+			if (icon == true)
+			{
+				return ii.getSquareImageInfo();
+			}
+			else
+			{
+				return ii;
+			}
+		}
+		catch (Exception exc)
+		{
+			ErrorLogger.LogException("SinglePointSVGRenderer", "RenderUnit",
+					exc);
+			return null;
+		}
+	}
 
-            framePaint = new Paint();
-            framePaint.setStyle(Paint.Style.FILL);
-            framePaint.setColor(lineColor.toARGB());
-            framePaint.setTextSize(fontSize);
-            framePaint.setAntiAlias(true);
-            framePaint.setTextAlign(Align.CENTER);
-            framePaint.setTypeface(_tfSP);
+	/**
+	 * 
+	 * @param symbolID
+	 * @param modifiers
+	 * @return
+	 */
+	@SuppressWarnings("unused")
+	public ImageInfo RenderSP(String symbolID, SparseArray<String> modifiers)
+	{
+		ImageInfo temp = null;
+		String basicSymbolID = null;
+		float fontSize = RendererSettings.getInstance().getSPFontSize();
+		Color lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
+		Color fillColor = null;// SymbolUtilities.getFillColorOfAffiliation(symbolID);
+		int alpha = -1;
 
-            //Check if we need to set 'N' to "ENY"
-            if (symbolID.charAt(1) == 'H'
-                    && modifiers.indexOfKey(MilStdAttributes.DrawAsIcon) >= 0
-                    && (Boolean.parseBoolean(modifiers.get(MilStdAttributes.DrawAsIcon)) == false))
-            {
-                modifiers.put(ModifiersTG.N_HOSTILE, "ENY");
-            }
+		int symStd = RendererSettings.getInstance().getSymbologyStandard();
+		// fill character
+		int charFillIndex = -1;
+		// frame character
+		int charFrameIndex = -1;
 
-        }
-        catch (Exception excModifiers)
-        {
-            ErrorLogger.LogException("MilStdIconRenderer", "RenderUnit", excModifiers);
-        }
+		SymbolDef sd = null;
 
-        try
-        {
-            //get fill character
-            //get frame character
-            //get symbol info
-            charFrameIndex = -1;//SinglePointLookup.instance.getCharCodeFromSymbol(symbolID);
-            charFillIndex = -1;
+		Paint fillPaint = null;
+		Paint framePaint = null;
 
-            if (SymbolUtilities.getStatus(symbolID).equals("A"))
-            {
-                charFrameIndex = lookup.getMappingA();
-            }
-            else
-            {
-                charFrameIndex = lookup.getMappingP();
-            }
+		SinglePointLookupInfo lookup = null;
 
-            if (SymbolUtilities.isTGSPWithFill(symbolID) && fillColor != null)
-            {
-                String fillID = SymbolUtilities.getTGFillSymbolCode(symbolID);
-                if (fillID != null)
-                {
-                    charFillIndex = SinglePointLookup.getInstance().getCharCodeFromSymbol(fillID, symStd);
-                }
-            }
+		Rect symbolBounds = null;
+		RectF fullBounds = null;
+		Bitmap fullBMP = null;
 
-            //dimensions of the unit at specified font size
-            RectF rect = new RectF(0, 0, lookup.getWidth(), lookup.getHeight());
+		try
+		{
+			if (modifiers == null)
+			{
+				modifiers = new SparseArray<String>();
+			}
+			// get MilStdAttributes
+			if (modifiers.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
+			{
+				symStd = Integer.parseInt(modifiers
+						.get(MilStdAttributes.SymbologyStandard));
+			}
 
-            if (fontSize != 60.0)//adjust boundaries ratio if font size is not at the default setting.
-            {
-                double ratio = fontSize / 60;
+			// get symbol info
+			basicSymbolID = SymbolUtilities.getBasicSymbolID(symbolID);
+			lookup = SinglePointLookup.getInstance().getSPLookupInfo(
+					basicSymbolID, symStd);
+			if (lookup == null)// if lookup fails, fix code/use unknown symbol
+								// code.
+			{
+				// if symbolID bad, do best to find a workable code
+				if (modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1) != null)
+				{
+					modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2,
+							modifiers.get(ModifiersTG.H_ADDITIONAL_INFO_1));
+				}
+				modifiers.put(ModifiersTG.H_ADDITIONAL_INFO_1,
+						symbolID.substring(0, 10));
 
-                rect = new RectF(0, 0, Math.round(rect.width() * ratio), Math.round(rect.height() * ratio));
-            }
+				symbolID = "G" + SymbolUtilities.getAffiliation(symbolID) + "G"
+						+ SymbolUtilities.getStatus(symbolID) + "GPP---****X";
+				lookup = SinglePointLookup.getInstance().getSPLookupInfo(
+						basicSymbolID, symStd);
+				lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
+				fillColor = null;// SymbolUtilities.getFillColorOfAffiliation(symbolID);
+			}
 
-            boolean symbolOutlineEnabled = false;
-            int symbolOutlineSize = RendererSettings.getInstance().getSinglePointSymbolOutlineWidth();
-            if (symbolOutlineEnabled == false)
-            {
-                symbolOutlineSize = 0;
-            }
+			if (modifiers.indexOfKey(MilStdAttributes.LineColor) >= 0)
+			{
+				lineColor = new Color(modifiers.get(MilStdAttributes.LineColor));
+			}
+			if (modifiers.indexOfKey(MilStdAttributes.FillColor) >= 0)
+			{
+				lineColor = new Color(modifiers.get(MilStdAttributes.FillColor));
+			}
 
-            //matrix to place the symbol centered in the MilStdBmp
-            Matrix matrix = new Matrix();
-            Point centerPoint = null;
-            centerPoint = SymbolDimensions.getSymbolCenter(lookup.getBasicSymbolID(), rect);
-            matrix.postTranslate(centerPoint.x, centerPoint.y);
+			if (SymbolUtilities.isTGSPWithFill(symbolID) && fillColor != null)
+			{
+				fillPaint = new Paint();
+				fillPaint.setStyle(Paint.Style.FILL);
+				fillPaint.setColor(fillColor.toARGB());
+				fillPaint.setTextSize(fontSize);
+				fillPaint.setAntiAlias(true);
+				fillPaint.setTextAlign(Align.CENTER);
+				fillPaint.setTypeface(_tfSP);
+			}
 
-            if (symbolOutlineEnabled)
-            {	//adjust matrix and centerpoint to account for outline if present
-                matrix.postTranslate(symbolOutlineSize, symbolOutlineSize);
-                centerPoint.offset(symbolOutlineSize, symbolOutlineSize);
-                rect = new RectF(0, 0, (rect.width() + (symbolOutlineSize * 2)), (rect.height() + (symbolOutlineSize * 2)));
-            }
+			framePaint = new Paint();
+			framePaint.setStyle(Paint.Style.FILL);
+			framePaint.setColor(lineColor.toARGB());
+			framePaint.setTextSize(fontSize);
+			framePaint.setAntiAlias(true);
+			framePaint.setTextAlign(Align.CENTER);
+			framePaint.setTypeface(_tfSP);
 
-            //Draw glyphs to bitmap
-            Bitmap bmp = Bitmap.createBitmap((int) (rect.width() + 0.5), (int) (rect.height() + 0.5), Config.ARGB_8888);
-            Canvas canvas = new Canvas(bmp);
+			// Check if we need to set 'N' to "ENY"
+			if (symbolID.charAt(1) == 'H'
+					&& modifiers.indexOfKey(MilStdAttributes.DrawAsIcon) >= 0
+					&& (Boolean.parseBoolean(modifiers
+							.get(MilStdAttributes.DrawAsIcon)) == false))
+			{
+				modifiers.put(ModifiersTG.N_HOSTILE, "ENY");
+			}
 
-            symbolBounds = new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
+		}
+		catch (Exception excModifiers)
+		{
+			ErrorLogger.LogException("MilStdIconRenderer", "RenderUnit",
+					excModifiers);
+		}
 
-            String strFill = null;
-            String strFrame = null;
-            if (charFillIndex > 0)
-            {
-                strFill = String.valueOf((char) charFillIndex);
-            }
-            if (charFrameIndex > 0)
-            {
-                strFrame = String.valueOf((char) charFrameIndex);
-            }
+		try
+		{
+			// get fill character
+			// get frame character
+			// get symbol info
+			charFrameIndex = -1;// SinglePointLookup.instance.getCharCodeFromSymbol(symbolID);
+			charFillIndex = -1;
 
-            canvas.setMatrix(matrix);
-            if (strFill != null)
-            {
-                canvas.drawText(strFill, 0, 0, fillPaint);
-            }
-            if (strFrame != null)
-            {
-                canvas.drawText(strFrame, 0, 0, framePaint);
-            }
-            ImageInfo ii = new ImageInfo(bmp, centerPoint, symbolBounds);
+			if (SymbolUtilities.getStatus(symbolID).equals("A"))
+			{
+				charFrameIndex = lookup.getMappingA();
+			}
+			else
+			{
+				charFrameIndex = lookup.getMappingP();
+			}
 
-            List<ModifierInfo> shapes = new ArrayList<ModifierInfo>();
-            ModifierInfo miTemp = null;
+			if (SymbolUtilities.isTGSPWithFill(symbolID) && fillColor != null)
+			{
+				String fillID = SymbolUtilities.getTGFillSymbolCode(symbolID);
+				if (fillID != null)
+				{
+					charFillIndex = SinglePointLookup.getInstance()
+							.getCharCodeFromSymbol(fillID, symStd);
+				}
+			}
 
-            //process integral text
-            if (modifiers != null && modifiers.indexOfKey(MilStdAttributes.DrawAsIcon) >= 0
-                    && (Boolean.parseBoolean(modifiers.get(MilStdAttributes.DrawAsIcon)) == false))//if drawAsIcon, don't draw.
-            {
-                /*miTemp = CreateTGSPIntegralText(symbolID, symbolBounds, lineColor);
-                 if(miTemp != null)
-                 shapes.addAll(miTemp);
-                 miTemp = null//*/
-            }
+			// dimensions of the unit at specified font size
+			RectF rect = new RectF(0, 0, lookup.getWidth(), lookup.getHeight());
 
-			//draw modifiers
+			if (fontSize != 60.0)// adjust boundaries ratio if font size is not
+									// at the default setting.
+			{
+				double ratio = fontSize / 60;
+
+				rect = new RectF(0, 0, Math.round(rect.width() * ratio),
+						Math.round(rect.height() * ratio));
+			}
+
+			boolean symbolOutlineEnabled = false;
+			int symbolOutlineSize = RendererSettings.getInstance()
+					.getSinglePointSymbolOutlineWidth();
+			if (symbolOutlineEnabled == false)
+			{
+				symbolOutlineSize = 0;
+			}
+
+			// matrix to place the symbol centered in the MilStdBmp
+			Matrix matrix = new Matrix();
+			Point centerPoint = null;
+			centerPoint = SymbolDimensions.getSymbolCenter(
+					lookup.getBasicSymbolID(), rect);
+			matrix.postTranslate(centerPoint.x, centerPoint.y);
+
+			if (symbolOutlineEnabled)
+			{ // adjust matrix and centerpoint to account for outline if present
+				matrix.postTranslate(symbolOutlineSize, symbolOutlineSize);
+				centerPoint.offset(symbolOutlineSize, symbolOutlineSize);
+				rect = new RectF(0, 0,
+						(rect.width() + (symbolOutlineSize * 2)),
+						(rect.height() + (symbolOutlineSize * 2)));
+			}
+
+			// Draw glyphs to bitmap
+			Bitmap bmp = Bitmap.createBitmap((int) (rect.width() + 0.5),
+					(int) (rect.height() + 0.5), Config.ARGB_8888);
+			Canvas canvas = new Canvas(bmp);
+
+			symbolBounds = new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
+
+			String strFill = null;
+			String strFrame = null;
+			if (charFillIndex > 0)
+			{
+				strFill = String.valueOf((char) charFillIndex);
+			}
+			if (charFrameIndex > 0)
+			{
+				strFrame = String.valueOf((char) charFrameIndex);
+			}
+
+			canvas.setMatrix(matrix);
+			if (strFill != null)
+			{
+				canvas.drawText(strFill, 0, 0, fillPaint);
+			}
+			if (strFrame != null)
+			{
+				canvas.drawText(strFrame, 0, 0, framePaint);
+			}
+			ImageInfo ii = new ImageInfo(bmp, centerPoint, symbolBounds);
+
+			List<ModifierInfo> shapes = new ArrayList<ModifierInfo>();
+			ModifierInfo miTemp = null;
+
+			// process integral text
+			if (modifiers != null
+					&& modifiers.indexOfKey(MilStdAttributes.DrawAsIcon) >= 0
+					&& (Boolean.parseBoolean(modifiers
+							.get(MilStdAttributes.DrawAsIcon)) == false))// if
+																			// drawAsIcon,
+																			// don't
+																			// draw.
+			{
+				/*
+				 * miTemp = CreateTGSPIntegralText(symbolID, symbolBounds,
+				 * lineColor); if(miTemp != null) shapes.addAll(miTemp); miTemp
+				 * = null//
+				 */
+			}
+
+			// draw modifiers
 			/*
-             if(SymbolUtilities.isTGSPWithSpecialModifierLayout(symbolID))
-             {
-             miTemp = ProcessSPTGSpecialModifiers(symbolID, symbolBounds, modifiers,lineColor);
-				
-             }
-             else
-             {
-             miTemp = ProcessSPTGModifiers(symbolID, symbolBounds, modifiers,lineColor);
-             }
-             if(miTemp != null)
-             shapes.addAll(miTemp);
-             miTemp = null
-			
-             //draw direction of movement arrow
-             if(modifiers != null && modifiers[ModifiersUnits.Q_DIRECTION_OF_MOVEMENT] != null)
-             {
-             miTemp = CreateDirectionOfMovementArrow(symbolID, symbolBounds, modifiers);
-             if(miTemp != null)
-             shapes.addItem(miTemp);
-             }//*/
-            //get full bounds
-            //draw modifiers
-            //get full bounds
-            float ULX = 0;
-            float ULY = 0;
-            float LRX = symbolBounds.width();
-            float LRY = symbolBounds.height();
-            int offset = 0;
-            int outlineSize = RendererSettings.getInstance().getTextOutlineWidth();
-            int shapesLength = shapes.size();
+			 * if(SymbolUtilities.isTGSPWithSpecialModifierLayout(symbolID)) {
+			 * miTemp = ProcessSPTGSpecialModifiers(symbolID, symbolBounds,
+			 * modifiers,lineColor);
+			 * 
+			 * } else { miTemp = ProcessSPTGModifiers(symbolID, symbolBounds,
+			 * modifiers,lineColor); } if(miTemp != null) shapes.addAll(miTemp);
+			 * miTemp = null
+			 * 
+			 * //draw direction of movement arrow if(modifiers != null &&
+			 * modifiers[ModifiersUnits.Q_DIRECTION_OF_MOVEMENT] != null) {
+			 * miTemp = CreateDirectionOfMovementArrow(symbolID, symbolBounds,
+			 * modifiers); if(miTemp != null) shapes.addItem(miTemp); }//
+			 */
+			// get full bounds
+			// draw modifiers
+			// get full bounds
+			float ULX = 0;
+			float ULY = 0;
+			float LRX = symbolBounds.width();
+			float LRY = symbolBounds.height();
+			int offset = 0;
+			int outlineSize = RendererSettings.getInstance()
+					.getTextOutlineWidth();
+			int shapesLength = shapes.size();
 
-            if (shapes != null && shapesLength > 0)
-            {
-                for (int i = 0; i < shapesLength; i++)
-                {
-                    if (shapes.get(i).getText() != null)
-                    {
-                        miTemp = shapes.get(i);
-                        if (miTemp.getKey() == "shadow")
-                        {
-                            offset = outlineSize;
-                        }
-                        else
-                        {
-                            offset = 0;
-                        }
+			if (shapes != null && shapesLength > 0)
+			{
+				for (int i = 0; i < shapesLength; i++)
+				{
+					if (shapes.get(i).getText() != null)
+					{
+						miTemp = shapes.get(i);
+						if (miTemp.getKey() == "shadow")
+						{
+							offset = outlineSize;
+						}
+						else
+						{
+							offset = 0;
+						}
 
-                        RectF rTemp = miTemp.getBounds();
-                        Paint pTemp = miTemp.getPaint();
+						RectF rTemp = miTemp.getBounds();
+						Paint pTemp = miTemp.getPaint();
 
-                        if ((rTemp.left - offset) < ULX)
-                        {
-                            ULX = rTemp.left - offset;
-                        }
-                        if (rTemp.top - rTemp.height() - offset < ULY)
-                        {
-                            ULY = rTemp.top - rTemp.height() - offset;
-                        }
-                        if (rTemp.left + rTemp.width() + offset > LRX)
-                        {
-                            LRX = Math.round(rTemp.left) + rTemp.width() + offset;
-                        }
-                        if (rTemp.top + offset > LRY)
-                        {
-                            LRY = Math.round(rTemp.top) + pTemp.descent() + offset;
-                        }
-                    }
-                    else if (shapes.get(i).getShape() != null)
-                    {
-                        miTemp = shapes.get(i);
-                        RectF rTemp = miTemp.getBounds();
-                        if (rTemp.left < ULX)
-                        {
-                            ULX = Math.round(rTemp.left);
-                        }
-                        if (rTemp.top < ULY)
-                        {
-                            ULY = Math.round(rTemp.top);
-                        }
-                        if (rTemp.left + rTemp.width() > LRX)
-                        {
-                            LRX = Math.round(rTemp.left + rTemp.width());
-                        }
-                        if (rTemp.top + rTemp.height() > LRY)
-                        {
-                            LRY = Math.round(rTemp.top + rTemp.height());
-                        }
-                    }
-                }
-            }
+						if ((rTemp.left - offset) < ULX)
+						{
+							ULX = rTemp.left - offset;
+						}
+						if (rTemp.top - rTemp.height() - offset < ULY)
+						{
+							ULY = rTemp.top - rTemp.height() - offset;
+						}
+						if (rTemp.left + rTemp.width() + offset > LRX)
+						{
+							LRX = Math.round(rTemp.left) + rTemp.width()
+									+ offset;
+						}
+						if (rTemp.top + offset > LRY)
+						{
+							LRY = Math.round(rTemp.top) + pTemp.descent()
+									+ offset;
+						}
+					}
+					else if (shapes.get(i).getShape() != null)
+					{
+						miTemp = shapes.get(i);
+						RectF rTemp = miTemp.getBounds();
+						if (rTemp.left < ULX)
+						{
+							ULX = Math.round(rTemp.left);
+						}
+						if (rTemp.top < ULY)
+						{
+							ULY = Math.round(rTemp.top);
+						}
+						if (rTemp.left + rTemp.width() > LRX)
+						{
+							LRX = Math.round(rTemp.left + rTemp.width());
+						}
+						if (rTemp.top + rTemp.height() > LRY)
+						{
+							LRY = Math.round(rTemp.top + rTemp.height());
+						}
+					}
+				}
+			}
 
-            fullBounds = new RectF(0, 0, LRX - ULX, LRY - ULY);
-            Matrix centerMatrix = new Matrix();
+			fullBounds = new RectF(0, 0, LRX - ULX, LRY - ULY);
+			Matrix centerMatrix = new Matrix();
 
-            int transX = 0;
-            int transY = 0;
-            if (ULX < 0)
-            {
-                transX = (int) (ULX * -1);
-            }
-            if (ULY < 0)
-            {
-                transY = (int) (ULY * -1);
-            }
-            centerMatrix = new Matrix();
-            centerMatrix.reset();
-            centerMatrix.postTranslate(transX, transY);
+			int transX = 0;
+			int transY = 0;
+			if (ULX < 0)
+			{
+				transX = (int) (ULX * -1);
+			}
+			if (ULY < 0)
+			{
+				transY = (int) (ULY * -1);
+			}
+			centerMatrix = new Matrix();
+			centerMatrix.reset();
+			centerMatrix.postTranslate(transX, transY);
 
-            fullBMP = Bitmap.createBitmap((int) fullBounds.width(), (int) fullBounds.height(), Config.ARGB_8888);
-            Canvas fullCanvas = new Canvas(fullBMP);
-            Matrix tempMatrix = null;
+			fullBMP = Bitmap.createBitmap((int) fullBounds.width(),
+					(int) fullBounds.height(), Config.ARGB_8888);
+			Canvas fullCanvas = new Canvas(fullBMP);
+			Matrix tempMatrix = null;
 
-            if (shapes != null && shapesLength > 0)
-            {
-                for (int j = 0; j < shapesLength; j++)
-                {
-                    tempMatrix = new Matrix();
-                    tempMatrix.reset();
-                    if (shapes.get(j).getText() != null)
-                    {
+			if (shapes != null && shapesLength > 0)
+			{
+				for (int j = 0; j < shapesLength; j++)
+				{
+					tempMatrix = new Matrix();
+					tempMatrix.reset();
+					if (shapes.get(j).getText() != null)
+					{
 
-                        miTemp = shapes.get(j);
-                        PointF drawPoint = miTemp.getDrawPoint();
-                        tempMatrix.postTranslate((int) drawPoint.x, (int) drawPoint.y);
-                        tempMatrix.postTranslate(transX, transY);
-                        if (miTemp.getKey().equals("shadow"))
-                        {
-                            //DrawOutline(fullBMP, miTemp, tempMatrix);
-                        }
-                        else
-                        {
-                            fullCanvas.setMatrix(tempMatrix);//matrix handles positioning.
-                            fullCanvas.drawText(miTemp.getText(), 0, 0, miTemp.getPaint());
-                        }
-                    }
-                    else if (shapes.get(j).getShape() != null)
-                    {
-                        miTemp = shapes.get(j);
+						miTemp = shapes.get(j);
+						PointF drawPoint = miTemp.getDrawPoint();
+						tempMatrix.postTranslate((int) drawPoint.x,
+								(int) drawPoint.y);
+						tempMatrix.postTranslate(transX, transY);
+						if (miTemp.getKey().equals("shadow"))
+						{
+							// DrawOutline(fullBMP, miTemp, tempMatrix);
+						}
+						else
+						{
+							fullCanvas.setMatrix(tempMatrix);// matrix handles
+																// positioning.
+							fullCanvas.drawText(miTemp.getText(), 0, 0,
+									miTemp.getPaint());
+						}
+					}
+					else if (shapes.get(j).getShape() != null)
+					{
+						miTemp = shapes.get(j);
 
-                        tempMatrix.postTranslate((int) transX, (int) transY);
+						tempMatrix.postTranslate((int) transX, (int) transY);
 
-                        fullCanvas.setMatrix(tempMatrix);//matrix handles positioning.
-                        miTemp.getShape().draw(fullCanvas, miTemp.getPaint());
-                    }
-                }
-            }
+						fullCanvas.setMatrix(tempMatrix);// matrix handles
+															// positioning.
+						miTemp.getShape().draw(fullCanvas, miTemp.getPaint());
+					}
+				}
+			}
 
-            Paint ptCopy = new Paint();
-            ptCopy.setAntiAlias(false);
-            fullCanvas.drawBitmap(bmp, transX, transY, ptCopy);
+			Paint ptCopy = new Paint();
+			ptCopy.setAntiAlias(false);
+			fullCanvas.drawBitmap(bmp, transX, transY, ptCopy);
 
-            centerPoint.x = centerPoint.x + transX;
-            centerPoint.y = centerPoint.y + transY;
-            symbolBounds = new Rect(transX, transY, symbolBounds.width(), symbolBounds.height());
+			centerPoint.x = centerPoint.x + transX;
+			centerPoint.y = centerPoint.y + transY;
+			symbolBounds = new Rect(transX, transY, symbolBounds.width(),
+					symbolBounds.height());
 
-            ii = new ImageInfo(fullBMP, centerPoint, symbolBounds);
+			ii = new ImageInfo(fullBMP, centerPoint, symbolBounds);
 
-            //cleanup
-            bmp.recycle();
-            bmp = null;
-            canvas = null;
-            symbolBounds = null;
-            fullBMP = null;
-            fullBounds = null;
-            fullCanvas = null;
-            centerPoint = null;
-            fillPaint = null;
-            framePaint = null;
+			// cleanup
+			bmp.recycle();
+			bmp = null;
+			canvas = null;
+			symbolBounds = null;
+			fullBMP = null;
+			fullBounds = null;
+			fullCanvas = null;
+			centerPoint = null;
+			fillPaint = null;
+			framePaint = null;
 
-            lookup = null;
+			lookup = null;
 
-            return ii;
+			return ii;
 
-        }
-        catch (Exception exc)
-        {
-            ErrorLogger.LogException("MilStdIconRenderer", "RenderSP", exc);
-        }
-        return temp;
-    }
+		}
+		catch (Exception exc)
+		{
+			ErrorLogger.LogException("MilStdIconRenderer", "RenderSP", exc);
+		}
+		return temp;
+	}
 
-    /**
-     * Tries to get a valid UnitFontLookupInfo object when the symbolID is
-     * poorly formed or there's no match in the lookup. Use this if you get a
-     * null return value from:
-     * "UnitFontLookupC.getInstance().getLookupInfo(symbolID)" or "CanRender"
-     * returns false.
-     *
-     * @param symbolID
-     * @return
-     */
-    private
-            UnitFontLookupInfo ResolveUnitFontLookupInfo(String symbolID, int symStd)
-    {
-        String id = symbolID;
-        UnitFontLookupInfo lookup = null;
-        String affiliation = "";
-        String status = "";
-        if (id != null && id.length() >= 10)//if lookup fails, fix code/use unknown symbol code.
-        {
-            StringBuilder sb = new StringBuilder("");
-            sb.append(id.charAt(0));
+	/**
+	 * Tries to get a valid UnitFontLookupInfo object when the symbolID is
+	 * poorly formed or there's no match in the lookup. Use this if you get a
+	 * null return value from:
+	 * "UnitFontLookupC.getInstance().getLookupInfo(symbolID)" or "CanRender"
+	 * returns false.
+	 * 
+	 * @param symbolID
+	 * @return
+	 */
+	private UnitFontLookupInfo ResolveUnitFontLookupInfo(String symbolID,
+			int symStd)
+	{
+		String id = symbolID;
+		UnitFontLookupInfo lookup = null;
+		String affiliation = "";
+		String status = "";
+		if (id != null && id.length() >= 10)// if lookup fails, fix code/use
+											// unknown symbol code.
+		{
+			StringBuilder sb = new StringBuilder("");
+			sb.append(id.charAt(0));
 
-            if (SymbolUtilities.hasValidAffiliation(id) == false)
-            {
-                sb.append('U');
-                affiliation = "U";
-            }
-            else
-            {
-                sb.append(id.charAt(1));
-                affiliation = id.substring(1, 2);
-            }
+			if (SymbolUtilities.hasValidAffiliation(id) == false)
+			{
+				sb.append('U');
+				affiliation = "U";
+			}
+			else
+			{
+				sb.append(id.charAt(1));
+				affiliation = id.substring(1, 2);
+			}
 
-            if (SymbolUtilities.hasValidBattleDimension(id) == false)
-            {
-                sb.append('Z');
-                sb.replace(0, 1, "S");
-            }
-            else
-            {
-                sb.append(id.charAt(2));
-            }
+			if (SymbolUtilities.hasValidBattleDimension(id) == false)
+			{
+				sb.append('Z');
+				sb.replace(0, 1, "S");
+			}
+			else
+			{
+				sb.append(id.charAt(2));
+			}
 
-            if (SymbolUtilities.hasValidStatus(id) == false)
-            {
-                sb.append('P');
-                status = "P";
-            }
-            else
-            {
-                sb.append(id.charAt(3));
-                status = id.substring(3, 4);
-            }
+			if (SymbolUtilities.hasValidStatus(id) == false)
+			{
+				sb.append('P');
+				status = "P";
+			}
+			else
+			{
+				sb.append(id.charAt(3));
+				status = id.substring(3, 4);
+			}
 
-            sb.append("------");
-            if (id.length() >= 15)
-            {
-                sb.append(id.substring(10, 15));
-            }
-            else
-            {
-                sb.append("*****");
-            }
-            id = sb.toString();
+			sb.append("------");
+			if (id.length() >= 15)
+			{
+				sb.append(id.substring(10, 15));
+			}
+			else
+			{
+				sb.append("*****");
+			}
+			id = sb.toString();
 
-            lookup = UnitFontLookup.getInstance().getLookupInfo(id, symStd);
-        }
-        else if (symbolID == null || symbolID.equals(""))
-        {
-            lookup = UnitFontLookup.getInstance().getLookupInfo("SUZP------*****", symStd);
-        }
-        return lookup;
-    }
+			lookup = UnitFontLookup.getInstance().getLookupInfo(id, symStd);
+		}
+		else if (symbolID == null || symbolID.equals(""))
+		{
+			lookup = UnitFontLookup.getInstance().getLookupInfo(
+					"SUZP------*****", symStd);
+		}
+		return lookup;
+	}
 
-    public
-            Bitmap getTestSymbol()
-    {
-        Bitmap temp = null;
-        try
-        {
-            temp = Bitmap.createBitmap(70, 70, Config.ARGB_8888);
+	public Bitmap getTestSymbol()
+	{
+		Bitmap temp = null;
+		try
+		{
+			temp = Bitmap.createBitmap(70, 70, Config.ARGB_8888);
 
-            Canvas canvas = new Canvas(temp);
+			Canvas canvas = new Canvas(temp);
 
-            if (canvas.isHardwareAccelerated())
-            {
-                System.out.println("HW acceleration supported");
-            }
-			//canvas.drawColor(Color.WHITE);
+			if (canvas.isHardwareAccelerated())
+			{
+				System.out.println("HW acceleration supported");
+			}
+			// canvas.drawColor(Color.WHITE);
 
-            //Typeface tf = Typeface.createFromAsset(_am, "fonts/unitfonts.ttf");
-            Typeface tf = _tfUnits;
+			// Typeface tf = Typeface.createFromAsset(_am,
+			// "fonts/unitfonts.ttf");
+			Typeface tf = _tfUnits;
 
-            Paint fillPaint = new Paint();
-            fillPaint.setStyle(Paint.Style.FILL);
-            fillPaint.setColor(Color.CYAN.toInt());
-            fillPaint.setTextSize(50);
-            fillPaint.setAntiAlias(true);
-            fillPaint.setTextAlign(Align.CENTER);
-            fillPaint.setTypeface(tf);
+			Paint fillPaint = new Paint();
+			fillPaint.setStyle(Paint.Style.FILL);
+			fillPaint.setColor(Color.CYAN.toInt());
+			fillPaint.setTextSize(50);
+			fillPaint.setAntiAlias(true);
+			fillPaint.setTextAlign(Align.CENTER);
+			fillPaint.setTypeface(tf);
 
-            Paint framePaint = new Paint();
-            framePaint.setStyle(Paint.Style.FILL);
-            framePaint.setColor(Color.BLACK.toInt());
-            framePaint.setTextSize(50);
-            framePaint.setAntiAlias(true);
-            framePaint.setTextAlign(Align.CENTER);
-            framePaint.setTypeface(tf);
+			Paint framePaint = new Paint();
+			framePaint.setStyle(Paint.Style.FILL);
+			framePaint.setColor(Color.BLACK.toInt());
+			framePaint.setTextSize(50);
+			framePaint.setAntiAlias(true);
+			framePaint.setTextAlign(Align.CENTER);
+			framePaint.setTypeface(tf);
 
-            Paint symbolPaint = new Paint();
-            symbolPaint.setStyle(Paint.Style.FILL);
-            symbolPaint.setColor(Color.BLACK.toInt());
-            symbolPaint.setTextSize(50);
-            symbolPaint.setAntiAlias(true);
-            symbolPaint.setTextAlign(Align.CENTER);
-            symbolPaint.setTypeface(tf);
+			Paint symbolPaint = new Paint();
+			symbolPaint.setStyle(Paint.Style.FILL);
+			symbolPaint.setColor(Color.BLACK.toInt());
+			symbolPaint.setTextSize(50);
+			symbolPaint.setAntiAlias(true);
+			symbolPaint.setTextAlign(Align.CENTER);
+			symbolPaint.setTypeface(tf);
 
-            String strFill = String.valueOf((char) 800);
-            String strFrame = String.valueOf((char) 801);
-            String strSymbol = String.valueOf((char) 1121);
+			String strFill = String.valueOf((char) 800);
+			String strFrame = String.valueOf((char) 801);
+			String strSymbol = String.valueOf((char) 1121);
 
-            canvas.drawText(strFill, 35, 35, fillPaint);
-            canvas.drawText(strFrame, 35, 35, framePaint);
-            canvas.drawText(strSymbol, 35, 35, symbolPaint);
+			canvas.drawText(strFill, 35, 35, fillPaint);
+			canvas.drawText(strFrame, 35, 35, framePaint);
+			canvas.drawText(strSymbol, 35, 35, symbolPaint);
 
-            FontMetrics mf = framePaint.getFontMetrics();
-            float height = mf.bottom - mf.top;
-            float width = fillPaint.measureText(strFrame);
+			FontMetrics mf = framePaint.getFontMetrics();
+			float height = mf.bottom - mf.top;
+			float width = fillPaint.measureText(strFrame);
 
-            Log.i(TAG, "top: " + String.valueOf(mf.top));
-            Log.i(TAG, "bottom: " + String.valueOf(mf.bottom));
-            Log.i(TAG, "ascent: " + String.valueOf(mf.ascent));
-            Log.i(TAG, "descent: " + String.valueOf(mf.descent));
-            Log.i(TAG, "leading: " + String.valueOf(mf.leading));
-            Log.i(TAG, "width: " + String.valueOf(width));
-            Log.i(TAG, "height: " + String.valueOf(height));
+			Log.i(TAG, "top: " + String.valueOf(mf.top));
+			Log.i(TAG, "bottom: " + String.valueOf(mf.bottom));
+			Log.i(TAG, "ascent: " + String.valueOf(mf.ascent));
+			Log.i(TAG, "descent: " + String.valueOf(mf.descent));
+			Log.i(TAG, "leading: " + String.valueOf(mf.leading));
+			Log.i(TAG, "width: " + String.valueOf(width));
+			Log.i(TAG, "height: " + String.valueOf(height));
 
-        }
-        catch (Exception exc)
-        {
-            Log.e(TAG, exc.getMessage());
-            Log.e(TAG, getStackTrace(exc));
-        }
+		}
+		catch (Exception exc)
+		{
+			Log.e(TAG, exc.getMessage());
+			Log.e(TAG, getStackTrace(exc));
+		}
 
-        return temp;
-    }//*/
+		return temp;
+	}// */
 
-    public
-            void logError(String tag, Throwable thrown)
-    {
-        if (tag == null || tag == "")
-        {
-            tag = "singlePointRenderer";
-        }
+	public void logError(String tag, Throwable thrown)
+	{
+		if (tag == null || tag == "")
+		{
+			tag = "singlePointRenderer";
+		}
 
-        String message = thrown.getMessage();
-        String stack = getStackTrace(thrown);
-        if (message != null)
-        {
-            Log.e(tag, message);
-        }
-        if (stack != null)
-        {
-            Log.e(tag, stack);
-        }
-    }
+		String message = thrown.getMessage();
+		String stack = getStackTrace(thrown);
+		if (message != null)
+		{
+			Log.e(tag, message);
+		}
+		if (stack != null)
+		{
+			Log.e(tag, stack);
+		}
+	}
 
-    public
-            String getStackTrace(Throwable thrown)
-    {
-        try
-        {
-            if (thrown != null)
-            {
-                if (thrown.getStackTrace() != null)
-                {
-                    String eol = System.getProperty("line.separator");
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(thrown.toString());
-                    sb.append(eol);
-                    for (StackTraceElement element : thrown.getStackTrace())
-                    {
-                        sb.append("        at ");
-                        sb.append(element);
-                        sb.append(eol);
-                    }
-                    return sb.toString();
-                }
-                else
-                {
-                    return thrown.getMessage() + "- no stack trace";
-                }
-            }
-            else
-            {
-                return "no stack trace";
-            }
-        }
-        catch (Exception exc)
-        {
-            Log.e("getStackTrace", exc.getMessage());
-        }
-        return thrown.getMessage();
-    }//*/
+	public String getStackTrace(Throwable thrown)
+	{
+		try
+		{
+			if (thrown != null)
+			{
+				if (thrown.getStackTrace() != null)
+				{
+					String eol = System.getProperty("line.separator");
+					StringBuilder sb = new StringBuilder();
+					sb.append(thrown.toString());
+					sb.append(eol);
+					for (StackTraceElement element : thrown.getStackTrace())
+					{
+						sb.append("        at ");
+						sb.append(element);
+						sb.append(eol);
+					}
+					return sb.toString();
+				}
+				else
+				{
+					return thrown.getMessage() + "- no stack trace";
+				}
+			}
+			else
+			{
+				return "no stack trace";
+			}
+		}
+		catch (Exception exc)
+		{
+			Log.e("getStackTrace", exc.getMessage());
+		}
+		return thrown.getMessage();
+	}// */
 	/*
-     private static String PrintList(ArrayList list)
-     {
-     String message = "";
-     for(Object item : list)
-     {
-
-     message += item.toString() + "\n";
-     }
-     return message;
-     }//*/
-    /*
-     private static String PrintObjectMap(Map<String, Object> map)
-     {
-     Iterator<Object> itr = map.values().iterator();
-     String message = "";
-     String temp = null;
-     while(itr.hasNext())
-     {
-     temp = String.valueOf(itr.next());
-     if(temp != null)
-     message += temp + "\n";
-     }
-     //ErrorLogger.LogMessage(message);
-     return message;
-     }//*/
+	 * private static String PrintList(ArrayList list) { String message = "";
+	 * for(Object item : list) {
+	 * 
+	 * message += item.toString() + "\n"; } return message; }//
+	 */
+	/*
+	 * private static String PrintObjectMap(Map<String, Object> map) {
+	 * Iterator<Object> itr = map.values().iterator(); String message = "";
+	 * String temp = null; while(itr.hasNext()) { temp =
+	 * String.valueOf(itr.next()); if(temp != null) message += temp + "\n"; }
+	 * //ErrorLogger.LogMessage(message); return message; }//
+	 */
 
 }

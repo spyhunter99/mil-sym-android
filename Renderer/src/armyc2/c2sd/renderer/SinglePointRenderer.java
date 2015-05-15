@@ -51,8 +51,10 @@ public class SinglePointRenderer implements SettingsChangedEventListener
     private float _modifierFontHeight = 10;
     private int _deviceDPI = 72;
 
-    private final LruCache<String, ImageInfo> _unitCache = new LruCache<String, ImageInfo>(50);
-    private final LruCache<String, ImageInfo> _tgCache = new LruCache<String, ImageInfo>(50);
+    private LruCache<String, ImageInfo> _unitCache = new LruCache<String, ImageInfo>(15);
+    private LruCache<String, ImageInfo> _tgCache = new LruCache<String, ImageInfo>(7);
+    //private LruCache<String, ImageInfo> _unitCache = null;//new LruCache<String, ImageInfo>(50);
+    //private LruCache<String, ImageInfo> _tgCache = null;//new LruCache<String, ImageInfo>(50);
 
     private SinglePointRenderer()
     {
@@ -63,6 +65,37 @@ public class SinglePointRenderer implements SettingsChangedEventListener
         RendererSettings.getInstance().addEventListener(this);
         //get modifier font values.
         onSettingsChanged(null);
+        /*final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        final int cacheSize = maxMemory / 24;
+        _unitCache = new LruCache<String, ImageInfo>(cacheSize){
+        	@Override
+        	protected int sizeOf(String key, ImageInfo ii)
+        	{
+        		return ii.getImage().getByteCount();
+        	}
+        	
+        	@Override
+        	protected void entryRemoved(boolean evicted, String key, ImageInfo oldValue, ImageInfo newValue)
+        	{
+        		super.entryRemoved(evicted, key, oldValue, newValue);
+        		oldValue.getImage().recycle();
+        	}
+        
+        };
+        _tgCache = new LruCache<String, ImageInfo>(cacheSize){
+        	@Override
+        	protected int sizeOf(String key, ImageInfo ii)
+        	{
+        		return ii.getImage().getByteCount();
+        	}
+        	@Override
+        	protected void entryRemoved(boolean evicted, String key, ImageInfo oldValue, ImageInfo newValue)
+        	{
+        		super.entryRemoved(evicted, key, oldValue, newValue);
+        		oldValue.getImage().recycle();
+        	}
+        
+        };*/
     }
 
     public static synchronized SinglePointRenderer getInstance()
@@ -405,10 +438,12 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
                 ii = new ImageInfo(bmp, centerPoint, symbolBounds);
 
-                if (icon == false)
+
+                if(icon == false && pixelSize <= 100)
                 {
                     _unitCache.put(key, new ImageInfo(bmp, new Point(centerCache), new Rect(symbolBounds)));
                 }
+                
             }
 
             ImageInfo iinew = null;
@@ -793,7 +828,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
                 ii = new ImageInfo(bmp, centerPoint, symbolBounds);
 
-                if (drawAsIcon == false)
+                if (drawAsIcon == false && pixelSize <= 100)
                 {
                     _tgCache.put(key, ii);//*/
                 }

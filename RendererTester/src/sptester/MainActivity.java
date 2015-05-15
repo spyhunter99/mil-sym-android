@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import sptester.RenderSPThreadTest;
 import sec.web.render.SECWebRenderer;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -38,6 +39,9 @@ import armyc2.c2sd.renderer.utilities.ModifiersTG;
 import armyc2.c2sd.renderer.utilities.ModifiersUnits;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
 import armyc2.c2sd.renderer.utilities.ShapeInfo;
+import armyc2.c2sd.renderer.utilities.SymbolDef;
+import armyc2.c2sd.renderer.utilities.SymbolDefTable;
+
 import java.util.Random;
 
 
@@ -48,6 +52,7 @@ public class MainActivity extends Activity {
 	MilStdIconRenderer mir = null;
 	private String TAG = "armyc2.c2sd.MainActivity";
 	private boolean populateModifiers = false;
+        private boolean svg = false;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,7 @@ public class MainActivity extends Activity {
     
 	public void logError(String tag, Throwable thrown)
 	{
-		if(tag ==null || tag == "")
+		if(tag == null || tag == "")
 			tag = "singlePointRenderer";
 		
 		String message = thrown.getMessage();
@@ -82,31 +87,34 @@ public class MainActivity extends Activity {
 	
 	public void loadRenderer()
 	{
-		TextView t = (TextView)findViewById(R.id.tvStatus);
-    	t.setText("Initializing Renderer");
+            //disable svg engine
+            ((CheckBox)findViewById(R.id.cbSVG)).setActivated(false);
+            
+            TextView t = (TextView)findViewById(R.id.tvStatus);
+            t.setText("Initializing Renderer");
+
+            //depending on screen size and DPI you may want to change the font size.
+            RendererSettings rs = RendererSettings.getInstance();
+            rs.setModifierFont("Arial", Typeface.BOLD, 18);
+            rs.setMPModifierFont("Arial", Typeface.BOLD, 18);
+            rs.setSymbologyStandard(RendererSettings.Symbology_2525C);
+            //rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE_QUICK);
+
+
+            rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE);
     	
-    	//depending on screen size and DPI you may want to change the font size.
-    	RendererSettings rs = RendererSettings.getInstance();
-    	rs.setModifierFont("Arial", Typeface.BOLD, 18);
-    	rs.setMPModifierFont("Arial", Typeface.BOLD, 18);
-    	rs.setSymbologyStandard(RendererSettings.Symbology_2525C);
-    	//rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE_QUICK);
     	
     	
-    	rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE);
+            mir = MilStdIconRenderer.getInstance();
+            String cacheDir = getApplicationContext().getCacheDir().getAbsoluteFile().getAbsolutePath();
+            mir.init(cacheDir);
+            DisplayMetrics metrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+            int dpi = metrics.densityDpi;
+            //RendererSettings.getInstance().setDeviceDPI(dpi);
     	
-    	
-    	
-		mir = MilStdIconRenderer.getInstance();
-		String cacheDir = getApplicationContext().getCacheDir().getAbsoluteFile().getAbsolutePath();
-		mir.init(cacheDir);
-		DisplayMetrics metrics = new DisplayMetrics();
-    	getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-    	int dpi = metrics.densityDpi;
-    	//RendererSettings.getInstance().setDeviceDPI(dpi);
-    	
-		t.setText("Renderer Initialized");
-		
+            t.setText("Renderer Initialized");
+            
 		
 	}
 	
@@ -159,13 +167,56 @@ public class MainActivity extends Activity {
 		    		populateModifiersForUnits(modifiers);
 		    	}
 	    	}
+                
+            /*svg = ((CheckBox)findViewById(R.id.cbSVG)).isChecked();
 	    	
+	    	if(svg==true)
+	    	{
+		    //set renderer engine to SVG
+                    RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_SVG);
+	    	}
+            else
+            {
+                RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_FONT);
+            }*/
+
+	    	boolean canRender = mir.CanRender(symbolID, modifiers, attributes);
+	    	
+	    	if(canRender)
+	    		Log.i("DrawSymbol", "CanRender: True");
+	    	else
+	    		Log.i("DrawSymbol", "CanRender: False");
+	    	
+	    	SymbolDef test = SymbolDefTable.getInstance().getSymbolDef("S*G*UCI---*****", 0);
+	    	test = SymbolDefTable.getInstance().getSymbolDef("S*G*UCI---*****", 1);
+	    		
 	    	//ImageInfo ii = mir.RenderUnit(symbolID, modifiers);
 	    	ImageInfo ii = mir.RenderIcon(symbolID, modifiers, attributes);
 	    	
 	    	if(ii != null)
 	    	{
 		    	Bitmap msBmp = ii.getImage();
+		    	
+		    	//int bytes = msBmp.getAllocationByteCount();
+		    	int bytes = 0;
+		    	
+		    	if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR1)
+		    	{
+		    		bytes = msBmp.getRowBytes() * msBmp.getHeight();
+		    	}
+		    	else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+		    	{
+		    		bytes = msBmp.getByteCount();
+		    	}
+		    	else
+		    	{
+		    		bytes = msBmp.getByteCount();
+		    		//bytes = msBmp.getAllocationByteCount();
+		    	}
+		    	float megaBytes = bytes / 1000000.0f;
+		        float kb = bytes / 1000.0f;
+		    	String msg = "Image size: " + String.valueOf(bytes) + "bytes, " + String.valueOf(kb) + "kilobytes, " + String.valueOf(megaBytes) + "MB"; 
+		    	Log.i("drawSymbol", msg);
 		    	
 		    	//test ImageInfo values
 		    	Canvas msCanvas = new Canvas(msBmp);
@@ -297,6 +348,18 @@ public class MainActivity extends Activity {
 		    		populateModifiersForUnits(modifiers);
 		    	}
 	    	}
+                
+            /*svg = ((CheckBox)findViewById(R.id.cbSVG)).isChecked();
+	    	
+	    	if(svg==true)
+	    	{
+		    //set renderer engine to SVG
+                RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_SVG);
+	    	}
+            else
+            {
+                RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_FONT);
+            }//*/
 	    	//ImageInfo ii = mir.RenderUnit(symbolID, modifiers);
 	    	
 	    	long start = System.currentTimeMillis();//java.lang.System.nanoTime();

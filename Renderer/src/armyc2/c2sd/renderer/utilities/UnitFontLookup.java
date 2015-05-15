@@ -124,6 +124,14 @@ public class UnitFontLookup {
 
       UnitFontLookupInfo uflTemp = null;
 
+      //Check for bad font locations and remap
+      m1u = checkMappingIndex(m1u);
+      m1f = checkMappingIndex(m1f);
+      m1n = checkMappingIndex(m1n);
+      m1h = checkMappingIndex(m1h);
+      m2 = checkMappingIndex(m2);
+      ////////////////////////////////////////
+      
       uflTemp =  new UnitFontLookupInfo(ID, description, m1u, m1f, m1n, m1h, c1, m2, c2);
 
         if(uflTemp != null)
@@ -135,6 +143,33 @@ public class UnitFontLookup {
         }
     }
 
+  }
+  
+  /**
+   * Specific to android because it refuses to load characters from
+   * specific location in the font file.
+   * @param index
+   * @return 
+   */  
+  private static String checkMappingIndex(String index)
+  {
+      int i = -1;
+      if(SymbolUtilities.isNumber(index))
+      {
+          i = Integer.valueOf(index);
+          //if(i == 1653)//SUGPUSS7--*****//line
+            //return "2500";//works
+          if(i == 1662)//SFGPUSS7C-***** line with angle on right
+            return "2502";//works
+          else if(i == 1670)//horse shoe from SUGPUSS5C-*****
+            return "2505";//works
+          else if(i == 1672)//SFGPUSS7C-*****//core symbol (bent dumbell)
+            return "2506";//works
+          //if(i == ####)//SFGPUSS7C-*****//core symbol (bent dumbell)
+          //  return "2511";//
+      }
+      
+      return index;
   }
 
   /**

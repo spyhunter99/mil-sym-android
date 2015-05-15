@@ -113,6 +113,7 @@ public class RendererSettings{
 
     private static boolean _UseLineInterpolation = true;
 
+	//single points
     //private static Font _ModifierFont = new Font("arial", Font.TRUETYPE_FONT, 12);
     private static String _ModifierFontName = "arial";
     //private static int _ModifierFontType = Font.TRUETYPE_FONT;
@@ -121,6 +122,7 @@ public class RendererSettings{
     private static int _ModifierFontKerning = 0;//0=off, 1=on (TextAttribute.KERNING_ON)
     //private static float _ModifierFontTracking = TextAttribute.TRACKING_LOOSE;//loose=0.4f;
     
+	//multi points
     private static String _MPModifierFontName = "arial";
     //private static int _ModifierFontType = Font.TRUETYPE_FONT;
     private static int _MPModifierFontType = Typeface.BOLD;
@@ -140,30 +142,7 @@ public class RendererSettings{
     {
         Init();
     }
-    /**
-     * the font name to be used for modifier labels
-     * @return name of the label font
-     */
-    public String getLabelFontName()
-    {
-        return _ModifierFontName;
-    }
-    /**
-     * Like Font.BOLD
-     * @return type of the label font
-     */
-    public int getLabelFontType()
-    {
-        return _ModifierFontType;
-    }
-    /**
-     * get font point size
-     * @return size of the label font
-     */
-    public int getLabelFontSize()
-    {
-        return _ModifierFontSize;
-    }
+
 
     public static synchronized RendererSettings getInstance()
     {
@@ -171,14 +150,6 @@ public class RendererSettings{
             _instance = new RendererSettings();
 
         return _instance;
-    }
-    public void setLabelFont(String name, int type, int size)
-    {
-        _ModifierFontName = name;
-        _ModifierFontType = type;
-        _ModifierFontSize = size;
-        _ModifierFontKerning = 0;
-        //_ModifierFontTracking = TextAttribute.TRACKING_LOOSE;
     }
     
     private void Init()
@@ -671,6 +642,31 @@ public class RendererSettings{
             }
         }
         return p;
+    }
+    
+    /**
+     * the font name to be used for modifier labels
+     * @return name of the label font
+     */
+    public String getMPModifierFontName()
+    {
+        return _MPModifierFontName;
+    }
+    /**
+     * Like Font.BOLD
+     * @return type of the label font
+     */
+    public int getMPModifierFontType()
+    {
+        return _MPModifierFontType;
+    }
+    /**
+     * get font point size
+     * @return size of the label font
+     */
+    public int getMPModifierFontSize()
+    {
+        return _MPModifierFontSize;
     }
 
 
