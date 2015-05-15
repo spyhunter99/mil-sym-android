@@ -1990,6 +1990,16 @@ public class MultiPointHandler {
         return kml.toString();
     }
 
+    /**
+     * 
+     * @param shapes
+     * @param modifiers
+     * @param ipc
+     * @param geMap
+     * @param normalize
+     * @return 
+     * @deprecated Use GeoJSONize()
+     */
     private static String JSONize(ArrayList<ShapeInfo> shapes, ArrayList<ShapeInfo> modifiers, IPointConversion ipc, Boolean geMap, boolean normalize) {
         String polygons = "";
         String lines = "";
@@ -2117,12 +2127,12 @@ public class MultiPointHandler {
             JSONed.append("\",\"pointRadius\":0,\"fontColor\":\"");
             JSONed.append(SymbolUtilities.colorToHexString(lineColor, false));
             JSONed.append("\",\"fontSize\":\"");
-            JSONed.append(String.valueOf(RS.getLabelFontSize()) + "pt\"");
+            JSONed.append(String.valueOf(RS.getMPModifierFontSize()) + "pt\"");
             JSONed.append(",\"fontFamily\":\"");
-            JSONed.append(RS.getLabelFontName());
+            JSONed.append(RS.getMPModifierFontName());
             JSONed.append(", sans-serif");
 
-            if (RS.getLabelFontType() == Typeface.BOLD) {
+            if (RS.getMPModifierFontType() == Typeface.BOLD) {
                 JSONed.append("\",\"fontWeight\":\"bold\"");
             } else {
                 JSONed.append("\",\"fontWeight\":\"normal\"");
@@ -2400,6 +2410,14 @@ public class MultiPointHandler {
         return kml;
     }
 
+    /**
+     * 
+     * @param shapes
+     * @param modifiers
+     * @param ipc
+     * @param normalize
+     * @deprecated
+     */
     private static void MakeWWReady(
             ArrayList<ShapeInfo> shapes,
             ArrayList<ShapeInfo> modifiers,
@@ -2639,6 +2657,14 @@ public class MultiPointHandler {
         return kml.toString();
     }
 
+    /**
+     * 
+     * @param shapeInfo
+     * @param ipc
+     * @param normalize
+     * @return
+     * @deprecated
+     */
     private static ShapeInfo ShapeToWWReady(
             ShapeInfo shapeInfo,
             IPointConversion ipc,
@@ -2733,6 +2759,15 @@ public class MultiPointHandler {
         }
     }
 
+    /**
+     * 
+     * @param shapeInfo
+     * @param ipc
+     * @param geMap
+     * @param normalize
+     * @return
+     * @deprecated
+     */
     private static String ShapeToJSONString(ShapeInfo shapeInfo, IPointConversion ipc, Boolean geMap, boolean normalize) {
         StringBuilder JSONed = new StringBuilder();
         /*
@@ -2885,6 +2920,14 @@ public class MultiPointHandler {
         return kml.toString();
     }
 
+    /**
+     * 
+     * @param shapeInfo
+     * @param ipc
+     * @param normalize
+     * @return
+     * @deprecated
+     */
     private static String LabelToJSONString(ShapeInfo shapeInfo, IPointConversion ipc, boolean normalize) {
         StringBuilder JSONed = new StringBuilder();
         /*

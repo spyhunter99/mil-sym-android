@@ -72,11 +72,19 @@
            android:layout_alignParentRight="true"
            android:text="@string/cb_modifiers" />
        
+       <CheckBox
+           android:id="@+id/cbSVG"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/cbModifiers"
+           android:layout_alignParentRight="true"
+           android:text="@string/cb_svg" />
+       
        <TextView
            android:id="@+id/tvPixelSize"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_below="@+id/cbModifiers"
+           android:layout_below="@+id/cbSVG"
            android:layout_toLeftOf="@+id/etPixelSize"
            android:text="Pixel Size: " />
 
@@ -84,7 +92,7 @@
         android:id="@+id/etPixelSize"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cbModifiers"
+        android:layout_below="@+id/cbSVG"
         android:layout_alignParentRight="true"
         android:inputType="number"
         android:ems="10"

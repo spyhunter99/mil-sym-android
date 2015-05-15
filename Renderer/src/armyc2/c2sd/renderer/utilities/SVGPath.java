@@ -49,7 +49,8 @@ public class SVGPath
         return bounds;
     }
 
-    private SVGPath()
+    @SuppressWarnings("unused")
+	private SVGPath()
     {
     }
 

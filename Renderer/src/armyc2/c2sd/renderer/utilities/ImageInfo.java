@@ -40,6 +40,14 @@ public class ImageInfo {
 		return new ImageInfo(_image, new Point(_centerPoint), new Rect(_symbolBounds));
 	}
 	
+	public ImageInfo getClone(ImageInfo original)
+	{
+		Point centerPoint = new Point(original.getCenterPoint());
+		Rect symbolBounds = new Rect(original.getSymbolBounds());
+		Bitmap image = original.getImage().copy(Config.ARGB_8888, false);
+		return new ImageInfo(_image, new Point(_centerPoint), new Rect(_symbolBounds));
+	}
+	
 	public Bitmap getImage()
 	{
 		return _image;
