@@ -744,6 +744,21 @@ public class MultiPointHandler {
 
                 jsonOutput.append(jsonContent);
             }
+            else if (format == 2)
+            {
+                jsonOutput.append("{\"type\":\"FeatureCollection\",\"features\":");
+                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getLineColor());
+                jsonOutput.append(jsonContent);
+                jsonOutput.append(",\"properties\":{\"id\":\"");
+                jsonOutput.append(id);
+                jsonOutput.append("\",\"name\":\"");
+                jsonOutput.append(name);
+                jsonOutput.append("\",\"description\":\"");
+                jsonOutput.append(description);
+                jsonOutput.append("\",\"symbolID\":\"");
+                jsonOutput.append(symbolCode);
+                jsonOutput.append("\"}}");                
+            }
 
         } catch (Exception exc) {
             String st = JavaRendererUtilities.getStackTrace(exc);
@@ -1370,8 +1385,7 @@ public class MultiPointHandler {
             }
         }
 
-        //return jsonOutput.toString();
-        return jsonContent;
+        return jsonOutput.toString();
 
     }
 
@@ -2042,40 +2056,36 @@ public class MultiPointHandler {
         jstr += "\"labels\": [" + labels + "]";
         return jstr;
     }
-    private static Color getIdealTextBackgroundColor(Color fgColor)
-    {
+
+    private static Color getIdealTextBackgroundColor(Color fgColor) {
         //ErrorLogger.LogMessage("SymbolDraw","getIdealtextBGColor", "in function", Level.SEVERE);
-        try
-        {
+        try {
             //an array of three elements containing the
             //hue, saturation, and brightness (in that order),
             //of the color with the indicated red, green, and blue components/
             float hsbvals[] = new float[3];
 
-            if(fgColor != null)
-            {/*
-                Color.RGBtoHSB(fgColor.getRed(), fgColor.getGreen(), fgColor.getBlue(), hsbvals);
+            if (fgColor != null) {/*
+                 Color.RGBtoHSB(fgColor.getRed(), fgColor.getGreen(), fgColor.getBlue(), hsbvals);
 
-                if(hsbvals != null)
-                {
-                    //ErrorLogger.LogMessage("SymbolDraw","getIdealtextBGColor", "length: " + String.valueOf(hsbvals.length));
-                    //ErrorLogger.LogMessage("SymbolDraw","getIdealtextBGColor", "H: " + String.valueOf(hsbvals[0]) + " S: " + String.valueOf(hsbvals[1]) + " B: " + String.valueOf(hsbvals[2]),Level.SEVERE);
-                    if(hsbvals[2] > 0.6)
-                        return Color.BLACK;
-                    else
-                        return Color.WHITE;
-                }*/
+                 if(hsbvals != null)
+                 {
+                 //ErrorLogger.LogMessage("SymbolDraw","getIdealtextBGColor", "length: " + String.valueOf(hsbvals.length));
+                 //ErrorLogger.LogMessage("SymbolDraw","getIdealtextBGColor", "H: " + String.valueOf(hsbvals[0]) + " S: " + String.valueOf(hsbvals[1]) + " B: " + String.valueOf(hsbvals[2]),Level.SEVERE);
+                 if(hsbvals[2] > 0.6)
+                 return Color.BLACK;
+                 else
+                 return Color.WHITE;
+                 }*/
 
                 int nThreshold = RendererSettings.getInstance().getTextBackgroundAutoColorThreshold();//160;
-                int bgDelta = (int)((fgColor.getRed() * 0.299) + (fgColor.getGreen() * 0.587) + (fgColor.getBlue() * 0.114));
+                int bgDelta = (int) ((fgColor.getRed() * 0.299) + (fgColor.getGreen() * 0.587) + (fgColor.getBlue() * 0.114));
                 //ErrorLogger.LogMessage("bgDelta: " + String.valueOf(255-bgDelta));
                 //if less than threshold, black, otherwise white.
                 //return (255 - bgDelta < nThreshold) ? Color.BLACK : Color.WHITE;//new Color(0, 0, 0, fgColor.getAlpha())
                 return (255 - bgDelta < nThreshold) ? new Color(0, 0, 0, fgColor.getAlpha()) : new Color(255, 255, 255, fgColor.getAlpha());
             }
-        }
-        catch(Exception exc)
-        {
+        } catch (Exception exc) {
             ErrorLogger.LogException("SymbolDraw", "getIdealtextBGColor", exc);
         }
         return Color.WHITE;
@@ -2087,7 +2097,6 @@ public class MultiPointHandler {
         StringBuilder properties = new StringBuilder();
         StringBuilder geometry = new StringBuilder();
 
-        //Color outlineColor = SymbolDraw.getIdealTextBackgroundColor(lineColor);
         Color outlineColor = getIdealTextBackgroundColor(lineColor);
 
         //AffineTransform at = shapeInfo.getAffineTransform();
@@ -2134,7 +2143,7 @@ public class MultiPointHandler {
             JSONed.append(",\"labelOutlineColor\":\"");
             JSONed.append(SymbolUtilities.colorToHexString(outlineColor, false));
             JSONed.append("\",\"labelOutlineWidth\":");
-            JSONed.append(4);
+            JSONed.append("4");
             JSONed.append(",\"rotation\":");
             JSONed.append(angle);
             JSONed.append(",\"angle\":");
@@ -2259,39 +2268,39 @@ public class MultiPointHandler {
         geometry.append("]}");
 
         JSONed.append("{\"type\":\"Feature\",");
-        JSONed.append(properties);
+        JSONed.append(properties.toString());
         JSONed.append(",");
-        JSONed.append(geometry);
+        JSONed.append(geometry.toString());
         JSONed.append("}");
 
         return JSONed.toString();
     }
-        private static String GeoJSONize(ArrayList<ShapeInfo> shapes, ArrayList<ShapeInfo> modifiers, IPointConversion ipc, boolean normalize, Color lineColor) {
+
+    private static String GeoJSONize(ArrayList<ShapeInfo> shapes, ArrayList<ShapeInfo> modifiers, IPointConversion ipc, boolean normalize, Color lineColor) {
 
         String jstr = "";
         ShapeInfo tempModifier = null;
         StringBuilder fc = new StringBuilder();//JSON feature collection
 
         fc.append("[");
-        
+
         int len = shapes.size();
-        for (int i = 0; i < len; i++) 
-        {
+        for (int i = 0; i < len; i++) {
 
             String shapesToAdd = ShapeToGeoJSONString(shapes.get(i), ipc, normalize);
-            if(shapesToAdd.length() > 0)
+            if (shapesToAdd.length() > 0) {
                 fc.append(shapesToAdd);
-            if(i < len - 1)
+            }
+            if (i < len - 1) {
                 fc.append(",");
+            }
         }
-        
-        
 
         int len2 = modifiers.size();
 
         for (int j = 0; j < len2; j++) {
             tempModifier = modifiers.get(j);
-            
+
             String labelsToAdd = LabelToGeoJSONString(tempModifier, ipc, normalize, lineColor);
             if (labelsToAdd.length() > 0) {
                 fc.append(",");

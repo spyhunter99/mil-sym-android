@@ -1738,13 +1738,14 @@ public final class utility {
                 attributes.put(MilStdAttributes.FillColor, "FF00FF00");
             }
             SECWebRenderer sec = new SECWebRenderer();
+            int format=2;
             String strRender="";
             boolean twod=false;
-            twod=true;
+            //twod=true;
             if(!twod)
-                strRender = sec.RenderSymbol("id", "name", "description", defaultText, controlPtsStr, altitudeMode, scale, rectStr, modifiers, attributes, 0, rev);
+                strRender = sec.RenderSymbol("id", "name", "description", defaultText, controlPtsStr, altitudeMode, scale, rectStr, modifiers, attributes, format, rev);
             else
-                strRender = sec.RenderSymbol2D("id", "name", "description", defaultText, controlPtsStr, (int)displayWidth, (int)displayHeight, rectStr, modifiers, attributes, 0, rev);
+                strRender = sec.RenderSymbol2D("id", "name", "description", defaultText, controlPtsStr, (int)displayWidth, (int)displayHeight, rectStr, modifiers, attributes, format, rev);
             
             //WriteKMLFile(strRender);
             strResult = strRender;
