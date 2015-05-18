@@ -666,8 +666,19 @@ public final class clsUtility {
         try
         {
             //do not remove autoshape duplicate points
-            if(isAutoshape(tg))
-                return;
+//            if(isAutoshape(tg))
+//                return;
+            switch (tg.get_LineType()) {
+                case TacticalLines.UAV:
+                case TacticalLines.MRR:
+                case TacticalLines.LLTR:
+                case TacticalLines.AC:
+                case TacticalLines.SAAFR:
+                    break;
+                default:
+                    if(isAutoshape(tg))
+                        return;
+            }
 
             //we assume tg.H to have colors if it is comma delimited.
             //only exit if colors are not set
@@ -702,24 +713,21 @@ public final class clsUtility {
 
             POINT2 ptCurrent=null;
             POINT2 ptLast=null;
-            int n=tg.Pixels.size();
             Boolean isClosedPolygon=armyc2.c2sd.JavaTacticalRenderer.clsUtility.isClosedPolygon(tg.get_LineType());
             int minSize=2;
             if(isClosedPolygon)
                 minSize=3;
-            //for(int j=1;j<tg.Pixels.size();j++)
-            for(int j=1;j<n;j++)
+            for(int j=1;j<tg.Pixels.size();j++)
             {
                 ptLast=new POINT2(tg.Pixels.get(j-1));
                 ptCurrent=new POINT2(tg.Pixels.get(j));
                 if(ptCurrent.x==ptLast.x && ptCurrent.y==ptLast.y)
                 {
-                    //if(tg.Pixels.size()>2)
                     if(tg.Pixels.size()>minSize)
                     {
                         tg.Pixels.remove(j);
                         tg.LatLongs.remove(j);
-                        n=tg.Pixels.size();
+                        j=1;
                     }
                 }
             }
