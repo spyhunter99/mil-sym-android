@@ -101,7 +101,9 @@ public class MainActivity extends Activity {
             //rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE_QUICK);
 
 
-            rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE);
+            //rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE);
+            rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_COLORFILL);
+            //rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_NONE);
     	
     	
     	
@@ -153,6 +155,11 @@ public class MainActivity extends Activity {
 	    	else
 	    		attributes.put(MilStdAttributes.PixelSize,"240");
 	    	
+                //RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_NONE);
+	    		//RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_COLORFILL);
+                //RendererSettings.getInstance().setTextOutlineWidth(1);
+                //attributes.put(MilStdAttributes.TextColor, "FF0000");
+                //attributes.put(MilStdAttributes.TextBackgroundColor, "000000");
 	    	
 	    	populateModifiers = ((CheckBox)findViewById(R.id.cbModifiers)).isChecked();
 	    	
@@ -168,17 +175,17 @@ public class MainActivity extends Activity {
 		    	}
 	    	}
                 
-            /*svg = ((CheckBox)findViewById(R.id.cbSVG)).isChecked();
+                svg = ((CheckBox)findViewById(R.id.cbSVG)).isChecked();
 	    	
-	    	if(svg==true)
+	    	/*if(svg==true)
 	    	{
 		    //set renderer engine to SVG
                     RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_SVG);
 	    	}
-            else
-            {
-                RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_FONT);
-            }*/
+                else
+                {
+                    RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_FONT);
+                }//*/
 
 	    	boolean canRender = mir.CanRender(symbolID, modifiers, attributes);
 	    	
@@ -349,17 +356,17 @@ public class MainActivity extends Activity {
 		    	}
 	    	}
                 
-            /*svg = ((CheckBox)findViewById(R.id.cbSVG)).isChecked();
+                svg = ((CheckBox)findViewById(R.id.cbSVG)).isChecked();
 	    	
-	    	if(svg==true)
+	    	/*if(svg==true)
 	    	{
 		    //set renderer engine to SVG
-                RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_SVG);
+                    RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_SVG);
 	    	}
-            else
-            {
-                RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_FONT);
-            }//*/
+                else
+                {
+                    RendererSettings.getInstance().setIconEngine(RendererSettings.IconEngine_FONT);
+                }//*/
 	    	//ImageInfo ii = mir.RenderUnit(symbolID, modifiers);
 	    	
 	    	long start = System.currentTimeMillis();//java.lang.System.nanoTime();

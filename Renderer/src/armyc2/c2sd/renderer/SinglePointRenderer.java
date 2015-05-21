@@ -175,7 +175,21 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                     case 'S':
                     case 'G':
                     case 'M':
-                        charFrameAssumeIndex = charFillIndex + 2;
+                        if(symbolID.charAt(2) == 'U' &&
+                                symbolID.substring(4, 6).equals("WM"))
+                        {
+                            if(symbolID.charAt(3) != 'A')
+                            {
+                                charFillIndex++;
+                            }
+                            charFrameAssumeIndex = charFillIndex - 1;
+                            charFrameIndex = -1;
+                        }
+                        else
+                        {
+                            charFrameIndex = charFillIndex + 2;
+                            charFrameAssumeIndex = charFillIndex + 1;
+                        }
                         break;
                 }
                 if (charFrameAssumeIndex > 0)
@@ -379,23 +393,28 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                     strFrameAssume = String.valueOf((char) charFrameAssumeIndex);
                 }
 
-				//test
-				/*Paint ptTest = new Paint();
+                //test
+                /*Paint ptTest = new Paint();
                  ptTest.setColor(Color.GREEN);
                  Rect rTest = new Rect(0,0,bmp.getWidth(),bmp.getHeight());
                  canvas.drawRect(rTest, ptTest);//*/
                 //end test
+                if (strFrameAssume != null && charFillIndex == -1)
+                {
+                    canvas.drawText(strFrameAssume, centerPoint.x, centerPoint.y + (int) dimensions[1], symbol2Paint);
+                    strFrameAssume = null;
+                }
                 if (strFill != null)
                 {
                     canvas.drawText(strFill, centerPoint.x, centerPoint.y + (int) dimensions[1], fillPaint);
                 }
+                if (strFrameAssume != null)
+                {
+                    canvas.drawText(strFrameAssume, centerPoint.x, centerPoint.y + (int) dimensions[1], frameAssumePaint);
+                }
                 if (strFrame != null)
                 {
                     canvas.drawText(strFrame, centerPoint.x, centerPoint.y + (int) dimensions[1], framePaint);
-                }
-                if (strFrameAssume != null)
-                {
-                    canvas.drawText(strFrameAssume, centerPoint.x, centerPoint.y + (int) dimensions[1], symbol2Paint);
                 }
                 if (strSymbol2 != null)
                 {

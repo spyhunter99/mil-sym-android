@@ -78,8 +78,10 @@ public class MilStdAttributes {
     public static final int SymbologyStandard = 11;
     
     public static final int LineWidth = 12;
+   
+    public static final int TextColor = 13;
     
-    
+    public static final int TextBackgroundColor = 14;    
     
     /**
      * If false, the renderer will create a bunch of little lines to create
@@ -87,9 +89,9 @@ public class MilStdAttributes {
      * If true, it will be on the user to create the dash effect using the
      * DashArray from the Stroke object from the ShapeInfo object.
      */
-    public static final int UseDashArray = 13;
+    public static final int UseDashArray = 15;
     
-    public static final int AltitudeMode = 14;
+    public static final int AltitudeMode = 16;
     
     public static ArrayList<Integer> GetModifierList()
     {

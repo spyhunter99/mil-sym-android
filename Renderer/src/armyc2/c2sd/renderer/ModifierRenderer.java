@@ -56,6 +56,8 @@ public class ModifierRenderer
         TextInfo tiAM = null;
         Rect echelonBounds = null;
         Rect amBounds = null;
+        Color textColor = Color.BLACK;
+        Color textBackgroundColor = null;
         int buffer = 0;
         //ctx = null;
         int offsetX = 0;
@@ -64,6 +66,14 @@ public class ModifierRenderer
         if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
         {
             symStd = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
+        }
+        if (attributes.indexOfKey(MilStdAttributes.TextColor) >= 0)
+        {
+            textColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextColor));
+        }
+        if (attributes.indexOfKey(MilStdAttributes.TextBackgroundColor) >= 0)
+        {
+            textBackgroundColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextBackgroundColor));
         }
 
         // <editor-fold defaultstate="collapsed" desc="Build Mobility Modifiers">
@@ -815,7 +825,7 @@ public class ModifierRenderer
             {
                 tiEchelon
             };
-            renderText(ctx, aTiEchelon, Color.black);
+            renderText(ctx, aTiEchelon, textColor, textBackgroundColor);
 
             echelonBounds = null;
             tiEchelon = null;
@@ -827,7 +837,7 @@ public class ModifierRenderer
             {
                 tiAM
             };
-            renderText(ctx, aTiAM, Color.black);
+            renderText(ctx, aTiAM, textColor, textBackgroundColor);
             amBounds = null;
             tiAM = null;
         }
@@ -1267,20 +1277,10 @@ public class ModifierRenderer
         int y = 0;//best y
         int cpofNameX = 0;
         ImageInfo newii = null;
-
-        /*var outlineSize = 0;
-         if(RendererSettings.getTextOutlineWidth()>2);
-         {
-         outlineSize = (RendererSettings.getTextOutlineWidth()-1)/2;
-         }
         
-         if(outlineSize > 0)
-         {
-         bufferXL += outlineSize;
-         bufferXR += outlineSize;
-         bufferY += outlineSize;
-         bufferText += outlineSize;
-         }//*/
+        Color textColor = Color.BLACK;
+        Color textBackgroundColor = null;
+
         ArrayList<TextInfo> tiArray = new ArrayList<TextInfo>(modifiers.size());
 
         int descent = (int) (_modifierFontDescent + 0.5);
@@ -1967,8 +1967,18 @@ public class ModifierRenderer
             //draw original icon with potential modifiers.
             ctx.drawBitmap(ii.getImage(), imageBoundsOld.left, imageBoundsOld.top, null);
             //ctx.drawImage(ii.getImage(),imageBoundsOld.left,imageBoundsOld.top);
+            
+            
+            if (attributes.indexOfKey(MilStdAttributes.TextColor) >= 0)
+            {
+                textColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextColor));
+            }
+            if (attributes.indexOfKey(MilStdAttributes.TextBackgroundColor) >= 0)
+            {
+                textBackgroundColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextBackgroundColor));
+            }
 
-            renderText(ctx, tiArray, Color.black);
+            renderText(ctx, tiArray, textColor, textBackgroundColor);
 
             newii = new ImageInfo(bmp, centerPoint, symbolBounds);
 
@@ -2003,6 +2013,8 @@ public class ModifierRenderer
         int labelHeight = 0;
         int labelWidth = 0;
         ImageInfo newii = null;
+        Color textColor = lineColor;
+        Color textBackgroundColor = null;
 
         ArrayList<TextInfo> arrMods = new ArrayList<TextInfo>();
         boolean duplicate = false;
@@ -2645,7 +2657,16 @@ public class ModifierRenderer
             ctx.drawBitmap(ii.getImage(), symbolBounds.left, symbolBounds.top, null);
             //ctx.drawImage(ii.getImage(),imageBoundsOld.left,imageBoundsOld.top);
 
-            renderText(ctx, arrMods, lineColor);
+            if (attributes.indexOfKey(MilStdAttributes.TextColor) >= 0)
+            {
+                textColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextColor));
+            }
+            if (attributes.indexOfKey(MilStdAttributes.TextBackgroundColor) >= 0)
+            {
+                textBackgroundColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextBackgroundColor));
+            }
+            
+            renderText(ctx, arrMods, textColor, textBackgroundColor);
 
             newii = new ImageInfo(bmp, centerPoint, symbolBounds);
 
@@ -2690,6 +2711,9 @@ public class ModifierRenderer
         int labelHeight = 0;
         int labelWidth = 0;
         ImageInfo newii = null;
+        
+        Color textColor = lineColor;
+        Color textBackgroundColor = null;
 
         ArrayList<TextInfo> arrMods = new ArrayList<TextInfo>();
         boolean duplicate = false;
@@ -2929,7 +2953,15 @@ public class ModifierRenderer
             ctx.drawBitmap(ii.getImage(), symbolBounds.left, symbolBounds.top, null);
             //ctx.drawImage(ii.getImage(),imageBoundsOld.left,imageBoundsOld.top);
 
-            renderText(ctx, arrMods, lineColor);
+            if (attributes.indexOfKey(MilStdAttributes.TextColor) >= 0)
+            {
+                textColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextColor));
+            }
+            if (attributes.indexOfKey(MilStdAttributes.TextBackgroundColor) >= 0)
+            {
+                textBackgroundColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextBackgroundColor));
+            }
+            renderText(ctx, arrMods, textColor, textBackgroundColor);
 
             newii = new ImageInfo(bmp, centerPoint, symbolBounds);
 
@@ -2943,18 +2975,19 @@ public class ModifierRenderer
 
     }
 
-    private static void renderText(Canvas ctx, ArrayList<TextInfo> tiArray, Color color)
+    private static void renderText(Canvas ctx, ArrayList<TextInfo> tiArray, Color color, Color backgroundColor)
     {
-        ModifierRenderer.renderText(ctx, (TextInfo[]) tiArray.toArray(new TextInfo[0]), color);
+        ModifierRenderer.renderText(ctx, (TextInfo[]) tiArray.toArray(new TextInfo[0]), color, backgroundColor);
     }
 
     /**
-     *
+     * 
      * @param ctx
      * @param tiArray
      * @param color
+     * @param backgroundColor 
      */
-    public static void renderText(Canvas ctx, TextInfo[] tiArray, Color color)
+    public static void renderText(Canvas ctx, TextInfo[] tiArray, Color color, Color backgroundColor)
     {
         /*for (TextInfo textInfo : tiArray) 
          {
@@ -2976,7 +3009,12 @@ public class ModifierRenderer
             //_modifierFont.setColor(RS.getLabelForegroundColor());
         }
 
-        Color outlineColor = RendererUtilities.getIdealOutlineColor(color);
+        Color outlineColor = null;
+        
+        if(backgroundColor != null)
+            outlineColor = backgroundColor;
+        else
+            outlineColor = RendererUtilities.getIdealOutlineColor(color);
 
         if (tbm == RendererSettings.TextBackgroundMethod_OUTLINE_QUICK)
         {
@@ -3031,7 +3069,7 @@ public class ModifierRenderer
                  ctx.drawRect(textInfo.getTextOutlineBounds(), outline);//*/
             }
         }
-        else
+        else if (tbm == RendererSettings.TextBackgroundMethod_OUTLINE)
         {
 
         	//draw text outline
@@ -3048,6 +3086,38 @@ public class ModifierRenderer
                 }
             }
             //draw text
+            _modifierFont.setColor(color.toInt());
+            _modifierFont.setStyle(Style.FILL);
+            for (int j = 0; j < size; j++)
+            {
+                TextInfo textInfo = tiArray[j];
+                ctx.drawText(textInfo.getText(), textInfo.getLocation().x, textInfo.getLocation().y, _modifierFont);
+            }
+        }
+        else if (tbm == RendererSettings.TextBackgroundMethod_COLORFILL)
+        {
+            Paint rectFill = new Paint();
+            rectFill.setStyle(Paint.Style.FILL);
+            rectFill.setColor(outlineColor.toARGB());
+            
+            
+            //draw rectangle
+            for (int k = 0; k < size; k++)
+            {
+                TextInfo textInfo = tiArray[k];
+                ctx.drawRect(textInfo.getTextOutlineBounds(), rectFill);
+            }
+            //draw text
+            _modifierFont.setColor(color.toInt());
+            _modifierFont.setStyle(Style.FILL);
+            for (int j = 0; j < size; j++)
+            {
+                TextInfo textInfo = tiArray[j];
+                ctx.drawText(textInfo.getText(), textInfo.getLocation().x, textInfo.getLocation().y, _modifierFont);
+            }
+        }
+        else if (tbm == RendererSettings.TextBackgroundMethod_NONE)
+        {
             _modifierFont.setColor(color.toInt());
             _modifierFont.setStyle(Style.FILL);
             for (int j = 0; j < size; j++)

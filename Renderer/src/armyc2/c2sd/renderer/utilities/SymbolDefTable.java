@@ -2,47 +2,42 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package armyc2.c2sd.renderer.utilities;
 
 /*import javax.xml.parsers.DocumentBuilder;
- import javax.xml.parsers.DocumentBuilderFactory;
- import javax.xml.parsers.ParserConfigurationException;
- import org.w3c.dom.*;
- import org.xml.sax.SAXException;
- import java.io.*;
- import java.util.HashMap;
- import java.util.Map;*/
-import android.graphics.Typeface;
-import android.util.Log;
-import java.io.BufferedReader;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;*/
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.FileHandler;
-
 /**
- * Responsible for loading tactical graphic symbol definitions into a hash
- * table.
+ * Responsible for loading tactical graphic symbol definitions into a hash table.
  *
  * @author michael.spinelli
  */
 @SuppressWarnings("unused")
 public class SymbolDefTable {
 
-    private String TAG = "SymbolDefTable";
+
 
     private static SymbolDefTable _instance = null;
     private static Boolean _initCalled = false;
     //private static SymbolTableThingy
     private static Map<String, SymbolDef> _SymbolDefinitionsB = null;
     private static ArrayList<SymbolDef> _SymbolDefDupsB = null;
-
+    
     private static Map<String, SymbolDef> _SymbolDefinitionsC = null;
     private static ArrayList<SymbolDef> _SymbolDefDupsC = null;
-
-    private static String propSymbolID = "SYMBOLID";
+    
+	private static String propSymbolID = "SYMBOLID";
     private static String propGeometry = "GEOMETRY";
     private static String propDrawCategory = "DRAWCATEGORY";
     private static String propMaxPoint = "MAXPOINTS";
@@ -58,191 +53,192 @@ public class SymbolDefTable {
      * Call getInstance().
      *
      * */
-    private SymbolDefTable() {
-        String symbolconstantsb;
-        symbolconstantsb = getXML("symbolconstantsb.xml");
+    private SymbolDefTable()
+    {
 
-        String symbolconstantsc;
-        symbolconstantsc = getXML("symbolconstantsc.xml");
-
-        String[] symbolConstants
-                = {
-                    symbolconstantsb, symbolconstantsc
-                };
-        init(symbolConstants);
     }
 
-    public static synchronized SymbolDefTable getInstance() {
-        if (_instance == null) {
+    public static synchronized SymbolDefTable getInstance()
+    {
+        if(_instance == null)
             _instance = new SymbolDefTable();
-        }
 
         return _instance;
     }
 
-    public synchronized void init(String[] symbolConstants) {
-        if (_initCalled == false) {
-            _SymbolDefinitionsB = new HashMap<String, SymbolDef>();
-            _SymbolDefDupsB = new ArrayList<SymbolDef>();
-
-            _SymbolDefinitionsC = new HashMap<String, SymbolDef>();
-            _SymbolDefDupsC = new ArrayList<SymbolDef>();
-            //String xmlPathB = "XML/SymbolConstantsB.xml";
-            //String xmlPathC = "XML/SymbolConstantsC.xml";
-
-            //String lookupXmlB = symbolConstantsXML[0];//FileHandler.InputStreamToString(xmlStreamB);
-            //String lookupXmlC = symbolConstantsXML[1];//FileHandler.InputStreamToString(xmlStreamC);
-            //String lookupXml = FileHandler.fileToString("C:\\UnitFontMappings.xml");
-            String lookupXmlB = symbolConstants[0];
-            String lookupXmlC = symbolConstants[1];
-            populateLookup(lookupXmlB, RendererSettings.Symbology_2525Bch2_USAS_13_14);
-            populateLookup(lookupXmlC, RendererSettings.Symbology_2525C);
-        }
-        _initCalled = true;
+    public synchronized void init(String[] symbolConstantsXML)
+    {
+    	if(_initCalled == false)
+    	{
+	        _SymbolDefinitionsB = new HashMap<String, SymbolDef>();
+	        _SymbolDefDupsB = new ArrayList<SymbolDef>();
+	        
+	        _SymbolDefinitionsC = new HashMap<String, SymbolDef>();
+	        _SymbolDefDupsC = new ArrayList<SymbolDef>();
+	        
+	        String xmlPathB = "XML/SymbolConstantsB.xml";
+	        String xmlPathC = "XML/SymbolConstantsC.xml";
+	
+		    String lookupXmlB = symbolConstantsXML[0];//FileHandler.InputStreamToString(xmlStreamB);
+		    String lookupXmlC = symbolConstantsXML[1];//FileHandler.InputStreamToString(xmlStreamC);
+		    //String lookupXml = FileHandler.fileToString("C:\\UnitFontMappings.xml");
+		    populateLookup(lookupXmlB, RendererSettings.Symbology_2525Bch2_USAS_13_14);
+		    populateLookup(lookupXmlC, RendererSettings.Symbology_2525C);
+    	}
     }
 
-    private void populateLookup(String xml, int symStd) {
-        SymbolDef sd = null;
-        ArrayList<String> al = XMLUtil.getItemList(xml, "<SYMBOL>", "</SYMBOL>");
-        for (int i = 0; i < al.size(); i++) {
-            String data = (String) al.get(i);
-            String symbolID = XMLUtil.parseTagValue(data, "<SYMBOLID>", "</SYMBOLID>");
-            String geometry = XMLUtil.parseTagValue(data, "<GEOMETRY>", "</GEOMETRY>");
-            String drawCategory = XMLUtil.parseTagValue(data, "<DRAWCATEGORY>", "</DRAWCATEGORY>");
-            String maxpoints = XMLUtil.parseTagValue(data, "<MAXPOINTS>", "</MAXPOINTS>");
-            String minpoints = XMLUtil.parseTagValue(data, "<MINPOINTS>", "</MINPOINTS>");
-            String modifiers = XMLUtil.parseTagValue(data, "<MODIFIERS>", "</MODIFIERS>");
-            String description = XMLUtil.parseTagValue(data, "<DESCRIPTION>", "</DESCRIPTION>");
-            description = description.replaceAll("&amp;", "&");
-            String hierarchy = XMLUtil.parseTagValue(data, "<HIERARCHY>", "</HIERARCHY>");
-            //String alphaHierarchy = XMLUtil.parseTagValue(data, "<ALPHAHIERARCHY>", "</ALPHAHIERARCHY>");
-            String path = XMLUtil.parseTagValue(data, "<PATH>", "</PATH>");
+  private void populateLookup(String xml, int symStd)
+  {
+     SymbolDef sd = null;
+    ArrayList<String> al = XMLUtil.getItemList(xml, "<SYMBOL>", "</SYMBOL>");
+    for(int i = 0; i < al.size(); i++)
+    {
+      String data = (String)al.get(i);
+      String symbolID = XMLUtil.parseTagValue(data, "<SYMBOLID>", "</SYMBOLID>");
+      String geometry = XMLUtil.parseTagValue(data, "<GEOMETRY>", "</GEOMETRY>");
+      String drawCategory = XMLUtil.parseTagValue(data, "<DRAWCATEGORY>", "</DRAWCATEGORY>");
+      String maxpoints = XMLUtil.parseTagValue(data, "<MAXPOINTS>", "</MAXPOINTS>");
+      String minpoints = XMLUtil.parseTagValue(data, "<MINPOINTS>", "</MINPOINTS>");
+      String modifiers = XMLUtil.parseTagValue(data, "<MODIFIERS>", "</MODIFIERS>");
+      String description = XMLUtil.parseTagValue(data, "<DESCRIPTION>", "</DESCRIPTION>");
+      description = description.replaceAll("&amp;", "&");
+      String hierarchy = XMLUtil.parseTagValue(data, "<HIERARCHY>", "</HIERARCHY>");
+      //String alphaHierarchy = XMLUtil.parseTagValue(data, "<ALPHAHIERARCHY>", "</ALPHAHIERARCHY>");
+      String path = XMLUtil.parseTagValue(data, "<PATH>", "</PATH>");
 
-            sd = new SymbolDef(symbolID, description, Integer.valueOf(drawCategory), hierarchy, Integer.valueOf(minpoints), Integer.valueOf(maxpoints), modifiers, path);
+      sd = new SymbolDef(symbolID, description, Integer.valueOf(drawCategory), hierarchy, Integer.valueOf(minpoints), Integer.valueOf(maxpoints), modifiers, path);
 
-            boolean isMCSSpecific = SymbolUtilities.isMCSSpecificTacticalGraphic(sd);
-            if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
-                if (_SymbolDefinitionsB.containsKey(symbolID) == false && isMCSSpecific == false) {
-                    _SymbolDefinitionsB.put(symbolID, sd);
-                } else if (isMCSSpecific == false) {
-                    _SymbolDefDupsB.add(sd);
-                }
-            } else if (symStd == RendererSettings.Symbology_2525C) {
-                if (_SymbolDefinitionsC.containsKey(symbolID) == false && isMCSSpecific == false) {
-                    _SymbolDefinitionsC.put(symbolID, sd);
-                } else if (isMCSSpecific == false) {
-                    _SymbolDefDupsC.add(sd);
-                }
-            }
-        }
 
+      boolean isMCSSpecific = SymbolUtilities.isMCSSpecificTacticalGraphic(sd);
+      if(symStd==RendererSettings.Symbology_2525Bch2_USAS_13_14)
+      {
+        if(_SymbolDefinitionsB.containsKey(symbolID)==false && isMCSSpecific==false)
+            _SymbolDefinitionsB.put(symbolID, sd);
+        else if(isMCSSpecific==false)
+            _SymbolDefDupsB.add(sd);
+      }
+      else if(symStd==RendererSettings.Symbology_2525C)
+      {
+        if(_SymbolDefinitionsC.containsKey(symbolID)==false && isMCSSpecific==false)
+            _SymbolDefinitionsC.put(symbolID, sd);
+        else if(isMCSSpecific==false)
+            _SymbolDefDupsC.add(sd);
+      }
     }
+
+  }
 
     /**
      * @name getSymbolDef
      *
-     * @desc Returns a SymbolDef from the SymbolDefTable that matches the passed
-     * in Symbol Id
+     * @desc Returns a SymbolDef from the SymbolDefTable that matches the passed in Symbol Id
      *
      * @param basicSymbolID - IN - A 15 character MilStd code
-     * @param symStd 0 or 1.
-     * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525Bch2_USAS_13_14
+     * @param symStd 0 or 1.  
+     * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525Bch2_USAS_13_14 
      * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525C
      * @return SymbolDef whose Symbol Id matches what is passed in
      */
-    public SymbolDef getSymbolDef(String basicSymbolID, int symStd) {
+    public SymbolDef getSymbolDef(String basicSymbolID, int symStd)
+    {
         SymbolDef returnVal = null;
-        if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
-            returnVal = (SymbolDef) _SymbolDefinitionsB.get(basicSymbolID);
-        } else if (symStd == RendererSettings.Symbology_2525C) {
-            returnVal = (SymbolDef) _SymbolDefinitionsC.get(basicSymbolID);
-        }
+        if(symStd==RendererSettings.Symbology_2525Bch2_USAS_13_14)
+            returnVal = (SymbolDef)_SymbolDefinitionsB.get(basicSymbolID);
+        else if(symStd==RendererSettings.Symbology_2525C)
+            returnVal = (SymbolDef)_SymbolDefinitionsC.get(basicSymbolID);
         return returnVal;
     }
 
     /**
      * Returns a Map of all the symbol definitions, keyed on basic symbol code.
-     *
-     * @param symStd 0 or 1.
-     * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525Bch2_USAS_13_14
+     * @param symStd 0 or 1.  
+     * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525Bch2_USAS_13_14 
      * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525C
      * @return
      */
-    public Map<String, SymbolDef> GetAllSymbolDefs(int symStd) {
-        if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
+    public Map<String, SymbolDef> GetAllSymbolDefs(int symStd)
+    {
+        if(symStd==RendererSettings.Symbology_2525Bch2_USAS_13_14)
             return _SymbolDefinitionsB;
-        } else if (symStd == RendererSettings.Symbology_2525C) {
+        else if(symStd==RendererSettings.Symbology_2525C)
             return _SymbolDefinitionsC;
-        } else {
+        else
             return null;
-        }
     }
-
+    
     /**
-     * SymbolIDs are no longer unique.
-     *
-     * @param symStd 0 or 1.
-     * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525Bch2_USAS_13_14
+     * SymbolIDs are no longer unique.  
+     * @param symStd 0 or 1.  
+     * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525Bch2_USAS_13_14 
      * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525C
-     * @return
+     * @return 
      */
-    public ArrayList<SymbolDef> GetAllSymbolDefDups(int symStd) {
-        if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
+    public ArrayList<SymbolDef> GetAllSymbolDefDups(int symStd)
+    {
+        if(symStd==RendererSettings.Symbology_2525Bch2_USAS_13_14)
             return _SymbolDefDupsB;
-        } else if (symStd == RendererSettings.Symbology_2525C) {
+        else if(symStd==RendererSettings.Symbology_2525C)
             return _SymbolDefDupsC;
-        } else {
+        else
             return null;
-        }
     }
 
     /**
-     *
+     * 
      * @param basicSymbolID
-     * @param symStd 0 or 1.
-     * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525Bch2_USAS_13_14
+     * @param symStd 0 or 1.  
+     * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525Bch2_USAS_13_14 
      * @see ArmyC2.C2SD.Utilities.RendererSettings#Symbology_2525C
      * @return
      */
-    public Boolean HasSymbolDef(String basicSymbolID, int symStd) {
-        if (basicSymbolID != null && basicSymbolID.length() == 15) {
-            if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
+    public Boolean HasSymbolDef(String basicSymbolID, int symStd)
+    {
+        if(basicSymbolID != null && basicSymbolID.length() == 15)
+        {
+            if(symStd==RendererSettings.Symbology_2525Bch2_USAS_13_14)
                 return _SymbolDefinitionsB.containsKey(basicSymbolID);
-            } else if (symStd == RendererSettings.Symbology_2525C) {
+            else if(symStd==RendererSettings.Symbology_2525C)
                 return _SymbolDefinitionsC.containsKey(basicSymbolID);
-            } else {
+            else
                 return false;
-            }
-        } else {
-            return false;
         }
+        else
+            return false;
     }
-
+    
     /**
      * Checks if symbol is a multipoint symbol
-     *
      * @param symbolID
      * @param symStd
-     * @return
+     * @return 
      */
     public Boolean isMultiPoint(String symbolID, int symStd) {
 
         String basicSymbolID;
-
+        
         char codingScheme = symbolID.charAt(0);
         Boolean returnVal = false;
-        if (codingScheme == 'G' || codingScheme == 'W') {
-            if (symbolID.charAt(1) != '*') {
+        if (codingScheme == 'G' || codingScheme == 'W') 
+        {
+            if(symbolID.charAt(1) != '*')
+            {
                 basicSymbolID = SymbolUtilities.getBasicSymbolID(symbolID);
-            } else {
+            }
+            else
+            {
                 basicSymbolID = symbolID;
             }
-            SymbolDef sd = this.getSymbolDef(basicSymbolID, symStd);
-            if (sd != null) {
-                if (sd.getMaxPoints() > 1) {
+            SymbolDef sd = this.getSymbolDef(basicSymbolID,symStd);
+            if (sd != null) 
+            {
+                if(sd.getMaxPoints() > 1)
+                {
                     returnVal = true;
-                } else {
-                    switch (sd.getDrawCategory()) {
+                }
+                else
+                {
+                    switch(sd.getDrawCategory())
+                    {
                         case 15://SymbolDef.DRAW_CATEGORY_RECTANGULAR_PARAMETERED_AUTOSHAPE:
                         case 16://SymbolDef.DRAW_CATEGORY_SECTOR_PARAMETERED_AUTOSHAPE:
                         case 17://SymbolDef.DRAW_CATEGORY_TWO_POINT_RECT_PARAMETERED_AUTOSHAPE: 
@@ -259,43 +255,15 @@ public class SymbolDefTable {
             } else {
                 return false;
             }
-        } else if (symbolID.startsWith("BS_") || symbolID.startsWith("BBS_")) {
+        } 
+        else if(symbolID.startsWith("BS_") || symbolID.startsWith("BBS_"))
+        {
             return true;
-        } else {
+        }
+        else 
+        {
             return false;
         }
-    }
-
-    private String getXML(String xmlName) {
-        String xmlFolder = "res/raw/";
-        String xml = null;
-        Typeface tf = null;
-        InputStream is = null;
-        try {
-            is = this.getClass().getClassLoader().getResourceAsStream(xmlFolder + xmlName);
-            if (is != null) {
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader r = new BufferedReader(isr);
-                StringBuilder total = new StringBuilder();
-                String line;
-                while ((line = r.readLine()) != null) {
-                    total.append(line);
-                }
-                xml = total.toString();
-
-                //cleanup
-                r.close();
-                isr.close();
-                is.close();
-                r = null;
-                isr = null;
-                is = null;
-                total = null;
-            }
-        } catch (Exception exc) {
-            Log.e(TAG, exc.getMessage(), exc);
-        }
-        return xml;
     }
 
 }

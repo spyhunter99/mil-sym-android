@@ -1586,6 +1586,8 @@ public class MultiPointHandler {
         // Stores colors for symbol.
         String fillColor = null;
         String lineColor = null;
+        String textColor = null;
+        String textBackgroundColor = null;
 
         int lineWidth = 0;
         int symstd = 0;
@@ -1690,6 +1692,14 @@ public class MultiPointHandler {
                 if (saAttributes.indexOfKey(MilStdAttributes.LineWidth) >= 0) {
                     lineWidth = Integer.parseInt(saAttributes.get(MilStdAttributes.LineWidth));
                 }
+                
+                if (saAttributes.indexOfKey(MilStdAttributes.TextColor) >= 0) {
+                    textColor = (String) saAttributes.get(MilStdAttributes.TextColor);
+                }
+                
+                if (saAttributes.indexOfKey(MilStdAttributes.TextBackgroundColor) >= 0) {
+                    textBackgroundColor = (String) saAttributes.get(MilStdAttributes.TextBackgroundColor);
+                }
 
                 if (saAttributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0) {
                     symstd = Integer.parseInt(saAttributes.get(MilStdAttributes.SymbologyStandard));
@@ -1718,6 +1728,14 @@ public class MultiPointHandler {
 
             if (lineWidth > 0) {
                 symbol.setLineWidth(lineWidth);
+            }
+            
+            if (textColor != null && textColor.equals("") == false) {
+                symbol.setTextColor(SymbolUtilities.getColorFromHexString(textColor));
+            }
+            
+            if (textBackgroundColor != null && textBackgroundColor.equals("") == false) {
+                symbol.setTextBackgroundColor(SymbolUtilities.getColorFromHexString(textBackgroundColor));
             }
 
             if (altMode != null) {
