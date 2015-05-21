@@ -32,7 +32,7 @@ public class RendererSettings{
 
     //outline approach.  none, filled rectangle, outline (default),
     //outline quick (outline will not exceed 1 pixels).
-    private static int _TextBackgroundMethod = 0;
+    private static int _TextBackgroundMethod = 2;
     /**
      * There will be no background for text
      */
