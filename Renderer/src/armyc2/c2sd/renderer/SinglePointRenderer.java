@@ -328,6 +328,27 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             frameAssumePaint.setAntiAlias(true);
             frameAssumePaint.setTextAlign(Align.CENTER);
             frameAssumePaint.setTypeface(_tfUnits);
+            
+          //Just for sea mines
+            if(symbolID.charAt(2) == 'U' &&
+                            symbolID.substring(4, 6).equals("WM"))
+            {
+                if(symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14)
+                {
+                    fillPaint.setColor(fillColor.toARGB());
+                    symbol1Paint.setColor(lineColor.toARGB());
+                }
+                else if(symStd == RendererSettings.Symbology_2525C)
+                {
+                	fillPaint.setColor(lineColor.toARGB());
+                }
+                
+            }
+            else if(symbolID.charAt(2) == 'S' &&
+                    symbolID.charAt(4) == 'O')//own track, //SUSPO
+            {
+            	fillPaint.setColor(lineColor.toARGB());
+            }
         }
         catch (Exception excModifiers)
         {
