@@ -137,7 +137,7 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
     }
 
     private
-            String getXML(String xmlName)
+    String getXML(String xmlName)
     {
         String xmlFolder = "res/raw/";
         String xml = null;
