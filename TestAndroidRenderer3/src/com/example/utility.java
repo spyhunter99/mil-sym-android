@@ -46,6 +46,7 @@ public final class utility {
     public static String W = "";
     public static String W1 = "";
     public static String linecolor = "";
+    public static String textcolor = "";
     public static String fillcolor = "";
     public static String AM="";
     public static String AN="";
@@ -1099,6 +1100,7 @@ public final class utility {
         	mss.setFillColor(fillColor);
         
         Color lineColor = null;
+        Color textColor = null;
         if(linecolor.isEmpty())
         {
         	if(SymbolUtilities.isWeather(symbolId))
@@ -1110,6 +1112,11 @@ public final class utility {
         {
         	lineColor=SymbolUtilities.getColorFromHexString(linecolor);
         }
+        if(textcolor.isEmpty())
+            textColor=lineColor;
+        else
+            textColor=SymbolUtilities.getColorFromHexString(textcolor);
+            
         if(AM.isEmpty())
             AM="7000,6000,5000";
         if(AN.isEmpty())
@@ -1132,6 +1139,7 @@ public final class utility {
             xd[j]=Double.parseDouble(x[j]);
         
         mss.setLineColor(lineColor);
+        mss.setTextColor(textColor);
         //mss.setLineWidth(2);
         if(!lineWidth.isEmpty())
             mss.setLineWidth(Integer.parseInt(lineWidth));
@@ -1554,7 +1562,8 @@ public final class utility {
                 paint = new Paint();
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setStrokeWidth(2);
-                paint.setColor(Color.WHITE.toARGB());
+                //paint.setColor(Color.WHITE.toARGB());
+                paint.setColor(SymbolUtilities.getColorFromHexString(textcolor).toARGB());
                 paint.setTextSize(size);
                 paint.setStyle(Paint.Style.STROKE);               
                 //paint.setTextAlign(Paint.Align.LEFT);                      
@@ -1721,7 +1730,7 @@ public final class utility {
             modifiers.put(ModifiersTG.W1_DTG_2, W1);
             attributes.put(MilStdAttributes.FillColor, fillcolor);
             attributes.put(MilStdAttributes.LineColor, linecolor);
-            attributes.put(MilStdAttributes.TextColor, Color.MAGENTA.toHexString());
+            attributes.put(MilStdAttributes.TextColor, textcolor);
             attributes.put(MilStdAttributes.SymbologyStandard, Integer.toString(rev));
             if (JavaRendererUtilities.is3dSymbol(defaultText, modifiers)) {
 

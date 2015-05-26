@@ -16,6 +16,7 @@ public class MainActivity extends Activity {
     private MyView myView = null;
     private String fillcolor="";
     private String linecolor="";
+    private String textcolor="";
     private String T="";
     private String T1="";
     private String H="";
@@ -55,6 +56,8 @@ public class MainActivity extends Activity {
         {
             editText = (EditText) findViewById(R.id.edit_LineColor);
             linecolor=editText.getText().toString();
+            editText = (EditText) findViewById(R.id.edit_TextColor);
+            textcolor=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_FillColor);
             fillcolor=editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_LineWidth);
@@ -101,6 +104,7 @@ public class MainActivity extends Activity {
                 utility.W=W;
                 utility.W1=W1;
                 utility.linecolor=linecolor;
+                utility.textcolor=textcolor;
                 utility.fillcolor=fillcolor;
                 utility.AM=AM;                
                 utility.AN=AN;
@@ -133,6 +137,8 @@ public class MainActivity extends Activity {
                 setContentView(R.layout.attributes);
                 editText = (EditText) findViewById(R.id.edit_LineColor);
                 editText.setText(linecolor);
+                editText = (EditText) findViewById(R.id.edit_TextColor);
+                editText.setText(textcolor);
                 editText = (EditText) findViewById(R.id.edit_FillColor);
                 editText.setText(fillcolor);
                 editText = (EditText) findViewById(R.id.edit_LineWidth);

@@ -34,6 +34,7 @@ import armyc2.c2sd.renderer.MilStdIconRenderer;
 //import java.awt.font.TextAttribute;
 //import java.awt.font.NumericShaper;
 import android.graphics.Typeface;
+import armyc2.c2sd.renderer.utilities.RendererUtilities;
 
 @SuppressWarnings({"unused", "rawtypes", "unchecked"})
 public class MultiPointHandler {
