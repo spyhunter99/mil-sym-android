@@ -16,7 +16,7 @@ public class RendererUtilities {
     public static Color getIdealOutlineColor(Color color){
         Color idealColor = Color.white;
         
-        if(pastIdealOutlineColors.indexOfKey(color.toInt())>=0)
+        if(color != null && pastIdealOutlineColors.indexOfKey(color.toInt())>=0)
         {
             return pastIdealOutlineColors.get(color.toInt());
         }//*/
@@ -41,7 +41,10 @@ public class RendererUtilities {
                 idealColor = Color.white;
             }
         }
-        pastIdealOutlineColors.put(color.toInt(),idealColor);
+        
+        if(color != null)
+        	pastIdealOutlineColors.put(color.toInt(),idealColor);
+        
         return idealColor;
     }
     

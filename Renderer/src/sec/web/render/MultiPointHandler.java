@@ -1,6 +1,7 @@
 package sec.web.render;
 
 import java.util.ArrayList;
+
 import android.util.Log;
 import android.util.SparseArray;
 import armyc2.c2sd.graphics2d.*;
@@ -751,7 +752,7 @@ public class MultiPointHandler {
             else if (format == 2)
             {
                 jsonOutput.append("{\"type\":\"FeatureCollection\",\"features\":");
-                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getTextColor());
+                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getTextColor(), mSymbol.getTextBackgroundColor());
                 jsonOutput.append(jsonContent);
                 jsonOutput.append(",\"properties\":{\"id\":\"");
                 jsonOutput.append(id);
@@ -1344,7 +1345,7 @@ public class MultiPointHandler {
 //                }
             } else if (format == 2) {
                 jsonOutput.append("{\"type\":\"FeatureCollection\",\"features\":");
-                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getTextColor());
+                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getTextColor(), mSymbol.getTextBackgroundColor());
                 jsonOutput.append(jsonContent);
                 jsonOutput.append(",\"properties\":{\"id\":\"");
                 jsonOutput.append(id);
@@ -2123,13 +2124,15 @@ public class MultiPointHandler {
         return Color.WHITE;
     }
 
-    private static String LabelToGeoJSONString(ShapeInfo shapeInfo, IPointConversion ipc, boolean normalize, Color textColor) {
+    private static String LabelToGeoJSONString(ShapeInfo shapeInfo, IPointConversion ipc, boolean normalize, Color textColor, Color textBackgroundColor) {
 
         StringBuilder JSONed = new StringBuilder();
         StringBuilder properties = new StringBuilder();
         StringBuilder geometry = new StringBuilder();
 
         Color outlineColor = getIdealTextBackgroundColor(textColor);
+        if(textBackgroundColor != null)
+        	outlineColor = textBackgroundColor;
 
         //AffineTransform at = shapeInfo.getAffineTransform();
         //Point2D coord = (Point2D)new Point2D.Double(at.getTranslateX(), at.getTranslateY());
@@ -2308,7 +2311,7 @@ public class MultiPointHandler {
         return JSONed.toString();
     }
 
-    private static String GeoJSONize(ArrayList<ShapeInfo> shapes, ArrayList<ShapeInfo> modifiers, IPointConversion ipc, boolean normalize, Color textColor) {
+    private static String GeoJSONize(ArrayList<ShapeInfo> shapes, ArrayList<ShapeInfo> modifiers, IPointConversion ipc, boolean normalize, Color textColor, Color textBackgroundColor) {
 
         String jstr = "";
         ShapeInfo tempModifier = null;
@@ -2333,7 +2336,7 @@ public class MultiPointHandler {
         for (int j = 0; j < len2; j++) {
             tempModifier = modifiers.get(j);
 
-            String labelsToAdd = LabelToGeoJSONString(tempModifier, ipc, normalize, textColor);
+            String labelsToAdd = LabelToGeoJSONString(tempModifier, ipc, normalize, textColor, textBackgroundColor);
             if (labelsToAdd.length() > 0) {
                 fc.append(",");
                 fc.append(labelsToAdd);
