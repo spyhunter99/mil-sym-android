@@ -48,6 +48,8 @@ public class MultiPointHandler {
     private static final int _minPixelWidth = 100;
 
     public static final int Symbology_2525Bch2_USAS_13_14 = 0;
+    //private final static String TEXT_COLOR = "textColor";
+    //private final static String TEXT_BACKGROUND_COLOR = "textBackgroundColor";
     /**
      * 2525C, which includes 2525Bch2 & USAS 13/14
      */
@@ -728,7 +730,8 @@ public class MultiPointHandler {
 
                 Color textColor = null;
 
-                textColor = mSymbol.getLineColor();
+                //textColor = mSymbol.getLineColor();
+                textColor = mSymbol.getTextColor();
                 String hexColor = textColor.toHexString();
                 if (hexColor.equals("#FF000000"))//black
                 {
@@ -747,7 +750,7 @@ public class MultiPointHandler {
             else if (format == 2)
             {
                 jsonOutput.append("{\"type\":\"FeatureCollection\",\"features\":");
-                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getLineColor());
+                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getTextColor());
                 jsonOutput.append(jsonContent);
                 jsonOutput.append(",\"properties\":{\"id\":\"");
                 jsonOutput.append(id);
@@ -1340,7 +1343,7 @@ public class MultiPointHandler {
 //                }
             } else if (format == 2) {
                 jsonOutput.append("{\"type\":\"FeatureCollection\",\"features\":");
-                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getLineColor());
+                jsonContent = GeoJSONize(shapes, modifiers, ipc, normalize, mSymbol.getTextColor());
                 jsonOutput.append(jsonContent);
                 jsonOutput.append(",\"properties\":{\"id\":\"");
                 jsonOutput.append(id);
@@ -2119,13 +2122,13 @@ public class MultiPointHandler {
         return Color.WHITE;
     }
 
-    private static String LabelToGeoJSONString(ShapeInfo shapeInfo, IPointConversion ipc, boolean normalize, Color lineColor) {
+    private static String LabelToGeoJSONString(ShapeInfo shapeInfo, IPointConversion ipc, boolean normalize, Color textColor) {
 
         StringBuilder JSONed = new StringBuilder();
         StringBuilder properties = new StringBuilder();
         StringBuilder geometry = new StringBuilder();
 
-        Color outlineColor = getIdealTextBackgroundColor(lineColor);
+        Color outlineColor = getIdealTextBackgroundColor(textColor);
 
         //AffineTransform at = shapeInfo.getAffineTransform();
         //Point2D coord = (Point2D)new Point2D.Double(at.getTranslateX(), at.getTranslateY());
@@ -2152,7 +2155,7 @@ public class MultiPointHandler {
             JSONed.append("{\"type\":\"Feature\",\"properties\":{\"label\":\"");
             JSONed.append(text);
             JSONed.append("\",\"pointRadius\":0,\"fontColor\":\"");
-            JSONed.append(SymbolUtilities.colorToHexString(lineColor, false));
+            JSONed.append(SymbolUtilities.colorToHexString(textColor, false));
             JSONed.append("\",\"fontSize\":\"");
             JSONed.append(String.valueOf(RS.getMPModifierFontSize()) + "pt\"");
             JSONed.append(",\"fontFamily\":\"");
@@ -2304,7 +2307,7 @@ public class MultiPointHandler {
         return JSONed.toString();
     }
 
-    private static String GeoJSONize(ArrayList<ShapeInfo> shapes, ArrayList<ShapeInfo> modifiers, IPointConversion ipc, boolean normalize, Color lineColor) {
+    private static String GeoJSONize(ArrayList<ShapeInfo> shapes, ArrayList<ShapeInfo> modifiers, IPointConversion ipc, boolean normalize, Color textColor) {
 
         String jstr = "";
         ShapeInfo tempModifier = null;
@@ -2329,7 +2332,7 @@ public class MultiPointHandler {
         for (int j = 0; j < len2; j++) {
             tempModifier = modifiers.get(j);
 
-            String labelsToAdd = LabelToGeoJSONString(tempModifier, ipc, normalize, lineColor);
+            String labelsToAdd = LabelToGeoJSONString(tempModifier, ipc, normalize, textColor);
             if (labelsToAdd.length() > 0) {
                 fc.append(",");
                 fc.append(labelsToAdd);

@@ -1707,17 +1707,6 @@ public final class utility {
         String rectStr = getRectString(0, 0);
         String controlPtsStr = controlPointsToString(latLongs);
         String altitudeMode = "";
-//defaultText="GHGPPY--------X";  //dmaf
-//controlPtsStr="133.93718930040794,32.92804222360567";
-//altitudeMode="relativeToGround";
-//scale=23575.0;
-//rectStr="-74.74514,39.881025,-74.41555,40.038917";
-
-//defaultText="GPGPOLAV------X";
-//controlPtsStr="8.38200535818297,37.7911627989274 9.02289087231853,37.5967194088932 8.97777997230298,37.6293858648913";
-//altitudeMode="relativeToGround ";
-//scale=789850.0;
-//rectStr="6.086425,33.742612,16.6333,39.044786";
 
         boolean renderAirControls=isAirspace(defaultText);
         //Mil-Std-2525 symbols
@@ -1732,13 +1721,15 @@ public final class utility {
             modifiers.put(ModifiersTG.W1_DTG_2, W1);
             attributes.put(MilStdAttributes.FillColor, fillcolor);
             attributes.put(MilStdAttributes.LineColor, linecolor);
+            attributes.put(MilStdAttributes.TextColor, Color.MAGENTA.toHexString());
             attributes.put(MilStdAttributes.SymbologyStandard, Integer.toString(rev));
             if (JavaRendererUtilities.is3dSymbol(defaultText, modifiers)) {
 
                 attributes.put(MilStdAttributes.FillColor, "FF00FF00");
             }
             SECWebRenderer sec = new SECWebRenderer();
-            int format=2;
+            int format=0;
+            //format=2;
             String strRender="";
             boolean twod=false;
             //twod=true;
