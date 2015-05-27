@@ -734,6 +734,8 @@ public class MultiPointHandler {
 
                 //textColor = mSymbol.getLineColor();
                 textColor = mSymbol.getTextColor();
+                if(textColor==null)
+                    textColor=mSymbol.getLineColor();
                 String hexColor = textColor.toHexString();
                 if (hexColor.equals("#FF000000"))//black
                 {
@@ -1315,6 +1317,8 @@ public class MultiPointHandler {
                 Color textColor = null;
 
                 textColor = mSymbol.getLineColor();
+                if(textColor==null)
+                    textColor=mSymbol.getLineColor();
                 String hexColor = SymbolUtilities.colorToHexString(textColor, true);
                 if (hexColor.equals("#FF000000"))//black
                 {

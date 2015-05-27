@@ -1563,7 +1563,10 @@ public final class utility {
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setStrokeWidth(2);
                 //paint.setColor(Color.WHITE.toARGB());
-                paint.setColor(SymbolUtilities.getColorFromHexString(textcolor).toARGB());
+                if(textcolor != null && !textcolor.isEmpty())
+                    paint.setColor(SymbolUtilities.getColorFromHexString(textcolor).toARGB());
+                else
+                    paint.setColor(spec.getLineColor().toARGB());
                 paint.setTextSize(size);
                 paint.setStyle(Paint.Style.STROKE);               
                 //paint.setTextAlign(Paint.Align.LEFT);                      

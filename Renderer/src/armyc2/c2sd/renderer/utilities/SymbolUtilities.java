@@ -1703,6 +1703,8 @@ public class SymbolUtilities
     {
         try
         {
+            if(hexValue==null || hexValue.isEmpty())
+                return null;
             String hexOriginal = hexValue;
 
             String hexAlphabet = "0123456789ABCDEF";
