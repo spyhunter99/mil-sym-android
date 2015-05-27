@@ -168,10 +168,20 @@ public class Color {
     
     public Color(Color color)
     {
-    	_A = color.getAlpha();
-    	_R = color.getRed();
-    	_G = color.getGreen();
-    	_B = color.getBlue();
+    	if(color != null)
+    	{
+        	_A = color.getAlpha();
+        	_R = color.getRed();
+        	_G = color.getGreen();
+        	_B = color.getBlue();
+    	}
+    	else
+    	{
+    		_A = 255;
+    		_R = 0;
+	    	_G = 0;
+	    	_B = 0;
+    	}
     }
     
     public Color(int color)
@@ -185,10 +195,20 @@ public class Color {
     public Color(String hexString)
     {
     	Color temp = SymbolUtilities.getColorFromHexString(hexString);
-    	_A = temp.getAlpha();
-    	_R = temp.getRed();
-    	_G = temp.getGreen();
-    	_B = temp.getBlue();
+    	if(temp != null)
+    	{
+	    	_A = temp.getAlpha();
+	    	_R = temp.getRed();
+	    	_G = temp.getGreen();
+	    	_B = temp.getBlue();
+    	}
+    	else
+    	{
+    		_A = 255;
+    		_R = 0;
+	    	_G = 0;
+	    	_B = 0;
+    	}
     }
     
     public Color(Object color)
@@ -201,10 +221,13 @@ public class Color {
 	    	if(color instanceof String)
 	    	{
 	    		cTemp = SymbolUtilities.getColorFromHexString((String)color);
-	        	_A = cTemp.getAlpha();
-	        	_R = cTemp.getRed();
-	        	_G = cTemp.getGreen();
-	        	_B = cTemp.getBlue();
+	    		if(cTemp != null)
+	    		{
+		        	_A = cTemp.getAlpha();
+		        	_R = cTemp.getRed();
+		        	_G = cTemp.getGreen();
+		        	_B = cTemp.getBlue();
+	    		}
 	    	}
 	    	else if(color instanceof Integer)
 	    	{
@@ -213,6 +236,13 @@ public class Color {
 	    		_R = getRedFromColor(iTemp);
 	    		_G = getGreenFromColor(iTemp);
 	    		_B = getBlueFromColor(iTemp);
+	    	}
+	    	else
+	    	{
+	    		_A=255;
+	    		_R=0;
+	    		_G=0;
+	    		_B=0;
 	    	}
     	}
     	catch(Exception exc)

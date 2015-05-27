@@ -40,8 +40,8 @@ public class UnitDef {
    public UnitDef(String basicSymbolID, String description, int drawCategory, String hierarchy, String path)
    {
            //Set fields to their default values.
-           _basicSymbolId = "";
-           _description = "";
+           _basicSymbolId = basicSymbolID;
+           _description = description;
            _drawCategory = drawCategory;
            _hierarchy = hierarchy;
            _path = path;
