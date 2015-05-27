@@ -1712,6 +1712,7 @@ public class MultiPointHandler {
 
                 if (saAttributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0) {
                     symstd = Integer.parseInt(saAttributes.get(MilStdAttributes.SymbologyStandard));
+                    symbol.setSymbologyStandard(symstd);
                 }
 
                 if (saAttributes.indexOfKey(MilStdAttributes.AltitudeMode) >= 0) {
@@ -1752,8 +1753,6 @@ public class MultiPointHandler {
             }
 
             symbol.setUseDashArray(useDashArray);
-
-            symbol.setSymbologyStandard(symstd);
 
             // Check grpahic modifiers variables.  If we set earlier, populate
             // the fields, otherwise, ignore.

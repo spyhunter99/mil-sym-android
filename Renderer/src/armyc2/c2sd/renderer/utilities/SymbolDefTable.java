@@ -64,8 +64,8 @@ public class SymbolDefTable {
      *
      * */
     private SymbolDefTable() {
-        init(null);
-        _initCalled=true;
+        //init(null);
+        //_initCalled=true;
     }
 
     public static synchronized SymbolDefTable getInstance() {
@@ -75,46 +75,46 @@ public class SymbolDefTable {
 
         return _instance;
     }
-    private
-    String getXML(String xmlName)
-    {
-        String xmlFolder = "res/raw/";
-        String xml = null;
-        Typeface tf = null;
-        InputStream is = null;
-        try
-        {
-            is = this.getClass().getClassLoader().getResourceAsStream(xmlFolder + xmlName);
-            if (is != null)
-            {
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader r = new BufferedReader(isr);
-                StringBuilder total = new StringBuilder();
-                String line;
-                while ((line = r.readLine()) != null)
-                {
-                    total.append(line);
-                }
-                xml = total.toString();
+//    private
+//    String getXML(String xmlName)
+//    {
+//        String xmlFolder = "res/raw/";
+//        String xml = null;
+//        Typeface tf = null;
+//        InputStream is = null;
+//        try
+//        {
+//            is = this.getClass().getClassLoader().getResourceAsStream(xmlFolder + xmlName);
+//            if (is != null)
+//            {
+//                InputStreamReader isr = new InputStreamReader(is);
+//                BufferedReader r = new BufferedReader(isr);
+//                StringBuilder total = new StringBuilder();
+//                String line;
+//                while ((line = r.readLine()) != null)
+//                {
+//                    total.append(line);
+//                }
+//                xml = total.toString();
+//
+//                //cleanup
+//                r.close();
+//                isr.close();
+//                is.close();
+//                r = null;
+//                isr = null;
+//                is = null;
+//                total = null;
+//            }
+//        }
+//        catch (Exception exc)
+//        {
+//            Log.e(TAG, exc.getMessage(), exc);
+//        }
+//        return xml;
+//    }
 
-                //cleanup
-                r.close();
-                isr.close();
-                is.close();
-                r = null;
-                isr = null;
-                is = null;
-                total = null;
-            }
-        }
-        catch (Exception exc)
-        {
-            Log.e(TAG, exc.getMessage(), exc);
-        }
-        return xml;
-    }
-
-    public final synchronized void init(String[] symbolConstantsXML)//was String[] symbolConstantsXML
+    public final synchronized void init(String[] symbolConstantsXML)
     {
         if (_initCalled == false) {
             _SymbolDefinitionsB = new HashMap<String, SymbolDef>();
@@ -122,15 +122,11 @@ public class SymbolDefTable {
 
             _SymbolDefinitionsC = new HashMap<String, SymbolDef>();
             _SymbolDefDupsC = new ArrayList<SymbolDef>();
-            //if(symbolConstantsXML==null)
-            //{
-                String xmlPathB = "symbolconstantsb.xml";
-                String xmlPathC = "symbolconstantsc.xml";            
-                String stringB = getXML(xmlPathB);
-                String stringC = getXML(xmlPathC);
-                populateLookup(stringB, RendererSettings.Symbology_2525Bch2_USAS_13_14);
-                populateLookup(stringC, RendererSettings.Symbology_2525C);
-            //}
+	    String lookupXmlB = symbolConstantsXML[0];//FileHandler.InputStreamToString(xmlStreamB);
+	    String lookupXmlC = symbolConstantsXML[1];;//FileHandler.InputStreamToString(xmlStreamC);
+	    populateLookup(lookupXmlB, RendererSettings.Symbology_2525Bch2_USAS_13_14);
+	    populateLookup(lookupXmlC, RendererSettings.Symbology_2525C);	    
+	    _initCalled = true;
         }
     }
 

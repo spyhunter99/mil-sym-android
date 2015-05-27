@@ -9,7 +9,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import android.widget.EditText;
 import android.app.FragmentManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.util.DisplayMetrics;
 import android.view.Menu;
+import armyc2.c2sd.renderer.MilStdIconRenderer;
+import armyc2.c2sd.renderer.utilities.RendererSettings;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Locale;
 
@@ -20,6 +24,10 @@ public class MainActivity extends Activity {
     //private LocationClient mLocationClient;
     private EditText editText;
     private MyView myView = null;
+    MilStdIconRenderer mir = null;
+    private String TAG = "armyc2.c2sd.MainActivity";
+    private boolean populateModifiers = false;
+    private boolean svg = false;
 
     /**
      * Called when the activity is first created.
@@ -38,6 +46,7 @@ public class MainActivity extends Activity {
             myView.map = map;
         }
         utility.map = map;
+        loadRenderer();
 
         editText = (EditText) findViewById(R.id.edit_message);
         editText.setTextColor(Color.RED);
@@ -63,7 +72,8 @@ public class MainActivity extends Activity {
                 myView.setExtents();
                 myView.DrawFromZoom(null);
             }
-        });
+        }
+        );
     }
 
     @Override
@@ -73,4 +83,29 @@ public class MainActivity extends Activity {
         MyView._pointsGeo.clear();
         return false;
     }
+
+    public void loadRenderer() {
+            //disable svg engine
+        //((CheckBox)findViewById(R.id.cbSVG)).setActivated(false);
+
+        //TextView t = (TextView)findViewById(R.id.tvStatus);
+        //t.setText("Initializing Renderer");
+        //depending on screen size and DPI you may want to change the font size.
+        RendererSettings rs = RendererSettings.getInstance();
+        rs.setModifierFont("Arial", Typeface.BOLD, 18);
+        rs.setMPModifierFont("Arial", Typeface.BOLD, 18);
+        rs.setSymbologyStandard(RendererSettings.Symbology_2525C);
+
+        rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_COLORFILL);
+
+        mir = MilStdIconRenderer.getInstance();
+        String cacheDir = getApplicationContext().getCacheDir().getAbsoluteFile().getAbsolutePath();
+        mir.init(cacheDir);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int dpi = metrics.densityDpi;
+
+        //t.setText("Renderer Initialized");
+    }
+
 }
