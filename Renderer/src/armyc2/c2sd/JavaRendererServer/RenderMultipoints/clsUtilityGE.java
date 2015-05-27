@@ -1234,11 +1234,26 @@ public final class clsUtilityGE {
                 case TacticalLines.CHEM:
                 case TacticalLines.RAD:
                 case TacticalLines.WFZ:
-                case TacticalLines.OBSAREA:
+                //case TacticalLines.OBSAREA:
                     hatch=Hatch_BackwardDiagonal;
                     break;
                 case TacticalLines.LAA:
                     hatch=Hatch_ForwardDiagonal;
+                    break;
+                case TacticalLines.OBSAREA:
+                    //CPOF client required adding a simple shape for
+                    //setting texturepaint which SECRenderer does not use
+                    for(j=0;j<shapes.size();j++)
+                    {
+                        ShapeInfo shape=shapes.get(j);
+                        Color color=shape.getLineColor();
+                        if(color==null)
+                            continue;
+                        //if(shape.getLineColor().getRGB()==0)
+                        if(shape.getLineColor().toARGB()==0)
+                            shapes.remove(j);
+                    }
+                    hatch=Hatch_BackwardDiagonal;
                     break;
                 default:
                     if(hatch<=0)
