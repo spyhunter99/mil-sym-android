@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -32,16 +33,36 @@ public class JavaRendererUtilities {
      * AABBGGRR
      */
     public static String ARGBtoABGR(String rgbString) {
-        char[] c = rgbString.toCharArray();
-
-        char temp1 = c[2];
-        char temp2 = c[3];
-        c[2] = c[6];
-        c[3] = c[7];
-        c[6] = temp1;
-        c[7] = temp2;
-
-        String bgrString = new String(c);
+    	
+    	String bgrString = rgbString.toUpperCase(Locale.US);
+    	
+    	if(rgbString.length() == 8)
+    	{
+    		char[] c = rgbString.toCharArray();
+    		char temp1 = c[2];
+            char temp2 = c[3];
+            c[2] = c[6];
+            c[3] = c[7];
+            c[6] = temp1;
+            c[7] = temp2;
+            bgrString = new String(c);
+    	}
+    	else if(rgbString.length() == 6)
+    	{
+    		char[] c = rgbString.toCharArray();
+    		char temp1 = c[0];
+            char temp2 = c[1];
+            c[0] = c[4];
+            c[1] = c[5];
+            c[4] = temp1;
+            c[5] = temp2;
+            bgrString = "FF" + new String(c);
+            //bgrString = "FF" + bgrString;
+    	}
+    	else
+    	{
+    		System.err.println("JavaRendererUtilties.ARGBtoABGR(): " + "\"" + String.valueOf(rgbString) + "\" is not a 6 or 8 character String in the format of RRGGBB or AARRGGBB");
+    	}
 
         return bgrString;
     }
