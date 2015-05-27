@@ -607,7 +607,10 @@ public class MilStdSymbol
      */
     public void setLineColor(Color value)
     {
-        _LineColor = value;
+    	if(value != null)
+    	{
+    		_LineColor = value;
+    	}
     }
 
     /**
@@ -620,7 +623,7 @@ public class MilStdSymbol
     }
 
     /**
-     * if null, renderer will white or black for the outline based on the color
+     * if null, renderer will use white or black for the outline based on the color
      * of the symbol. Otherwise, it will used the passed color value.
      *
      * @param value
