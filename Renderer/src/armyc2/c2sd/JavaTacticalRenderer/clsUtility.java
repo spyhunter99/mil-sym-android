@@ -2657,6 +2657,7 @@ public final class clsUtility {
                 case TacticalLines.BBS_RECTANGLE:
                 case TacticalLines.BBS_POINT:
                 case TacticalLines.BS_CROSS:
+                case TacticalLines.BS_BBOX:
                 //the Tasks
                 case TacticalLines.CORDONKNOCK:
                 case TacticalLines.CORDONSEARCH:
