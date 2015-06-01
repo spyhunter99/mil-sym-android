@@ -26,17 +26,17 @@ public class TacticalGraphicIconRenderer {
 	{
 		ImageInfo ii = null;
 		
-		if(color == null)
-		{
-	        if(armyc2.c2sd.renderer.utilities.SymbolUtilities.isWeather(symbolID)==true)
-	        {
-	            color = SymbolUtilities.getLineColorOfWeather(symbolID);
-	        }//*/
-	        else
-	        {
-	            color = SymbolUtilities.getLineColorOfAffiliation(symbolID);
-	        }
-		}
+		
+		
+        if(armyc2.c2sd.renderer.utilities.SymbolUtilities.isWeather(symbolID)==true)
+        {
+            color = SymbolUtilities.getLineColorOfWeather(symbolID);
+        }//*/
+        else if(color == null)
+        {
+            color = SymbolUtilities.getLineColorOfAffiliation(symbolID);
+        }
+		
 
         int charSymbolIndex = TacticalGraphicLookup.getInstance().getCharCodeFromSymbol(symbolID);
 		

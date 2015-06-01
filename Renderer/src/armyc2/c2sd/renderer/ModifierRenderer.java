@@ -1793,10 +1793,6 @@ public class ModifierRenderer
                 {
                     F = "(" + (char) (177) + ")";
                 }
-                else
-                {
-                    F = null;
-                }
             }
 
             if (F != null && F.equals("") == false)

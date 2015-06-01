@@ -6,7 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.Paint.Align;
 import android.util.Log;
 
 
@@ -187,5 +190,84 @@ public class FontManager {
 		}
 		return tf;
 	}//*/
+	
+	public void testFontFiles()
+	{
+		Paint fillPaint = new Paint();
+        fillPaint.setStyle(Paint.Style.FILL);
+        fillPaint.setColor(Color.black.toARGB());
+        fillPaint.setTextSize(48);
+        fillPaint.setAntiAlias(true);
+        fillPaint.setTextAlign(Align.CENTER);
+        fillPaint.setTypeface(_tfUnits);
+        
+        //for(int i = 999; i < 9132; i++)
+        for(int i = 57999; i < 63132; i++)
+        {
+        	Rect bounds = new Rect();
+        	String strFill = String.valueOf((char) i);
+            fillPaint.getTextBounds(strFill, 0, 1, bounds);
+            
+            if(bounds.left < 0)
+            {
+            	//System.err.println("Char: " + String.valueOf(i) + " has tiny width: " + String.valueOf(bounds.toString()) + " W: " + String.valueOf(bounds.width()) + " H: " + String.valueOf(bounds.width()) + ", valid");
+            }
+            else
+            {
+            	System.err.println("Char: " + String.valueOf(i) + " has normal width: " + String.valueOf(bounds.toString()) + " W: " + String.valueOf(bounds.width()) + " H: " + String.valueOf(bounds.width()) + ", invalid");
+            }
+            
+            /*switch(i)
+            {
+            	case 2166:
+            		i=3000;
+            		break;
+            	case 3084:
+            		i=3999;
+            		break;
+            	case 4085:
+            		i=4500;
+            		break;
+            	case 4533:
+            		i=5000;
+            		break;
+            	case 5261:
+            		i=9000;
+            		break;
+            	case 9131:
+            		i=9500;
+            		break;
+            	default:
+            		break;
+            }//*/
+            
+            switch(i)
+            {
+            	case 59166:
+            		i=60000;
+            		break;
+            	case 60084:
+            		i=60999;
+            		break;
+            	case 61085:
+            		i=61500;
+            		break;
+            	case 61533:
+            		i=62000;
+            		break;
+            	case 62261:
+            		i=63000;
+            		break;
+            	case 63131:
+            		i=63500;
+            		break;
+            	default:
+            		break;
+            }
+        }
+        
+        
+        
+	}
 
 }

@@ -22,7 +22,7 @@ public class SymbolDimensions {
 			float[] dimensions = {0f,0f,0f,0f};
                 
 			
-			switch(index)
+			switch(index - 57000)
 			{
 				case 800:
 				case 801:
