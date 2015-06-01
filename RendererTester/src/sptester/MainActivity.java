@@ -32,6 +32,7 @@ import armyc2.c2sd.graphics2d.BasicStroke;
 import armyc2.c2sd.renderer.IconRenderer;
 import armyc2.c2sd.renderer.MilStdIconRenderer;
 import armyc2.c2sd.renderer.SinglePointRenderer;
+import armyc2.c2sd.renderer.utilities.FontManager;
 import armyc2.c2sd.renderer.utilities.ImageInfo;
 import armyc2.c2sd.renderer.utilities.MilStdAttributes;
 import armyc2.c2sd.renderer.utilities.MilStdSymbol;
@@ -155,6 +156,8 @@ public class MainActivity extends Activity {
 	    	else
 	    		attributes.put(MilStdAttributes.PixelSize,"240");
 	    	
+	    	//attributes.put(MilStdAttributes.LineColor, "cyan");
+	    	
                 //RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_NONE);
 	    		//RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_COLORFILL);
                 //RendererSettings.getInstance().setTextOutlineWidth(1);
@@ -237,6 +240,12 @@ public class MainActivity extends Activity {
 		    	if(msBmp != null)
 		    		imageView.setImageBitmap(msBmp);
 	    	}
+	    	
+	    	//test font file
+	    	/*TextView t = (TextView)findViewById(R.id.tvStatus);
+	    	t.setText("Testing font files");
+	    	FontManager.getInstance().testFontFiles();
+	    	t.setText("Done");//*/
  	
     	}
     	catch(Exception exc)
@@ -270,6 +279,7 @@ public class MainActivity extends Activity {
         modifiers.put(ModifiersUnits.C_QUANTITY,"C");
         
         modifiers.put(ModifiersUnits.F_REINFORCED_REDUCED,"RD");
+        
         modifiers.put(ModifiersUnits.L_SIGNATURE_EQUIP,"!");
         //modifiers[armyc2.c2sd.renderer.utilities.ModifiersUnits.AA_SPECIAL_C2_HQ] = "AA";
         modifiers.put(ModifiersUnits.G_STAFF_COMMENTS,"Gj");
