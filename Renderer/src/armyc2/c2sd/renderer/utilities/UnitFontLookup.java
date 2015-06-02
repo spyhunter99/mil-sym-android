@@ -146,8 +146,7 @@ public class UnitFontLookup {
   }
   
   /**
-   * Specific to android because it refuses to load characters from
-   * specific location in the font file.
+   * Until XML files are updated, we need to shift the index
    * @param index
    * @return 
    */  
@@ -163,20 +162,6 @@ public class UnitFontLookup {
           else
         	  return String.valueOf(i + 54000);
           
-          //if(i == 1653)//SUGPUSS7--*****//line
-            //return "2500";//works
-//          if(i == 1662)//SFGPUSS7C-***** line with angle on right
-//            return "2502";//works
- //         else if(i == 1670)//horse shoe from SUGPUSS5C-*****
-//            return "2505";//works
-//          else if(i == 1672)//SFGPUSS7C-*****//core symbol (bent dumbell)
-//            return "2506";//works
-          //if(i == ####)//SFGPUSS7C-*****//core symbol (bent dumbell)
-          //  return "2511";//
-//          if(i >= 1570 && i <= 1610)
-//          {
-//        	  return String.valueOf(i + 58000);
-//          }
       }
       
       return index;//*/
