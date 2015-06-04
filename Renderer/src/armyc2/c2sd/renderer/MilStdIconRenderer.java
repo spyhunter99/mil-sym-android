@@ -17,13 +17,13 @@ import armyc2.c2sd.renderer.utilities.RendererSettings;
 import armyc2.c2sd.renderer.utilities.SinglePointLookup;
 import armyc2.c2sd.renderer.utilities.SymbolDef;
 import armyc2.c2sd.renderer.utilities.SymbolDefTable;
-import armyc2.c2sd.renderer.utilities.SymbolSVGTable;
+//import armyc2.c2sd.renderer.utilities.SymbolSVGTable;
 import armyc2.c2sd.renderer.utilities.SymbolUtilities;
 import armyc2.c2sd.renderer.utilities.TacticalGraphicLookup;
 import armyc2.c2sd.renderer.utilities.UnitDef;
 import armyc2.c2sd.renderer.utilities.UnitDefTable;
 import armyc2.c2sd.renderer.utilities.UnitFontLookup;
-import armyc2.c2sd.renderer.utilities.UnitSVGTable;
+//import armyc2.c2sd.renderer.utilities.UnitSVGTable;
 
 public class MilStdIconRenderer/* implements IIconRenderer */ {
 
@@ -35,8 +35,7 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
     private SinglePointRenderer _SPR = null;
     private SinglePointSVGRenderer _SPSVGR = null;
 
-    public static synchronized
-            MilStdIconRenderer getInstance()
+    public static synchronized MilStdIconRenderer getInstance()
     {
         if (_instance == null)
         {
@@ -49,8 +48,7 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
      *
      * @param cacheDir
      */
-    public synchronized
-            void init(String cacheDir)//List<Typeface> fonts, List<String> xml
+    public synchronized void init(String cacheDir)//List<Typeface> fonts, List<String> xml
     {
         try
         {
@@ -349,8 +347,7 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
         return "milstd2525";
     }
 
-    private
-            SparseArray<String> getDefaultAttributes(String symbolID)
+    private SparseArray<String> getDefaultAttributes(String symbolID)
     {
         SparseArray<String> map = new SparseArray<String>();
         try

@@ -51,10 +51,13 @@ public class SinglePointRenderer implements SettingsChangedEventListener
     private float _modifierFontHeight = 10;
     private int _deviceDPI = 72;
 
-    private LruCache<String, ImageInfo> _unitCache = new LruCache<String, ImageInfo>(15);
-    private LruCache<String, ImageInfo> _tgCache = new LruCache<String, ImageInfo>(7);
-    //private LruCache<String, ImageInfo> _unitCache = null;//new LruCache<String, ImageInfo>(50);
-    //private LruCache<String, ImageInfo> _tgCache = null;//new LruCache<String, ImageInfo>(50);
+    //private LruCache<String, ImageInfo> _unitCache = new LruCache<String, ImageInfo>(15);
+    //private LruCache<String, ImageInfo> _tgCache = new LruCache<String, ImageInfo>(7);
+    private LruCache<String, ImageInfo> _unitCache = new LruCache<String, ImageInfo>(1024);
+    private LruCache<String, ImageInfo> _tgCache = new LruCache<String, ImageInfo>(1024);
+    private final int maxMemory = (int) (Runtime.getRuntime().maxMemory());// / 1024);
+    private int cacheSize = 5;//RendererSettings.getInstance().getCacheSize() / 2;
+    private int maxCachedEntrySize = cacheSize / 5;
 
     private SinglePointRenderer()
     {
@@ -63,39 +66,12 @@ public class SinglePointRenderer implements SettingsChangedEventListener
         _tfTG = FontManager.getInstance().getTypeface(FontManager.FONT_MPTG);
         TacticalGraphicIconRenderer.setTGTypeFace(_tfTG);
         RendererSettings.getInstance().addEventListener(this);
+        
         //get modifier font values.
-        onSettingsChanged(null);
-        /*final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        final int cacheSize = maxMemory / 24;
-        _unitCache = new LruCache<String, ImageInfo>(cacheSize){
-        	@Override
-        	protected int sizeOf(String key, ImageInfo ii)
-        	{
-        		return ii.getImage().getByteCount();
-        	}
-        	
-        	@Override
-        	protected void entryRemoved(boolean evicted, String key, ImageInfo oldValue, ImageInfo newValue)
-        	{
-        		super.entryRemoved(evicted, key, oldValue, newValue);
-        		oldValue.getImage().recycle();
-        	}
+        onSettingsChanged(new SettingsChangedEvent(SettingsChangedEvent.EventType_FontChanged));
+        //set cache
+        onSettingsChanged(new SettingsChangedEvent(SettingsChangedEvent.EventType_CacheSizeChanged));
         
-        };
-        _tgCache = new LruCache<String, ImageInfo>(cacheSize){
-        	@Override
-        	protected int sizeOf(String key, ImageInfo ii)
-        	{
-        		return ii.getImage().getByteCount();
-        	}
-        	@Override
-        	protected void entryRemoved(boolean evicted, String key, ImageInfo oldValue, ImageInfo newValue)
-        	{
-        		super.entryRemoved(evicted, key, oldValue, newValue);
-        		oldValue.getImage().recycle();
-        	}
-        
-        };*/
     }
 
     public static synchronized SinglePointRenderer getInstance()
@@ -478,12 +454,15 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
                 ii = new ImageInfo(bmp, centerPoint, symbolBounds);
 
-
-                if(icon == false && pixelSize <= 100)
+                if(icon == false && bmp.getByteCount() <= maxCachedEntrySize)
                 {
                     _unitCache.put(key, new ImageInfo(bmp, new Point(centerCache), new Rect(symbolBounds)));
                 }
-                
+
+                /*if(icon == false && pixelSize <= 100)
+                {
+                    _unitCache.put(key, new ImageInfo(bmp, new Point(centerCache), new Rect(symbolBounds)));
+                }//*/
             }
 
             ImageInfo iinew = null;
@@ -868,10 +847,14 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
                 ii = new ImageInfo(bmp, centerPoint, symbolBounds);
 
-                if (drawAsIcon == false && pixelSize <= 100)
+                if(drawAsIcon == false && bmp.getByteCount() <= maxCachedEntrySize)
                 {
-                    _tgCache.put(key, ii);//*/
+                    _tgCache.put(key, ii);
                 }
+                /*if (drawAsIcon == false && pixelSize <= 100)
+                {
+                    _tgCache.put(key, ii);
+                }//*/
             }
 
             //Process Modifiers
@@ -1160,24 +1143,64 @@ public class SinglePointRenderer implements SettingsChangedEventListener
     public void onSettingsChanged(SettingsChangedEvent sce)
     {
 
-        synchronized (_modifierFont)
+        if(sce != null && sce.getEventType().equals(SettingsChangedEvent.EventType_FontChanged))
         {
-            _modifierFont = RendererSettings.getInstance().getModiferFont();
-            _modifierOutlineFont = RendererSettings.getInstance().getModiferFont();
-            FontMetrics fm = new FontMetrics();
-            fm = _modifierFont.getFontMetrics();
-            _modifierDescent = fm.descent;
-            //_modifierFontHeight = fm.top + fm.bottom;
-            _modifierFontHeight = fm.bottom - fm.top;
+            synchronized (_modifierFont)
+            {
+                _modifierFont = RendererSettings.getInstance().getModiferFont();
+                _modifierOutlineFont = RendererSettings.getInstance().getModiferFont();
+                FontMetrics fm = new FontMetrics();
+                fm = _modifierFont.getFontMetrics();
+                _modifierDescent = fm.descent;
+                //_modifierFontHeight = fm.top + fm.bottom;
+                _modifierFontHeight = fm.bottom - fm.top;
 
-            _modifierFont.setStrokeWidth(RendererSettings.getInstance().getTextOutlineWidth());
-            _modifierOutlineFont.setColor(Color.white.toInt());
-            _deviceDPI = RendererSettings.getInstance().getDeviceDPI();
+                _modifierFont.setStrokeWidth(RendererSettings.getInstance().getTextOutlineWidth());
+                _modifierOutlineFont.setColor(Color.white.toInt());
+                _deviceDPI = RendererSettings.getInstance().getDeviceDPI();
 
-            ModifierRenderer.setModifierFont(_modifierFont, _modifierFontHeight, _modifierDescent);
+                ModifierRenderer.setModifierFont(_modifierFont, _modifierFontHeight, _modifierDescent);
 
+            }
         }
-
+        
+        if(sce != null && sce.getEventType().equals(SettingsChangedEvent.EventType_CacheSizeChanged))
+        {
+            int cSize = RendererSettings.getInstance().getCacheSize()/2;
+            //adjust unit cache
+            if(cSize != cacheSize)
+            {
+                synchronized(_unitCache)
+                {
+                    _unitCache.evictAll();
+                    _unitCache = new LruCache<String, ImageInfo>(cSize)
+                    {	
+                        @Override
+                        protected int sizeOf(String key, ImageInfo ii)
+                        {
+                            return ii.getImage().getByteCount();// / 1024;
+                        }
+                    };
+                }
+                //adjust tg cache
+                synchronized(_tgCache)
+                {
+                    _tgCache.evictAll();
+                    _tgCache = new LruCache<String, ImageInfo>(cSize)
+                    {	
+                        @Override
+                        protected int sizeOf(String key, ImageInfo ii)
+                        {
+                            return ii.getImage().getByteCount();// / 1024;
+                        }
+                    };
+                }
+                cacheSize = cSize;
+                if(cacheSize >= 5)
+                    maxCachedEntrySize = cacheSize / 5;
+                else
+                    maxCachedEntrySize = 1;
+            }
+        }
     }
-
 }
