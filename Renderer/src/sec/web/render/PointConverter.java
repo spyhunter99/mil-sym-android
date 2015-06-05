@@ -18,7 +18,7 @@ public class PointConverter implements IPointConversion
     private double _controlLong=0;
     private double _scale=0;
     private double _metersPerPixel=0;
-    
+    private boolean _normalize=false;
     
     public PointF PixelsToGeo(PointF pixel)
     {
@@ -30,7 +30,10 @@ public class PointConverter implements IPointConversion
     	return null;
     }
     
-    
+    public void set_normalize(boolean value)
+    {
+        _normalize=value;
+    }
     
     public PointConverter(double controlLong, double controlLat, double scale)
     {
@@ -108,7 +111,7 @@ public class PointConverter implements IPointConversion
         try
         {
             double y=GeoPixelConversion.lat2y(coord.getY(), _scale, _controlLat, _metersPerPixel);
-            double x=GeoPixelConversion.long2x(coord.getX(), _scale, _controlLong, coord.getY(), _metersPerPixel);
+            double x=GeoPixelConversion.long2x(coord.getX(), _scale, _controlLong, coord.getY(), _metersPerPixel, _normalize);
             pt2DPixels=new Point2D.Double(x, y);
         }
         catch(Error e)

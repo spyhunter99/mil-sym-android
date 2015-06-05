@@ -659,9 +659,12 @@ public class MultiPointHandler {
             Point2D ptCoordsUL = getGeoUL(geoCoords);
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
-        if (crossesIDL(geoCoords) == true) {
+        if (crossesIDL(geoCoords) == true) 
+        {
             normalize = true;
-        } else {
+            ((PointConverter)ipc).set_normalize(true);
+        } 
+        else {
             normalize = false;
         }
 
@@ -972,9 +975,12 @@ public class MultiPointHandler {
             Point2D ptCoordsUL = getGeoUL(geoCoords);
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
-        if (crossesIDL(geoCoords) == true) {
+        if (crossesIDL(geoCoords) == true) 
+        {
             normalize = true;
-        } else {
+            ((PointConverter)ipc).set_normalize(true);
+        } 
+        else {
             normalize = false;
         }
 
@@ -1923,9 +1929,12 @@ public class MultiPointHandler {
             Point2D ptCoordsUL = getGeoUL(geoCoords);
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
-        if (crossesIDL(geoCoords) == true) {
+        if (crossesIDL(geoCoords) == true) 
+        {
             normalize = true;
-        } else {
+            ((PointConverter)ipc).set_normalize(true);
+        } 
+        else {
             normalize = false;
         }
 
