@@ -28,7 +28,9 @@ public class RenderSPThreadTest implements Runnable
     {
         MilStdIconRenderer mir = MilStdIconRenderer.getInstance();
         String foo = "UFHNPASGWDLMJK";
+        String foo2 = "APCDXF";
         char[] affiliations = foo.toCharArray();
+        char[] stati = foo2.toCharArray();
     	SparseArray<String> modifiers = new SparseArray();
     	//populateModifiersForUnits(modifiers);
     	SparseArray<String> attributes = new SparseArray();
@@ -44,7 +46,8 @@ public class RenderSPThreadTest implements Runnable
             {
                 Random r = new Random();
                 char affiliation = affiliations[r.nextInt(13)];
-                id = id.substring(0, 1) + affiliation + id.substring(2);
+                char status = affiliations[r.nextInt(5)];
+                id = id.substring(0, 1) + affiliation + id.substring(2,3) + status + id.substring(4);
             }
             ii = mir.RenderIcon(id, modifiers, attributes);
             if(ii == null || ii.getImage() == null)
@@ -69,7 +72,9 @@ public class RenderSPThreadTest implements Runnable
     
     public void run()
     {
-        _result = threadTest("SUPPT----------", _name, _randomAffiliation);
+        Random r = new Random();
+        String[] symbolIDs = {"SUPP-----------","SUPPT----------","SUPPV----------","SUPPT----------","SUPPL----------"};
+        _result = threadTest(symbolIDs[r.nextInt(4)], _name, _randomAffiliation);
     }
     
     public boolean getResult()

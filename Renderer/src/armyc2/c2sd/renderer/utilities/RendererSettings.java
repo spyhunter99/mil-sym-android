@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 
 /**
@@ -137,6 +138,9 @@ public class RendererSettings{
     private float _UnitFontSize = 50f;
     private int _PixelSize = 35;
     private int _DPI = 96;
+    
+    private static int _CacheSize = 1024;
+    private static int _VMSize = 10240;
 
     private RendererSettings()
     {
@@ -147,14 +151,24 @@ public class RendererSettings{
     public static synchronized RendererSettings getInstance()
     {
         if(_instance == null)
+        {
             _instance = new RendererSettings();
+        }
 
         return _instance;
     }
     
     private void Init()
     {
-
+        try
+        {
+            _VMSize = (int)Runtime.getRuntime().maxMemory();
+            _CacheSize = Math.round(_VMSize * 0.05f);
+        }
+        catch(Exception exc)
+        {
+            ErrorLogger.LogException("RendererSettings", "Init", exc, Level.WARNING);
+        }
     }
 
     private void throwEvent(SettingsChangedEvent sce)
@@ -532,7 +546,7 @@ public class RendererSettings{
         _ModifierFontName = name;
         _ModifierFontType = type;
         _ModifierFontSize = size;
-        throwEvent(new SettingsChangedEvent());
+        throwEvent(new SettingsChangedEvent(SettingsChangedEvent.EventType_FontChanged));
     }
     
     
@@ -547,6 +561,7 @@ public class RendererSettings{
         _MPModifierFontName = name;
         _MPModifierFontType = type;
         _MPModifierFontSize = size;
+        throwEvent(new SettingsChangedEvent(SettingsChangedEvent.EventType_FontChanged));
     }
 
     
@@ -669,5 +684,34 @@ public class RendererSettings{
         return _MPModifierFontSize;
     }
 
-
+    /**
+     * Set the cache size as a percentage of VM memory available to the app.
+     * Renderer won't let you set a value greater than 10% of the available VM memory.
+     * @param percentage 
+     */
+    public void setCacheSize(float percentage)
+    {
+        if(percentage > 0.10f)
+            percentage = 0.10f;
+        _CacheSize = Math.round(_VMSize * percentage);
+        throwEvent(new SettingsChangedEvent(SettingsChangedEvent.EventType_CacheSizeChanged));
+    }
+    
+    /**
+     * Set the cache size in bytes.
+     * Renderer won't let you set a value greater than10% of the available VM memory.
+     * @param bytes 
+     */
+    public void setCacheSize(int bytes)
+    {
+        if(bytes > _VMSize / 10)
+            bytes = _VMSize / 10;
+        _CacheSize = bytes;
+        throwEvent(new SettingsChangedEvent(SettingsChangedEvent.EventType_CacheSizeChanged));
+    }
+    
+    public int getCacheSize()
+    {
+        return _CacheSize;
+    }
 }
