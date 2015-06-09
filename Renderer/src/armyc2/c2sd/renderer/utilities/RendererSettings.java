@@ -130,6 +130,7 @@ public class RendererSettings{
     private static int _MPModifierFontSize = 18;
     private static int _MPModifierFontKerning = 0;//0=off, 1=on (TextAttribute.KERNING_ON)
     //private static float _ModifierFontTracking = TextAttribute.TRACKING_LOOSE;//loose=0.4f;
+    private static float _KMLLabelScale = 1.0f;
     
     private boolean _scaleEchelon = false;
     private boolean _DrawAffiliationModifierAsLabel = true;
@@ -561,6 +562,23 @@ public class RendererSettings{
         _MPModifierFontName = name;
         _MPModifierFontType = type;
         _MPModifierFontSize = size;
+        _KMLLabelScale = 1.0f;
+        throwEvent(new SettingsChangedEvent(SettingsChangedEvent.EventType_FontChanged));
+    }
+    
+    /**
+     * Sets the font to be used for multipoint modifier labels
+     * @param name Like "arial"
+     * @param type Like Font.TRUETYPE_FONT
+     * @param size Like 12
+     * @param kmlScale only set if you're rendering in KML (default 1.0)
+     */
+    public void setMPModifierFont(String name, int type, int size, float kmlScale)
+    {
+        _MPModifierFontName = name;
+        _MPModifierFontType = type;
+        _MPModifierFontSize = Math.round(size * kmlScale);
+        _KMLLabelScale = kmlScale;
         throwEvent(new SettingsChangedEvent(SettingsChangedEvent.EventType_FontChanged));
     }
 
@@ -627,9 +645,9 @@ public class RendererSettings{
         try
         {
         	//need to create a paint and set it's typeface along with it's properties
-        	Typeface tf = Typeface.create(_ModifierFontName, _ModifierFontType);
+        	Typeface tf = Typeface.create(_MPModifierFontName, _MPModifierFontType);
         	p = new Paint();
-        	p.setTextSize(_ModifierFontSize);
+        	p.setTextSize(_MPModifierFontSize);
         	p.setAntiAlias(true);
         	p.setColor(_ColorLabelForeground);
 			//p.setTextAlign(Align.CENTER);
@@ -638,7 +656,7 @@ public class RendererSettings{
         }
         catch(Exception exc)
         {
-            String message = "font creation error, returning \"" + _ModifierFontName + "\" font, " + _ModifierFontSize + "pt. Check font name and type.";
+            String message = "font creation error, returning \"" + _MPModifierFontName + "\" font, " + _MPModifierFontSize + "pt. Check font name and type.";
             ErrorLogger.LogMessage("RendererSettings", "getLabelFont", message);
             ErrorLogger.LogMessage("RendererSettings", "getLabelFont", exc.getMessage());
             try
@@ -682,6 +700,11 @@ public class RendererSettings{
     public int getMPModifierFontSize()
     {
         return _MPModifierFontSize;
+    }
+    
+    public float getKMLLabelScale()
+    {
+    	return _KMLLabelScale;
     }
 
     /**
