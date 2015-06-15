@@ -1270,11 +1270,15 @@ public class MultiPointHandler {
             int width;
             int height;
             if (ShouldClipSymbol(symbolCode)) {
-                temp = ipc.GeoToPixels(new Point2D.Double(left, top));
+                Point2D lt=new Point2D.Double(left,top);
+                //temp = ipc.GeoToPixels(new Point2D.Double(left, top));
+                temp = ipc.GeoToPixels(lt);
                 leftX = (int) temp.getX();
                 topY = (int) temp.getY();
 
-                temp = ipc.GeoToPixels(new Point2D.Double(right, bottom));
+                Point2D rb=new Point2D.Double(right,bottom);
+                //temp = ipc.GeoToPixels(new Point2D.Double(right, bottom));
+                temp = ipc.GeoToPixels(rb);
                 bottomY = (int) temp.getY();
                 rightX = (int) temp.getX();
                 //////////////////
@@ -1333,6 +1337,7 @@ public class MultiPointHandler {
                     textColor = Color.white;//textColor = "#FFFFFFFF";
                 }
                 jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
+                jsonOutput.append(jsonContent);
                 //if there's a symbol fill or line pattern, add to KML//////////
 //                if(mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS)>=0 || 
 //                        mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS)>=0)
