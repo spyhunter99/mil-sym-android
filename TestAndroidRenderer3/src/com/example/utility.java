@@ -69,7 +69,8 @@ public final class utility {
         ArrayList<Point2D> pts2d = new ArrayList();
         for (j = 0; j < pts.size(); j++) {
             pt = pts.get(j);
-            pt2d = converter.PixelsToGeo(pt);
+            pt2d=new Point2D.Double(pt.x,pt.y);
+            pt2d = converter.PixelsToGeo(pt2d);
             pts2d.add(pt2d);
         }
         ArrayList<POINT2> pts2 = new ArrayList();

@@ -778,7 +778,8 @@ public final class clsRenderer {
                     case TacticalLines.AXAD:
                         POINT2 ptPixels = armyc2.c2sd.JavaTacticalRenderer.clsUtility.ComputeLastPoint(tg.Pixels);
                         tg.Pixels.add(ptPixels);
-                        Point pt = clsUtility.POINT2ToPoint(ptPixels);
+                        //Point pt = clsUtility.POINT2ToPoint(ptPixels);
+                        Point2D pt = new Point2D.Double(ptPixels.x,ptPixels.y);
                         //in case it needs the corresponding geo point
                         Point2D ptGeo2d = converter.PixelsToGeo(pt);
                         POINT2 ptGeo = clsUtility.Point2DToPOINT2(ptGeo2d);

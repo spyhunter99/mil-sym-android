@@ -64,7 +64,8 @@ public class MyView extends View {
         IPointConversion converter = null;
         converter = new PointConverter(utility.leftLongitude, utility.upperLatitude, scale);
         Point pt=new Point((int) event.getAxisValue(MotionEvent.AXIS_X), (int) event.getAxisValue(MotionEvent.AXIS_Y));
-        ptGeo=converter.PixelsToGeo(pt);
+        Point2D pt2d=new Point2D.Double(pt.x,pt.y);
+        ptGeo=converter.PixelsToGeo(pt2d);
         int n = Log.i("onTouchEvent", "longitude = " + Double.toString(ptGeo.getX()));
     }
     

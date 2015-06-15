@@ -9,7 +9,7 @@ public interface IPointConversion {
 
     public PointF GeoToPixels(PointF coord);
     
-    public Point2D PixelsToGeo(Point pixel);
+    //public Point2D PixelsToGeo(Point pixel);
     
     //public Point GeoToPixels(Point2D coord);
     

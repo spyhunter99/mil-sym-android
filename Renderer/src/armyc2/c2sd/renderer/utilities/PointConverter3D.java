@@ -66,11 +66,11 @@ public class PointConverter3D implements IPointConversion
         }
         return ptPixels;
     }
-	@Override
-	public Point2D PixelsToGeo(Point pixel) {
-
-		return (Point2D)PixelsToGeo(new Point2D.Double(pixel.x, pixel.y));
-	}
+//	@Override
+//	public Point2D PixelsToGeo(Point pixel) {
+//
+//		return (Point2D)PixelsToGeo(new Point2D.Double(pixel.x, pixel.y));
+//	}
 //	@Override
 //	public Point GeoToPixels(Point2D coord) {
 

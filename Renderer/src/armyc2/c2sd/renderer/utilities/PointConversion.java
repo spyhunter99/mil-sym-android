@@ -120,24 +120,24 @@ public class PointConversion implements IPointConversion {
         return pixel;
     }
     
-	@Override
-	public Point2D PixelsToGeo(Point pixel) {
-		Point2D coords = new Point2D.Double();
-    	
-    	double x = (float)(pixel.x * _pixelMultiplierX + _geoLeft); //xMultiplier;
-        double y = (float)(_geoTop - (pixel.y * _pixelMultiplierY));
-        
-        //diagnostic 12-18-12
-        if(x > 180)
-            x -= 360;
-        if(x < -180)
-            x += 360;
-        //end section
-        
-        coords.setLocation(x, y);
-        
-        return coords;
-	}
+//	@Override
+//	public Point2D PixelsToGeo(Point pixel) {
+//		Point2D coords = new Point2D.Double();
+//    	
+//    	double x = (float)(pixel.x * _pixelMultiplierX + _geoLeft); //xMultiplier;
+//        double y = (float)(_geoTop - (pixel.y * _pixelMultiplierY));
+//        
+//        //diagnostic 12-18-12
+//        if(x > 180)
+//            x -= 360;
+//        if(x < -180)
+//            x += 360;
+//        //end section
+//        
+//        coords.setLocation(x, y);
+//        
+//        return coords;
+//	}
 
 //	@Override
 //	public Point GeoToPixels(Point2D coord) {

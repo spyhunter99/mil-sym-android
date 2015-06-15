@@ -543,7 +543,7 @@ public final class clsUtility {
             POINT2 pt0 = tg.Pixels.get(0);
             POINT2 pt1 = tg.Pixels.get(1);
 
-            Point pt=new Point((int)pt1.x,(int)pt1.y);
+            Point2D pt=new Point2D.Double(pt1.x,pt1.y);
             Point2D pt1Geo2d=converter.PixelsToGeo(pt);
 
             POINT2 pt1geo=new POINT2(pt1Geo2d.getX(),pt1Geo2d.getY());
@@ -558,7 +558,7 @@ public final class clsUtility {
             {
                 //first point is too close, begin rebuilding the arrays
                 pts.add(pt0);
-                pt=new Point((int)pt0.x,(int)pt0.y);
+                pt=new Point2D.Double(pt0.x,pt0.y);
                 pt1Geo2d=converter.PixelsToGeo(pt);
 
                 pt1geo=new POINT2(pt1Geo2d.getX(),pt1Geo2d.getY());
@@ -567,7 +567,7 @@ public final class clsUtility {
                 pt1=lineutility.ExtendAlongLineDouble(pt0, pt1, relativeDist);
                 pts.add(pt1);
 
-                pt=new Point((int)pt1.x,(int)pt1.y);
+                pt=new Point2D.Double(pt1.x,pt1.y);
                 pt1Geo2d=converter.PixelsToGeo(pt);
                 pt1geo=new POINT2(pt1Geo2d.getX(),pt1Geo2d.getY());
                 ptsGeo.add(pt1geo);
@@ -614,7 +614,7 @@ public final class clsUtility {
                 //finally add the control point to the arrays and set the arrays
                 pts.add(controlPt);
                 //pt1Geo2d=converter.convertPixelsToLonLat(controlPt.x, controlPt.y);
-                pt=new Point((int)controlPt.x, (int)controlPt.y);
+                pt=new Point2D.Double(controlPt.x, controlPt.y);
                 pt1Geo2d=converter.PixelsToGeo(pt);
 
                 pt1geo=new POINT2(pt1Geo2d.getX(),pt1Geo2d.getY());
@@ -744,7 +744,8 @@ public final class clsUtility {
         POINT2 pt2 = new POINT2();
         try
         {
-            Point pt=POINT2ToPoint(ptPixels);
+            //Point pt=POINT2ToPoint(ptPixels);
+            Point2D pt=new Point2D.Double(ptPixels.x,ptPixels.y);
             Point2D pt2d=converter.PixelsToGeo(pt);
             pt2=Point2DToPOINT2(pt2d);
             pt2.style=ptPixels.style;

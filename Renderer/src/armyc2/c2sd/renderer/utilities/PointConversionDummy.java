@@ -44,10 +44,10 @@ public class PointConversionDummy implements IPointConversion {
         return pixel;
     }
 
-	@Override
-	public Point2D PixelsToGeo(Point pixel) {
-		return new Point2D.Double(pixel.x,pixel.y);
-	}
+//	@Override
+//	public Point2D PixelsToGeo(Point pixel) {
+//		return new Point2D.Double(pixel.x,pixel.y);
+//	}
 
 //	@Override
 //	public Point GeoToPixels(Point2D coord) {
