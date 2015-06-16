@@ -4086,6 +4086,8 @@ public class Modifier2 {
             if (font == null) {
                 font = g2d.getFont();
             }
+            if(font.getSize()==0)
+                return;
             g2d.setFont(font);
             FontMetrics metrics = g2d.getFontMetrics();
             //we need a background color

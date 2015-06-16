@@ -176,7 +176,13 @@ public final class clsRenderer {
             setClientCoords(milStd, tg);
             //build tg.Pixels
             tg.Pixels = clsUtility.LatLongToPixels(tg.LatLongs, converter);
-            tg.set_Font(new Font("Arial", Font.PLAIN, 12));
+            //tg.set_Font(new Font("Arial", Font.PLAIN, 12));
+            RendererSettings r=RendererSettings.getInstance();
+            int type=r.getMPModifierFontType();
+            String name=r.getMPModifierFontName();
+            int sz=r.getMPModifierFontSize();
+            Font font=new Font(name,type,sz);
+            tg.set_Font(font);
             tg.set_FillColor(milStd.getFillColor());
             tg.set_LineColor(milStd.getLineColor());
             tg.set_LineThickness(milStd.getLineWidth());

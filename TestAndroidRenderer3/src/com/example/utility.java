@@ -2,6 +2,7 @@ package com.example;
 //
 
 import armyc2.c2sd.JavaLineArray.CELineArray;
+import android.graphics.Typeface;
 import java.util.ArrayList;
 import armyc2.c2sd.JavaLineArray.TacticalLines;
 import armyc2.c2sd.JavaLineArray.POINT2;
@@ -1308,6 +1309,8 @@ public final class utility {
         if (renderAirControls) {
             return strResult;
         }
+        //test text scaling
+        //RendererSettings.getInstance().setMPModifierFont("arial", Typeface.BOLD, 18, 2f);
         //Object obj = System.getProperty("java.version");
         ArrayList<Point2D> clipArea = new ArrayList();
         defaultText=defaultText.toUpperCase();
@@ -1578,6 +1581,7 @@ public final class utility {
                 //g2d.drawText(spec.getModifierString(), (float)position.getX(), (float)position.getY(),paint);
                 //g2d.rotate(-(float)stringAngle);
                 paint = new Paint();
+                paint.setTextSize(size);
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setColor(spec.getLineColor().toARGB());
                 paint.setStyle(Paint.Style.FILL);
