@@ -659,7 +659,8 @@ public class MultiPointHandler {
             Point2D ptCoordsUL = getGeoUL(geoCoords);
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
-        if (crossesIDL(geoCoords) == true) 
+        //if (crossesIDL(geoCoords) == true) 
+        if(Math.abs(right-left)>180)
         {
             normalize = true;
             ((PointConverter)ipc).set_normalize(true);
@@ -689,9 +690,10 @@ public class MultiPointHandler {
         }
 
         //disable clipping
-        if (ShouldClipSymbol(symbolCode) == false) {
-            rect = null;//disable clipping
-        }
+        if (ShouldClipSymbol(symbolCode) == false) 
+            if(crossesIDL(geoCoords)==false)
+                rect = null;
+        
         tgl.set_SymbolId(symbolCode);// "GFGPSLA---****X" AMBUSH symbol code
         tgl.set_Pixels(null);
 
@@ -976,7 +978,8 @@ public class MultiPointHandler {
             Point2D ptCoordsUL = getGeoUL(geoCoords);
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
-        if (crossesIDL(geoCoords) == true) 
+        //if (crossesIDL(geoCoords) == true) 
+        if(Math.abs(right-left)>180)
         {
             normalize = true;
             ((PointConverter)ipc).set_normalize(true);
@@ -1005,9 +1008,10 @@ public class MultiPointHandler {
             NormalizeGECoordsToGEExtents(0, 360, geoCoords2);
         }
 
-        if (ShouldClipSymbol(symbolCode) == false) {
-            rect = null;//disable clipping
-        }
+        if (ShouldClipSymbol(symbolCode) == false) 
+            if(crossesIDL(geoCoords)==false)
+                rect = null;//disable clipping
+        
         tgl.set_SymbolId(symbolCode);// "GFGPSLA---****X" AMBUSH symbol code
         tgl.set_Pixels(null);
 
@@ -1269,7 +1273,18 @@ public class MultiPointHandler {
             int rightX;
             int width;
             int height;
-            if (ShouldClipSymbol(symbolCode)) {
+            boolean normalize = false;
+            if(Math.abs(right-left)>180)
+            {
+                ((PointConversion)ipc).set_normalize(true);                
+                normalize=true;
+            }
+            else      
+            {
+                ((PointConversion)ipc).set_normalize(false);
+            }
+            if (ShouldClipSymbol(symbolCode)  || crossesIDL(geoCoords)) 
+            {
                 Point2D lt=new Point2D.Double(left,top);
                 //temp = ipc.GeoToPixels(new Point2D.Double(left, top));
                 temp = ipc.GeoToPixels(lt);
@@ -1312,7 +1327,7 @@ public class MultiPointHandler {
             shapes = mSymbol.getSymbolShapes();
             modifiers = mSymbol.getModifierShapes();
 
-            boolean normalize = false;
+            //boolean normalize = false;
 
             if (format == 1) {
                 jsonOutput.append("{\"type\":\"symbol\",");
@@ -1936,7 +1951,8 @@ public class MultiPointHandler {
             Point2D ptCoordsUL = getGeoUL(geoCoords);
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
-        if (crossesIDL(geoCoords) == true) 
+        //if (crossesIDL(geoCoords) == true) 
+        if(Math.abs(right-left)>180)
         {
             normalize = true;
             ((PointConverter)ipc).set_normalize(true);

@@ -30,6 +30,11 @@ public class PointConversion implements IPointConversion {
     //geo to pixels
     double _pixelMultiplierX = 0;
     double _pixelMultiplierY = 0;
+    boolean _normalize = true;
+    public void set_normalize(boolean value)
+    {
+        _normalize=value;
+    }
 
     public PointConversion(int pixelWidth, int pixelHeight,
                             double geoTop, double geoLeft,
@@ -110,12 +115,21 @@ public class PointConversion implements IPointConversion {
         //double yMultiplier = _pixelMultiplierY;//(_geoTop - _geoBottom) / ((double)_PixelHeight) ;
         double temp;
 
-        temp = ((coord.x  - _geoLeft) / _pixelMultiplierX);//xMultiplier);
+        //temp = ((coord.x  - _geoLeft) / _pixelMultiplierX);//xMultiplier);
+        double calcValue=coord.x  - _geoLeft;
+        if(_normalize)
+        {
+            if(calcValue<-180)
+                calcValue+=360;
+            else if(calcValue>180)
+                calcValue-=360;
+        }
+        temp = (calcValue / _pixelMultiplierX);//xMultiplier);
 
-        pixel.x = (int)temp;
+        pixel.x = (float)temp;
 
         temp = ((_geoTop - coord.y) / _pixelMultiplierY);//yMultiplier);
-        pixel.y = (int)temp;
+        pixel.y = (float)temp;
                 
         return pixel;
     }
@@ -186,12 +200,21 @@ public class PointConversion implements IPointConversion {
 		double y = 0;
         double temp;
 
-        temp = ((coord.getX()  - _geoLeft) / _pixelMultiplierX);//xMultiplier);
+        //temp = ((coord.getX()  - _geoLeft) / _pixelMultiplierX);//xMultiplier);
+        double calcValue=coord.getX()  - _geoLeft;
+        if(_normalize)
+        {
+            if(calcValue<-180)
+                calcValue+=360;
+            else if(calcValue>180)
+                calcValue-=360;
+        }
+        temp = (calcValue / _pixelMultiplierX);//xMultiplier);
 
-        x = (int)temp;
+        x = temp;
 
         temp = ((_geoTop - coord.getY()) / _pixelMultiplierY);//yMultiplier);
-        y = (int)temp;
+        y = temp;
                 
         pixel.setLocation(x,y);
         return pixel;
