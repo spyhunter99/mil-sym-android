@@ -33,6 +33,9 @@ public class ShapeInfo {
     public static int SHAPE_TYPE_TG_SP_OUTLINE=15;
     public static int SHAPE_TYPE_SINGLE_POINT_OUTLINE=16;
     public static int SHAPE_TYPE_UNIT_OUTLINE=17;
+    public static int justify_left=0;
+    public static int justify_center=1;
+    public static int justify_right=2;
     
     protected Shape _Shape;
     private Stroke stroke;
@@ -43,6 +46,7 @@ public class ShapeInfo {
     private Color lineColor = null;
     private Color fillColor = null;
     private int lineWidth = 2;
+    private int _justify=justify_left;
 //    private AffineTransform affineTransform = null;
 
     //private GlyphVector _GlyphVector = null;
@@ -413,5 +417,14 @@ public class ShapeInfo {
     public BitmapShader getShader()
     {
         return _shader;
+    }
+    public int getTextJustify()
+    {
+        return _justify;
+    }
+
+    public void setTextJustify(int value)
+    {
+        _justify = value;
     }
 }
