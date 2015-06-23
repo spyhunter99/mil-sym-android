@@ -1291,10 +1291,12 @@ public final class clsUtilityGE {
                 if(hatch<Hatch_ForwardDiagonal)//Hatch_ForwardDiagonal is the 0th hatch element
                     continue;
                 
+                float hatchLineThickness=Math.round(tg.get_LineThickness()/2);
                 if(hatch != Hatch_Cross)
                 {
                     shape=buildHatchFill(shape,hatch);
-                    shape.setStroke(new BasicStroke(1));//was 2
+                    //shape.setStroke(new BasicStroke(1));
+                    shape.setStroke(new BasicStroke(hatchLineThickness));
                     shape.setLineColor(tg.get_LineColor());
                     shapes.add(shape);
                 }
@@ -1302,10 +1304,12 @@ public final class clsUtilityGE {
                 {
                     Shape2 shapeBk=buildHatchFill(shape,Hatch_BackwardDiagonal);
                     Shape2 shapeFwd=buildHatchFill(shape,Hatch_ForwardDiagonal);
-                    shapeBk.setStroke(new BasicStroke(1));//was 2
+                    //shapeBk.setStroke(new BasicStroke(1));
+                    shapeBk.setStroke(new BasicStroke(hatchLineThickness));
                     shapeBk.setLineColor(tg.get_LineColor());
                     shapes.add(shapeBk);
-                    shapeFwd.setStroke(new BasicStroke(1));//was 2
+                    //shapeFwd.setStroke(new BasicStroke(1));
+                    shapeFwd.setStroke(new BasicStroke(hatchLineThickness));
                     shapeFwd.setLineColor(tg.get_LineColor());
                     shapes.add(shapeFwd);
                 }
