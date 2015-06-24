@@ -1763,6 +1763,8 @@ public class MultiPointHandler {
             if (lineColor != null && lineColor.equals("") == false) {
                 symbol.setLineColor(SymbolUtilities.getColorFromHexString(lineColor));
             }
+            else
+                symbol.setLineColor(Color.black);
 
             if (lineWidth > 0) {
                 symbol.setLineWidth(lineWidth);
@@ -1771,7 +1773,9 @@ public class MultiPointHandler {
             if (textColor != null && textColor.equals("") == false) {
                 symbol.setTextColor(SymbolUtilities.getColorFromHexString(textColor));
             }
-            
+            else
+                symbol.setTextColor(symbol.getLineColor());
+                
             if (textBackgroundColor != null && textBackgroundColor.equals("") == false) {
                 symbol.setTextBackgroundColor(SymbolUtilities.getColorFromHexString(textBackgroundColor));
             }
