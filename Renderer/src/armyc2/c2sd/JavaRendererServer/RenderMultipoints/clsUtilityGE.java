@@ -1274,6 +1274,7 @@ public final class clsUtilityGE {
                 }
             }
             n=shapes.size();
+            float hatchLineThickness=Math.round(tg.get_LineThickness()/2);
             //for(int k=0;k<shapes.size();k++)
             for(int k=0;k<n;k++)
             {
@@ -1291,7 +1292,6 @@ public final class clsUtilityGE {
                 if(hatch<Hatch_ForwardDiagonal)//Hatch_ForwardDiagonal is the 0th hatch element
                     continue;
                 
-                float hatchLineThickness=Math.round(tg.get_LineThickness()/2);
                 if(hatch != Hatch_Cross)
                 {
                     shape=buildHatchFill(shape,hatch);
