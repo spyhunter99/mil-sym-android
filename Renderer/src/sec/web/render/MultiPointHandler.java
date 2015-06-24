@@ -742,11 +742,11 @@ public class MultiPointHandler {
                 textColor = mSymbol.getTextColor();
                 if(textColor==null)
                     textColor=mSymbol.getLineColor();
-                String hexColor = textColor.toHexString();
+                /*String hexColor = textColor.toHexString();
                 if (hexColor.equals("#FF000000"))//black
                 {
                     textColor = Color.white;//textColor = "#FFFFFFFF";
-                }
+                }*/
 
                 jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
 
@@ -1343,14 +1343,14 @@ public class MultiPointHandler {
 
                 Color textColor = null;
 
-                textColor = mSymbol.getLineColor();
+                textColor = mSymbol.getTextColor();
                 if(textColor==null)
                     textColor=mSymbol.getLineColor();
-                String hexColor = SymbolUtilities.colorToHexString(textColor, true);
+                /*String hexColor = SymbolUtilities.colorToHexString(textColor, true);
                 if (hexColor.equals("#FF000000"))//black
                 {
                     textColor = Color.white;//textColor = "#FFFFFFFF";
-                }
+                }*/
                 jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
                 jsonOutput.append(jsonContent);
                 //if there's a symbol fill or line pattern, add to KML//////////
