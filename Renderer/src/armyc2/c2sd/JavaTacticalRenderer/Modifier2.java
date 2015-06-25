@@ -4121,11 +4121,11 @@ public class Modifier2 {
 
                 double x1 = 0, y1 = 0, x2 = 0, y2 = 0, dist = 0;
                 pt0 = modifier.textPath[0];
-                x1 = pt0.x;
-                y1 = pt0.y;
+                x1 = Math.round(pt0.x);
+                y1 = Math.round(pt0.y);
                 pt1 = modifier.textPath[1];
-                x2 = pt1.x;
-                y2 = pt1.y;
+                x2 = Math.round(pt1.x);
+                y2 = Math.round(pt1.y);
                 theta = Math.atan2(y2 - y1, x2 - x1);
                 POINT2 midPt;
                 if (x1 > x2) {
@@ -4164,13 +4164,6 @@ public class Modifier2 {
                             justify=ShapeInfo.justify_right;
                         else
                             justify=ShapeInfo.justify_left;
-                        if(Math.round(x1)==Math.round(x2))
-                        {
-                            if(y1<y2)
-                                justify=ShapeInfo.justify_right;
-                            else
-                                justify=ShapeInfo.justify_left;
-                        }
                         
                         //pt2 = lineutility.ExtendDirectedLine(pt1, pt0, pt1, direction, lineFactor * stringHeight);
                         pt3 = lineutility.ExtendDirectedLine(pt1, pt0, pt0, direction, lineFactor * stringHeight);
@@ -4179,6 +4172,9 @@ public class Modifier2 {
                         modifierPosition=new Point2D.Double(pt3.x,pt3.y);
                         break;
                     case toEnd: //corresponds to LabelAndTextBeforeLineTG                                                
+                        if (x1 == x2) {
+                            x2 += 1;
+                        }
                         if (lineFactor >= 0) {
                             direction = 2;
                         } else {
@@ -4198,13 +4194,6 @@ public class Modifier2 {
                             justify=ShapeInfo.justify_right;
                         else
                             justify=ShapeInfo.justify_left;
-                        if(Math.round(x1)==Math.round(x2))
-                        {
-                            if(y1<y2)
-                                justify=ShapeInfo.justify_right;
-                            else
-                                justify=ShapeInfo.justify_left;
-                        }
 
                         modifierPosition=new Point2D.Double(pt3.x,pt3.y);
                         break;
