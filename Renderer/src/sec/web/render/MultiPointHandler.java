@@ -2057,7 +2057,7 @@ public class MultiPointHandler {
 
             //if(geMap)//if using google earth
             //assume kml text is going to be centered
-            AdjustModifierPointToCenter(tempModifier);
+            //AdjustModifierPointToCenter(tempModifier);
 
             String labelsToAdd = LabelToKMLString(tempModifier, ipc, normalize, textColor);
             kml.append(labelsToAdd);
@@ -2201,6 +2201,8 @@ public class MultiPointHandler {
             strJustify="center";
         if(justify==2)
             strJustify="right";
+        else
+            strJustify="left";
         
         RendererSettings RS = RendererSettings.getInstance();
 
@@ -2225,7 +2227,7 @@ public class MultiPointHandler {
             //JSONed.append(",\"labelAlign\":\"lm\"");
             JSONed.append(",\"labelAlign\":\"");
             JSONed.append(strJustify);
-            JSONed.append("\",\"labelBaseline\":\"middle\"");
+            JSONed.append("\",\"labelBaseline\":\"alphabetic\"");
             JSONed.append(",\"labelXOffset\":0");
             JSONed.append(",\"labelYOffset\":0");
             JSONed.append(",\"labelOutlineColor\":\"");
@@ -2956,7 +2958,8 @@ public class MultiPointHandler {
     private static String LabelToKMLString(ShapeInfo shapeInfo, IPointConversion ipc, boolean normalize, Color textColor) {
         java.lang.StringBuilder kml = new java.lang.StringBuilder();
 
-        Point2D coord = (Point2D) new Point2D.Double(shapeInfo.getGlyphPosition().getX(), shapeInfo.getGlyphPosition().getY());
+        //Point2D coord = (Point2D) new Point2D.Double(shapeInfo.getGlyphPosition().getX(), shapeInfo.getGlyphPosition().getY());
+        Point2D coord = (Point2D) new Point2D.Double(shapeInfo.getModifierStringPosition().getX(), shapeInfo.getModifierStringPosition().getY());
         Point2D geoCoord = ipc.PixelsToGeo(coord);
         //M. Deutch 9-26-11
         if (normalize) {
