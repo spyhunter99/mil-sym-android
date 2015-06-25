@@ -4160,11 +4160,18 @@ public class Modifier2 {
                         if (lineType == TacticalLines.LC || tg.get_Client().equalsIgnoreCase("ge")) {
                             direction = switchDirection(direction);
                         }
-                        if(x1<=x2)
+                        if(x1<x2)
                             justify=ShapeInfo.justify_right;
                         else
                             justify=ShapeInfo.justify_left;
-
+                        if(Math.round(x1)==Math.round(x2))
+                        {
+                            if(y1<y2)
+                                justify=ShapeInfo.justify_right;
+                            else
+                                justify=ShapeInfo.justify_left;
+                        }
+                        
                         //pt2 = lineutility.ExtendDirectedLine(pt1, pt0, pt1, direction, lineFactor * stringHeight);
                         pt3 = lineutility.ExtendDirectedLine(pt1, pt0, pt0, direction, lineFactor * stringHeight);
 
@@ -4187,10 +4194,17 @@ public class Modifier2 {
                         pt2 = lineutility.ExtendDirectedLine(pt1, pt0, pt1, direction, lineFactor * stringHeight);
                         pt3 = lineutility.ExtendDirectedLine(pt1, pt0, pt0, direction, lineFactor * stringHeight);
                         glyphPosition = new Point((int) pt3.x, (int) pt3.y);
-                        if(x1<=x2)
+                        if(x1<x2)
                             justify=ShapeInfo.justify_right;
                         else
                             justify=ShapeInfo.justify_left;
+                        if(Math.round(x1)==Math.round(x2))
+                        {
+                            if(y1<y2)
+                                justify=ShapeInfo.justify_right;
+                            else
+                                justify=ShapeInfo.justify_left;
+                        }
 
                         modifierPosition=new Point2D.Double(pt3.x,pt3.y);
                         break;
