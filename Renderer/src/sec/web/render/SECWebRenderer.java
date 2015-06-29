@@ -444,7 +444,7 @@ public final class SECWebRenderer /* extends Applet */ {
      * @return A KML string that represents a placemark for the 3D shape
      */
     public static String Render3dSymbol(String name, String id, String shapeType, 
-            String description, String color, String altitudeMode, 
+            String description, String lineColor, String fillColor, String altitudeMode, 
             String controlPoints,
             String attributes) {
         
@@ -510,7 +510,7 @@ public final class SECWebRenderer /* extends Applet */ {
             // Send to the 3D renderer for generating the 3D point and creating
             // the KML to return.            
             returnValue = Shape3DHandler.render3dSymbol(name, id, shapeType, 
-                description, color, altitudeMode, controlPoints, modifiers);            
+                description, lineColor, fillColor, altitudeMode, controlPoints, modifiers);            
         } 
         catch (JSONException je) {
 
@@ -591,7 +591,8 @@ public final class SECWebRenderer /* extends Applet */ {
             int altitudeDepthLength = 0;
             int distanceLength = 0;
             int azimuthLength = 0;
-            String color = "";
+            String lineColor = "";
+            String fillColor = "";
             
             if (saModifiers.indexOfKey(ModifiersTG.X_ALTITUDE_DEPTH)>=0)
             {
@@ -611,23 +612,40 @@ public final class SECWebRenderer /* extends Applet */ {
             	distanceLength = distance.length;
             }
             
-            if (saAttributes.indexOfKey(MilStdAttributes.FillColor)>=0)
+            if (saAttributes.indexOfKey(MilStdAttributes.LineColor)>=0)
             {
-            	color = saAttributes.get(MilStdAttributes.FillColor);
+            	lineColor = saAttributes.get(MilStdAttributes.LineColor);
             }
             else
             {   
                 Color c = SymbolUtilities.getFillColorOfAffiliation(symbolCode);
-                color = c.toHexString();
+                lineColor = c.toHexString();
                 // ensure that some color is selected.  If no color can be
                 // found, use black.
-                if (color == null)
+                if (lineColor == null)
                 {
-                    color = "AA000000";
+                	lineColor = "FF000000";
                 }
             }
             
-            color = JavaRendererUtilities.ARGBtoABGR(color);
+            if (saAttributes.indexOfKey(MilStdAttributes.FillColor)>=0)
+            {
+            	fillColor = saAttributes.get(MilStdAttributes.FillColor);
+            }
+            else
+            {   
+                Color c = SymbolUtilities.getFillColorOfAffiliation(symbolCode);
+                fillColor = c.toHexString();
+                // ensure that some color is selected.  If no color can be
+                // found, use black.
+                if (fillColor == null)
+                {
+                	fillColor = "AA000000";
+                }
+            }
+            
+            lineColor = JavaRendererUtilities.ARGBtoABGR(lineColor);
+            fillColor = JavaRendererUtilities.ARGBtoABGR(fillColor);
                             
             for (int i=0; i < altitudeDepthLength; i++)
             {
@@ -670,7 +688,7 @@ public final class SECWebRenderer /* extends Applet */ {
                     symbolId.equals("AAMH--")) // HIMEZ
             {
                 output = Shape3DHandler.buildPolygon(controlPoints, id, name, 
-                    description, color, convertedAltitudeMode, attributes);
+                    description, lineColor, fillColor, convertedAltitudeMode, attributes);
             }
             else if (symbolId.equals("ACAR--") || // ACA - rectangular
                     symbolId.equals("AKPR--") || // Killbox - rectangular
@@ -681,13 +699,13 @@ public final class SECWebRenderer /* extends Applet */ {
                     symbolId.equals("ALL---"))   // LLTR
             {
                 output = Shape3DHandler.buildTrack(controlPoints, id, name, 
-                    description, color, convertedAltitudeMode, attributes);
+                    description, lineColor, fillColor, convertedAltitudeMode, attributes);
             }
             else if (symbolId.equals("ACAC--") || // ACA - circular
                     symbolId.equals("AKPC--"))    // Killbox - circular
             {
                 output = Shape3DHandler.buildCylinder(controlPoints, id, name, 
-                    description, color, convertedAltitudeMode, attributes);
+                    description, lineColor, fillColor, convertedAltitudeMode, attributes);
 
             }   
 

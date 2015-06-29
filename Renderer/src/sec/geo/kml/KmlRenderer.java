@@ -141,8 +141,8 @@ public class KmlRenderer {
         return polys;
     }
 
-    //public String getPlacemarkKml(AExtrusion ext, String id, String name, String description, String color) {
-    public String getPlacemarkKml(AExtObject ext, String id, String name, String description, String color) {
+    //public String getPlacemarkKml(AExtrusion ext, String id, String name, String description, String lineColor, String fillColor) {
+    public String getPlacemarkKml(AExtObject ext, String id, String name, String description, String lineColor, String fillColor) {
 
         try {
             StringBuilder sb = new StringBuilder();
@@ -161,15 +161,15 @@ public class KmlRenderer {
             }
             int colorIndex = sb.indexOf(colorField);
             int colorLength = colorField.length();
-            if (color != null) {
-                sb.replace(colorIndex, colorIndex + colorLength, color);
+            if (fillColor != null) {
+                sb.replace(colorIndex, colorIndex + colorLength, fillColor);
             } else {
                 sb.replace(colorIndex, colorIndex + colorLength, colorDefault);
             }
 
             int lineColorIndex = sb.indexOf2(colorField, colorIndex + colorLength);
-            if (color != null) {
-                sb.replace(lineColorIndex, lineColorIndex + colorLength, color);
+            if (lineColor != null) {
+                sb.replace(lineColorIndex, lineColorIndex + colorLength, lineColor);
             } else {
                 sb.replace(lineColorIndex, lineColorIndex + colorLength, colorDefault);
             }
@@ -194,20 +194,20 @@ public class KmlRenderer {
 
     }
 
-    //public String getKml(AExtrusion ext, String id, String name, String description, String color) {
+    //public String getKml(AExtrusion ext, String id, String name, String description, String lineColor, String fillColor) {
 
-    public String getKml(Object ext, String id, String name, String description, String color) {
+    public String getKml(Object ext, String id, String name, String description, String lineColor, String fillColor) {
         try {
             AExtObject aext = getAExtObject(ext);
             if (aext.getElements() != null) {
-                return (getTrackKml(ext, id, name, description, color));
+                return (getTrackKml(ext, id, name, description, lineColor, fillColor));
             }
             StringBuilder sb = new StringBuilder();
             sb.append(KML_START);
             int idIndex = sb.indexOf(idField);
             int idLength = idField.length();
             sb.replace(idIndex, idIndex + idLength, id);
-            sb.append(getPlacemarkKml(aext, id, name, description, color));
+            sb.append(getPlacemarkKml(aext, id, name, description, lineColor, fillColor));
             sb.append(KML_END);
             return sb.toString();
         } catch (Exception e) {
@@ -216,7 +216,7 @@ public class KmlRenderer {
         }
     }
 
-    public String getTrackKml(Object ext, String id, String name, String description, String color) {
+    public String getTrackKml(Object ext, String id, String name, String description, String lineColor, String fillColor) {
         try {
             AExtObject aext = getAExtObject(ext);
             StringBuilder sb = new StringBuilder();
@@ -232,7 +232,7 @@ public class KmlRenderer {
             for (j = 0; j < n; j++) {
                 Route route = (Route) elements.get(j);
                 AExtObject aext2 = new sec.geo.shape.AExtObject(route);
-                sb.append(this.getPlacemarkKml(aext2, id, name, description, color));
+                sb.append(this.getPlacemarkKml(aext2, id, name, description, lineColor, fillColor));
             }
 
             sb.append(this.KML_END);
@@ -243,7 +243,7 @@ public class KmlRenderer {
         }
     }
 
-    public String getCakeKml(Cake com, String id, String name, String description, String color) {
+    public String getCakeKml(Cake com, String id, String name, String description, String lineColor, String fillColor) {
         StringBuilder sb = new StringBuilder();
         //Set<KmlPolygon> polys;
         sb.append(KML_START);
@@ -253,7 +253,7 @@ public class KmlRenderer {
 
         for (Object ext : com.getElements()) {
             AExtObject aext = new AExtObject(ext);
-            String extStr = getPlacemarkKml(aext, id, name, description, color);
+            String extStr = getPlacemarkKml(aext, id, name, description, lineColor, fillColor);
 
             if (!extStr.startsWith(EXCEPTION)) {
                 sb.append(extStr);
