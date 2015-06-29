@@ -334,7 +334,8 @@ public final class lineutility {
 
             double deltaX = 0, deltaY = 0;
             deltaX = firstLinePoint.x - lastLinePoint.x;
-            if (deltaX == 0) //infinite slope
+            //if (deltaX == 0) 
+            if (Math.abs(deltaX) < 1) 
             {
                 deltaX = 1;
                 result = 1;
@@ -425,7 +426,8 @@ public final class lineutility {
         try {
             double deltaX = 0, deltaY = 0;
             deltaX = (double) (firstLinePoint.x) - (double) (lastLinePoint.x);
-            if (deltaX == 0) //infinite slope
+            //if (deltaX == 0)
+            if (Math.abs(deltaX) < 1) 
             {
                 deltaX = 1;
                 result = false;

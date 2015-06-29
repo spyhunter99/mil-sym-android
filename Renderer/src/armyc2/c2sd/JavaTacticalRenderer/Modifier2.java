@@ -1416,10 +1416,14 @@ public class Modifier2 {
                 case TacticalLines.BRDGHD:
                 case TacticalLines.HOLD_GE:
                 case TacticalLines.BRDGHD_GE:
-                    if (pt0 != null && pt1 != null && pt0.x == pt1.x) {
+                    //if (pt0 != null && pt1 != null && pt0.x == pt1.x) 
+                    if (pt0 != null && pt1 != null && Math.abs(pt0.x - pt1.x)<1) 
+                    {
                         pt1.x += 1;
                     }
-                    if (ptLast != null && ptNextToLast != null && ptNextToLast.x == ptLast.x) {
+                    //if (ptLast != null && ptNextToLast != null && ptNextToLast.x == ptLast.x) 
+                    if (ptLast != null && ptNextToLast != null && Math.abs(ptNextToLast.x - ptLast.x)<1) 
+                    {
                         ptNextToLast.x += 1;
                     }
                     break;
