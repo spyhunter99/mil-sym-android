@@ -1393,7 +1393,8 @@ public class Modifier2 {
                     {
                         p0=tg.Pixels.get(j);
                         p1=tg.Pixels.get(j+1);
-                        if(p0.x==p1.x)
+                        //if(p0.x==p1.x)
+                        if(Math.abs(p0.x-p1.x)<1)
                         {
                             p1.x+=last;
                             last = -last;
