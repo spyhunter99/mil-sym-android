@@ -1756,14 +1756,12 @@ public class MultiPointHandler {
 
             if (fillColor != null && fillColor.equals("") == false) {
                 symbol.setFillColor(SymbolUtilities.getColorFromHexString(fillColor));
-            } else {
-                symbol.setFillColor(null);
-            }
+            } 
 
             if (lineColor != null && lineColor.equals("") == false) {
                 symbol.setLineColor(SymbolUtilities.getColorFromHexString(lineColor));
             }
-            else
+            else if(symbol.getLineColor()==null)
                 symbol.setLineColor(Color.black);
 
             if (lineWidth > 0) {
