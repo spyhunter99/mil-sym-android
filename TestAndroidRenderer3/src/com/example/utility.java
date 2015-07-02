@@ -1795,7 +1795,7 @@ public final class utility {
             String strCake = "";
             SECWebRenderer sec = new SECWebRenderer();
             //acAttributes=str;
-            strCake = sec.Render3dSymbol("name", "id", defaultText, "", "ff0000ff", "", controlPtsStr, acAttributes);
+            strCake = sec.Render3dSymbol("name", "id", defaultText, "", "ff0000ff", "800000ff", "", controlPtsStr, acAttributes);
             strResult = strCake;
             ArrayList<String> coordStrings = new ArrayList();
             try {
