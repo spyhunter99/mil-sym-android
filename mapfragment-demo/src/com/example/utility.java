@@ -2146,7 +2146,8 @@ public final class utility {
             String strCake = "";
             SECWebRenderer sec = new SECWebRenderer();
             //strCake=r.Render3dSymbol("name", "id", defaultText, "desc", "ff0000ff", "", controlPtsStr, attributes);
-            strCake = sec.Render3dSymbol("name", "id", defaultText, "", "ff0000ff", "", controlPtsStr, acAttributes);
+            String altitudeMode="relativeToGround";
+            strCake = sec.Render3dSymbol("name", "id", defaultText, "", "ff0000ff", "",altitudeMode, controlPtsStr, acAttributes);
             strResult = strCake;
             ArrayList<String> coordStrings = new ArrayList();
             try {
