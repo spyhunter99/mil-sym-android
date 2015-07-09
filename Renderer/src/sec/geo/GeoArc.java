@@ -134,6 +134,7 @@ public class GeoArc /*extends GeoPath*/ {
 
     public final void closePath() {
 
+        if(toPoints.get(0)!=null && toPoints.get(toPoints.size() - 1) != null)
         if (toPoints.size() > 0 && !toPoints.get(0).equals(toPoints.get(toPoints.size() - 1))) {
             lineTo(toPoints.get(0));
         }
