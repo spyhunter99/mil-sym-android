@@ -1255,197 +1255,388 @@ public class SymbolUtilities
     public static
             Color getLineColorOfWeather(String symbolID)
     {
-        Color retColor = Color.BLACK;
-               // Get the basic id
+    	Color retColor = Color.BLACK;
+        // Get the basic id
         //String symbolID = SymbolUtilities.getBasicSymbolID(symbolID);
 
         //if(symbolID.equals(get))
-        if (symbolID.equals("WAS-WSGRL-P----") || // Hail - Light not Associated With Thunder
-                symbolID.equals("WAS-WSGRMHP----") || // Hail - Moderate/Heavy not Associated with Thunder
-                symbolID.equals("WAS-PL----P----") || // Low Pressure Center - Pressure Systems
-                symbolID.equals("WAS-PC----P----") || // Cyclone Center - Pressure Systems
-                symbolID.equals("WAS-WSIC--P----") || // Ice Crystals (Diamond Dust)
-                symbolID.equals("WAS-WSPLL-P----") || // Ice Pellets - Light
-                symbolID.equals("WAS-WSPLM-P----") || // Ice Pellets - Moderate
-                symbolID.equals("WAS-WSPLH-P----") || // Ice Pellets - Heavy
-                symbolID.equals("WAS-WST-NPP----") || // Thunderstorm - No Precipication
-                symbolID.equals("WAS-WSTMR-P----") || // Thunderstorm Light to Moderate with Rain/Snow - No Hail
-                symbolID.equals("WAS-WSTHR-P----") || // Thunderstorm Heavy with Rain/Snow - No Hail
-                symbolID.equals("WAS-WSTMH-P----") || // Thunderstorm Light to Moderate - With Hail
-                symbolID.equals("WAS-WSTHH-P----") || // Thunderstorm Heavy - With Hail
-                symbolID.equals("WAS-WST-FCP----") || // Funnel Cloud (Tornado/Waterspout)
-                symbolID.equals("WAS-WST-SQP----") || // Squall
-                symbolID.equals("WAS-WST-LGP----") || // Lightning
-                symbolID.equals("WAS-WSFGFVP----") || // Fog - Freezing, Sky Visible
-                symbolID.equals("WAS-WSFGFOP----") || // Fog - Freezing, Sky not Visible
-                symbolID.equals("WAS-WSTSD-P----") || // Tropical Depression
-                symbolID.equals("WAS-WSTSS-P----") || // Tropical Storm
-                symbolID.equals("WAS-WSTSH-P----") || // Hurricane/Typhoon
-                symbolID.equals("WAS-WSRFL-P----") || // Freezing Rain - Light
-                symbolID.equals("WAS-WSRFMHP----") || // Freezing Rain - Moderate/Heavy
-                symbolID.equals("WAS-WSDFL-P----") || // Freezing Drizzle - Light
-                symbolID.equals("WAS-WSDFMHP----") || // Freezing Drizzle - Moderate/Heavy
-                symbolID.equals("WOS-HHDMDBP----") || //mine-naval (doubtful)
-                symbolID.equals("WOS-HHDMDFP----") || // mine-naval (definited)
-                symbolID.substring(0, 7).equals("WA-DPFW") || //warm front
-                //symbolID.substring(0,7).equals("WA-DPFS")//stationary front (actually, it's red & blue)
-                symbolID.equals("WA-DBAIF----A--") || // INSTRUMENT FLIGHT RULE (IFR)
-                symbolID.equals("WA-DBAFP----A--") || // 
-                symbolID.equals("WA-DBAT-----A--") || // 
-                symbolID.equals("WA-DIPIS---L---") || // 
-                symbolID.equals("WA-DIPTH---L---") || // 
-                symbolID.equals("WA-DWJ-----L---") // Jet Stream  
-                )
+        if(symbolID.equals("WAS-WSGRL-P----") || // Hail - Light not Associated With Thunder
+            symbolID.equals("WAS-WSGRMHP----") || // Hail - Moderate/Heavy not Associated with Thunder
+            symbolID.equals("WAS-PL----P----") || // Low Pressure Center - Pressure Systems
+            symbolID.equals("WAS-PC----P----") || // Cyclone Center - Pressure Systems
+            symbolID.equals("WAS-WSIC--P----") || // Ice Crystals (Diamond Dust)
+            symbolID.equals("WAS-WSPLL-P----") || // Ice Pellets - Light
+            symbolID.equals("WAS-WSPLM-P----") || // Ice Pellets - Moderate
+            symbolID.equals("WAS-WSPLH-P----") || // Ice Pellets - Heavy
+            symbolID.equals("WAS-WST-NPP----") || // Thunderstorm - No Precipication
+            symbolID.equals("WAS-WSTMR-P----") || // Thunderstorm Light to Moderate with Rain/Snow - No Hail
+            symbolID.equals("WAS-WSTHR-P----") || // Thunderstorm Heavy with Rain/Snow - No Hail
+            symbolID.equals("WAS-WSTMH-P----") || // Thunderstorm Light to Moderate - With Hail
+            symbolID.equals("WAS-WSTHH-P----") || // Thunderstorm Heavy - With Hail
+            symbolID.equals("WAS-WST-FCP----") || // Funnel Cloud (Tornado/Waterspout)
+            symbolID.equals("WAS-WST-SQP----") || // Squall
+            symbolID.equals("WAS-WST-LGP----") || // Lightning
+            symbolID.equals("WAS-WSFGFVP----") || // Fog - Freezing, Sky Visible
+            symbolID.equals("WAS-WSFGFOP----") || // Fog - Freezing, Sky not Visible
+            symbolID.equals("WAS-WSTSD-P----") || // Tropical Depression
+            symbolID.equals("WAS-WSTSS-P----") || // Tropical Storm
+            symbolID.equals("WAS-WSTSH-P----") || // Hurricane/Typhoon
+            symbolID.equals("WAS-WSRFL-P----") || // Freezing Rain - Light
+            symbolID.equals("WAS-WSRFMHP----") || // Freezing Rain - Moderate/Heavy
+            symbolID.equals("WAS-WSDFL-P----") || // Freezing Drizzle - Light
+            symbolID.equals("WAS-WSDFMHP----") || // Freezing Drizzle - Moderate/Heavy
+            symbolID.equals("WOS-HHDMDBP----") || //mine-naval (doubtful)
+            symbolID.equals("WOS-HHDMDFP----") || // mine-naval (definited)
+            symbolID.substring(0,7).equals("WA-DPFW") || //warm front
+            //symbolID.substring(0,7).equals("WA-DPFS")//stationary front (actually, it's red & blue)
+            symbolID.equals("WA-DBAIF----A--") || // INSTRUMENT FLIGHT RULE (IFR)
+            symbolID.equals("WA-DBAFP----A--") || // 
+            symbolID.equals("WA-DBAT-----A--") || // 
+            symbolID.equals("WA-DIPIS---L---") || // 
+            symbolID.equals("WA-DIPTH---L---") || // 
+            symbolID.equals("WA-DWJ-----L---") || // Jet Stream  
+            symbolID.equals("WO-DGMSB----A--") || //
+            symbolID.equals("WO-DGMRR----A--") ||
+            symbolID.equals("WO-DGMCH----A--") ||
+            symbolID.equals("WO-DGMIBE---A--") ||
+            symbolID.equals("WO-DGMBCC---A--") ||
+            symbolID.equals("WO-DOBVI----A--"))
+
         {
             retColor = Color.RED;//0xff0000;	// Red
         }
-        else if (symbolID.equals("WAS-PH----P----") || // High Pressure Center - Pressure Systems
-                symbolID.equals("WAS-PA----P----") ||// Anticyclone Center - Pressure Systems
-                symbolID.equals("WA-DBAMV----A--") ||// MARGINAL VISUAL FLIGHT RULE (MVFR)
-                symbolID.equals("WA-DBATB----A--") ||// BOUNDED AREAS OF WEATHER / TURBULENCE
-                symbolID.substring(0, 5).equals("WAS-T") ||// Turbulence
-                symbolID.substring(0, 7).equals("WA-DPFC")//cold front
-                )
+        else if(symbolID.equals("WAS-PH----P----") || // High Pressure Center - Pressure Systems
+                symbolID.equals("WAS-PA----P----")  || // Anticyclone Center - Pressure Systems
+                symbolID.equals("WA-DBAMV----A--")  || // MARGINAL VISUAL FLIGHT RULE (MVFR)
+                symbolID.equals("WA-DBATB----A--")  || // BOUNDED AREAS OF WEATHER / TURBULENCE
+                symbolID.substring(0,5).equals("WAS-T")  || // Turbulence
+                symbolID.substring(0,7).equals("WA-DPFC") || //cold front
+                symbolID.equals("WO-DGMIBA---A--"))
         {
             retColor = Color.BLUE;
         }
-        else if (symbolID.equals("WAS-WSFGPSP----") || // Fog - Shallow Patches
-                symbolID.equals("WAS-WSFGCSP----") || // Fog - Shallow Continuous
-                symbolID.equals("WAS-WSFGP-P----") || // Fog - Patchy
-                symbolID.equals("WAS-WSFGSVP----") || // Fog - Sky Visible
-                symbolID.equals("WAS-WSFGSOP----") || // Fog - Sky Obscured
-                symbolID.equals("WA-DBAFG----A--") || // Fog
-                symbolID.equals("WAS-WSBR--P----")) // Mist
+        else if(
+        symbolID.equals("WAS-WSFGPSP----") || // Fog - Shallow Patches
+        symbolID.equals("WAS-WSFGCSP----") || // Fog - Shallow Continuous
+        symbolID.equals("WAS-WSFGP-P----") || // Fog - Patchy
+        symbolID.equals("WAS-WSFGSVP----") || // Fog - Sky Visible
+        symbolID.equals("WAS-WSFGSOP----") || // Fog - Sky Obscured
+        symbolID.equals("WA-DBAFG----A--") || // Fog
+        symbolID.equals("WO-DGMRM----A--") ||
+        symbolID.equals("WO-DGMCM----A--") ||
+        symbolID.equals("WO-DGMIBC---A--") ||
+        symbolID.equals("WO-DGMBCB---A--") ||
+        symbolID.equals("WO-DGMBTE---A--") ||
+        symbolID.equals("WAS-WSBR--P----")) // Mist
         {
             retColor = Color.YELLOW;//0xffff00;	// Yellow
         }
-        else if (symbolID.equals("WAS-WSFU--P----") || // Smoke
-                symbolID.equals("WAS-WSHZ--P----") || // Haze
-                symbolID.equals("WAS-WSDSLMP----") || // Dust/Sand Storm - Light to Moderate
-                symbolID.equals("WAS-WSDSS-P----") || // Dust/Sand Storm - Severe
-                symbolID.equals("WAS-WSDD--P----") || // Dust Devil
-                symbolID.equals("WA-DBAD-----A--") || // Dust or Sand
-                symbolID.equals("WAS-WSBD--P----")) // Blowing Dust or Sand
+        else if(
+        symbolID.equals("WAS-WSFU--P----") || // Smoke
+        symbolID.equals("WAS-WSHZ--P----") || // Haze
+        symbolID.equals("WAS-WSDSLMP----") || // Dust/Sand Storm - Light to Moderate
+        symbolID.equals("WAS-WSDSS-P----") || // Dust/Sand Storm - Severe
+        symbolID.equals("WAS-WSDD--P----") || // Dust Devil
+        symbolID.equals("WA-DBAD-----A--") || // Dust or Sand
+        symbolID.equals("WAS-WSBD--P----")) // Blowing Dust or Sand
         {
-            retColor = new Color(165, 42, 42);  //165 42 42 //0xa52a2a;	// Brown
+            retColor = new Color(165,42,42);  //165 42 42 //0xa52a2a;	// Brown
         }
-        else if (symbolID.equals("WA-DBALPNC--A--") || // 
-                symbolID.equals("WA-DBALPC---A--") || // 
-                symbolID.equals("WA-DIPID---L---") || // 
-                symbolID.equals("WO-DHCF----L---") || // 
-                symbolID.equals("WO-DHCF-----A--") || // 
-                symbolID.equals("WAS-WSR-LIP----") || // Rain - Intermittent Light
-                symbolID.equals("WAS-WSR-LCP----") || // Rain - Continuous Light
-                symbolID.equals("WAS-WSR-MIP----") || // Rain - Intermittent Moderate
-                symbolID.equals("WAS-WSR-MCP----") || // Rain - Continuous Moderate
-                symbolID.equals("WAS-WSR-HIP----") || // Rain - Intermittent Heavy
-                symbolID.equals("WAS-WSR-HCP----") || // Rain - Continuous Heavy
-                symbolID.equals("WAS-WSRSL-P----") || // Rain Showers - Light
-                symbolID.equals("WAS-WSRSMHP----") || // Rain Showers - Moderate/Heavy
-                symbolID.equals("WAS-WSRST-P----") || // Rain Showers - Torrential
-                symbolID.equals("WAS-WSD-LIP----") || // Drizzle - Intermittent Light
-                symbolID.equals("WAS-WSD-LCP----") || // Drizzle - Continuous Light
-                symbolID.equals("WAS-WSD-MIP----") || // Drizzle - Intermittent Moderate
-                symbolID.equals("WAS-WSD-MCP----") || // Drizzle - Continuous Moderate
-                symbolID.equals("WAS-WSD-HIP----") || // Drizzle - Intermittent Heavy
-                symbolID.equals("WAS-WSD-HCP----") || // Drizzle - Continuous Heavy
-                symbolID.equals("WAS-WSM-L-P----") || // Rain or Drizzle and Snow - Light
-                symbolID.equals("WAS-WSM-MHP----") || // Rain or Drizzle and Snow - Moderate/Heavy
-                symbolID.equals("WAS-WSMSL-P----") || // Rain and Snow Showers - Light
-                symbolID.equals("WAS-WSMSMHP----") || // Rain and Snow Showers - Moderate/Heavy
-                symbolID.equals("WAS-WSS-LIP----") || // Snow - Intermittent Light
-                symbolID.equals("WAS-WSS-LCP----") || // Snow - Continuous Light
-                symbolID.equals("WAS-WSS-MIP----") || // Snow - Intermittent Moderate
-                symbolID.equals("WAS-WSS-MCP----") || // Snow - Continuous Moderate
-                symbolID.equals("WAS-WSS-HIP----") || // Snow - Intermittent Heavy
-                symbolID.equals("WAS-WSS-HCP----") || // Snow - Continuous Heavy
-                symbolID.equals("WAS-WSSBLMP----") || // Blowing Snow - Light/Moderate
-                symbolID.equals("WAS-WSSBH-P----") || // Blowing Snow - Heavy
-                symbolID.equals("WAS-WSSG--P----") || // Snow Grains
-                symbolID.equals("WAS-WSSSL-P----") || // Snow Showers - Light
-                symbolID.equals("WAS-WSSSMHP----")) // Snow Showers - Moderate/Heavy
+        else if(
+        symbolID.equals("WA-DBALPNC--A--") || // 
+        symbolID.equals("WA-DBALPC---A--") || // 
+        symbolID.equals("WA-DIPID---L---") || // 
+        symbolID.equals("WO-DHCF----L---") || // 
+        symbolID.equals("WO-DHCF-----A--") || // 
+        symbolID.equals("WO-DGMSIM---A--") || //
+        symbolID.equals("WO-DGMRS----A--") ||
+        symbolID.equals("WO-DGMCL----A--") ||
+        symbolID.equals("WO-DGMIBB---A--") ||
+        symbolID.equals("WO-DGMBCA---A--") ||
+        symbolID.equals("WAS-WSR-LIP----") || // Rain - Intermittent Light
+        symbolID.equals("WAS-WSR-LCP----") || // Rain - Continuous Light
+        symbolID.equals("WAS-WSR-MIP----") || // Rain - Intermittent Moderate
+        symbolID.equals("WAS-WSR-MCP----") || // Rain - Continuous Moderate
+        symbolID.equals("WAS-WSR-HIP----") || // Rain - Intermittent Heavy
+        symbolID.equals("WAS-WSR-HCP----") || // Rain - Continuous Heavy
+        symbolID.equals("WAS-WSRSL-P----") || // Rain Showers - Light
+        symbolID.equals("WAS-WSRSMHP----") || // Rain Showers - Moderate/Heavy
+        symbolID.equals("WAS-WSRST-P----") || // Rain Showers - Torrential
+        symbolID.equals("WAS-WSD-LIP----") || // Drizzle - Intermittent Light
+        symbolID.equals("WAS-WSD-LCP----") || // Drizzle - Continuous Light
+        symbolID.equals("WAS-WSD-MIP----") || // Drizzle - Intermittent Moderate
+        symbolID.equals("WAS-WSD-MCP----") || // Drizzle - Continuous Moderate
+        symbolID.equals("WAS-WSD-HIP----") || // Drizzle - Intermittent Heavy
+        symbolID.equals("WAS-WSD-HCP----") || // Drizzle - Continuous Heavy
+        symbolID.equals("WAS-WSM-L-P----") || // Rain or Drizzle and Snow - Light
+        symbolID.equals("WAS-WSM-MHP----") || // Rain or Drizzle and Snow - Moderate/Heavy
+        symbolID.equals("WAS-WSMSL-P----") || // Rain and Snow Showers - Light
+        symbolID.equals("WAS-WSMSMHP----") || // Rain and Snow Showers - Moderate/Heavy
+        symbolID.equals("WAS-WSUKP-P----") || // Precipitation of unknown type & intensity
+        symbolID.equals("WAS-WSS-LIP----") || // Snow - Intermittent Light
+        symbolID.equals("WAS-WSS-LCP----") || // Snow - Continuous Light
+        symbolID.equals("WAS-WSS-MIP----") || // Snow - Intermittent Moderate
+        symbolID.equals("WAS-WSS-MCP----") || // Snow - Continuous Moderate
+        symbolID.equals("WAS-WSS-HIP----") || // Snow - Intermittent Heavy
+        symbolID.equals("WAS-WSS-HCP----") || // Snow - Continuous Heavy
+        symbolID.equals("WAS-WSSBLMP----") || // Blowing Snow - Light/Moderate
+        symbolID.equals("WAS-WSSBH-P----") || // Blowing Snow - Heavy
+        symbolID.equals("WAS-WSSG--P----") || // Snow Grains
+        symbolID.equals("WAS-WSSSL-P----") || // Snow Showers - Light
+        symbolID.equals("WAS-WSSSMHP----")) // Snow Showers - Moderate/Heavy
         {
             retColor = Color.GREEN;// 0x00ff00;	// Green
         }
-        else if (symbolID.startsWith("WAS-IC") || // Clear Icing
-                symbolID.startsWith("WAS-IR") ||// Rime Icing
-                symbolID.startsWith("WAS-IM")) // Mixed Icing
+        else if(symbolID.startsWith("WAS-IC") || // Clear Icing
+                                    symbolID.startsWith("WAS-IR")  || // Rime Icing
+                                    symbolID.startsWith("WAS-IM")) // Mixed Icing
         {
-            retColor = new Color(128, 96, 16);
+            retColor = new Color(128,96,16);
         }
-        else if (symbolID.equals("WOS-HDS---P----") || // Soundings
-                symbolID.equals("WOS-HHDF--P----") ||//foul ground
-                symbolID.equals("WO-DHHDF----A--") ||//foul ground
-                symbolID.equals("WOS-HPFS--P----") ||//fish stakes/traps/weirs
-                symbolID.equals("WOS-HPFS---L---") ||//fish stakes
-                symbolID.equals("WOS-HPFF----A--") ||//fish stakes/traps/weirs
-                symbolID.equals("WO-DHDDL---L---") ||//depth curve
-                symbolID.equals("WO-DHDDC---L---") ||//depth contour
-                symbolID.equals("WO-DHCC----L---") ||//coastline
-                symbolID.equals("WO-DHPBP---L---") ||//ports
-                symbolID.equals("WO-DHPMO---L---") ||//offshore loading
-                symbolID.equals("WO-DHPSPA--L---") ||//sp above water
-                symbolID.equals("WO-DHPSPB--L---") ||//sp below water
-                symbolID.equals("WO-DHPSPS--L---") ||//sp sea wall
-                symbolID.equals("WO-DHHDK--P----") ||//kelp seaweed
-                symbolID.equals("WO-DHHDK----A--") ||//kelp seaweed
-                symbolID.equals("WO-DHHDB---L---") ||//breakers
-                symbolID.equals("WO-DTCCCFE-L---") ||//current flow - ebb
-                symbolID.equals("WO-DTCCCFF-L---") ||//current flow - flood
-                symbolID.equals("WOS-TCCTD-P----") ||//tide data point    
-                symbolID.equals("WO-DHCW-----A--"))//water
-        {
+        else if(symbolID.equals("WOS-HDS---P----")|| // Soundings
+            symbolID.equals("WOS-HHDF--P----")||//foul ground
+            symbolID.equals("WO-DHHDF----A--")||//foul ground
+            symbolID.equals("WOS-HPFS--P----")||//fish stakes/traps/weirs
+            symbolID.equals("WOS-HPFS---L---")||//fish stakes
+            symbolID.equals("WOS-HPFF----A--")||//fish stakes/traps/weirs
+            symbolID.equals("WO-DHDDL---L---")||//depth curve
+            symbolID.equals("WO-DHDDC---L---")||//depth contour
+            symbolID.equals("WO-DHCC----L---")||//coastline
+            symbolID.equals("WO-DHPBP---L---")||//ports
+            symbolID.equals("WO-DHPMO---L---")||//offshore loading
+            symbolID.equals("WO-DHPSPA--L---")||//sp above water
+            symbolID.equals("WO-DHPSPB--L---")||//sp below water
+            symbolID.equals("WO-DHPSPS--L---")||//sp sea wall
+            symbolID.equals("WO-DHHDK--P----")||//kelp seaweed
+            symbolID.equals("WO-DHHDK----A--")||//kelp seaweed
+            symbolID.equals("WO-DHHDB---L---")||//breakers
+            symbolID.equals("WO-DTCCCFE-L---")||//current flow - ebb
+            symbolID.equals("WO-DTCCCFF-L---")||//current flow - flood
+            symbolID.equals("WOS-TCCTD-P----")||//tide data point    
+            symbolID.equals("WO-DHCW-----A--")||
+            symbolID.equals("WO-DMOA-----A--") ||
+            symbolID.equals("WO-DMPA----L---"))//water
             retColor = Color.GRAY;//0x808080;	// Gray
-        }
-        else if (symbolID.equals("WAS-WSVE--P----") || // Volcanic Eruption
-                symbolID.equals("WAS-WSVA--P----") || // Volcanic Ash
-                symbolID.equals("WAS-WST-LVP----") || // Tropopause Level
-                symbolID.equals("WAS-WSF-LVP----")) // Freezing Level
+        else if(
+            symbolID.equals("WO-DBSM-----A--") ||
+            symbolID.equals("WO-DBSF-----A--") ||
+            symbolID.equals("WO-DGMN-----A--")) // 
         {
-            retColor = Color.BLACK;//0x000000;	// Black
+                retColor = new Color(230,230,230);//230,230,230;	// light gray
         }
-        else if (symbolID.equals("WOS-HPBA--P----") || // anchorage
-                symbolID.equals("WOS-HPBA---L---") || // anchorage
-                symbolID.equals("WOS-HPBA----A--") || // anchorage
-                symbolID.equals("WOS-HPCP--P----") || // call in point
-                symbolID.equals("WOS-HPFH--P----") || // fishing harbor
-                symbolID.equals("WOS-HPM-FC-L---") ||//ferry crossing
-                symbolID.equals("WOS-HABM--P----") ||//marker
-                symbolID.equals("WOS-HAL---P----") ||//light
-                symbolID.equals("WA-DIPIT---L---") ||//ISOTACH
-                symbolID.equals("WOS-TCCTG-P----")) // Tide gauge
+        else if(
+            symbolID.equals("WO-DBSG-----A--")) // 
         {
-            retColor = new Color(255, 0, 255);//magenta
+                retColor = new Color(169,169,169);//169,169,169;	// dark gray
         }
-        else if (symbolID.substring(0, 7).equals("WA-DPFO")//occluded front
-                )
+        else if(
+        symbolID.equals("WAS-WSVE--P----") || // Volcanic Eruption
+        symbolID.equals("WAS-WSVA--P----") || // Volcanic Ash
+        symbolID.equals("WAS-WST-LVP----") || // Tropopause Level
+        symbolID.equals("WAS-WSF-LVP----")) // Freezing Level
         {
-            retColor = new Color(226, 159, 255);//light purple
+                retColor = Color.BLACK;//0x000000;	// Black
         }
-        else if (symbolID.equals("WA-DPXITCZ-L---") || // inter-tropical convergance zone oragne?
-                symbolID.equals("WA-DPXCV---L---")) // 
+        else if(
+        symbolID.equals("WOS-HPBA--P----") || // anchorage
+        symbolID.equals("WOS-HPBA---L---") || // anchorage
+        symbolID.equals("WOS-HPBA----A--") || // anchorage
+        symbolID.equals("WOS-HPCP--P----") || // call in point
+        symbolID.equals("WOS-HPFH--P----") || // fishing harbor
+        symbolID.equals("WOS-HPM-FC-L---") || //ferry crossing
+        symbolID.equals("WOS-HABM--P----") || //marker
+        symbolID.equals("WOS-HAL---P----") || //light
+        symbolID.equals("WA-DIPIT---L---") || //ISOTACH
+        symbolID.equals("WOS-TCCTG-P----") || // Tide gauge
+        symbolID.equals("WO-DL-ML---L---") ||
+        symbolID.equals("WOS-HPM-FC-L---") ||
+        symbolID.equals("WO-DL-RA---L---") ||
+        symbolID.equals("WO-DHPBA---L---") ||
+        symbolID.equals("WO-DMCA----L---") ||
+        symbolID.equals("WO-DHPBA----A--") ||
+        symbolID.equals("WO-DL-MA----A--") ||
+        symbolID.equals("WO-DL-SA----A--") ||
+        symbolID.equals("WO-DL-TA----A--") ||
+        symbolID.equals("WO-DGMSR----A--")) 
         {
-            retColor = new Color(255, 127, 0);//bright orange
+            retColor = new Color(255,0,255);//magenta
         }
-        else if (symbolID.equals("WA-DBAI-----A--") || //BOUNDED AREAS OF WEATHER / ICING
-                symbolID.startsWith("WAS-IC") || // clear icing
-                symbolID.startsWith("WAS-IR") || // rime icing
-                symbolID.startsWith("WAS-IM")) // mixed icing
+        else if(symbolID.substring(0,7).equals("WA-DPFO")//occluded front
+        )
         {
-            retColor = new Color(128, 96, 16);//mud?
+            retColor = new Color(226,159,255);//light purple
         }
-        else if (symbolID.equals("WO-DHCI-----A--") || //Island
-                symbolID.equals("WO-DHCB-----A--") || //Beach
-                symbolID.equals("WO-DHPMO---L---") ||//offshore loading
-                symbolID.equals("WO-DHCI-----A--")) // mixed icing
+        else if(
+        symbolID.equals("WA-DPXITCZ-L---") || // inter-tropical convergance zone oragne?
+        symbolID.equals("WO-DL-O-----A--") ||
+        symbolID.equals("WA-DPXCV---L---")) // 
         {
-            retColor = new Color(210, 176, 106);//light/soft brown
+            retColor = new Color(255,165,0);//orange
+        }
+        else if(
+        symbolID.equals("WA-DBAI-----A--") || //BOUNDED AREAS OF WEATHER / ICING
+        symbolID.startsWith("WAS-IC") || // clear icing
+        symbolID.startsWith("WAS-IR") || // rime icing
+        symbolID.startsWith("WAS-IM")) // mixed icing
+        {
+            retColor = new Color(128,96,16);//mud?
+        }
+        else if(
+        symbolID.equals("WO-DHCI-----A--") || //Island
+        symbolID.equals("WO-DHCB-----A--") || //Beach
+        symbolID.equals("WO-DHPMO---L---")||//offshore loading
+        symbolID.equals("WO-DHCI-----A--")) // mixed icing
+        {
+            retColor = new Color(210,176,106);//light/soft brown
+        }
+        else if(symbolID.substring(0,7).equals("WO-DOBVA----A--")
+        )
+        {
+            retColor = new Color(26,153,77);//dark green
+        }
+        else if(symbolID.substring(0,7).equals("WO-DGMBTI---A--")
+        )
+        {
+            retColor = new Color(255,48,0);//orange red
+        }
+        else if(symbolID.substring(0,7).equals("WO-DGMBTH---A--")
+        )
+        {
+            retColor = new Color(255,80,0);//dark orange
+        }
+        //255,127,0
+        //WO-DGMBTG---A--
+        else if (symbolID.equals("WO-DGMBTG---A--")) {
+            retColor = new Color(255, 127, 0);
+        }
+        //255,207,0
+        //WO-DGMBTF---A--
+        else if (symbolID.equals("WO-DGMBTF---A--")) {
+            retColor = new Color(255, 207, 0);
+        }
+        //048,255,0
+        //WO-DGMBTA---A--
+        else if (symbolID.equals("WO-DGMBTA---A--")) {
+            retColor = new Color(48, 255, 0);
+        }
+        //220,220,220
+        //WO-DGML-----A--
+        else if (symbolID.equals("WO-DGML-----A--")) {
+            retColor = new Color(220, 220, 220);
+        }
+        //255,220,220
+        //WO-DGMS-SH--A--
+        else if (symbolID.equals("WO-DGMS-SH--A--")) {
+            retColor = new Color(255, 220, 220);
+        }
+        //255,190,190
+        //WO-DGMS-PH--A--
+        else if (symbolID.equals("WO-DGMS-PH--A--")) {
+            retColor = new Color(255, 190, 190);
+        }
+        //lime green 128,255,51
+        //WO-DOBVC----A--
+        else if (symbolID.equals("WO-DOBVC----A--")) {
+            retColor = new Color(128, 255, 51);
+        }
+        //255,255,0
+        //WO-DOBVE----A--
+        else if (symbolID.equals("WO-DOBVE----A--")) {
+            retColor = new Color(255, 255, 0);
+        }
+        //255,150,150
+        //WO-DGMS-CO--A--
+        else if (symbolID.equals("WO-DGMS-CO--A--")) {
+            retColor = new Color(255, 150, 150);
+        }
+        //175,255,0
+        //WO-DGMBTC---A--
+        else if (symbolID.equals("WO-DGMBTC---A--")) {
+            retColor = new Color(175, 255, 0);
+        }
+        //207,255,0
+        //WO-DGMBTD---A--
+        else if (symbolID.equals("WO-DGMBTD---A--")) {
+            retColor = new Color(207, 255, 0);
+        }
+        //127,255,0
+        //WO-DGMBTB---A--
+        else if (symbolID.equals("WO-DGMBTB---A--")) {
+            retColor = new Color(127, 255, 0);
+        }
+        //255,127,0
+        //WO-DGMIBD---A--
+        else if (symbolID.equals("WO-DGMIBD---A--")) {
+            retColor = new Color(255, 127, 0);
+        }
+        else if (symbolID.equals("WO-DGMSIF---A--")) {
+            retColor = new Color(25, 255, 230);
+        }
+        //0,215,255
+        //WO-DGMSIVF--A--
+        else if (symbolID.equals("WO-DGMSIVF--A--")) {
+            retColor = new Color(0, 215, 255);
+        }
+        //255,255,220
+        //WO-DGMSSVF--A--
+        else if (symbolID.equals("WO-DGMSSVF--A--")) {
+            retColor = new Color(255, 255, 220);
+        }
+        //255,255,140
+        //WO-DGMSSF---A--
+        else if (symbolID.equals("WO-DGMSSF---A--")) {
+            retColor = new Color(255, 255, 140);
+        }
+        //255,235,0
+        //WO-DGMSSM---A--
+        else if (symbolID.equals("WO-DGMSSM---A--")) {
+            retColor = new Color(255, 235, 0);
+        }
+        //255,215,0
+        //WO-DGMSSC---A--
+        else if (symbolID.equals("WO-DGMSSC---A--")) {
+            retColor = new Color(255, 215, 0);
+        }
+        //255,180,0
+        //WO-DGMSSVS--A--
+        else if (symbolID.equals("WO-DGMSSVS--A--")) {
+            retColor = new Color(255, 180, 0);
+        }
+        //200,255,105
+        //WO-DGMSIC---A--
+        else if (symbolID.equals("WO-DGMSIC---A--")) {
+            retColor = new Color(200, 255, 105);
+        }
+        //100,130,255
+        //WO-DGMSC----A--
+        else if (symbolID.equals("WO-DGMSC----A--")) {
+            retColor = new Color(100, 130, 255);
+        }
+        //255,77,0
+        //WO-DOBVH----A--
+        else if (symbolID.equals("WO-DOBVH----A--")) {
+            retColor = new Color(255, 77, 0);
+        }
+        //255,128,0
+        //WO-DOBVG----A--
+        else if (symbolID.equals("WO-DOBVG----A--")) {
+            retColor = new Color(255, 128, 0);
+        }
+        //255,204,0
+        //WO-DOBVF----A--
+        else if (symbolID.equals("WO-DOBVF----A--")) {
+            retColor = new Color(255, 204, 0);
+        }
+        //204,255,26
+        //WO-DOBVD----A--
+        else if (symbolID.equals("WO-DOBVD----A--")) {
+            retColor = new Color(204, 255, 26);
         }
         else
         {
             retColor = Color.BLACK;//0x000000;	// Black
         }
-
+        
         return retColor;
     }
 
@@ -1458,38 +1649,34 @@ public class SymbolUtilities
     public static
             Color getFillColorOfWeather(String symbolID)
     {
-        if (symbolID.equals("WOS-HPM-R-P----"))//landing ring - brown 148,48,0
+    	if(symbolID.equals("WOS-HPM-R-P----"))//landing ring - brown 148,48,0
+            return new Color(148,48,0);
+        else if(symbolID.equals("WOS-HPD---P----"))//dolphin facilities - brown
+            return new Color(148,48,0);
+        else if(symbolID.equals("WO-DHCB-----A--"))//
+            return new Color(249,243,241);
+        else if(symbolID.equals("WOS-HABB--P----"))//buoy default - 255,0,255
+            return new Color(255,0,255);//magenta
+        else if(symbolID.equals("WOS-HHRS--P----"))//rock submerged - 0,204,255
+            return new Color(0,204,255);//a type of blue
+        else if(symbolID.equals("WOS-HHDS--P----"))//snags/stumps - 0,204,255
+            return new Color(0,204,255);
+        else if(symbolID.equals("WOS-HHDWB-P----"))//wreck - 0,204,255
+            return new Color(0,204,255);
+        else if(symbolID.equals("WOS-TCCTG-P----"))//tide gauge - 210, 176, 106
+            return new Color(210,176,106);
+        else if(symbolID.equals("WO-DHCW-----A--"))//water
+            return new Color(255,255,255);
+        else if (symbolID.equals("WO-DHABP----A--") ||
+            symbolID.equals("WO-DHHD-----A--") ||
+            symbolID.equals("WO-DHHDD----A--") ||
+            symbolID.equals("WO-DMCC-----A--")) 
         {
-            return new Color(148, 48, 0);
+            return new Color(0,0,255);
         }
-        else if (symbolID.equals("WOS-HPD---P----"))//dolphin facilities - brown
-        {
-            return new Color(148, 48, 0);
-        }
-        else if (symbolID.equals("WOS-HABB--P----"))//buoy default - 255,0,255
-        {
-            return new Color(255, 0, 255);//magenta
-        }
-        else if (symbolID.equals("WOS-HHRS--P----"))//rock submerged - 0,204,255
-        {
-            return new Color(0, 204, 255);//a type of blue
-        }
-        else if (symbolID.equals("WOS-HHDS--P----"))//snags/stumps - 0,204,255
-        {
-            return new Color(0, 204, 255);
-        }
-        else if (symbolID.equals("WOS-HHDWB-P----"))//wreck - 0,204,255
-        {
-            return new Color(0, 204, 255);
-        }
-        else if (symbolID.equals("WOS-TCCTG-P----"))//tide gauge - 210, 176, 106
-        {
-            return new Color(210, 176, 106);
-        }
-        else
-        {
-            return null;
-        }
+        else if(symbolID.equals("WO-DHPMD----A--"))//drydock
+            return new Color(188,153,58);
+        else return null;
     }
 
     /**
