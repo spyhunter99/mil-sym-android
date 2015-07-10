@@ -67,24 +67,23 @@ public class PointConversion implements IPointConversion {
             _pixelMultiplierX = (_geoRight - _geoLeft) / ((double)_pixelWidth) ;
             _pixelMultiplierY = (_geoTop - _geoBottom) / ((double)_PixelHeight) ;   
             
-            //diagnostic 12-18-12
-//            if(_geoRight-_geoLeft < -180)
-//            {
-//                _pixelMultiplierX = (_geoRight - _geoLeft + 360) / ((double)_pixelWidth) ;                
-//            }
-//            if(_geoRight-_geoLeft > 180)
-//            {
-//                _pixelMultiplierX = (360 - (_geoRight - _geoLeft) ) / ((double)_pixelWidth) ;                
-//            }
+            if(_geoRight-_geoLeft < -180)
+            {
+                _pixelMultiplierX = (_geoRight - _geoLeft + 360) / ((double)_pixelWidth) ;                
+            }
+            if(_geoRight-_geoLeft > 180)
+            {
+                _pixelMultiplierX = (360 - (_geoRight - _geoLeft) ) / ((double)_pixelWidth) ;                
+            }
             if(_geoTop < _geoBottom)            
                 _pixelMultiplierY = -Math.abs(_pixelMultiplierY);
             else
                 _pixelMultiplierY = Math.abs(_pixelMultiplierY);
             
-            if(_geoRight < _geoLeft)            
-                _pixelMultiplierX = -Math.abs(_pixelMultiplierX);
-            else
-                _pixelMultiplierX = Math.abs(_pixelMultiplierX);
+//            if(_geoRight < _geoLeft)            
+//                _pixelMultiplierX = -Math.abs(_pixelMultiplierX);
+//            else
+//                _pixelMultiplierX = Math.abs(_pixelMultiplierX);
             //end section
     }
 
