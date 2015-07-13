@@ -47,8 +47,10 @@ public class KmlRenderer {
         ArrayList<KmlPolygon> polys = new ArrayList<KmlPolygon>();
 
         ext.setMaxDistance(200000);
-        ext.setFlatness(1);
-        ext.setLimit(3);
+        //ext.setFlatness(1);
+        //ext.setLimit(3);
+        ext.setFlatness(2);
+        ext.setLimit(8);
 
         // Render perimeter polys
         ArrayList<Point> perimeterPoints = new ArrayList<Point>();

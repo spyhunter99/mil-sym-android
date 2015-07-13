@@ -24,7 +24,7 @@ public class Radarc/* extends AArc */ {  //AArc extends APivot which extends AEx
     public Radarc() {
         maxDistanceMeters = 100000;
         flatnessDistanceMeters = 1;
-        limit = 8;  //was 4
+        limit = 4;  //was 4
     }
 
     public void setRightAzimuthDegrees(double rightAzimuthDegrees) {
