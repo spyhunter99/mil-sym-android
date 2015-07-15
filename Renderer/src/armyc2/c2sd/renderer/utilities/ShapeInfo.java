@@ -293,7 +293,7 @@ public class ShapeInfo {
     public void setGlyphPosition(Point position)
     {
         _Position = new Point2D.Double(position.x,position.y);
-        this._ModifierStringPosition=new Point2D.Double(position.x,position.y);
+        //this._ModifierStringPosition=new Point2D.Double(position.x,position.y);
     }
 
         /**
@@ -303,7 +303,7 @@ public class ShapeInfo {
     public void setGlyphPosition(Point2D position)
     {
         _Position = position;
-        this._ModifierStringPosition=new Point2D.Double(position.getX(),position.getY());
+        //this._ModifierStringPosition=new Point2D.Double(position.getX(),position.getY());
     }
 
     /**

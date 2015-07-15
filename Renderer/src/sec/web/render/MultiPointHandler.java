@@ -1071,14 +1071,7 @@ public class MultiPointHandler {
                 double longitude = geoCoord.getX();
                 label.setModifierStringPosition(new Point2D.Double(longitude, latitude));
 
-                //get angle and assign to glyph position.
-                Point2D end = JavaRendererUtilities.getEndPointWithAngle(pixelCoord, label.getModifierStringAngle(), 10.0/*label.getTextLayout().getBounds().getWidth()*/);
-                Point2D geoAngle = ipc.PixelsToGeo(end);
-                if (normalize) {
-                    geoAngle = NormalizeCoordToGECoord(geoAngle);
-                }
-                label.setGlyphPosition(geoAngle);//*/
-            }   //}
+            }   
 
             ////////////////////////////////////////////////////////////////////
             mSymbol.setModifierShapes(modifiers);
