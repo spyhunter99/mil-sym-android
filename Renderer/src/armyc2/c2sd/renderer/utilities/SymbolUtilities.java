@@ -992,7 +992,7 @@ public class SymbolUtilities
                 }
                 else
                 {
-                    if (sd.getModifiers().indexOf(tgModifier + ".") > -1)
+                    if (sd.getModifiers().indexOf(tgModToString(tgModifier)) > -1)
                     {
                         returnVal = true;
                     }
@@ -1007,6 +1007,45 @@ public class SymbolUtilities
             ErrorLogger.LogException("SymbolUtilties", "canSymbolHaveModifier", exc);
         }
         return returnVal;
+    }
+    
+    private static String tgModToString(int tgModifier)
+    {
+    	switch(tgModifier)
+    	{
+    		case ModifiersTG.T_UNIQUE_DESIGNATION_1:
+    			return "T.";
+    		case ModifiersTG.T1_UNIQUE_DESIGNATION_2:
+    			return "T1.";
+    		case ModifiersTG.H_ADDITIONAL_INFO_1:
+    			return "H.";
+    		case ModifiersTG.H1_ADDITIONAL_INFO_2:
+    			return "H1.";
+    		case ModifiersTG.H2_ADDITIONAL_INFO_3:
+    			return "H2.";
+    		case ModifiersTG.N_HOSTILE:
+    			return "N.";
+    		case ModifiersTG.W_DTG_1:
+    			return "W.";
+    		case ModifiersTG.W1_DTG_2:
+    			return "W1.";
+    		case ModifiersTG.X_ALTITUDE_DEPTH:
+    			return "X.";
+    		case ModifiersTG.Y_LOCATION:
+    			return "Y.";
+    		case ModifiersTG.V_EQUIP_TYPE:
+    			return "V.";
+    		case ModifiersTG.Q_DIRECTION_OF_MOVEMENT:
+    			return "Q.";
+    		case ModifiersTG.S_OFFSET_INDICATOR:
+    			return "S.";
+    		case ModifiersTG.C_QUANTITY:
+    			return "C.";
+    		case ModifiersTG.B_ECHELON:
+    			return "B.";
+    		default:
+    			return "!";
+    	}
     }
 
     /**

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.util.Log;
 import android.util.SparseArray;
 import armyc2.c2sd.graphics2d.*;
+
 import java.util.Map;
 import sec.geo.utilities.StringBuilder;
 import sec.web.render.utilities.JavaRendererUtilities;
@@ -866,18 +867,19 @@ public class MultiPointHandler {
         Double top = 0.0;
         Double bottom = 0.0;
         Point2D temp = null;
+        Point2D ptGeoUL = null;
         int width = 0;
         int height = 0;
         int leftX = 0;
         int topY = 0;
         int bottomY = 0;
         int rightX = 0;
+        int j = 0;
         ArrayList<Point2D> bboxCoords = null;
-        Point2D pt2d = null;
         if (bbox != null && bbox.equals("") == false) {
+            String[] bounds = null;
             if (bbox.contains(" "))//trapezoid
-            {   //System.out.println("trapezoid");
-
+            {
                 bboxCoords = new ArrayList<Point2D>();
                 double x = 0;
                 double y = 0;
@@ -891,15 +893,15 @@ public class MultiPointHandler {
                 }
                 //use the upper left corner of the MBR containing geoCoords
                 //to set the converter
-                Point2D ptGeoUL = getGeoUL(bboxCoords);
-                double ptLeft = ptGeoUL.getX();
-                double ptTop = ptGeoUL.getY();
-                ipc = new PointConverter(ptLeft, ptTop, scale);
+                ptGeoUL = getGeoUL(bboxCoords);
+                left = ptGeoUL.getX();
+                top = ptGeoUL.getY();
+                ipc = new PointConverter(left, top, scale);
                 Point2D ptPixels = null;
                 Point2D ptGeo = null;
                 int n = bboxCoords.size();
-                //for (int j = 0; j < bboxCoords.size(); j++) 
-                for (int j = 0; j < n; j++) {
+                //for (j = 0; j < bboxCoords.size(); j++) 
+                for (j = 0; j < n; j++) {
                     ptGeo = bboxCoords.get(j);
                     ptPixels = ipc.GeoToPixels(ptGeo);
                     x = ptPixels.getX();
@@ -915,32 +917,29 @@ public class MultiPointHandler {
                     bboxCoords.set(j, (Point2D) ptPixels);
                 }
             } else//rectangle
-            {   //System.out.println("rect");
-                String[] bounds = bbox.split(",");
-
+            {
+                bounds = bbox.split(",");
                 left = Double.valueOf(bounds[0]);
                 right = Double.valueOf(bounds[2]);
                 top = Double.valueOf(bounds[3]);
                 bottom = Double.valueOf(bounds[1]);
+                scale = getReasonableScale(bbox, scale);
+                ipc = new PointConverter(left, top, scale);
+            }
 
-                controlLong = left;
-                controlLat = top;
-                //swap two lines below when ready for coordinate update
-                ipc = new PointConverter(controlLong, controlLat, scale);
-
+            Point2D pt2d = null;
+            if (bboxCoords == null) {
                 pt2d = new Point2D.Double(left, top);
                 temp = ipc.GeoToPixels(pt2d);
 
                 leftX = (int) temp.getX();
                 topY = (int) temp.getY();
 
-                //temp = ipc.GeoToPixels(new Point2D(right, bottom));
                 pt2d = new Point2D.Double(right, bottom);
                 temp = ipc.GeoToPixels(pt2d);
 
                 bottomY = (int) temp.getY();
                 rightX = (int) temp.getX();
-                //////////////////
                 //diagnostic clipping does not work for large scales
                 if (scale > 10e6) {
                     //get widest point in the AOI
@@ -1008,13 +1007,14 @@ public class MultiPointHandler {
             NormalizeGECoordsToGEExtents(0, 360, geoCoords2);
         }
 
+        //disable clipping
         if (ShouldClipSymbol(symbolCode) == false) 
             if(crossesIDL(geoCoords)==false)
-                rect = null;//disable clipping
+                rect = null;
         
         tgl.set_SymbolId(symbolCode);// "GFGPSLA---****X" AMBUSH symbol code
         tgl.set_Pixels(null);
-
+        
         try {
 
             String fillColor = null;
