@@ -290,7 +290,8 @@ C:\mil-sym-android\Renderer\res\drawable-hdpi\foul_ground.png \
 C:\mil-sym-android\Renderer\res\drawable-hdpi\ic_launcher.png \
 C:\mil-sym-android\Renderer\res\drawable-hdpi\kelp.png \
 C:\mil-sym-android\Renderer\res\drawable-hdpi\oil_rig_field.png \
-C:\mil-sym-android\Renderer\res\drawable-hdpi\swep_tarea.png \
+C:\mil-sym-android\Renderer\res\drawable-hdpi\swept_area.png \
+C:\mil-sym-android\Renderer\res\drawable-hdpi\swept_area2.png \
 C:\mil-sym-android\Renderer\res\drawable-hdpi\weirs.png \
 C:\mil-sym-android\Renderer\res\drawable-ldpi\ic_launcher.png \
 C:\mil-sym-android\Renderer\res\drawable-mdpi\ic_launcher.png \
@@ -320,7 +321,8 @@ C:\mil-sym-android\Renderer\bin\res\drawable-hdpi\foul_ground.png \
 C:\mil-sym-android\Renderer\bin\res\drawable-hdpi\ic_launcher.png \
 C:\mil-sym-android\Renderer\bin\res\drawable-hdpi\kelp.png \
 C:\mil-sym-android\Renderer\bin\res\drawable-hdpi\oil_rig_field.png \
-C:\mil-sym-android\Renderer\bin\res\drawable-hdpi\swep_tarea.png \
+C:\mil-sym-android\Renderer\bin\res\drawable-hdpi\swept_area.png \
+C:\mil-sym-android\Renderer\bin\res\drawable-hdpi\swept_area2.png \
 C:\mil-sym-android\Renderer\bin\res\drawable-hdpi\weirs.png \
 C:\mil-sym-android\Renderer\bin\res\drawable-ldpi\ic_launcher.png \
 C:\mil-sym-android\Renderer\bin\res\drawable-mdpi\ic_launcher.png \

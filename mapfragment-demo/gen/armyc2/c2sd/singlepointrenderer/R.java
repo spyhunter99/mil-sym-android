@@ -15,8 +15,9 @@ public final class R {
 		public static final int ic_launcher = 0x7f02001c;
 		public static final int kelp = 0x7f020021;
 		public static final int oil_rig_field = 0x7f020022;
-		public static final int swep_tarea = 0x7f020025;
-		public static final int weirs = 0x7f020026;
+		public static final int swept_area = 0x7f020025;
+		public static final int swept_area2 = 0x7f020026;
+		public static final int weirs = 0x7f020027;
 	}
 	public static final class id {
 		public static final int button1 = 0x7f080016;

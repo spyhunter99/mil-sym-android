@@ -85,7 +85,7 @@ public final class clsUtility {
                     break;
                 case TacticalLines.SWEPT_AREA:
                     if(fillBMP[7]==null)
-                        fillBMP[7] = BitmapFactory.decodeResource(context.getResources(), R.drawable.swep_tarea); 
+                        fillBMP[7] = BitmapFactory.decodeResource(context.getResources(), R.drawable.swept_area); 
                     useIndex=7;
                     break;
                 default:    //we do not use pattern fill for these
