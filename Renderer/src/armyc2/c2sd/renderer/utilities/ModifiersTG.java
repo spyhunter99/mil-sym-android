@@ -182,7 +182,7 @@ public class ModifiersTG {
      */
     public static final int AN_AZIMUTH = 17;
 
-
+    public static final int SYMBOL_FILL_IDS = 90;
 
 
     public static final int LENGTH = 30;

@@ -53,4 +53,9 @@
         android:layout_width="match_parent"
         android:hint="text color: FF00FF"
    />        
+       <EditText android:id="@+id/edit_SymbolFillIds"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="symbol fill ids: FF00FF"
+   />        
 </LinearLayout>

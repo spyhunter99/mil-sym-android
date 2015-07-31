@@ -20,6 +20,8 @@ import sec.web.json.utilities.JSONArray;
 import sec.web.json.utilities.JSONException;
 import sec.web.json.utilities.JSONObject;
 import sec.geo.utilities.StringBuilder;
+import java.util.Map;
+import java.util.ArrayList;
 
 /**
  *
@@ -870,4 +872,167 @@ public final class SECWebRenderer /* extends Applet */ {
         //return sps.getSinglePointByteArray(symbolID);
     	return null;
     }    
+     /**
+     * Put this here rather than in multipointhandler so that I could get the
+     * port info from the single point server.
+     * @param modifiers
+     * @param clip
+     * @return 
+     */
+    public static String GenerateSymbolLineFillUrl(SparseArray<String> modifiers, ArrayList<Point2D> pixels, Rectangle clip)
+    {
+        int shapeType = 0;
+        String url = "";
+        String symbolFillIDs=null;
+        String symbolLineIDs=null;
+        String strClip=null;
+        //int symbolSize = AreaSymbolFill.DEFAULT_SYMBOL_SIZE;
+        int symbolSize = 25;
+        int imageoffset = 0;
+        ArrayList<ArrayList<Point2D>> lines = null;
+        ArrayList<Point2D> points = null;
+        Point2D point = null;
+        
+        Shape shape = null;
+        //PathIterator itr = null;
+        double height = 0;
+        double width = 0;
+        int offsetX = 0;
+        int offsetY = 0;
+        int x = 0;
+        int y = 0;
+        //Rectangle2D bounds = null;
+        Rectangle bounds = null;
+        try
+        {
+            //Path2D path = new GeneralPath();
+            GeneralPath path = new GeneralPath();
+            Point2D temp = null;
+            //Get bounds of the polygon/polyline path
+            for(int i=0; i<pixels.size();i++)
+            {
+                temp = pixels.get(i);
+                if(i>0)
+                {
+                    path.lineTo(temp.getX(), temp.getY());
+                }
+                else if(i==0)
+                {
+                    path.moveTo(temp.getX(), temp.getY());
+                }
+            }
+            
+            bounds = path.getBounds();
+            height = bounds.getHeight();
+            width = bounds.getWidth();
+
+//            System.out.println("bounds: "+ bounds.toString());
+//                    System.out.println("height: "+ String.valueOf(height));
+//            System.out.println("width: "+ String.valueOf(width));
+            
+            //pixels may be in negative space so get offsets to put everything
+            //in the positive
+            if(bounds.getX()<0)
+            {
+                offsetX = (int)(bounds.getX()*-1);
+            }
+            else if((bounds.getX()+bounds.getWidth()) > width)
+            {
+                offsetX = (int)((bounds.getX()+bounds.getWidth())-width)*-1;
+            }
+            
+            if(bounds.getY()<0)
+            {
+                offsetY = (int)(bounds.getY()*-1);
+            }
+            else if((bounds.getY()+bounds.getHeight()) > height)
+            {
+                offsetY = (int)((bounds.getY()+bounds.getHeight())-height)*-1;
+            }
+
+            //build clip string
+            if(clip!=null)
+            {
+                StringBuilder sbClip = new StringBuilder();
+                sbClip.append("&clip=");
+                sbClip.append(Integer.toString((int)clip.getX()));
+                sbClip.append(",");
+                sbClip.append(Integer.toString((int)clip.getY()));
+                sbClip.append(",");
+                sbClip.append(Integer.toString((int)clip.getWidth()));
+                sbClip.append(",");
+                sbClip.append(Integer.toString((int)clip.getHeight()));
+                strClip=sbClip.toString();
+            }
+
+                    
+            StringBuilder sbCoords = new StringBuilder();
+            StringBuilder sbUrl = new StringBuilder();
+            sbCoords.append("coords=");
+
+            if (modifiers.indexOfKey(ModifiersTG.SYMBOL_FILL_IDS) >= 0) {
+                symbolFillIDs = (String) modifiers.get(ModifiersTG.SYMBOL_FILL_IDS);
+            }
+                        
+            //build coordinate string
+            for(int i = 0; i< pixels.size(); i++)
+            {
+                if(i>0)
+                {
+                    sbCoords.append(",");
+                }
+                point = pixels.get(i);
+                x = (int)(point.getX() + offsetX);
+                y = (int)(point.getY() + offsetY);
+                sbCoords.append(Integer.toString(x));
+                sbCoords.append(",");
+                sbCoords.append(Integer.toString(y));
+            }
+            
+            //build image url
+            sbUrl.append("http://127.0.0.1:");
+            //sbUrl.append(String.valueOf(spsPortNumber));
+            sbUrl.append("6789");
+            sbUrl.append("/AREASYMBOLFILL?");
+            sbUrl.append("renderer=AreaSymbolFillRenderer&");
+            sbUrl.append(sbCoords.toString());
+            if(symbolFillIDs != null)
+            {
+                sbUrl.append("&symbolFillIds=");
+                sbUrl.append(symbolFillIDs);
+            }
+            if(symbolLineIDs != null)
+            {
+                sbUrl.append("&symbolLineIds=");
+                sbUrl.append(symbolLineIDs);
+            }
+            if(symbolSize>0)
+            {
+                sbUrl.append("&symbolFillIconSize=");                sbUrl.append(Integer.toString(symbolSize));
+            }
+            if(strClip!=null)
+            {
+                sbUrl.append(strClip);
+            }
+
+
+
+            sbUrl.append("&height=");
+            //sbUrl.append(Integer.valueOf((int)height));
+            sbUrl.append(Integer.toString((int)height));
+            sbUrl.append("&width=");
+            //sbUrl.append(Integer.valueOf((int)width));
+            sbUrl.append(Integer.toString((int)width));
+
+            url = sbUrl.toString();
+
+        }
+        catch(Exception exc)
+        {
+            System.out.println(exc.getMessage());
+            exc.printStackTrace();
+        }
+        return url;
+    }
+
 }

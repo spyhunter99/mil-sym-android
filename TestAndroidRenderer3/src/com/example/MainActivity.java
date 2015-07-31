@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
     private String extents = "";
     private String rev = "";
     private String lineWidth = "";
-
+    private String symbolFillIds="";
     MilStdIconRenderer mir = null;
     private String TAG = "armyc2.c2sd.MainActivity";
     private boolean populateModifiers = false;
@@ -86,6 +86,9 @@ public class MainActivity extends Activity {
             extents = editText.getText().toString();
             editText = (EditText) findViewById(R.id.edit_Revision);
             rev = editText.getText().toString();
+            editText = (EditText) findViewById(R.id.edit_SymbolFillIds);
+            symbolFillIds = editText.getText().toString();
+            
         } else if (lastContext == "modifiers") {
             editText = (EditText) findViewById(R.id.edit_message);
             linetype = editText.getText().toString();
@@ -122,6 +125,7 @@ public class MainActivity extends Activity {
                 utility.AN = AN;
                 utility.X = X;
                 utility.Rev = rev;
+                utility.symbolFillIds=symbolFillIds;
                 lastContext = "draw";
                 setContentView(myView);
                 break;
@@ -165,6 +169,8 @@ public class MainActivity extends Activity {
                 editText.setText(rev);
                 editText = (EditText) findViewById(R.id.edit_Extents);
                 editText.setText(extents);
+                editText = (EditText) findViewById(R.id.edit_SymbolFillIds);
+                editText.setText(symbolFillIds);
                 break;
             default:
                 break;

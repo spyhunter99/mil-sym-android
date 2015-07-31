@@ -55,6 +55,7 @@ public final class utility {
     public static String lineWidth="";
     //public static String extents="";
     public static String Rev="";
+    public static String symbolFillIds="";//"WOS-HHDF--P----";
     /**
      * uses the PointConversion to convert to geo
      *
@@ -1161,6 +1162,7 @@ public final class utility {
             mss.setModifier_AM_AN_X(ModifiersTG.AN_AZIMUTH, and[j], j);
         for(j=0;j<xd.length;j++)            
             mss.setModifier_AM_AN_X(ModifiersTG.X_ALTITUDE_DEPTH, xd[j], j);
+        
 //        if (linetype == TacticalLines.AC || linetype == TacticalLines.SAAFR
 //                || linetype == TacticalLines.LLTR
 //                || linetype == TacticalLines.UAV
@@ -1718,6 +1720,9 @@ public final class utility {
         modifiers.put(ModifiersTG.H1_ADDITIONAL_INFO_2, "H2");
         modifiers.put(ModifiersTG.W_DTG_1, W);
         modifiers.put(ModifiersTG.W1_DTG_2, W1);
+        //diagnostic
+        if(!symbolFillIds.isEmpty())
+            modifiers.put(ModifiersTG.SYMBOL_FILL_IDS, symbolFillIds);
 
         SparseArray<String> attributes = new SparseArray<String>();
 

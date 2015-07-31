@@ -37,6 +37,7 @@ import armyc2.c2sd.renderer.MilStdIconRenderer;
 //import java.awt.font.NumericShaper;
 import android.graphics.Typeface;
 import armyc2.c2sd.renderer.utilities.RendererUtilities;
+import armyc2.c2sd.graphics2d.*;
 
 @SuppressWarnings({"unused", "rawtypes", "unchecked"})
 public class MultiPointHandler {
@@ -541,6 +542,7 @@ public class MultiPointHandler {
         //ArrayList<Point2D> pixels = new ArrayList<Point2D>();
         ArrayList<Point2D> geoCoords = new ArrayList<Point2D>();
         int len = coordinates.length;
+        ArrayList<POINT2> tgPoints = null;
 
         IPointConversion ipc = null;
 
@@ -720,6 +722,13 @@ public class MultiPointHandler {
                 //ErrorLogger.LogMessage("MultiPointHandler","RenderSymbol",symbolIsValid,Level.WARNING);
                 return ErrorOutput;
             }//*/
+            //get pixel values in case we need to do a fill.
+            if(symbolModifiers.indexOfKey(SYMBOL_FILL_IDS)>=0 || 
+                    symbolModifiers.indexOfKey(SYMBOL_LINE_IDS)>=0)
+            {
+                tgl = clsRenderer.createTGLightFromMilStdSymbol(mSymbol, ipc);
+                tgPoints = tgl.get_Pixels();
+            }
 
             if (bboxCoords == null) {
                 clsRenderer.renderWithPolylines(mSymbol, ipc, rect);
@@ -752,8 +761,14 @@ public class MultiPointHandler {
                 jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
 
                 //if there's a symbol fill or line pattern, add to KML//////////
-                if (mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS) >= 0
-                        || mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS) >= 0) {
+                if (symbolModifiers.indexOfKey(SYMBOL_FILL_IDS) >= 0
+                        || symbolModifiers.indexOfKey(SYMBOL_LINE_IDS) >= 0) {
+                    //String fillKML = AddImageFillToKML(tgPoints, jsonContent, mSymbol, ipc, normalize);
+                    String fillKML = AddImageFillToKML(tgPoints, jsonContent, symbolModifiers, ipc, normalize);
+                    if(fillKML != null && fillKML.equals("")==false)
+                    {
+                        jsonContent = fillKML;
+                    }
                 }///end if symbol fill or line pattern//////////////////////////
 
                 jsonOutput.append(jsonContent);
@@ -3102,6 +3117,44 @@ public class MultiPointHandler {
             ErrorLogger.LogException("MultiPointHandler", "canRenderMultiPoint", exc);
             return "true";
         }
+    }
+    static private String AddImageFillToKML(ArrayList<POINT2> tgPoints,
+            String jsonContent, SparseArray symbolModifiers, IPointConversion ipc, Boolean normalize)  //symbolModifiers was MilStdSymbol mSymbol
+    {
+        //get original point values in pixel form                    
+        ArrayList<Point2D> pixelPoints = new ArrayList<Point2D>();
+        //Path2D path = new Path2D.Double();
+        GeneralPath path = new GeneralPath();
+
+        //for(JavaLineArray.POINT2 pt : tgPoints)
+        int kcount = tgPoints.size();
+        POINT2 tpTemp = null;
+        for(int k = 0; k < kcount;k++)
+        {
+            tpTemp = tgPoints.get(k);
+            pixelPoints.add(new Point2D.Double(tpTemp.x, tpTemp.y));
+            if(k>0)
+            {
+                path.lineTo(tpTemp.x, tpTemp.y);
+            }
+            else
+            {
+                path.moveTo(tpTemp.x, tpTemp.y);
+            }
+        }
+        Rectangle rect = path.getBounds();
+        //get url for the fill or line pattern PNG
+        //String goImageUrl = SECWebRenderer.GenerateSymbolLineFillUrl(mSymbol.getModifierMap(), pixelPoints,rect);
+        String goImageUrl = SECWebRenderer.GenerateSymbolLineFillUrl(symbolModifiers, pixelPoints,rect);
+        //generate the extra KML needed to insert the image
+        String goKML = GenerateGroundOverlayKML(goImageUrl,ipc,rect,normalize);
+        goKML += "</Folder>";
+
+        //StringBuilder sb = new StringBuilder();
+        //sb.replace(start, end, str)
+        jsonContent = jsonContent.replace("</Folder>", goKML);
+        
+        return jsonContent;
     }
 
     static private String hasRequiredModifiers(String symbolID, int dc, ArrayList<Double> AM, ArrayList<Double> AN) {
