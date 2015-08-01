@@ -1,5 +1,7 @@
 /.nb-gradle/
-target
+target/
+gen
+
 
 /Renderer/nbandroid/
 /Renderer/bin/
