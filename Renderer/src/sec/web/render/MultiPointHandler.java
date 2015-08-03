@@ -24,6 +24,7 @@ import armyc2.c2sd.renderer.utilities.SymbolUtilities;
 import armyc2.c2sd.JavaLineArray.POINT2;
 import armyc2.c2sd.JavaTacticalRenderer.TGLight;
 import armyc2.c2sd.JavaRendererServer.RenderMultipoints.clsRenderer;
+import armyc2.c2sd.JavaRendererServer.RenderMultipoints.clsClipPolygon2;
 import armyc2.c2sd.JavaTacticalRenderer.mdlGeodesic;
 import java.util.LinkedList;
 import java.util.List;
@@ -727,7 +728,10 @@ public class MultiPointHandler {
                     symbolModifiers.indexOfKey(SYMBOL_LINE_IDS)>=0)
             {
                 tgl = clsRenderer.createTGLightFromMilStdSymbol(mSymbol, ipc);
-                tgPoints = tgl.get_Pixels();
+                //tgPoints = tgl.get_Pixels();
+                Rectangle2D rect2d=new Rectangle2D.Double(rect.x,rect.y,rect.width,rect.height);
+                clsClipPolygon2.ClipPolygon(tgl, rect2d);
+                tgPoints = tgl.get_Pixels();                
             }
 
             if (bboxCoords == null) {
@@ -1323,10 +1327,14 @@ public class MultiPointHandler {
                 return ErrorOutput;
             }//*/
 
-            if (mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS) >= 0
-                    || mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS) >= 0) {
+            if(symbolModifiers.indexOfKey(SYMBOL_FILL_IDS)>=0 || 
+                    symbolModifiers.indexOfKey(SYMBOL_LINE_IDS)>=0)
+            {
                 tgl = clsRenderer.createTGLightFromMilStdSymbol(mSymbol, ipc);
-                tgPoints = tgl.get_Pixels();
+                //tgPoints = tgl.get_Pixels();
+                Rectangle2D rect2d=new Rectangle2D.Double(rect.x,rect.y,rect.width,rect.height);
+                clsClipPolygon2.ClipPolygon(tgl, rect2d);
+                tgPoints = tgl.get_Pixels();                
             }
 
             //new interface
@@ -1362,17 +1370,18 @@ public class MultiPointHandler {
                 jsonContent = KMLize(id, name, description, symbolCode, shapes, modifiers, ipc, normalize, textColor);
                 jsonOutput.append(jsonContent);
                 //if there's a symbol fill or line pattern, add to KML//////////
-//                if(mSymbol.getModifierMap().indexOfKey(SYMBOL_FILL_IDS)>=0 || 
-//                        mSymbol.getModifierMap().indexOfKey(SYMBOL_LINE_IDS)>=0)
-//                {
-//                    String fillKML = AddImageFillToKML(tgPoints, jsonContent, mSymbol, ipc, normalize);
-//                    if(fillKML != null && fillKML.equals("")==false)
-//                    {
-//                        jsonContent = fillKML;
-//                    }
-//                }///end if symbol fill or line pattern//////////////////////////
-//                
-//                jsonOutput.append(jsonContent);
+                if(symbolModifiers.indexOfKey(SYMBOL_FILL_IDS)>=0 || 
+                    symbolModifiers.indexOfKey(SYMBOL_LINE_IDS)>=0)
+                {
+                    //String fillKML = AddImageFillToKML(tgPoints, jsonContent, mSymbol, ipc, normalize);
+                    String fillKML = AddImageFillToKML(tgPoints, jsonContent, symbolModifiers, ipc, normalize);
+                    if(fillKML != null && fillKML.equals("")==false)
+                    {
+                        jsonContent = fillKML;
+                    }
+                }///end if symbol fill or line pattern//////////////////////////
+                
+                jsonOutput.append(jsonContent);
 //                if(mSymbol.getModifierMap().indexOfKey(MilStdAttributes.LookAtTag) &&
 //                        mSymbol.getModifierMap().get(MilStdAttributes.LookAtTag).toLowerCase().equals("true"))
 //                {

@@ -2121,6 +2121,8 @@ public final class utility {
             modifiers.put(ModifiersTG.W_DTG_1, "W");
             modifiers.put(ModifiersTG.W1_DTG_2, "W1");
             attributes.put(MilStdAttributes.FillColor, "00FF00");
+            if(defaultText.equalsIgnoreCase("WO-DHHDF----A--"))
+                modifiers.put(ModifiersTG.SYMBOL_FILL_IDS, "WOS-HHDF--P----");
             if (JavaRendererUtilities.is3dSymbol(defaultText, modifiers)) {
 
                 attributes.put(MilStdAttributes.FillColor, "FF00FF00");
