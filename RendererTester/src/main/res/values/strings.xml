@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SECRenderer</string>
+    <string name="app_name">SEC Renderer Single Point</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="iv_content_description">milstd symbol</string>

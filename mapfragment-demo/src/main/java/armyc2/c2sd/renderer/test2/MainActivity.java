@@ -1,4 +1,4 @@
-package com.example;
+package armyc2.c2sd.renderer.test2;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import armyc2.c2sd.renderer.MilStdIconRenderer;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Locale;
+import armyc2.c2sd.renderer.test2.R;
 
 public class MainActivity extends Activity {
 

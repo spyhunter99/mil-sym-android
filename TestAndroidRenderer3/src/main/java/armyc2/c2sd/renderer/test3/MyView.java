@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example;
+package armyc2.c2sd.renderer.test3;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import sec.web.render.PointConverter;
+import armyc2.c2sd.renderer.test3.R;
 
 /**
  *

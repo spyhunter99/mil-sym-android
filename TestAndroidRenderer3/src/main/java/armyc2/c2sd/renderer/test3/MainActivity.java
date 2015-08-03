@@ -1,4 +1,4 @@
-package com.example;
+package armyc2.c2sd.renderer.test3;
 
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -8,10 +8,9 @@ import android.widget.EditText;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.CheckBox;
-import android.widget.TextView;
 import armyc2.c2sd.renderer.MilStdIconRenderer;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
+import armyc2.c2sd.renderer.test3.R;
 
 public class MainActivity extends Activity {
 

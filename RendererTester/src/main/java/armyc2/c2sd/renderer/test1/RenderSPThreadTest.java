@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sptester;
+package armyc2.c2sd.renderer.test1;
 
 import android.util.Log;
 import android.util.SparseArray;

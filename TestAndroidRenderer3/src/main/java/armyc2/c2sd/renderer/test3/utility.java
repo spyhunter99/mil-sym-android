@@ -1,4 +1,4 @@
-package com.example;
+package armyc2.c2sd.renderer.test3;
 //
 
 import armyc2.c2sd.JavaLineArray.CELineArray;
@@ -26,6 +26,7 @@ import sec.web.render.utilities.JavaRendererUtilities;
 import java.io.File;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import armyc2.c2sd.renderer.test3.R;
 
 ///**
 // * 

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example;
+package armyc2.c2sd.renderer.test3;
 
 import java.io.StringReader;
 

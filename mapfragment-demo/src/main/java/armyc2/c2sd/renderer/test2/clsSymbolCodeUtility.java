@@ -1,4 +1,4 @@
-package com.example;
+package armyc2.c2sd.renderer.test2;
 
 import armyc2.c2sd.JavaLineArray.TacticalLines;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
@@ -7,13 +7,11 @@ import armyc2.c2sd.renderer.utilities.RendererSettings;
  *
  * @author Michael Deutch
  */
-public final class clsSymbolCodeUtility
-{
-    protected static String GetSymbolCode(int linetype,int rev)
-    {
+public final class clsSymbolCodeUtility {
+
+    protected static String GetSymbolCode(int linetype, int rev) {
         //String symbolCode="G*TPB-----****X";
-        switch(linetype)
-        {
+        switch (linetype) {
             //Basic Shapes
             case TacticalLines.BS_AREA:
                 return "BS_AREA--------";
@@ -25,7 +23,7 @@ public final class clsSymbolCodeUtility
                 return "BS_ELLIPSE-----";
             case TacticalLines.BS_RECTANGLE:
                 return "BS_RECTANGLE---";
-                
+
             //MECTOCs
             case TacticalLines.CORDONKNOCK:
                 return "G*TP2-----****X";
@@ -237,7 +235,7 @@ public final class clsSymbolCodeUtility
                 return "WA-DBAMV----A--";
             case TacticalLines.IFR:
                 return "WA-DBAIF----A--";
-                
+
             case TacticalLines.STREAM:
                 return "WA-DWS-----L---";
             case TacticalLines.JET:
@@ -334,7 +332,7 @@ public final class clsSymbolCodeUtility
             case TacticalLines.BLOCK:
                 return "G*TPB-----****X";
             case TacticalLines.BREACH:
-                return"G*TPH-----****X";
+                return "G*TPH-----****X";
             case TacticalLines.BYPASS:
                 return "G*TPY-----****X";
             case TacticalLines.CANALIZE:
@@ -716,16 +714,19 @@ public final class clsSymbolCodeUtility
                 return "G*FPAZXC--****X";
 
             case TacticalLines.SENSOR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACEI--****X";
+                }
                 return "G*FPAZSI--****X";
             case TacticalLines.SENSOR_RECTANGULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACER--****X";
+                }
                 return "G*FPAZSR--****X";
             case TacticalLines.SENSOR_CIRCULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACEC--****X";
+                }
                 return "G*FPAZSC--****X";
 
             case TacticalLines.CENSOR:
@@ -736,16 +737,19 @@ public final class clsSymbolCodeUtility
                 return "G*FPAZCC--****X";
 
             case TacticalLines.DA:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACDI--****X";
+                }
                 return "G*FPAZDI--****X";
             case TacticalLines.DA_RECTANGULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACDR--****X";
+                }
                 return "G*FPAZDR--****X";
             case TacticalLines.DA_CIRCULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACDC--****X";
+                }
                 return "G*FPAZDC--****X";
 
             case TacticalLines.CFZ:
@@ -756,42 +760,51 @@ public final class clsSymbolCodeUtility
                 return "G*FPAZFC--****X";
 
             case TacticalLines.ZOR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACZI--****X";
+                }
                 return "G*FPAZZI--****X";
             case TacticalLines.ZOR_RECTANGULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACZR--****X";
+                }
                 return "G*FPAZZR--****X";
             case TacticalLines.ZOR_CIRCULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACZC--****X";
+                }
                 return "G*FPAZZC--****X";
 
             case TacticalLines.TBA:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACBI--****X";
+                }
                 return "G*FPAZBI--****X";
             case TacticalLines.TBA_RECTANGULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACBR--****X";
+                }
                 return "G*FPAZBR--****X";
             case TacticalLines.TBA_CIRCULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACBC--****X";
+                }
                 return "G*FPAZBC--****X";
 
             case TacticalLines.TVAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACVI--****X";
+                }
                 return "G*FPAZVI--****X";
             case TacticalLines.TVAR_RECTANGULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACVR--****X";
+                }
                 return "G*FPAZVR--****X";
             case TacticalLines.TVAR_CIRCULAR:
-                if(rev==RendererSettings.Symbology_2525C)
+                if (rev == RendererSettings.Symbology_2525C) {
                     return "G*FPACVC--****X";
+                }
                 return "G*FPAZVC--****X";
 
             case TacticalLines.KILLBOXBLUE:
@@ -800,14 +813,14 @@ public final class clsSymbolCodeUtility
                 return "G*FPAKBR--****X";
             case TacticalLines.KILLBOXBLUE_CIRCULAR:
                 return "G*FPAKBC--****X";
-                
+
             case TacticalLines.KILLBOXPURPLE:
                 return "G*FPAKPI--****X";
             case TacticalLines.KILLBOXPURPLE_RECTANGULAR:
                 return "G*FPAKPR--****X";
             case TacticalLines.KILLBOXPURPLE_CIRCULAR:
                 return "G*FPAKPC--****X";
-                
+
             case TacticalLines.RANGE_FAN:
                 return "G*FPAXC---****X";
             case TacticalLines.RANGE_FAN_SECTOR:

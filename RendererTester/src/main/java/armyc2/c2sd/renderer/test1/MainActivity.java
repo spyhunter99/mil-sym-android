@@ -1,11 +1,7 @@
-package sptester;
+package armyc2.c2sd.renderer.test1;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import sptester.RenderSPThreadTest;
-import sec.web.render.SECWebRenderer;
+import armyc2.c2sd.renderer.test1.RenderSPThreadTest;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
@@ -15,8 +11,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.support.v4.util.SparseArrayCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
@@ -25,25 +19,19 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import armyc2.c2sd.R;
-import armyc2.c2sd.graphics2d.BasicStroke;
+import armyc2.c2sd.renderer.test1.R;
 import armyc2.c2sd.renderer.IconRenderer;
 import armyc2.c2sd.renderer.MilStdIconRenderer;
 import armyc2.c2sd.renderer.SinglePointRenderer;
-import armyc2.c2sd.renderer.utilities.FontManager;
 import armyc2.c2sd.renderer.utilities.ImageInfo;
 import armyc2.c2sd.renderer.utilities.MilStdAttributes;
-import armyc2.c2sd.renderer.utilities.MilStdSymbol;
 import armyc2.c2sd.renderer.utilities.ModifiersTG;
 import armyc2.c2sd.renderer.utilities.ModifiersUnits;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
-import armyc2.c2sd.renderer.utilities.ShapeInfo;
 import armyc2.c2sd.renderer.utilities.SymbolDef;
 import armyc2.c2sd.renderer.utilities.SymbolDefTable;
 
-import java.util.Random;
 
 
 public class MainActivity extends Activity {

@@ -1,4 +1,4 @@
-package com.example;
+package armyc2.c2sd.renderer.test2;
 //
 
 import armyc2.c2sd.JavaLineArray.CELineArray;
