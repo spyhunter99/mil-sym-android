@@ -3130,6 +3130,8 @@ public class MultiPointHandler {
     static private String AddImageFillToKML(ArrayList<POINT2> tgPoints,
             String jsonContent, SparseArray symbolModifiers, IPointConversion ipc, Boolean normalize)  //symbolModifiers was MilStdSymbol mSymbol
     {
+        if(tgPoints==null || tgPoints.size()==0)
+            return null;
         //get original point values in pixel form                    
         ArrayList<Point2D> pixelPoints = new ArrayList<Point2D>();
         //Path2D path = new Path2D.Double();
