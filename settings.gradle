@@ -1,0 +1,4 @@
+include ':Renderer'
+include ':RendererTester'
+include ':TestAndroidRenderer3'
+include ':mapfragment-demo'
