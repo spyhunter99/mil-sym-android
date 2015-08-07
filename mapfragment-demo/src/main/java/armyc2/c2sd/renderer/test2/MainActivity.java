@@ -38,10 +38,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         FragmentManager f = getFragmentManager();
-        mapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+        mapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));       
         map = mapFragment.getMap();
+        map.getUiSettings().setZoomControlsEnabled(true);
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        map.setBuildingsEnabled(true);
+        map.setBuildingsEnabled(true);        
         if (myView == null) {
             myView = new MyView(this);
             myView.map = map;
