@@ -5,13 +5,13 @@
      <parent>
 	  <groupId>sec.web.renderer</groupId>
 	  <artifactId>mil-sym-android-parent</artifactId>
-	  <version>0.0.65</version>
+	  <version>0.0.70</version>
      </parent>
 
 
      <groupId>${project.parent.groupId}</groupId>
      <artifactId>mil-sym-android-renderer</artifactId>
-     <version>0.0.65</version>
+     <version>0.0.70</version>
      <packaging>aar</packaging>
   
      <name>mil-sym-android Renderer</name>
