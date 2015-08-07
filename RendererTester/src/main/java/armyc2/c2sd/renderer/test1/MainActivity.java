@@ -189,6 +189,7 @@ public class MainActivity extends Activity {
 	    	test = SymbolDefTable.getInstance().getSymbolDef("S*G*UCI---*****", 1);
 	    		
 	    	//ImageInfo ii = mir.RenderUnit(symbolID, modifiers);
+			//attributes.put(MilStdAttributes.IconColor,"#00FF00");
 	    	ImageInfo ii = mir.RenderIcon(symbolID, modifiers, attributes);
 	    	
 	    	if(ii != null)

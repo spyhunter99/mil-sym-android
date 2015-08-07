@@ -21,6 +21,11 @@ public class MilStdAttributes {
      * Fill color of the symbol. hex value
      */
     public static final int FillColor = 1;
+
+    /*
+     * Color of internal icon. hex value
+     */
+    public static final int IconColor = 17;
     
     /*
      * font size to use when rendering symbol
@@ -99,6 +104,7 @@ public class MilStdAttributes {
         
         list.add(LineColor);
         list.add(FillColor);
+        list.add(IconColor);
         list.add(FontSize);
         list.add(PixelSize);
         list.add(Scale);

@@ -97,6 +97,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
         float fontSize = RendererSettings.getInstance().getUnitFontSize();
         Color lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
         Color fillColor = SymbolUtilities.getFillColorOfAffiliation(symbolID);
+        Color iconColor = null;
         int alpha = -1;
 
         int symStd = RendererSettings.getInstance().getSymbologyStandard();
@@ -214,6 +215,10 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             {
                 fillColor = new Color(attributes.get(MilStdAttributes.FillColor));
             }
+            if (attributes.indexOfKey(MilStdAttributes.IconColor) >= 0)
+            {
+                iconColor = new Color(attributes.get(MilStdAttributes.IconColor));
+            }
 
             //get symbol info
             lookup = UnitFontLookup.getInstance().getLookupInfo(symbolID, symStd);
@@ -283,7 +288,14 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
             symbol1Paint = new Paint();
             symbol1Paint.setStyle(Paint.Style.FILL);
-            symbol1Paint.setColor(lookup.getColor1().toARGB());
+            if(iconColor != null)
+            {
+                symbol1Paint.setColor(iconColor.toARGB());
+            }
+            else
+            {
+                symbol1Paint.setColor(lookup.getColor1().toARGB());
+            }
             symbol1Paint.setTextSize(fontSize);
             symbol1Paint.setAntiAlias(true);
             symbol1Paint.setTextAlign(Align.CENTER);

@@ -42,7 +42,7 @@ public class SymbolDefTable {
     //private static SymbolTableThingy
     private static Map<String, SymbolDef> _SymbolDefinitionsB = null;
     private static ArrayList<SymbolDef> _SymbolDefDupsB = null;
-    private String TAG = "MilStdIconRenderer";
+    private String TAG = "SymbolDefTable";
 
     private static Map<String, SymbolDef> _SymbolDefinitionsC = null;
     private static ArrayList<SymbolDef> _SymbolDefDupsC = null;
@@ -75,44 +75,55 @@ public class SymbolDefTable {
 
         return _instance;
     }
-//    private
-//    String getXML(String xmlName)
-//    {
-//        String xmlFolder = "res/raw/";
-//        String xml = null;
-//        Typeface tf = null;
-//        InputStream is = null;
-//        try
-//        {
-//            is = this.getClass().getClassLoader().getResourceAsStream(xmlFolder + xmlName);
-//            if (is != null)
-//            {
-//                InputStreamReader isr = new InputStreamReader(is);
-//                BufferedReader r = new BufferedReader(isr);
-//                StringBuilder total = new StringBuilder();
-//                String line;
-//                while ((line = r.readLine()) != null)
-//                {
-//                    total.append(line);
-//                }
-//                xml = total.toString();
-//
-//                //cleanup
-//                r.close();
-//                isr.close();
-//                is.close();
-//                r = null;
-//                isr = null;
-//                is = null;
-//                total = null;
-//            }
-//        }
-//        catch (Exception exc)
-//        {
-//            Log.e(TAG, exc.getMessage(), exc);
-//        }
-//        return xml;
-//    }
+
+    private String getXML(String xmlName)
+    {
+        String xmlFolder = "res/raw/";
+        String xml = null;
+        Typeface tf = null;
+        InputStream is = null;
+        try
+        {
+            is = this.getClass().getClassLoader().getResourceAsStream(xmlFolder + xmlName);
+            if (is != null)
+            {
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader r = new BufferedReader(isr);
+                StringBuilder total = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null)
+                {
+                    total.append(line);
+                }
+                xml = total.toString();
+
+                //cleanup
+                r.close();
+                isr.close();
+                is.close();
+                r = null;
+                isr = null;
+                is = null;
+                total = null;
+            }
+        }
+        catch (Exception exc)
+        {
+            Log.e(TAG, exc.getMessage(), exc);
+        }
+        return xml;
+    }
+
+    public final synchronized  void init()
+    {
+        if (_initCalled == false)
+        {
+            String[] xml = new String[2];
+            xml[0] = getXML("symbolconstantsb.xml");
+            xml[1] = getXML("symbolconstantsc.xml");
+            init(xml);
+        }
+    }
 
     public final synchronized void init(String[] symbolConstantsXML)
     {
