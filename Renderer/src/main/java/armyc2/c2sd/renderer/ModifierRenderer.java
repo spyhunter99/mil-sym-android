@@ -3153,7 +3153,7 @@ public class ModifierRenderer
             }
             else
             {
-                if (SymbolUtilities.isNBC(symbolID) == true && modifiers.indexOfKey(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT) >= 0)
+                if (SymbolUtilities.isNBC(symbolID) == true && modifiers.indexOfKey(ModifiersTG.Q_DIRECTION_OF_MOVEMENT) >= 0)
                 {
                     hasModifiers = true;
                 }
