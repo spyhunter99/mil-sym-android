@@ -728,9 +728,11 @@ public class MultiPointHandler {
                     symbolModifiers.indexOfKey(SYMBOL_LINE_IDS)>=0)
             {
                 tgl = clsRenderer.createTGLightFromMilStdSymbol(mSymbol, ipc);
-                //tgPoints = tgl.get_Pixels();
-                Rectangle2D rect2d=new Rectangle2D.Double(rect.x,rect.y,rect.width,rect.height);
-                clsClipPolygon2.ClipPolygon(tgl, rect2d);
+                if(rect != null)
+                {
+                    Rectangle2D rect2d=new Rectangle2D.Double(rect.x,rect.y,rect.width,rect.height);
+                    clsClipPolygon2.ClipPolygon(tgl, rect2d);
+                }
                 tgPoints = tgl.get_Pixels();                
             }
 
@@ -1331,9 +1333,11 @@ public class MultiPointHandler {
                     symbolModifiers.indexOfKey(SYMBOL_LINE_IDS)>=0)
             {
                 tgl = clsRenderer.createTGLightFromMilStdSymbol(mSymbol, ipc);
-                //tgPoints = tgl.get_Pixels();
-                Rectangle2D rect2d=new Rectangle2D.Double(rect.x,rect.y,rect.width,rect.height);
-                clsClipPolygon2.ClipPolygon(tgl, rect2d);
+                if(rect != null)
+                {
+                    Rectangle2D rect2d=new Rectangle2D.Double(rect.x,rect.y,rect.width,rect.height);
+                    clsClipPolygon2.ClipPolygon(tgl, rect2d);
+                }
                 tgPoints = tgl.get_Pixels();                
             }
 
