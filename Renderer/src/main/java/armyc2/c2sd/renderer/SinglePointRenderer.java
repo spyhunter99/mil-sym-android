@@ -346,7 +346,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
         try
         {
             ImageInfo ii = null;
-            String key = makeCacheKey(symbolID, lineColor.toInt(), fillColor.toInt(), pixelSize, keepUnitRatio, symStd);
+            String key = makeCacheKey(symbolID, lineColor.toInt(), fillColor.toInt(), symbol1Paint.getColor(), pixelSize, keepUnitRatio, symStd);
 
             //see if it's in the cache
             ii = _unitCache.get(key);
@@ -1062,7 +1062,13 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
         return temp;
     }//*/
-    
+
+    public static String makeCacheKey(String symbolID, int lineColor, int fillColor, int iconColor, int size, boolean keepUnitRatio, int symStd)
+    {
+        String key = symbolID.substring(0, 10) + String.valueOf(lineColor) + String.valueOf(fillColor) + String.valueOf(iconColor) + String.valueOf(size) + String.valueOf(keepUnitRatio) + String.valueOf(symStd);
+        return key;
+    }
+
     public static String makeCacheKey(String symbolID, int lineColor, int fillColor, int size, boolean keepUnitRatio, int symStd)
     {
         String key = symbolID.substring(0, 10) + String.valueOf(lineColor) + String.valueOf(fillColor) + String.valueOf(size) + String.valueOf(keepUnitRatio) + String.valueOf(symStd);
