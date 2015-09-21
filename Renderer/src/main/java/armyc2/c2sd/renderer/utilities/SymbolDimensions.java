@@ -231,21 +231,21 @@ public class SymbolDimensions {
 				center.x = bounds.width()/2;
                 center.y = (int)((bounds.height() * 0.66));
 			}
-            else if ((basicID.substring(0, 7) == "G*G*GPO" && basicID.substring(7, 1) != "-"))//antitank mine w/ handling device
+            else if ((basicID.substring(0, 7).equals("G*G*GPO") && basicID.substring(7, 1).equals("-") == false))//antitank mine w/ handling device
 			{
 				//upper third
 				center.x = bounds.width()/2;
 				center.y = (int)((bounds.height() * 0.33));
 			}
-			else if(basicID=="G*M*OMD---****X")
+			else if(basicID.equals("G*M*OMD---****X"))
 			{
 				//upper third
 				center.x = bounds.width()/2;
 				center.y = (int)((bounds.height() * 0.28));
 			}
-            else if (basicID.substring(0, 7) == "G*G*DPO")//OBSERVATION POST/OUTPOST
+            else if (basicID.substring(0, 7).equals("G*G*DPO"))//OBSERVATION POST/OUTPOST
 			{
-                if (basicID.substring(7, 1) == "C")//combat outpost
+                if (basicID.substring(7, 1).equals("C"))//combat outpost
 				{
 					center.x = bounds.width()/2;
 					center.y = (int)((bounds.height() * 0.55));
@@ -256,69 +256,69 @@ public class SymbolDimensions {
 					center.y = (int)((bounds.height() * 0.65));
 				}
 			}
-			else if(basicID == "G*G*GPWD--****X"||//drop point
-				basicID == "G*G*PN----****X" ||//dummy minefield static
-				basicID == "G*M*OB----****X" ||//booby trap
-				basicID == "G*M*OME---****X" ||//antitank mine directional
-				basicID == "G*M*OMW---****X" ||//wide area mines
-				basicID == "G*M*OMP---****X" ||//anti-personnel mines
-				basicID == "G*M*OHTL--****X" ||//Aviation/tower/low
-				basicID == "G*M*OHTH--****X" ||//Aviation/tower/high
-				basicID == "G*O*HM----****X" ||//
-				basicID == "G*O*HI----****X" ||//
-				basicID == "G*O*SM----****X")
+			else if(basicID.equals("G*G*GPWD--****X")||//drop point
+				basicID.equals("G*G*PN----****X") ||//dummy minefield static
+				basicID.equals("G*M*OB----****X") ||//booby trap
+				basicID.equals("G*M*OME---****X") ||//antitank mine directional
+				basicID.equals("G*M*OMW---****X") ||//wide area mines
+				basicID.equals("G*M*OMP---****X") ||//anti-personnel mines
+				basicID.equals("G*M*OHTL--****X") ||//Aviation/tower/low
+				basicID.equals("G*M*OHTH--****X") ||//Aviation/tower/high
+				basicID.equals("G*O*HM----****X") ||//
+				basicID.equals("G*O*HI----****X") ||//
+				basicID.equals("G*O*SM----****X"))
 			{
-				if(basicID == "G*G*GPWD--****X")//drop point
+				if(basicID.equals("G*G*GPWD--****X"))//drop point
 				{
 					center.x = bounds.width()/2;
-					center.y = (int)((bounds.height() * 0.85));
+					center.y = (int)((bounds.height() * 0.87));
 				}
-				if(basicID == "G*G*PN----****X")//dummy minefield static
+				else if(basicID.equals("G*G*PN----****X"))//dummy minefield static
 				{
 					center.x = bounds.width()/2;
                     center.y = (int)((bounds.height() * 0.69));
 				}
-				if(basicID == "G*M*OB----****X")//booby trap
+				else if(basicID.equals("G*M*OB----****X"))//booby trap
 				{
 					center.x = bounds.width()/2;
-                    center.y = (int)((bounds.height() * 0.8));
+                    center.y = (int)((bounds.height() * 0.79));
 				}
-				if(basicID == "G*M*OME---****X")//antitank mine directional
+				else if(basicID.equals("G*M*OME---****X"))//antitank mine directional
 				{
 					center.x = bounds.width()/2;
                     center.y = (int)((bounds.height() * 0.77));
 				}
-				if(basicID == "G*M*OMW---****X")//wide area mines
+				else if(basicID.equals("G*M*OMW---****X"))//wide area mines
 				{
 					center.x = bounds.width()/2;
-                    center.y = (int)((bounds.height() * 0.34));
+                    center.y = (int)((bounds.height() * 0.3));
 				}
-				if(basicID == "G*M*OMP---****X")//anti personnel mines
+				else if(basicID.equals("G*M*OMP---****X"))//anti personnel mines
 				{
 					center.x = bounds.width()/2;
-                    center.y = (int)((bounds.height() * 0.59));
+                    center.y = (int)((bounds.height()) * 0.64);
 				}
-				if(basicID == "G*M*OHTL--****X")//Aviation/tower/low//2525C
+				else if(basicID.equals("G*M*OHTL--****X"))//Aviation/tower/low//2525C
 				{
 					center.x = bounds.width()/2;
-                    center.y = (int)((bounds.height() * 0.95));
+                    center.y = (int)((bounds.height() * 0.88));
 				}
-				if(basicID == "G*M*OHTH--****X")//Aviation/tower/high//2525C
+				else if(basicID.equals("G*M*OHTH--****X"))//Aviation/tower/high//2525C
 				{
 					center.x = bounds.width()/2;
-                    center.y = (int)((bounds.height() * 0.95));
+                    center.y = (int)((bounds.height() * 0.90));
 				}
-				if(basicID == "G*O*HM----****X")//sea mine-like
+				else if(basicID.equals("G*O*HM----****X"))//sea mine-like
 				{
 					center.x = bounds.width()/2;
-                    center.y = (int)((bounds.height() * 0.7));
+                    center.y = (int)((bounds.height() * 0.65));
 				}
-				if(basicID == "G*O*HI----****X")
+				else if(basicID.equals("G*O*HI----****X"))
 				{
 					center.x = bounds.width()/2;
                     center.y = (int)((bounds.height() * 0.58));
 				}
-				if(basicID == "G*O*SM----****X")
+				else if(basicID.equals("G*O*SM----****X"))
 				{
 					center.x = 0;
                     center.y = (int)((bounds.height() * 0.5));
