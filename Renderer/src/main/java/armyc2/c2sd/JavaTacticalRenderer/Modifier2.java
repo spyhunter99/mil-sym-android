@@ -3175,7 +3175,8 @@ public class Modifier2 {
             String H1 = tg.get_H1();
             String T1 = tg.get_T1();
             String T = tg.get_Name();
-            String[] altitudes = H1.split(",");
+            //String[] altitudes = H1.split(",");
+            String[] altitudes = null;
             String[] am = T1.split(",");
             String[] az = T.split(",");
             double min = 0, max = 0;
@@ -3184,7 +3185,8 @@ public class Modifier2 {
             if (numSectors < 1) {
                 return false;
             }
-
+            if(!H1.isEmpty())
+                altitudes = H1.split(",");
             try {
                 for (int k = 0; k < am.length; k++) {
                     min = Double.parseDouble(am[k]);
@@ -3231,12 +3233,15 @@ public class Modifier2 {
                 pt2.y = pt22d.getY();
                 locModifier.add(pt2);
             }
-            for (int k = 0; k < altitudes.length; k++) {
-                if (k >= locModifier.size()) {
-                    break;
+            if(altitudes != null)
+            {
+                for (int k = 0; k < altitudes.length; k++) {
+                    if (k >= locModifier.size()) {
+                        break;
+                    }
+                    pt0 = locModifier.get(k);
+                    AddAreaModifier(tg, "ALT " + altitudes[k], area, 0, pt0, pt0);
                 }
-                pt0 = locModifier.get(k);
-                AddAreaModifier(tg, "ALT " + altitudes[k], area, 0, pt0, pt0);
             }
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "addSectorModifiers",
