@@ -195,7 +195,8 @@ public class MainActivity extends Activity {
         String cacheDir = getApplicationContext().getCacheDir().getAbsoluteFile().getAbsolutePath();
         mir.init(cacheDir);
         DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        //getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int dpi = metrics.densityDpi;
 
             //t.setText("Renderer Initialized");
