@@ -204,10 +204,10 @@ public class MainActivity extends Activity {
 		    	{
 		    		bytes = msBmp.getRowBytes() * msBmp.getHeight();
 		    	}
-		    	else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+		    	/*else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
 		    	{
 		    		bytes = msBmp.getByteCount();
-		    	}
+		    	}*/
 		    	else
 		    	{
 		    		bytes = msBmp.getByteCount();
