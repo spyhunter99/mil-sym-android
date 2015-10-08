@@ -100,7 +100,8 @@ public class MainActivity extends Activity {
             String cacheDir = getApplicationContext().getCacheDir().getAbsoluteFile().getAbsolutePath();
             mir.init(cacheDir);
             DisplayMetrics metrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+            //getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+			getWindowManager().getDefaultDisplay().getMetrics(metrics);
             int dpi = metrics.densityDpi;
             //RendererSettings.getInstance().setDeviceDPI(dpi);
     	
@@ -203,7 +204,7 @@ public class MainActivity extends Activity {
 		    	{
 		    		bytes = msBmp.getRowBytes() * msBmp.getHeight();
 		    	}
-		    	else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+		    	else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 		    	{
 		    		bytes = msBmp.getByteCount();
 		    	}

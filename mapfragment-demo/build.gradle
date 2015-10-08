@@ -3,8 +3,8 @@ description = 'mil-sym-android Renderer Test app with Google Maps'
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 15
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
         applicationId "armyc2.c2sd.renderer.test2"
@@ -25,9 +25,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     //compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:support-v4:19.1.0'
-    compile project (":Renderer")
+    compile project(':Renderer')
     compile 'com.google.android.gms:play-services:6.5.87'
 }
