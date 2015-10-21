@@ -33,7 +33,12 @@ public class JavaRendererUtilities {
      * AABBGGRR
      */
     public static String ARGBtoABGR(String rgbString) {
-    	
+        if(rgbString.length()==6)
+        {
+            String s="FF";
+            rgbString=s.concat(rgbString);
+        }
+
     	String bgrString = rgbString.toUpperCase(Locale.US);
     	
     	if(rgbString.length() == 8)
