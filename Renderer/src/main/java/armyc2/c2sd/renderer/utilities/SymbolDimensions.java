@@ -173,7 +173,7 @@ public class SymbolDimensions {
 				rect = RectUtilities.makeRectF(0f,0f,(float)(rect.width()*ratio), (float)(rect.height()*ratio));
 			}
 			
-			return new Rect((int)rect.left, (int)rect.top, (int)(rect.bottom + 0.5), (int)(rect.right + 0.5)); 
+			return new Rect((int)rect.left, (int)rect.top, (int)(rect.right + 0.5), (int)(rect.bottom + 0.5));
 		}
 		
 		/**
@@ -231,7 +231,7 @@ public class SymbolDimensions {
 				center.x = bounds.width()/2;
                 center.y = (int)((bounds.height() * 0.66));
 			}
-            else if ((basicID.substring(0, 7).equals("G*G*GPO") && basicID.substring(7, 1).equals("-") == false))//antitank mine w/ handling device
+            else if ((basicID.substring(0, 7).equals("G*G*GPO") && (basicID.charAt(7) == ('-')) == false))//antitank mine w/ handling device
 			{
 				//upper third
 				center.x = bounds.width()/2;
@@ -245,7 +245,7 @@ public class SymbolDimensions {
 			}
             else if (basicID.substring(0, 7).equals("G*G*DPO"))//OBSERVATION POST/OUTPOST
 			{
-                if (basicID.substring(7, 1).equals("C"))//combat outpost
+                if (basicID.charAt(7) == ('C'))//combat outpost
 				{
 					center.x = bounds.width()/2;
 					center.y = (int)((bounds.height() * 0.55));

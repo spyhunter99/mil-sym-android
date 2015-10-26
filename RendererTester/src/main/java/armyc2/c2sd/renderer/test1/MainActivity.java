@@ -1,7 +1,12 @@
 package armyc2.c2sd.renderer.test1;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import armyc2.c2sd.renderer.test1.RenderSPThreadTest;
+
+import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
@@ -127,7 +133,7 @@ public class MainActivity extends Activity {
 	    	EditText etPixelSize = (EditText) findViewById(R.id.etPixelSize);
 	    	ImageView imageView = (ImageView) findViewById(R.id.imageView1);
 	    	imageView.clearAnimation();//helps with memory?
-	    	imageView.setBackgroundColor(Color.GREEN);
+	    	imageView.setBackgroundColor(Color.LTGRAY);
 	    	
 	    	
 	    	///////////////////
@@ -143,15 +149,18 @@ public class MainActivity extends Activity {
 	    	if(strPixelSize != null && strPixelSize.equals("") == false)
 	    		attributes.put(MilStdAttributes.PixelSize,strPixelSize);
 	    	else
-	    		attributes.put(MilStdAttributes.PixelSize,"240");
+	    		attributes.put(MilStdAttributes.PixelSize,"240");//*/
 	    	
 	    	//attributes.put(MilStdAttributes.LineColor, "cyan");
 	    	
                 //RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_NONE);
 	    		//RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_COLORFILL);
-                //RendererSettings.getInstance().setTextOutlineWidth(1);
+                //RendererSettings.getInstance().setTextOutlineWidth(0);
+            //RendererSettings.getInstance().setSinglePointSymbolOutlineWidth(0);
                 //attributes.put(MilStdAttributes.TextColor, "FF0000");
                 //attributes.put(MilStdAttributes.TextBackgroundColor, "000000");
+
+			attributes.put(MilStdAttributes.KeepUnitRatio,"false");
 	    	
 	    	populateModifiers = ((CheckBox)findViewById(R.id.cbModifiers)).isChecked();
 	    	
@@ -195,6 +204,27 @@ public class MainActivity extends Activity {
 	    	
 	    	if(ii != null)
 	    	{
+				//Save to SD card for manual inspection/////////////////////////////////////////////////
+				/*OutputStream output;
+				//find sd card path
+				File savePath = Environment.getExternalStorageDirectory();
+				//Create folder in SD card Path
+				File dir = new File(savePath.getAbsolutePath() + "/icons/");
+				dir.mkdirs();
+
+				//create name for the saved image
+				File file = new File(dir, symbolID.replace('*','-') + ".png");
+				try {
+
+					output = new FileOutputStream(file);
+					ii.getImage().compress(Bitmap.CompressFormat.PNG, 100, output);
+					output.flush();
+					output.close();
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}//*/
+				////////////////////////////////////////////////////////////////////////////////////////
 		    	Bitmap msBmp = ii.getImage();
 		    	
 		    	//int bytes = msBmp.getAllocationByteCount();
@@ -225,7 +255,13 @@ public class MainActivity extends Activity {
 		    	outline.setStyle(Style.STROKE);
 		    	outline.setStrokeWidth(1);
 		    	msCanvas.drawRect(ii.getSymbolBounds(), outline);
-		    	msCanvas.drawRect(ii.getCenterPoint().x-1, ii.getCenterPoint().y-1, ii.getCenterPoint().x+1, ii.getCenterPoint().y+1, outline);//*/
+		    	msCanvas.drawRect(ii.getCenterPoint().x - 1, ii.getCenterPoint().y - 1, ii.getCenterPoint().x + 1, ii.getCenterPoint().y + 1, outline);//*/
+
+
+				Log.i(TAG, "SymbolBounds: " + ii.getSymbolBounds().toString());
+				Log.i(TAG, "Image Width: " + String.valueOf(ii.getImage().getWidth()));
+				Log.i(TAG, "Image Height: " + String.valueOf(ii.getImage().getHeight()));
+
 		    	
 		    	if(msBmp != null)
 		    		imageView.setImageBitmap(msBmp);

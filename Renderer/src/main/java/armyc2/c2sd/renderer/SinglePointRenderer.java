@@ -12,9 +12,14 @@ import android.graphics.RectF;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.util.Log;
 import android.util.LruCache;
 import android.util.SparseArray;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import armyc2.c2sd.renderer.utilities.Color;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
@@ -38,7 +43,7 @@ import armyc2.c2sd.renderer.utilities.UnitFontLookupInfo;
 public class SinglePointRenderer implements SettingsChangedEventListener
 {
 
-    private final String TAG = "armyc2.c2sd.singlepointrenderer.SinglePointRenderer";
+    private final String TAG = "SinglePointRenderer";
     private static SinglePointRenderer _instance = null;
 
     private Typeface _tfUnits = null;
@@ -632,6 +637,11 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
             if (attributes != null)
             {
+                if (attributes.indexOfKey(MilStdAttributes.KeepUnitRatio) >= 0)
+                {
+                    keepUnitRatio = Boolean.parseBoolean(attributes.get(MilStdAttributes.KeepUnitRatio));
+                }
+
                 if (attributes.indexOfKey(MilStdAttributes.LineColor) >= 0)
                 {
                     lineColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.LineColor));
@@ -658,13 +668,23 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                 }
                 else
                 {
-                    pixelSize = 35;
+                    if(keepUnitRatio == true)
+                        pixelSize = 35;
+                    else
+                    {
+                        try {
+                            Rect sb = SymbolDimensions.getSymbolBounds(SymbolUtilities.getBasicSymbolID(symbolID),symStd,60.0f);
+                            pixelSize = Math.max(sb.width(), sb.height());
+                        }
+                        catch(Exception exc){
+                            Log.e(TAG,exc.getMessage());
+                            exc.printStackTrace();
+                        }
+
+                    }
                 }
 
-                if (attributes.indexOfKey(MilStdAttributes.KeepUnitRatio) >= 0)
-                {
-                    keepUnitRatio = Boolean.parseBoolean(attributes.get(MilStdAttributes.KeepUnitRatio));
-                }
+
 
                 /*if (attributes.indexOfKey(MilStdAttributes.OutlineWidth)>=0)
                  symbolOutlineWidth = Integer.parseInt(attributes.get(MilStdAttributes.OutlineWidth));//*/
@@ -713,7 +733,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                 }
 
                 //adjust size
-                ratio = Math.min((pixelSize / rect.height()), (pixelSize / rect.width()));
+                float fPixelSize = (float)pixelSize;
+                ratio = Math.min((fPixelSize / rect.height()), (fPixelSize / rect.width()));
 
             }
 
@@ -854,7 +875,14 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
                 if (strFrame != null)
                 {
-                    RendererUtilities.renderSymbolCharacter(canvas, strFrame, 0, 0, framePaint, lineColor, symbolOutlineWidth);
+                    //try
+                    //{
+                        RendererUtilities.renderSymbolCharacter(canvas, strFrame, 0, 0, framePaint, lineColor, symbolOutlineWidth);
+                    //}
+                    //catch( Exception e){
+                    //    logError(TAG,e);
+                    //}
+
                 }
 
                 ii = new ImageInfo(bmp, centerPoint, symbolBounds);
@@ -900,6 +928,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             framePaint = null;
 
             lookup = null;
+
 
             if (drawAsIcon)
             {
