@@ -321,7 +321,7 @@ public class SymbolUtilities
     public static
             Boolean hasValidAffiliation(String SymbolID)
     {
-        if (SymbolID != null && SymbolID.length() >= 10)
+        if (SymbolID != null && SymbolID.length() >= 10 && isWeather(SymbolID) == false)
         {
             char affiliation = SymbolID.charAt(1);
             if (affiliation == 'P'
@@ -1087,6 +1087,10 @@ public class SymbolUtilities
                         && (basicSymbolID.equals("G*M*NR----****X") == true || //Radioactive Area
                         basicSymbolID.equals("G*M*NC----****X") == true || //Chemically Contaminated Area
                         basicSymbolID.equals("G*M*NB----****X") == true)) //Biologically Contaminated Area
+                {
+                    retColor = Color.BLACK;//0xffff00;
+                }
+                else if(SymbolUtilities.isEMSNaturalEvent(symbolID))
                 {
                     retColor = Color.BLACK;//0xffff00;
                 }
@@ -4053,12 +4057,11 @@ public class SymbolUtilities
      * @param strSymbolID - IN - The affiliation we want to change the ID to.
      * @return A string with the affiliation changed to affiliationID
      */
-    public static
-            String setAffiliation(String strSymbolID, String strAffiliationID)
+    public static String setAffiliation(String strSymbolID, String strAffiliationID)
     {
         try
         {
-            if (strSymbolID != null && strSymbolID.length() == 15
+            if (strSymbolID != null && strSymbolID.length() == 15 && isWeather(strSymbolID)==false
                     && strAffiliationID != null && strAffiliationID.length() == 1)
             {
                 String strChangedID = strSymbolID.substring(0, 1) + strAffiliationID.toUpperCase() + strSymbolID.substring(2, 15);
@@ -4131,8 +4134,7 @@ public class SymbolUtilities
      * @return A string with the status changed to statusID
      * @deprecated
      */
-    public static
-            String setStatus(String strSymbolID, String strStatusID)
+    public static String setStatus(String strSymbolID, String strStatusID)
     {
         // PlannedAnticipated, //A
         // Present //P

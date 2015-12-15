@@ -552,6 +552,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
         ImageInfo temp = null;
         String basicSymbolID = null;
         float fontSize = RendererSettings.getInstance().getSPFontSize();
+
         Color lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
         Color fillColor = null;//SymbolUtilities.getFillColorOfAffiliation(symbolID);
 
