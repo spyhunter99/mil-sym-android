@@ -2049,6 +2049,7 @@ public class Modifier2 {
             if (tg.Pixels == null || tg.Pixels.isEmpty()) {
                 return;
             }
+            ArrayList<POINT2>origPoints=lineutility.getDeepCopy(tg.Pixels);
             Font font = tg.get_Font();
             boolean shiftLines = Channels.getShiftLines();
             boolean usas = false, foundSegment = false;
@@ -3112,6 +3113,7 @@ public class Modifier2 {
                 default:
                     break;
             }
+            tg.Pixels=origPoints;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "AddModifiersGeo",
                     new RendererException("Failed inside AddModifiersGeo", exc));
@@ -3262,6 +3264,7 @@ public class Modifier2 {
             if (tg.Pixels == null || tg.Pixels.isEmpty()) {
                 return;
             }
+            ArrayList<POINT2>origPoints=lineutility.getDeepCopy(tg.Pixels);
             int n=tg.Pixels.size();
             if (tg.modifiers == null) {
                 tg.modifiers = new ArrayList();
@@ -3660,8 +3663,9 @@ public class Modifier2 {
                 case TacticalLines.RANGE_FAN_SECTOR:
                     break;
                 default:
-                    return;
+                    break;
             }//end switch
+            tg.Pixels=origPoints;
             g2d.dispose();
             g2d = null;
         } catch (Exception exc) {

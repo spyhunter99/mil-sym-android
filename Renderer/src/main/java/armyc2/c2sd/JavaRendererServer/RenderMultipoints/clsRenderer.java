@@ -1062,11 +1062,11 @@ public final class clsRenderer {
             ArrayList<POINT2> origPixels = null;
             ArrayList<POINT2> origLatLongs = null;
             if (clsUtilityGE.segmentColorsSet(tg)) {
-                origPixels = (ArrayList<POINT2>) tg.Pixels.clone();
-                origLatLongs = (ArrayList<POINT2>) tg.LatLongs.clone();
+                origPixels=lineutility.getDeepCopy(tg.Pixels);
+                origLatLongs=lineutility.getDeepCopy(tg.LatLongs);
             }
-            ArrayList<POINT2> origFillPixels = (ArrayList<POINT2>) tg.Pixels.clone();
-
+            ArrayList<POINT2> origFillPixels = lineutility.getDeepCopy(tg.Pixels);
+          
 //            boolean shiftLines = Channels.getShiftLines();
 //            if (shiftLines) {
 //                String affiliation = tg.get_Affiliation();
