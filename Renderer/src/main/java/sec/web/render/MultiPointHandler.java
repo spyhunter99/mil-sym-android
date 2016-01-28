@@ -543,8 +543,16 @@ public class MultiPointHandler {
         //ArrayList<Point2D> pixels = new ArrayList<Point2D>();
         ArrayList<Point2D> geoCoords = new ArrayList<Point2D>();
         int len = coordinates.length;
+        //diagnostic create geoCoords here
+        Point2D coordsUL=null;
+        for (int i = 0; i < len; i++) 
+        {
+            String[] coordPair = coordinates[i].split(",");
+            Double latitude = Double.valueOf(coordPair[1].trim()).doubleValue();
+            Double longitude = Double.valueOf(coordPair[0].trim()).doubleValue();
+            geoCoords.add(new Point2D.Double(longitude, latitude));
+        }
         ArrayList<POINT2> tgPoints = null;
-
         IPointConversion ipc = null;
 
         //Deutch moved section 6-29-11
@@ -626,20 +634,33 @@ public class MultiPointHandler {
 
                 bottomY = (int) temp.getY();
                 rightX = (int) temp.getX();
-                //diagnostic clipping does not work for large scales
-                if (scale > 10e6) {
+                //diagnostic clipping does not work at large scales
+                if(scale>10e6)
+                {
                     //get widest point in the AOI
-                    double midLat = 0;
-                    if (bottom < 0 && top > 0) {
-                        midLat = 0;
-                    } else if (bottom < 0 && top < 0) {
-                        midLat = top;
-                    } else if (bottom > 0 && top > 0) {
-                        midLat = bottom;
-                    }
-
-                    temp = ipc.GeoToPixels(new Point2D.Double(right, midLat));
-                    rightX = (int) temp.getX();
+//                    double midLat=0;
+//                    if(bottom<0 && top >0)
+//                        midLat=0;
+//                    else if(bottom<0 && top<0)
+//                        midLat=top;
+//                    else if(bottom>0 && top>0)
+//                        midLat=bottom;
+//                    Point2D rightMidLat=new Point2D.Double(right, midLat);
+//                    temp = ipc.GeoToPixels(rightMidLat);
+//                    rightX = (int)temp.getX();
+                    //diagnostic replace above by using a new ipc based on the coordinates MBR
+                    coordsUL=getGeoUL(geoCoords);
+                    temp = ipc.GeoToPixels(coordsUL);
+                    left=coordsUL.getX();
+                    top=coordsUL.getY();
+                    //shift the ipc to coordsUL origin so that conversions will be more accurate for large scales.
+                    ipc = new PointConverter(left, top, scale);
+                    //shift the rect to compenstate for the shifted ipc so that we can maintain the original clipping area.
+                    leftX -= (int)temp.getX();
+                    rightX -= (int)temp.getX();
+                    topY -= (int)temp.getY();
+                    bottomY -= (int)temp.getY();
+                    //end diagnostic
                 }
                 //end section
 
@@ -653,12 +674,12 @@ public class MultiPointHandler {
         }
         //end section
 
-        for (int i = 0; i < len; i++) {
-            String[] coordPair = coordinates[i].split(",");
-            Double latitude = Double.valueOf(coordPair[1].trim());
-            Double longitude = Double.valueOf(coordPair[0].trim());
-            geoCoords.add(new Point2D.Double(longitude, latitude));
-        }
+//        for (int i = 0; i < len; i++) {
+//            String[] coordPair = coordinates[i].split(",");
+//            Double latitude = Double.valueOf(coordPair[1].trim());
+//            Double longitude = Double.valueOf(coordPair[0].trim());
+//            geoCoords.add(new Point2D.Double(longitude, latitude));
+//        }
         if (ipc == null) {
             Point2D ptCoordsUL = getGeoUL(geoCoords);
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
