@@ -233,5 +233,55 @@ public class ModifiersTG {
         return list;
     }
 
+    /**
+     *
+     * @param modifier like ModifiersTG.C_QUANTITY
+     * @return modifier name based on mofidier constants
+     */
+    public static String getModifierName(int modifier)
+    {
+        switch(modifier)
+        {
+            //case A_SYMBOL_ICON:
+            //    return "Symbol Icon";
+            case B_ECHELON:
+                return "Echelon";
+            case C_QUANTITY:
+                return "Quantity";
+            case H_ADDITIONAL_INFO_1:
+                return "Additional Info 1";
+            case H1_ADDITIONAL_INFO_2:
+                return "Additional Info 2";
+            case H2_ADDITIONAL_INFO_3:
+                return "Additional Info 3";
+            case N_HOSTILE:
+                return "Hostile";
+            case Q_DIRECTION_OF_MOVEMENT:
+                return "Direction of Movement";
+            //case S_OFFSET_INDICATOR:
+            //    return "Offset Indicator";
+            case T_UNIQUE_DESIGNATION_1:
+                return "Unique Designation 1";
+            case T1_UNIQUE_DESIGNATION_2:
+                return "Unique Designation 2";
+            case V_EQUIP_TYPE:
+                return "Equipment Type";
+            case W_DTG_1:
+                return "Date Time Group 1";
+            case W1_DTG_2:
+                return "Date Time Group 2";
+            case X_ALTITUDE_DEPTH:
+                return "Altitude Depth";
+            case Y_LOCATION:
+                return "Location";
+            case AM_DISTANCE:
+                return "Distance";
+            case AN_AZIMUTH:
+                return "Azimuth";
+            default:
+                return "";
+
+        }
+    }
 
 }
