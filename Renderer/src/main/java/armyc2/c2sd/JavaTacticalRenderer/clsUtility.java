@@ -1214,6 +1214,32 @@ public final class clsUtility {
                             shape.setFillColor(tg.get_FillColor());
                             grid.dispose();
                             break;
+                        case 7://GraphicProperties.FILL_TYPE_HORIZONTAL_PLUSSES:
+                            rect = new Rectangle2D.Double(0, 0, 8, 8);
+                            //rect = new Rectangle2D.Double(0, 0, 20, 20);
+                            grid = bi.createGraphics();
+                            grid.setColor(GetOpaqueColor(tg.get_LineColor()));
+                            grid.setStroke(new BasicStroke(2));
+                            grid.drawLine(4, 2, 4, 6);
+                            grid.drawLine(2, 4, 6, 4);
+                            tp = new TexturePaint(bi, rect);
+                            shape.setTexturePaint(tp);
+                            shape.setFillColor(tg.get_FillColor());
+                            grid.dispose();
+                            break;
+                        case 8://GraphicProperties.FILL_TYPE_XHATCH:
+                            rect = new Rectangle2D.Double(0, 0, 10, 10);
+                            //rect = new Rectangle2D.Double(0, 0, 20, 20);
+                            grid = bi.createGraphics();
+                            grid.setColor(GetOpaqueColor(tg.get_LineColor()));
+                            grid.setStroke(new BasicStroke(2));
+                            grid.drawLine(2, 2, 8, 8);                            
+                            grid.drawLine(2, 8, 8, 2);
+                            tp = new TexturePaint(bi, rect);
+                            shape.setTexturePaint(tp);
+                            shape.setFillColor(tg.get_FillColor());
+                            grid.dispose();
+                            break;
                         case 1://GraphicProperties.FILL_TYPE_SOLID:
                             //shape.set_FillColor(tg.get_FillColor());
                             break;
