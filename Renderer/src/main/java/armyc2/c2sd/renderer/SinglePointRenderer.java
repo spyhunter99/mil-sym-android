@@ -158,7 +158,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                     case 'G':
                     case 'M':
                         if(symbolID.charAt(2) == 'U' &&
-                                symbolID.substring(4, 6).equals("WM"))
+                                (symbolID.substring(4, 6).equals("WM") ||
+                                 symbolID.substring(4, 7).equals("WDM")))
                         {
                             if(symbolID.charAt(3) != 'A')
                             {
