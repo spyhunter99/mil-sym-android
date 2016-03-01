@@ -4331,7 +4331,8 @@ public class Modifier2 {
                     case area:
                         theta = 0;
 
-                        y = (int) y1 + (int) (stringHeight / 2) + (int) (1.25 * lineFactor * stringHeight);
+                        //y = (int) y1 + (int) (stringHeight / 2) + (int) (1.25 * lineFactor * stringHeight);
+                        y = (int) y1 + (int) (stringHeight / 2) + (int) (lineFactor * stringHeight);
                         x = (int) x1;
 
                         glyphPosition = new Point(x, y);
