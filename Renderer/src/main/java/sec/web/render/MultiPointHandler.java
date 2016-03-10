@@ -1125,8 +1125,8 @@ public class MultiPointHandler {
             mSymbol.setSymbolShapes(shapes);
 
         } catch (Exception exc) {
-
             System.out.println(exc.getMessage());
+            System.out.println("Symbol Code: " + symbolCode);
             exc.printStackTrace();
         }
 
