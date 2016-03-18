@@ -2135,9 +2135,14 @@ public class Modifier2 {
                 }
                 for (j = 0; j < modifiers.size(); j++) {
                     modifier = modifiers.get(j);
-                    if (modifier.type != area) {
-                        continue;
+                    if(modifier.type==aboveMiddle)
+                    {
+                        if(isChange1Area==false)
+                            continue;
                     }
+                    else if(modifier.type!=area)
+                            continue;
+                    
                     modifier.lineFactor *= factor;
                 }
             } else if (shrinkModifiers) {
@@ -2147,12 +2152,13 @@ public class Modifier2 {
                 double maxLF = 0;
                 for (j = 0; j < modifiers.size(); j++) {
                     modifier = modifiers.get(j);
-                    if (modifier.type == toEnd) {
-                        continue;
+                    if(modifier.type==aboveMiddle)
+                    {
+                        if(isChange1Area==false)
+                            continue;
                     }
-                    if (modifier.type == aboveMiddle && isChange1Area == false) {
-                        continue;
-                    }
+                    else if(modifier.type!=area)
+                            continue;
                     newLF = modifier.lineFactor + deltaLF;
                     if (Math.abs(newLF * sz) >= heightMBR) {
                         //flag the modifier to remove
