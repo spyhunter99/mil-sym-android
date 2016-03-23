@@ -346,78 +346,83 @@ public class MultiPointHandler {
         }
 
         String id = SymbolUtilities.getBasicSymbolID(symbolID);
-        if (id.equals("G*T*F-----****X")
-                || id.equals("G*F*LCC---****X") ||//CFL
-                id.equals("G*G*GLB---****X")
-                || id.equals("G*G*GLF---****X")
-                || id.equals("G*G*GLC---****X")
-                || id.equals("G*G*GAF---****X")
-                || id.equals("G*G*AAW---****X")
-                || id.equals("G*G*DABP--****X")
-                || id.equals("G*G*OLP---****X")
-                || id.equals("G*G*PY----****X")
-                || id.equals("G*G*PM----****X")
-                || id.equals("G*G*ALL---****X")
-                || id.equals("G*G*ALU---****X")
-                || id.equals("G*G*ALM---****X")
-                || id.equals("G*G*ALC---****X")
-                || id.equals("G*G*ALS---****X")
-                || id.equals("G*M*OFA---****X")
-                || id.equals("G*M*OGB---****X")
-                || id.equals("G*M*OGL---****X")
-                || id.equals("G*M*OGZ---****X")
-                || id.equals("G*M*OGF---****X")
-                || id.equals("G*M*OGR---****X")
-                || id.equals("G*M*OADU--****X")
-                || id.equals("G*M*OADC--****X")
-                || id.equals("G*M*OAR---****X")
-                || id.equals("G*M*OAW---****X")
-                || id.equals("G*M*OEF---****X") || //Obstacles Effect Fix
-                id.equals("G*M*OMC---****X")
-                || id.equals("G*M*OWU---****X")
-                || id.equals("G*M*OWS---****X")
-                || id.equals("G*M*OWD---****X")
-                || id.equals("G*M*OWA---****X")
-                || id.equals("G*M*OWL---****X")
-                || id.equals("G*M*OWH---****X")
-                || id.equals("G*M*OWCS--****X")
-                || id.equals("G*M*OWCD--****X")
-                || id.equals("G*M*OWCT--****X")
-                || id.equals("G*M*OHO---****X")
-                || id.equals("G*M*BDD---****X") || //Bypass Difficult
+        if(id.equals("G*T*F-----****X") || 
+                id.equals("G*F*LCC---****X") ||//CFL
+                id.equals("G*G*GLB---****X") || 
+                id.equals("G*G*GLF---****X") || 
+                id.equals("G*G*GLC---****X") || 
+                id.equals("G*G*GAF---****X") || 
+                id.equals("G*G*AAW---****X") || 
+                id.equals("G*G*DABP--****X") || 
+                id.equals("G*G*OLP---****X") || 
+                id.equals("G*G*PY----****X") || 
+                id.equals("G*G*PM----****X") || 
+                id.equals("G*G*ALL---****X") || 
+                id.equals("G*G*ALU---****X") || 
+                id.equals("G*G*ALM---****X") || 
+                id.equals("G*G*ALC---****X") || 
+                id.equals("G*G*ALS---****X") || 
+                id.equals("G*G*SLB---****X") || 
+                id.equals("G*G*SLH---****X") || 
+                id.equals("G*G*GAY---****X") ||
+                id.equals("G*M*OFA---****X") || 
+                id.equals("G*M*OGB---****X") || 
+                id.equals("G*M*OGL---****X") || 
+                id.equals("G*M*OGZ---****X") || 
+                id.equals("G*M*OGF---****X") || 
+                id.equals("G*M*OGR---****X") || 
+                id.equals("G*M*OADU--****X") || 
+                id.equals("G*M*OADC--****X") || 
+                id.equals("G*M*OAR---****X") || 
+                id.equals("G*M*OAW---****X") || 
+                id.equals("G*M*OEF---****X") ||  //Obstacles Effect Fix
+                id.equals("G*M*OMC---****X") || 
+                id.equals("G*M*OWU---****X") || 
+                id.equals("G*M*OWS---****X") || 
+                id.equals("G*M*OWD---****X") || 
+                id.equals("G*M*OWA---****X") || 
+                id.equals("G*M*OWL---****X") || 
+                id.equals("G*M*OWH---****X") || 
+                id.equals("G*M*OWCS--****X") || 
+                id.equals("G*M*OWCD--****X") || 
+                id.equals("G*M*OWCT--****X") || 
+                id.equals("G*M*OHO---****X") || 
+                id.equals("G*M*BDD---****X") || //Bypass Difficult
                 id.equals("G*M*BCD---****X") || //Ford Difficult
                 id.equals("G*M*BCE---****X") || //Ford Easy
-                id.equals("G*M*SL----****X")
-                || id.equals("G*M*SP----****X")
-                || id.equals("G*M*NR----****X")
-                || id.equals("G*M*NB----****X")
-                || id.equals("G*M*NC----****X")
-                || id.equals("G*F*ACNI--****X")
-                || id.equals("G*F*ACNR--****X")
-                || id.equals("G*F*ACNC--****X")
-                || id.equals("G*F*AKBC--****X")
-                || id.equals("G*F*AKBI--****X")
-                || id.equals("G*F*AKBR--****X")
-                || id.equals("G*F*AKPC--****X")
-                || id.equals("G*F*AKPI--****X")
-                || id.equals("G*F*AKPR--****X")
-                || id.equals("G*F*LT----****X")
-                || id.equals("G*F*LTS---****X")
-                || id.equals("G*G*SAE---****X")
-                || //id.equals("G*G*SLA---****X") || //Ambush
-                id.equals("G*S*LRA---****X")
-                || id.equals("G*S*LRM---****X")
-                || id.equals("G*S*LRO---****X")
-                || id.equals("G*S*LRT---****X")
-                || id.equals("G*S*LRW---****X")
-                || id.equals("G*T*Q-----****X")
-                || id.equals("G*T*E-----****X")
-                || id.equals("G*T*F-----****X") || //Tasks Fix
+                id.equals("G*M*SL----****X") || 
+                id.equals("G*M*SP----****X") || 
+                id.equals("G*M*NR----****X") || 
+                id.equals("G*M*NB----****X") || 
+                id.equals("G*M*NC----****X") || 
+                id.equals("G*F*ACNI--****X") || 
+                id.equals("G*F*ACNR--****X") || 
+                id.equals("G*F*ACNC--****X") || 
+                id.equals("G*F*AKBC--****X") || 
+                id.equals("G*F*AKBI--****X") || 
+                id.equals("G*F*AKBR--****X") || 
+                id.equals("G*F*AKPC--****X") || 
+                id.equals("G*F*AKPI--****X") || 
+                id.equals("G*F*AKPR--****X") || 
+                id.equals("G*F*LT----****X") || 
+                id.equals("G*F*LTS---****X") || 
+                id.equals("G*G*SAE---****X") || 
+                //id.equals("G*G*SLA---****X") || //Ambush
+                id.equals("G*S*LRA---****X") || 
+                id.equals("G*S*LRM---****X") || 
+                id.equals("G*S*LRO---****X") || 
+                id.equals("G*S*LRT---****X") || 
+                id.equals("G*S*LRW---****X") || 
+                id.equals("G*T*Q-----****X") || 
+                id.equals("G*T*E-----****X") || 
+                id.equals("G*T*F-----****X") || //Tasks Fix
                 id.equals("G*T*K-----****X") || //counterattack.
                 id.equals("G*T*KF----****X") || //counterattack by fire.
-                id.equals("G*M*ORP---****X")
-                || id.equals("G*M*ORS---****X")
-                || id.equals("G*T*A-----****X")) {
+                id.equals("G*G*PA----****X") || //AoA for Feint
+                id.equals("G*M*ORP---****X") ||
+                id.equals("G*M*ORS---****X") ||
+                id.equals("G*T*A-----****X"))
+        {
             return true;
         } else {
             return false;
