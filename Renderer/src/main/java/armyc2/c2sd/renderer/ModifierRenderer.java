@@ -588,14 +588,14 @@ public class ModifierRenderer
                     || affiliation == 'G'
                     || affiliation == 'W')
             {
-                instRectangle = new Rect((int) symbolBounds.left + width,
+                instRectangle = RectUtilities.makeRect((int) symbolBounds.left + width,
                         Math.round(symbolBounds.top - (height * 0.3f)),
                         width,
                         height);
             }
             else
             {
-                instRectangle = new Rect((int) symbolBounds.left + width,
+                instRectangle = RectUtilities.makeRect((int) symbolBounds.left + width,
                         Math.round(symbolBounds.top - (height * 0.3f)),
                         width,
                         height);
@@ -3132,7 +3132,7 @@ public class ModifierRenderer
         char affiliation = symbolID.charAt(1);
         if (scheme != 'W')
         {
-            if (scheme != 'G' && (scheme != 'E' && SymbolUtilities.isEMSNaturalEvent(symbolID) == false))
+            if (scheme != 'G' && (SymbolUtilities.isEMSNaturalEvent(symbolID) == false))
             {
                 switch (status)
                 {
