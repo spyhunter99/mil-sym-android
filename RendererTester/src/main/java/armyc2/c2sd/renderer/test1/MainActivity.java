@@ -205,7 +205,7 @@ public class MainActivity extends Activity {
 	    	if(ii != null)
 	    	{
 				//Save to SD card for manual inspection/////////////////////////////////////////////////
-				/*OutputStream output;
+				OutputStream output;
 				//find sd card path
 				File savePath = Environment.getExternalStorageDirectory();
 				//Create folder in SD card Path
@@ -254,8 +254,9 @@ public class MainActivity extends Activity {
 		    	outline.setColor(Color.RED);
 		    	outline.setStyle(Style.STROKE);
 		    	outline.setStrokeWidth(1);
-		    	msCanvas.drawRect(ii.getSymbolBounds(), outline);
-		    	msCanvas.drawRect(ii.getCenterPoint().x - 1, ii.getCenterPoint().y - 1, ii.getCenterPoint().x + 1, ii.getCenterPoint().y + 1, outline);//*/
+                //draw outline around symbol////////////////////////////////////////////////////////
+		    	//msCanvas.drawRect(ii.getSymbolBounds(), outline);
+		    	//msCanvas.drawRect(ii.getCenterPoint().x - 1, ii.getCenterPoint().y - 1, ii.getCenterPoint().x + 1, ii.getCenterPoint().y + 1, outline);//*/
 
 
 				Log.i(TAG, "SymbolBounds: " + ii.getSymbolBounds().toString());
@@ -466,10 +467,23 @@ public class MainActivity extends Activity {
     public void threadTest(View view)
     {
     	try
-    	{   
+    	{
+
+            try{
+                RenderSPThreadTest r1 = new RenderSPThreadTest();
+                r1.testSecRenderer();
+                TextView t = (TextView)findViewById(R.id.tvStatus);
+                t.setText("Thread Fail Count: " + String.valueOf(r1._failCount) + ", Thread Success Count: " + String.valueOf(r1._successCount));
+                for (String error : r1._errors){
+                    Log.i("threadTest", error);
+                }
+            }
+            catch(Exception exc) {
+                Log.e("threadTest",exc.getMessage(),exc);
+            }
             //SPTestThread
     		//thread test for single points///////////////////////////////////
-           
+           /*
             //reusing to test random symbols
             boolean ra = ((CheckBox)findViewById(R.id.cbModifiers)).isChecked();
             RenderSPThreadTest r1 = new RenderSPThreadTest();

@@ -203,20 +203,10 @@ public class UnitDefTable {
 	        if(symStd==RendererSettings.Symbology_2525Bch2_USAS_13_14)
 	        {
 	            returnVal = _UnitDefinitionsB.get(basicSymbolID);
-                if(returnVal == null)
-                {
-                    basicSymbolID = basicSymbolID.replace("*****","H****");
-                    returnVal = _UnitDefinitionsB.get(basicSymbolID);
-                }
 	        }
 	        else if(symStd==RendererSettings.Symbology_2525C)
 	        {
 	            returnVal = _UnitDefinitionsC.get(basicSymbolID);
-                if(returnVal == null)
-                {
-                    basicSymbolID = basicSymbolID.replace("*****","H****");
-                    returnVal = _UnitDefinitionsC.get(basicSymbolID);
-                }
 	        }
         }
         catch(Exception exc)

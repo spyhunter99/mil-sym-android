@@ -50,6 +50,13 @@ public class SinglePointRenderer implements SettingsChangedEventListener
     private Typeface _tfSP = null;
     private Typeface _tfTG = null;
 
+    private final Object _SinglePointFontMutex = new Object();
+    private final Object _UnitFontMutex = new Object();
+    private final Object _ModifierFontMutex = new Object();
+
+    private final Object _SinglePointCacheMutex = new Object();
+    private final Object _UnitCacheMutex = new Object();
+
     private Paint _modifierFont = new Paint();
     private Paint _modifierOutlineFont = new Paint();
     private float _modifierDescent = 2;
@@ -414,30 +421,27 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                  Rect rTest = new Rect(0,0,bmp.getWidth(),bmp.getHeight());
                  canvas.drawRect(rTest, ptTest);//*/
                 //end test
-                if (strFrameAssume != null && charFillIndex == -1)
+                synchronized(_UnitFontMutex)
                 {
-                    canvas.drawText(strFrameAssume, centerPoint.x, centerPoint.y + (int) dimensions[1], symbol2Paint);
-                    strFrameAssume = null;
-                }
-                if (strFill != null)
-                {
-                    canvas.drawText(strFill, centerPoint.x, centerPoint.y + (int) dimensions[1], fillPaint);
-                }
-                if (strFrameAssume != null)
-                {
-                    canvas.drawText(strFrameAssume, centerPoint.x, centerPoint.y + (int) dimensions[1], frameAssumePaint);
-                }
-                if (strFrame != null)
-                {
-                    canvas.drawText(strFrame, centerPoint.x, centerPoint.y + (int) dimensions[1], framePaint);
-                }
-                if (strSymbol2 != null)
-                {
-                    canvas.drawText(strSymbol2, centerPoint.x, centerPoint.y + (int) dimensions[1], symbol2Paint);
-                }
-                if (strSymbol1 != null)
-                {
-                    canvas.drawText(strSymbol1, centerPoint.x, centerPoint.y + (int) dimensions[1], symbol1Paint);
+                    if (strFrameAssume != null && charFillIndex == -1) {
+                        canvas.drawText(strFrameAssume, centerPoint.x, centerPoint.y + (int) dimensions[1], symbol2Paint);
+                        strFrameAssume = null;
+                    }
+                    if (strFill != null) {
+                        canvas.drawText(strFill, centerPoint.x, centerPoint.y + (int) dimensions[1], fillPaint);
+                    }
+                    if (strFrameAssume != null) {
+                        canvas.drawText(strFrameAssume, centerPoint.x, centerPoint.y + (int) dimensions[1], frameAssumePaint);
+                    }
+                    if (strFrame != null) {
+                        canvas.drawText(strFrame, centerPoint.x, centerPoint.y + (int) dimensions[1], framePaint);
+                    }
+                    if (strSymbol2 != null) {
+                        canvas.drawText(strSymbol2, centerPoint.x, centerPoint.y + (int) dimensions[1], symbol2Paint);
+                    }
+                    if (strSymbol1 != null) {
+                        canvas.drawText(strSymbol1, centerPoint.x, centerPoint.y + (int) dimensions[1], symbol1Paint);
+                    }
                 }
 
                 //adjust centerpoint for HQStaff if present
@@ -474,7 +478,11 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
                 if(icon == false && bmp.getByteCount() <= maxCachedEntrySize)
                 {
-                    _unitCache.put(key, new ImageInfo(bmp, new Point(centerCache), new Rect(symbolBounds)));
+                    synchronized (_UnitCacheMutex)
+                    {
+                        if(_unitCache.get(key) == null)
+                            _unitCache.put(key, new ImageInfo(bmp, new Point(centerCache), new Rect(symbolBounds)));
+                    }
                 }
 
                 /*if(icon == false && pixelSize <= 100)
@@ -599,7 +607,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             }
 
             //get symbol info
-            basicSymbolID = SymbolUtilities.getBasicSymbolID(symbolID);
+            basicSymbolID = SymbolUtilities.getBasicSymbolIDStrict(symbolID);
             lookup = SinglePointLookup.getInstance().getSPLookupInfo(basicSymbolID, symStd);
             if (lookup == null)//if lookup fails, fix code/use unknown symbol code.
             {
@@ -612,7 +620,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
                 symbolID = "G" + SymbolUtilities.getAffiliation(symbolID)
                         + "G" + SymbolUtilities.getStatus(symbolID) + "GPP---****X";
-                basicSymbolID = SymbolUtilities.getBasicSymbolID(symbolID);
+                basicSymbolID = SymbolUtilities.getBasicSymbolIDStrict(symbolID);
                 lookup = SinglePointLookup.getInstance().getSPLookupInfo(basicSymbolID, symStd);
                 lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
                 fillColor = null;//SymbolUtilities.getFillColorOfAffiliation(symbolID);
@@ -675,7 +683,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                     else
                     {
                         try {
-                            Rect sb = SymbolDimensions.getSymbolBounds(SymbolUtilities.getBasicSymbolID(symbolID),symStd,60.0f);
+                            Rect sb = SymbolDimensions.getSymbolBounds(SymbolUtilities.getBasicSymbolIDStrict(symbolID),symStd,60.0f);
                             pixelSize = Math.max(sb.width(), sb.height());
                         }
                         catch(Exception exc){
@@ -870,28 +878,36 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                 }
 
                 canvas.setMatrix(matrix);
-                if (strFill != null)
+                synchronized (_SinglePointFontMutex)
                 {
-                    canvas.drawText(strFill, 0, 0, fillPaint);
-                }
+                    if (strFill != null)
+                    {
+                        canvas.drawText(strFill, 0, 0, fillPaint);
+                    }
 
-                if (strFrame != null)
-                {
-                    //try
-                    //{
+                    if (strFrame != null)
+                    {
+                        //try
+                        //{
                         RendererUtilities.renderSymbolCharacter(canvas, strFrame, 0, 0, framePaint, lineColor, symbolOutlineWidth);
-                    //}
-                    //catch( Exception e){
-                    //    logError(TAG,e);
-                    //}
+                        //}
+                        //catch( Exception e){
+                        //    logError(TAG,e);
+                        //}
 
+                    }
                 }
+
 
                 ii = new ImageInfo(bmp, centerPoint, symbolBounds);
 
                 if(drawAsIcon == false && bmp.getByteCount() <= maxCachedEntrySize)
                 {
-                    _tgCache.put(key, ii);
+                    synchronized (_SinglePointCacheMutex)
+                    {
+                        if(_tgCache.get(key) == null)
+                            _tgCache.put(key, ii);
+                    }
                 }
                 /*if (drawAsIcon == false && pixelSize <= 100)
                 {

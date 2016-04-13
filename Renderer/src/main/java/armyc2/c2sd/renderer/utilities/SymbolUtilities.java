@@ -32,15 +32,14 @@ public class SymbolUtilities
      * @param strSymbolID - IN - A 15 character MilStd code
      * @return A properly formated basic symbol ID
      */
-    public static
-            String getBasicSymbolID(String strSymbolID)
+    public static String getBasicSymbolID(String strSymbolID)
     {
         try
         {
             StringBuilder sb = new StringBuilder();
-            if ((strSymbolID != null) && (strSymbolID.equals("") == false) && (strSymbolID.length() == 15))
+            if ((strSymbolID != null) && (strSymbolID.length() == 15))
             {
-                // Check to make sure it is a tacitcal graphic symbol.
+                // Check to make sure it is a tactical graphic symbol.
                 if ((isWeather(strSymbolID)) || (isBasicShape(strSymbolID)))
                 {
                     return strSymbolID;
@@ -76,7 +75,36 @@ public class SymbolUtilities
                 	else if(isInstallation(strSymbolID))
                 		sb.append("H****");
                 	else
-                		sb.append("*****");
+                    {
+                        sb.append("*****");
+                        UnitDefTable udt = UnitDefTable.getInstance();
+                        String temp = sb.toString();
+                        for(int i = 0; i < 2; i++)
+                        {
+                            if(udt.hasUnitDef(temp,i)==true)
+                            {
+                                return temp;
+                            }
+                            else
+                            {
+                                temp = temp.substring(0,10) + "H****";
+                                if(udt.hasUnitDef(temp,i)==true)
+                                {
+                                    return temp;
+                                }
+                                else
+                                {
+                                    temp = temp.substring(0,10) + "MO***";
+                                    if(udt.hasUnitDef(temp,i)==true)
+                                    {
+                                        return temp;
+                                    }
+                                }
+                            }
+                            temp = temp.substring(0,10) + "*****";
+                        }
+
+                    }
 
                     return sb.toString();
                 }
@@ -97,14 +125,50 @@ public class SymbolUtilities
         return "";
     }
 
-    public static
-            String reconcileSymbolID(String symbolID)
+    /**
+     * Only for renderer use.  Please use getBasicSymbolID.
+     * @param strSymbolID
+     * @return
+     */
+    public static String getBasicSymbolIDStrict(String strSymbolID)
+    {
+        StringBuilder sb = new StringBuilder();
+        char scheme = strSymbolID.charAt(0);
+        if(strSymbolID != null && strSymbolID.length() == 15)
+        {
+            if (scheme == 'G')
+            {
+                sb.append(strSymbolID.charAt(0));
+                sb.append("*");
+                sb.append(strSymbolID.charAt(2));
+                sb.append("*");
+                sb.append(strSymbolID.substring(4, 10));
+                sb.append("****X");
+            }
+            else if (scheme != 'W' && scheme != 'B')
+            {
+                sb.append(strSymbolID.charAt(0));
+                sb.append("*");
+                sb.append(strSymbolID.charAt(2));
+                sb.append("*");
+                sb.append(strSymbolID.substring(4, 10));
+                sb.append("*****");
+            }
+            else
+            {
+                return strSymbolID;
+            }
+            return sb.toString();
+        }
+        return strSymbolID;
+    }
+
+    public static String reconcileSymbolID(String symbolID)
     {
         return reconcileSymbolID(symbolID, false);
     }
 
-    public static
-            String reconcileSymbolID(String symbolID, boolean isMultiPoint)
+    public static String reconcileSymbolID(String symbolID, boolean isMultiPoint)
     {
         StringBuilder sb = new StringBuilder("");
         char codingScheme = symbolID.charAt(0);
