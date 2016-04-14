@@ -37,7 +37,7 @@ import armyc2.c2sd.renderer.utilities.ModifiersUnits;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
 import armyc2.c2sd.renderer.utilities.SymbolDef;
 import armyc2.c2sd.renderer.utilities.SymbolDefTable;
-
+import armyc2.c2sd.renderer.utilities.SymbolUtilities;
 
 
 public class MainActivity extends Activity {
@@ -263,6 +263,8 @@ public class MainActivity extends Activity {
 				Log.i(TAG, "Image Width: " + String.valueOf(ii.getImage().getWidth()));
 				Log.i(TAG, "Image Height: " + String.valueOf(ii.getImage().getHeight()));
 
+				//test getBasicSymbolID()
+				//String stemp = SymbolUtilities.getBasicSymbolID("EUF-HB----H----");
 		    	
 		    	if(msBmp != null)
 		    		imageView.setImageBitmap(msBmp);

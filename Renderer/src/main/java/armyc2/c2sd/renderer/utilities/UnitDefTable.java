@@ -256,7 +256,7 @@ public class UnitDefTable {
             if(symStd==RendererSettings.Symbology_2525Bch2_USAS_13_14)
                 return _UnitDefinitionsB.containsKey(basicSymbolID);
             else if(symStd==RendererSettings.Symbology_2525C)
-                return _UnitDefinitionsB.containsKey(basicSymbolID);
+                return _UnitDefinitionsC.containsKey(basicSymbolID);
             else
                 return false;
         }
