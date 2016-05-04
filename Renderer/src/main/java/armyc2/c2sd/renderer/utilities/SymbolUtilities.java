@@ -3307,132 +3307,6 @@ public class SymbolUtilities
         return false;
     } // End isSOF
 
-    /**
-     * @name isChangeOne
-     *
-     * @desc Returns true if the graphic is a change one graphic
-     *
-     * @param strSymbolID - IN - A basic MilStd2525B symbolID
-     * @return True if symbol is change 1, false otherwise.
-     */
-    public static
-            boolean isChangeOne(String strSymbolID)
-    {
-        try
-        {
-            String strBasicSymbolID = getBasicSymbolID(strSymbolID);
-            boolean blRetVal = (strBasicSymbolID.equals("G*F*ACFZ--****X")
-                    || strBasicSymbolID.equals("G*F*ACFFZ-****X")
-                    || strBasicSymbolID.equals("G*F*AP----****X")
-                    || strBasicSymbolID.equals("G*F*AXC---****X")
-                    || strBasicSymbolID.equals("G*F*AXS---****X")
-                    || isChangeOneCircular(strBasicSymbolID) || isChangeOneRectangular(strBasicSymbolID));
-            return blRetVal;
-        }
-        catch (Throwable t)
-        {
-            System.out.println(t);
-        }
-        return false;
-    } // End isChangeOne
-
-    /**
-     * @name isChangeOneRectangular
-     *
-     * @desc Returns true if the graphic is a Rectangular change one graphic
-     *
-     * @param strSymbolID - IN - A basic MilStd2525B symbolID
-     * @return True if symbol is change 1 rectangular, false otherwise.
-     */
-    public static
-            boolean isChangeOneRectangular(String strSymbolID)
-    {
-        try
-        {
-            String strBasicSymbolID = getBasicSymbolID(strSymbolID);
-            String[] arr = new String[]
-            {
-                "G*F*ATR---****X",
-                "G*F*ACSR--****X",
-                "G*F*ACAR--****X",
-                "G*F*ACFR--****X",
-                "G*F*ACNR--****X",
-                "G*F*ACPR--****X",
-                "G*F*ACRR--****X",
-                "G*F*AZIR--****X",
-                "G*F*AZXR--****X",
-                "G*F*AZSR--****X",
-                "G*F*AZCR--****X",
-                "G*F*AZDR--****X",
-                "G*F*AZFR--****X",
-                "G*F*AZZR--****X",
-                "G*F*AZBR--****X",
-                "G*F*AZVR--****X"
-            };
-            int arrLength = arr.length;
-            for (int i = 0; i < arrLength; i++)
-            {
-                if (arr[i].equals(strBasicSymbolID))
-                {
-                    return true;
-                }
-            }
-        }
-        catch (Throwable t)
-        {
-            System.out.println(t);
-        }
-        return false;
-    } // End isChangeOneRectangular
-
-    /**
-     * @name isChangeOneCircular
-     *
-     * @desc Returns true if the graphic is a Circular change one graphic
-     *
-     * @param strSymbolID - IN - A basic MilStd2525B symbolID
-     * @return True if symbol is change 1 Circular, false otherwise.
-     */
-    public static
-            boolean isChangeOneCircular(String strSymbolID)
-    {
-        try
-        {
-            String strBasicSymbolID = getBasicSymbolID(strSymbolID);
-            String[] arr = new String[]
-            {
-                "G*F*ATC---****X",
-                "G*F*ACSC--****X",
-                "G*F*ACAC--****X",
-                "G*F*ACFC--****X",
-                "G*F*ACNC--****X",
-                "G*F*ACRC--****X",
-                "G*F*AZIC--****X",
-                "G*F*AZXC--****X",
-                "G*F*AZSC--****X",
-                "G*F*AZCC--****X",
-                "G*F*AZDC--****X",
-                "G*F*AZFC--****X",
-                "G*F*AZZC--****X",
-                "G*F*AZBC--****X",
-                "G*F*AZVC--****X",
-                "G*F*ACPC--****X"
-            };
-            int arrLength = arr.length;
-            for (int i = 0; i < arrLength; i++)
-            {
-                if (arr[i].equals(strBasicSymbolID))
-                {
-                    return true;
-                }
-            }
-        }
-        catch (Throwable t)
-        {
-            System.out.println(t);
-        }
-        return false;
-    } // End isChangeOneCircular }}
 
     /**
      * @name isEquipment
@@ -3651,50 +3525,6 @@ public class SymbolUtilities
         return feintDummyInstallationIsOn;
     }
 
-    /**
-     *
-     * @param symbolID
-     * @return
-     * @deprecated Incomplete and unnecessary since we have XML files for B & C
-     */
-    public static
-            boolean is2525CSpecific(String symbolID)
-    {
-        String ID = getBasicSymbolID(symbolID);
-        try
-        {
-            // See if the feint dummy installation is on.
-            if (ID.startsWith("S"))
-            {
-                if (ID.equals("S*A*MV----*****") ||//VIP
-                        ID.equals("S*A*ME----*****"))//ESCORT
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else if (ID.startsWith("O"))
-            {
-                return false;
-            }
-            else if (ID.startsWith("E"))
-            {
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        catch (Throwable t)
-        {
-            System.out.println(t);
-        }
-        return false;
-    }
 
     /**
      * has an 'H' in the 11th position Any symbol can have this character added
@@ -3878,8 +3708,8 @@ public class SymbolUtilities
         return "-";
     } // End GetSymbolModifier
 
-    public static
-            String getUnitAffiliationModifier(String symbolID, int symStd)
+
+    public static String getUnitAffiliationModifier(String symbolID, int symStd)
     {
         String textChar = null;
         char affiliation;
@@ -4018,8 +3848,7 @@ public class SymbolUtilities
         return hasAMmodifierWidth(symbolID, RendererSettings.getInstance().getSymbologyStandard());
     }
 
-    public static
-            Boolean hasAMmodifierWidth(String symbolID, int symStd)
+    public static Boolean hasAMmodifierWidth(String symbolID, int symStd)
     {
         SymbolDef sd = null;
         Boolean returnVal = false;
@@ -4045,14 +3874,12 @@ public class SymbolUtilities
         return returnVal;
     }
 
-    public static
-            Boolean hasANmodifier(String symbolID)
+    public static Boolean hasANmodifier(String symbolID)
     {
         return hasANmodifier(symbolID, RendererSettings.getInstance().getSymbologyStandard());
     }
 
-    public static
-            Boolean hasANmodifier(String symbolID, int symStd)
+    public static Boolean hasANmodifier(String symbolID, int symStd)
     {
         SymbolDef sd = null;
         Boolean returnVal = false;
@@ -4069,10 +3896,10 @@ public class SymbolUtilities
                 case SymbolDef.DRAW_CATEGORY_SECTOR_PARAMETERED_AUTOSHAPE:
                     returnVal = true;
                     break;
-                case SymbolDef.DRAW_CATEGORY_LINE://air corridor
-                	if(sd.getModifiers().indexOf(ModifiersTG.AM_DISTANCE + ".") > -1)
+                /*case SymbolDef.DRAW_CATEGORY_LINE://air corridor
+                	if(sd.getModifiers().indexOf(ModifiersTG.AN_AZIMUTH + ".") > -1)
                 		returnVal = true;
-                	break;
+                	break;//*/
                 default:
                     returnVal = false;
             }
@@ -4081,8 +3908,7 @@ public class SymbolUtilities
         return returnVal;
     }
 
-    public static
-            Boolean hasAMmodifierRadius(String symbolID)
+    public static Boolean hasAMmodifierRadius(String symbolID)
     {
         return hasAMmodifierRadius(symbolID, RendererSettings.getInstance().getSymbologyStandard());
     }
