@@ -104,7 +104,7 @@ public class ModifierRenderer
             x = (int) symbolBounds.left + 1;
             y = (int) symbolBounds.top;
             height = Math.round(symbolBounds.height());
-            width = Math.round(symbolBounds.width()) - 1;
+            width = Math.round(symbolBounds.width()) - 3;
             bottomY = y + height + 2;
 
             if (symbolID.charAt(10) == ('M'))
@@ -846,6 +846,7 @@ public class ModifierRenderer
         {
 
             Paint fdiPaint = new Paint();
+            fdiPaint.setAntiAlias(true);
             fdiPaint.setARGB(255, 0, 0, 0);
             fdiPaint.setStyle(Style.STROKE);
             fdiPaint.setPathEffect(new DashPathEffect(new float[]
@@ -934,7 +935,7 @@ public class ModifierRenderer
             else if (status == ('F'))//full to capacity(hospital)
             {
                 statusColor = Color.blue.toInt();
-            };
+            }
 
             ociPaint.setColor(Color.black.toInt());
             ociPaint.setStyle(Style.FILL);
@@ -1220,7 +1221,6 @@ public class ModifierRenderer
 
     private static Rect processOperationalConditionIndicator(String symbolID, Rect symbolBounds, int offsetY)
     {
-        // <editor-fold defaultstate="collapsed" desc="Operational Condition Indicator">
         //create Operational Condition Indicator
         //set color
         Rect bar = null;
@@ -1231,10 +1231,6 @@ public class ModifierRenderer
 
         status = symbolID.charAt(3);
 
-        /*if(_statusColorMap[status] !== undefined)
-         statusColor = _statusColorMap[status];
-         else
-         statusColor = null;*/
         if (status == 'C' || status == 'D' || status == 'X' || status == 'F')
         {
             if (pixelSize > 0)
@@ -1249,24 +1245,13 @@ public class ModifierRenderer
 
             offsetY += Math.round(symbolBounds.top + symbolBounds.height());
 
-            bar = RectUtilities.makeRect(symbolBounds.left + 2, offsetY, Math.round(symbolBounds.width()) - 3, barSize);
-            //bar = new SO.Rectangle(symbolBounds.left+1, offsetY, Math.round(symbolBounds.width())-2,barSize);
-            /*ctx.lineColor = '#000000';
-             ctx.lineWidth = 1;
-             ctx.fillColor = statusColor;
-             bar.fill(ctx);
-             bar.grow(1);
-             bar.stroke(ctx);
-            
-             imageBounds.union(bar.getBounds());//*/
+            bar = RectUtilities.makeRect(symbolBounds.left + 2, offsetY, Math.round(symbolBounds.width()) - 4, barSize);
         }
 
         return bar;
-
-        // </editor-fold>
     }
 
-    public static ImageInfo processUnitTextModifiers(ImageInfo ii, String symbolID, SparseArray<String> modifiers, Boolean hasTextModifiers, SparseArray<String> attributes)
+    public static ImageInfo processUnitTextModifiers(ImageInfo ii, String symbolID, SparseArray<String> modifiers, SparseArray<String> attributes)
     {
 
         int bufferXL = 5;
@@ -1442,7 +1427,7 @@ public class ModifierRenderer
 	                y = (int) ((y * 0.5) + (labelHeight * 0.5));
 	
 	                y = y - ((labelHeight + bufferText));
-	                y = bounds.left + y;
+	                y = bounds.top + y;
 	            }
 	
 	            tiTemp.setLocation(x, y);
@@ -2030,7 +2015,6 @@ public class ModifierRenderer
         boolean byLabelHeight = false;
         labelHeight = (int) (_modifierFontHeight + 0.5f);
 
-        labelHeight = Math.round(labelHeight);
         int maxHeight = (symbolBounds.height());
         if ((labelHeight * 3) > maxHeight)
         {

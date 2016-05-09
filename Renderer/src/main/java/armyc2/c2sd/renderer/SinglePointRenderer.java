@@ -509,7 +509,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             //process test modifiers
             if (hasTextModifiers)
             {
-                iinew = ModifierRenderer.processUnitTextModifiers(ii, symbolID, modifiers, hasTextModifiers, attributes);
+                iinew = ModifierRenderer.processUnitTextModifiers(ii, symbolID, modifiers, attributes);
             }
 
             if (iinew != null)
