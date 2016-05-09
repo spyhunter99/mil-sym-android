@@ -2875,6 +2875,15 @@ public class Modifier2 {
                 case TacticalLines.SAAFR:
                     if (tg.getSymbologyStandard() == RendererSettings.Symbology_2525C) {
                         AddIntegralModifier(tg, "SAAFR " + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+                        pt0 = new POINT2(tg.Pixels.get(middleSegment));
+                        pt1 = new POINT2(tg.Pixels.get(middleSegment + 1));
+                        if (pt0.y < pt1.y) {
+                            pt1.y = pt0.y;
+                        } else {
+                            pt0.y = pt1.y;
+                        }
+                        pt0.y -= pt0.style / 2;
+                        pt1.y -= pt0.style / 2;
                         AddIntegralModifier(tg, "Max Alt: " + tg.get_H1(), aboveMiddle, -4 * csFactor, middleSegment, middleSegment + 1, false);
                         AddIntegralModifier(tg, "Min Alt: " + tg.get_H(), aboveMiddle, -5 * csFactor, middleSegment, middleSegment + 1, false);
                         AddIntegralModifier(tg, "Width: " + tg.get_H2(), aboveMiddle, -6 * csFactor, middleSegment, middleSegment + 1, false);
@@ -2892,6 +2901,15 @@ public class Modifier2 {
                 case TacticalLines.AC:
                     if (tg.getSymbologyStandard() == RendererSettings.Symbology_2525C) {
                         AddIntegralModifier(tg, label + " " + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+                        pt0 = new POINT2(tg.Pixels.get(middleSegment));
+                        pt1 = new POINT2(tg.Pixels.get(middleSegment + 1));
+                        if (pt0.y < pt1.y) {
+                            pt1.y = pt0.y;
+                        } else {
+                            pt0.y = pt1.y;
+                        }
+                        pt0.y -= pt0.style / 2;
+                        pt1.y -= pt0.style / 2;
                         AddIntegralModifier(tg, "Max Alt: " + tg.get_H1(), aboveMiddle, -4 * csFactor, middleSegment, middleSegment + 1, false);
                         AddIntegralModifier(tg, "Min Alt: " + tg.get_H(), aboveMiddle, -5 * csFactor, middleSegment, middleSegment + 1, false);
                         AddIntegralModifier(tg, "Width: " + tg.get_H2(), aboveMiddle, -6 * csFactor, middleSegment, middleSegment + 1, false);
@@ -2910,12 +2928,6 @@ public class Modifier2 {
                 case TacticalLines.LLTR:
                     if (tg.getSymbologyStandard() == RendererSettings.Symbology_2525C) {
                         AddIntegralModifier(tg, label + " " + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
-//                        AddIntegralModifier(tg, "Max Alt: " + tg.get_H1(), aboveMiddle, -4 * csFactor, middleSegment, middleSegment + 1, false);
-//                        AddIntegralModifier(tg, "Min Alt: " + tg.get_H(), aboveMiddle, -5 * csFactor, middleSegment, middleSegment + 1, false);
-//                        AddIntegralModifier(tg, "Width: " + tg.get_H2(), aboveMiddle, -6 * csFactor, middleSegment, middleSegment + 1, false);
-//                        AddIntegralModifier(tg, "Name: " + tg.get_Name(), aboveMiddle, -7 * csFactor, middleSegment, middleSegment + 1, false);
-//                        AddIntegralModifier(tg, "DTG Start: " + tg.get_DTG(), aboveMiddle, -3 * csFactor, middleSegment, middleSegment + 1, false);
-//                        AddIntegralModifier(tg, "DTG End: " + tg.get_DTG1(), aboveMiddle, -2 * csFactor, middleSegment, middleSegment + 1, false);
 
                         pt0 = new POINT2(tg.Pixels.get(middleSegment));
                         pt1 = new POINT2(tg.Pixels.get(middleSegment + 1));
