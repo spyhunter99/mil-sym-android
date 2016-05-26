@@ -1006,13 +1006,12 @@ public class SymbolUtilities
      * @param symStd - like RendererSettings.Symbology_2525C
      * @return
      */
-    public static
-            boolean canSymbolHaveModifier(String symbolID, int tgModifier, int symStd)
+    public static boolean canSymbolHaveModifier(String symbolID, int tgModifier, int symStd)
     {
         String basic = null;
         SymbolDef sd = null;
         boolean returnVal = false;
-
+        String modCode = ModifiersTG.getModifierLetterCode(tgModifier);
         try
         {
 
@@ -1035,7 +1034,7 @@ public class SymbolUtilities
                             returnVal = true;
                             break;
                         case SymbolDef.DRAW_CATEGORY_LINE://air corridor
-                        	if(sd.getModifiers().indexOf(tgModifier + ".") > -1)
+                        	if(sd.getModifiers().indexOf(modCode + ".") > -1)
                         		returnVal = true;
                             break;
                         default:
@@ -1056,7 +1055,7 @@ public class SymbolUtilities
                 }
                 else
                 {
-                    if (sd.getModifiers().indexOf(tgModToString(tgModifier)) > -1)
+                    if (sd.getModifiers().indexOf(modCode + ".") > -1)
                     {
                         returnVal = true;
                     }
@@ -1068,49 +1067,11 @@ public class SymbolUtilities
         }
         catch (Exception exc)
         {
-            ErrorLogger.LogException("SymbolUtilties", "canSymbolHaveModifier", exc);
+            ErrorLogger.LogException("SymbolUtilities", "canSymbolHaveModifier", exc);
         }
         return returnVal;
     }
-    
-    private static String tgModToString(int tgModifier)
-    {
-    	switch(tgModifier)
-    	{
-    		case ModifiersTG.T_UNIQUE_DESIGNATION_1:
-    			return "T.";
-    		case ModifiersTG.T1_UNIQUE_DESIGNATION_2:
-    			return "T1.";
-    		case ModifiersTG.H_ADDITIONAL_INFO_1:
-    			return "H.";
-    		case ModifiersTG.H1_ADDITIONAL_INFO_2:
-    			return "H1.";
-    		case ModifiersTG.H2_ADDITIONAL_INFO_3:
-    			return "H2.";
-    		case ModifiersTG.N_HOSTILE:
-    			return "N.";
-    		case ModifiersTG.W_DTG_1:
-    			return "W.";
-    		case ModifiersTG.W1_DTG_2:
-    			return "W1.";
-    		case ModifiersTG.X_ALTITUDE_DEPTH:
-    			return "X.";
-    		case ModifiersTG.Y_LOCATION:
-    			return "Y.";
-    		case ModifiersTG.V_EQUIP_TYPE:
-    			return "V.";
-    		case ModifiersTG.Q_DIRECTION_OF_MOVEMENT:
-    			return "Q.";
-    		case ModifiersTG.S_OFFSET_INDICATOR:
-    			return "S.";
-    		case ModifiersTG.C_QUANTITY:
-    			return "C.";
-    		case ModifiersTG.B_ECHELON:
-    			return "B.";
-    		default:
-    			return "!";
-    	}
-    }
+
 
     /**
      * Gets line color used if no line color has been set. The color is
@@ -1120,8 +1081,7 @@ public class SymbolUtilities
      * @param symbolID
      * @return
      */
-    public static
-            Color getLineColorOfAffiliation(String symbolID)
+    public static Color getLineColorOfAffiliation(String symbolID)
     {
         Color retColor = null;
         String basicSymbolID = getBasicSymbolID(symbolID);
