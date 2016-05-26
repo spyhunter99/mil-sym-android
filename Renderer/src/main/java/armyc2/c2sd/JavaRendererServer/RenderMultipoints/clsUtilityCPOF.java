@@ -1947,7 +1947,8 @@ public final class clsUtilityCPOF {
      * @param converter
      */
     protected static void SegmentGeoPoints(TGLight tg,
-            IPointConversion converter)
+            IPointConversion converter,
+            double zoomFactor)
     {
         try
         {                                   
@@ -2028,7 +2029,12 @@ public final class clsUtilityCPOF {
             
             if(interval>maxDist)
                 interval=maxDist;
-                        
+
+            if(zoomFactor>0 && zoomFactor<0.1)
+                zoomFactor=0.1;
+            if(zoomFactor>0 && zoomFactor<1)
+                interval *= zoomFactor;
+            
             for(j=0;j<tg.LatLongs.size()-1;j++)
             {
                 pt0=new POINT2(tg.LatLongs.get(j));
