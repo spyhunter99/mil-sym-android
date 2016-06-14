@@ -1429,6 +1429,84 @@ public class Modifier2 {
                     new RendererException("Failed inside shiftModifierPath", exc));
         }
     }
+    /**
+     * Areas with two alternating labels.
+     *
+     * @param tg
+     * @param label
+     * @param eny
+     * @param g2d
+     * @return
+     */
+    private static boolean areasWithTwoLabels(TGLight tg, String label, String eny, Graphics2D g2d) {
+        boolean result = false;
+        try {
+            switch (tg.get_LineType()) {
+                case TacticalLines.DUMMY:
+                    if (!tg.get_Affiliation().equalsIgnoreCase("H")) {
+                        eny = "";
+                    }
+                    break;
+                default:
+                    return false;
+            }
+            FontMetrics metrics = g2d.getFontMetrics();
+            double labelLength = metrics.stringWidth(label);
+            double enyLength = metrics.stringWidth(eny);
+            int j = 0;
+            POINT2 pt0 = null, pt1 = null, pt2;
+            String last = eny;
+            double dist = 0;
+            int sumLabel = 0, sumENY = 0;
+            for (j = 0; j < tg.Pixels.size() - 1; j++) {
+                if (eny.isEmpty()) {
+                    last = eny;
+                }
+                pt0 = tg.Pixels.get(j);
+                pt1 = tg.Pixels.get(j + 1);
+                dist = lineutility.CalcDistanceDouble(pt0, pt1);
+                if (dist > 1.5 * labelLength && last.equalsIgnoreCase(eny)) {
+                    last = label;
+                    sumLabel++;
+                } else if (dist > 1.5 * enyLength && last.equalsIgnoreCase(label)) {
+                    sumENY++;
+                    last = eny;
+                }
+            }
+            if (eny.isEmpty()) {
+                if (sumENY < 2) {
+                    sumENY = 2;
+                }
+            }
+            //if we don't have at least 2 valid segments for both the label and the ENY then return false
+            if (sumLabel < 2 || sumENY < 2) {
+                return false;
+            }
+            //at this point we have valid pixels for alternating labels, i.e. at least one of each will appear
+            for (j = 0; j < tg.Pixels.size() - 1; j++) {
+                if (eny.isEmpty()) {
+                    last = eny;
+                }
+                pt0 = tg.Pixels.get(j);
+                pt1 = tg.Pixels.get(j + 1);
+                dist = lineutility.CalcDistanceDouble(pt0, pt1);
+                if (dist > 1.5 * labelLength && last.equalsIgnoreCase(eny)) {
+                    //add the label
+                    AddIntegralAreaModifier(tg, label, aboveMiddle, 0, pt0, pt1, true);
+                    last = label;
+                } else if (dist > 1.5 * enyLength && last.equalsIgnoreCase(label)) {
+                    //add the eny
+                    AddIntegralAreaModifier(tg, eny, aboveMiddle, 0, pt0, pt1, true);
+                    last = eny;
+                }
+            }
+            return true;
+        } catch (Exception exc) {
+            ErrorLogger.LogException(_className, "areasWithTwoLabels",
+                    new RendererException("Failed inside areasWithTwoLabels", exc));
+        }
+        return result;
+    }
 
     /**
      * don't add affiliation for too short segments
@@ -2475,6 +2553,8 @@ public class Modifier2 {
                     AddIntegralModifier(tg, tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, true);
                     break;
                 case TacticalLines.DUMMY:
+                    if(areasWithTwoLabels(tg,tg.get_H(),tg.get_N(),g2d)==true)
+                        break;
                     if (affiliation != null && affiliation.equals("H")) {
                         AddIntegralModifier(tg, tg.get_N(), aboveMiddle, 0, 0, 1, true);
                         AddIntegralModifier(tg, tg.get_N(), aboveMiddle, 0, lastIndex / 2, lastIndex / 2 + 1, true);
