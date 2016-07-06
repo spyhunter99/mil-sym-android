@@ -2418,6 +2418,7 @@ public final class arraysupport
                     acCounter=5;
                     break;
                 case TacticalLines.BS_ELLIPSE:
+                case TacticalLines.PBS_ELLIPSE:
                     pt0=pLinePoints[0];//the center of the ellipse
                     pt1=pLinePoints[1];//the width of the ellipse
                     pt2=pLinePoints[2];//the height of the ellipse

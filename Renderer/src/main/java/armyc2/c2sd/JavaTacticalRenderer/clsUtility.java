@@ -336,6 +336,7 @@ public final class clsUtility {
             case TacticalLines.BS_LINE:
             case TacticalLines.BS_CROSS:
             case TacticalLines.BS_ELLIPSE:
+            case TacticalLines.PBS_ELLIPSE:
             case TacticalLines.BS_RECTANGLE:
             case TacticalLines.BBS_AREA:
             case TacticalLines.BBS_LINE:
@@ -748,6 +749,7 @@ public final class clsUtility {
                         switch(lineType)
                         {
                             case TacticalLines.BS_ELLIPSE:
+                            case TacticalLines.PBS_ELLIPSE:
                             case TacticalLines.BS_RECTANGLE:
                             //case TacticalLines.BBS_RECTANGLE:
                                 shape.set_Fillstyle(tg.get_FillStyle());
@@ -2051,6 +2053,7 @@ public final class clsUtility {
             linetypes.put("BS_AREA--------", TacticalLines.BS_AREA);
             linetypes.put("BS_CROSS-------", TacticalLines.BS_CROSS);
             linetypes.put("BS_ELLIPSE-----", TacticalLines.BS_ELLIPSE);
+            linetypes.put("PBS_ELLIPSE----", TacticalLines.PBS_ELLIPSE);
             linetypes.put("BS_RECTANGLE---", TacticalLines.BS_RECTANGLE);
             //end basic shapes
             
@@ -2552,6 +2555,10 @@ public final class clsUtility {
             {
                 strMask=str;
             }
+            else if(str.equalsIgnoreCase("PBS_ELLIPSE----"))
+            {
+                strMask=str;
+            }
             else if(str.equalsIgnoreCase("BS_RECTANGLE---"))
             {
                 strMask=str;
@@ -2681,6 +2688,7 @@ public final class clsUtility {
             switch(linetype)
             {
                 case TacticalLines.BS_ELLIPSE:
+                case TacticalLines.PBS_ELLIPSE:
                 case TacticalLines.BS_RECTANGLE:
                 case TacticalLines.BBS_RECTANGLE:
                 case TacticalLines.BBS_POINT:
