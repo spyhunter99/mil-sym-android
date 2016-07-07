@@ -108,6 +108,7 @@ public final class clsUtility {
         int result = -1;
         switch (lineType) {
             case TacticalLines.RECTANGULAR:
+            case TacticalLines.PBS_RECTANGLE:
                 result = 1; //was 3
                 break;
             case TacticalLines.BBS_POINT:
@@ -1299,6 +1300,7 @@ public final class clsUtility {
                     }
                     return false;
                 case TacticalLines.RECTANGULAR:
+                case TacticalLines.PBS_RECTANGLE:
                 case TacticalLines.CIRCULAR:
                 case TacticalLines.BBS_POINT:
                 case TacticalLines.FSA_CIRCULAR:
@@ -2055,6 +2057,7 @@ public final class clsUtility {
             linetypes.put("BS_ELLIPSE-----", TacticalLines.BS_ELLIPSE);
             linetypes.put("PBS_ELLIPSE----", TacticalLines.PBS_ELLIPSE);
             linetypes.put("BS_RECTANGLE---", TacticalLines.BS_RECTANGLE);
+            linetypes.put("PBS_RECTANGLE--", TacticalLines.PBS_RECTANGLE);
             //end basic shapes
             
             //buffered shapes
@@ -2560,6 +2563,10 @@ public final class clsUtility {
                 strMask=str;
             }
             else if(str.equalsIgnoreCase("BS_RECTANGLE---"))
+            {
+                strMask=str;
+            }
+            else if(str.equalsIgnoreCase("PBS_RECTANGLE--"))
             {
                 strMask=str;
             }

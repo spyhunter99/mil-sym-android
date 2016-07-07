@@ -195,6 +195,8 @@ public final class CELineArray {
                     return TacticalLines.BS_CROSS;
                 if(strLine.equalsIgnoreCase("BS_RECTANGLE"))
                     return TacticalLines.BS_RECTANGLE;
+                if(strLine.equalsIgnoreCase("PBS_RECTANGLE"))
+                    return TacticalLines.PBS_RECTANGLE;
                 //buffered lines
                 if(strLine.equalsIgnoreCase("BBS_LINE"))
                     return TacticalLines.BBS_LINE;
@@ -830,6 +832,8 @@ public final class CELineArray {
                 return TacticalLines.PBS_ELLIPSE;
             if(strLine.equalsIgnoreCase("BS_RECTANGLE---"))
                 return TacticalLines.BS_RECTANGLE;
+            if(strLine.equalsIgnoreCase("PBS_RECTANGLE--"))
+                return TacticalLines.PBS_RECTANGLE;
             //buffered shapes
             if(strLine.equalsIgnoreCase("BBS_LINE-------"))
                 return TacticalLines.BBS_LINE;
