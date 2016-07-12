@@ -1753,6 +1753,7 @@ public class ModifierRenderer
             if (modifiers.indexOfKey(ModifiersUnits.E_FRAME_SHAPE_MODIFIER) >= 0)
             {
                 E = modifiers.get(ModifiersUnits.E_FRAME_SHAPE_MODIFIER);
+                modifiers.delete(ModifiersUnits.E_FRAME_SHAPE_MODIFIER);
             }
             if (modifiers.indexOfKey(ModifiersUnits.F_REINFORCED_REDUCED) >= 0)
             {
