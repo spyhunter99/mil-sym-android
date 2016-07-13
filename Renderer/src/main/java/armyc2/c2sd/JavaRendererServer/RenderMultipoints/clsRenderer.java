@@ -240,10 +240,13 @@ public final class clsRenderer {
                     AN=new ArrayList<Double>();
                 if(AN.size()<1)
                     AN.add(new Double(0));
-                if(AM.size()<2) //circle
+                if(lineType==TacticalLines.PBS_CIRCLE) //circle
                 {
                     double am0=AM.get(0);
-                    AM.add(am0);
+                    if(AM.size()==1)
+                        AM.add(am0);
+                    else if(AM.size()>=2)
+                        AM.set(1, am0);
                 }
                 if(AM != null && AM.size()>=2 && AN != null && AN.size()>=1)
                 {
@@ -706,10 +709,13 @@ public final class clsRenderer {
                 ArrayList<Double> AM = milStd.getModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE);
                 ArrayList<Double> AN = milStd.getModifiers_AM_AN_X(ModifiersTG.AN_AZIMUTH);
                 //if all these conditions are not met we do not want to set any tg modifiers
-                if(AM.size()<2) //square
+                if(lineType == TacticalLines.PBS_SQUARE) //square
                 {
                     double am0=AM.get(0);
-                    AM.add(am0);
+                    if(AM.size()==1)
+                        AM.add(am0);
+                    else if(AM.size()>=2)
+                        AM.set(1, am0);
                 }
                 if (AM != null && AM.size() > 1 && AN != null && AN.size() > 0) {
                     String strT1 = Double.toString(AM.get(0));    //width
