@@ -3141,13 +3141,46 @@ public class MultiPointHandler {
                 //basic shapes and buffered basic shapes.
                 //Return true for now.
                 return "true";
-            }else if (symbolID.startsWith("BBS_")) {
+            }
+			else if (symbolID.startsWith("BBS_")) {
             	ArrayList<Double> AM = symbol.getModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE);
             	if(AM != null && AM.size() > 0 && AM.get(0) >= 0)
             		return "true";
             	else
             		return "false: Buffered Basic Shapes require a width (AM)";
-            } else {
+            } 
+			else if (symbolID.startsWith("PBS_")) 
+			{
+            	ArrayList<Double> AM = symbol.getModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE);
+				
+				if(symbolID.equals("PBS_CIRCLE-----") || symbolID.equals("PBS_SQUARE-----"))
+                {
+                    if (AM != null && AM.size() > 0 && coordCount > 0)
+                    {
+                        return "true";
+                    }
+                    else
+                    {
+                        return ("false: " + symbolID + ", requires a width (AM) and 1 control point");
+                    }
+                }
+                else if(symbolID.equals("PBS_ELLIPSE----") || symbolID.equals("PBS_RECTANGLE--"))
+                {
+                    if (AM != null && AM.size() > 1 && coordCount > 0)
+                    {
+                        return "true";
+                    }
+                    else
+                    {
+                        return ("false: " + symbolID + ", requires 2 AM values, length and width (AM) and 1 control point");
+                    }
+                }
+				else
+				{
+					return ("false: " + symbolID + ", not a recognized code for a parametered basic shape.");
+				}
+            }
+			else {
                 return ("symbolID: \"" + symbolID + "\" not recognized.");
             }
 
