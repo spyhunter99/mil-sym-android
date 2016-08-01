@@ -717,6 +717,11 @@ public final class clsRenderer {
                     else if(AM.size()>=2)
                         AM.set(1, am0);
                 }
+                if(AN==null)                
+                    AN=new ArrayList();
+                
+                if(AN.isEmpty())
+                    AN.add(0d);
                 if (AM != null && AM.size() > 1 && AN != null && AN.size() > 0) {
                     String strT1 = Double.toString(AM.get(0));    //width
                     String strH = Double.toString(AM.get(1));     //length
