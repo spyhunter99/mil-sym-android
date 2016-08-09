@@ -3445,6 +3445,9 @@ public class Modifier2 {
             String[] am = T1.split(",");
             String[] az = T.split(",");
             double min = 0, max = 0;
+            //diagnostic
+            double left=0,right=0;
+            //end section
             int numSectors = az.length / 2;
             //there must be at least one sector
             if (numSectors < 1) {
@@ -3461,6 +3464,18 @@ public class Modifier2 {
             } catch (NumberFormatException e) {
                 return false;
             }
+            //diagnostic
+            try {
+                for (int k = 0; k < az.length/2; k++) {
+                    left = Double.parseDouble(az[2*k]);
+                    right = Double.parseDouble(az[2*k+1]);
+                    AN.add(left);
+                    AN.add(right);
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+            //end section
             if (numSectors + 1 > AM.size()) {
                 if (Double.parseDouble(am[0]) != 0d) {
                     AM.add(0, 0d);
@@ -3484,6 +3499,10 @@ public class Modifier2 {
 
             POINT2 pt2 = null;
             ArrayList<POINT2> locModifier = new ArrayList();
+            //diagnostic
+            POINT2 ptLeft=null,ptRight=null;
+            ArrayList<POINT2> locAZModifier = new ArrayList();
+            //end section
             Point2D pt22d = null;
             double radius = 0;
             for (int k = 0; k < numSectors; k++) {
@@ -3498,6 +3517,24 @@ public class Modifier2 {
                 pt2.x = pt22d.getX();
                 pt2.y = pt22d.getY();
                 locModifier.add(pt2);
+                //diagnostic
+                if(tg.get_RFText()==false)
+                    continue;
+                ptLeft = mdlGeodesic.geodesic_coordinate(pt0, radius, AN.get(2*k));
+                //need ptLeft in geo pixels                
+                pt22d = new Point2D.Double(ptLeft.x, ptLeft.y);
+                pt22d = converter.GeoToPixels(pt22d);
+                ptLeft.x = pt22d.getX();
+                ptLeft.y = pt22d.getY();
+                ptRight = mdlGeodesic.geodesic_coordinate(pt0, radius, AN.get(2*k+1));
+                //need ptRight in geo pixels                
+                pt22d = new Point2D.Double(ptRight.x, ptRight.y);
+                pt22d = converter.GeoToPixels(pt22d);
+                ptRight.x = pt22d.getX();
+                ptRight.y = pt22d.getY();
+                locAZModifier.add(ptLeft);
+                locAZModifier.add(ptRight);
+                //end section
             }
             if (altitudes != null) {
                 for (int k = 0; k < altitudes.length; k++) {
@@ -3508,6 +3545,20 @@ public class Modifier2 {
                     AddAreaModifier(tg, "ALT " + altitudes[k], area, 0, pt0, pt0);
                 }
             }
+            //diagnostic    add range and azimuth modifiers
+            //add early eixt if tg.setRangeFanAZLabels is false
+            if(tg.get_RFText()==false)
+                return true;
+            for(int k=0;k<numSectors;k++)
+            {
+                pt0 = locModifier.get(k);
+                AddAreaModifier(tg, "RG " + AM.get(k+1), area, -1, pt0, pt0);
+                ptLeft=locAZModifier.get(2*k);
+                ptRight=locAZModifier.get(2*k+1);
+                AddAreaModifier(tg, az[2*k], area, 0, ptLeft, ptLeft);                        
+                AddAreaModifier(tg, az[2*k+1], area, 0, ptRight, ptRight);                        
+            }
+            //end section
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "addSectorModifiers",
                     new RendererException("Failed inside addSectorModifiers", exc));
@@ -3991,6 +4042,18 @@ public class Modifier2 {
                             }
                         }
                     }
+                    if(tg.get_RFText())
+                    {
+                        String H2 = tg.get_H2();
+                        String[] am = H2.split(",");
+                        for(j=0;j<am.length;j++)
+                        {
+                            if (tg.Pixels.size() > j * 102 + 25) {
+                                pt0 = tg.Pixels.get(j * 102 + 25);
+                                AddAreaModifier(tg, "RG " + am[j], area, -1, pt0, pt0);
+                            }                            
+                        }
+                    }// end if set range fan text
                     break;
                 case TacticalLines.RANGE_FAN_SECTOR:
                     break;
