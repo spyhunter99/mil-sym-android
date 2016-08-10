@@ -78,6 +78,8 @@ public class MilStdSymbol
 
     private static boolean _useDashArray = true;
 
+    private static boolean _hideOptionalLabels = false;
+
     private static boolean _DrawAffiliationModifierAsLabel = true;
 
     private static boolean _UseLineInterpolation = false;
@@ -257,6 +259,16 @@ public class MilStdSymbol
     public void setUseDashArray(boolean value)
     {
         _useDashArray = value;
+    }
+
+    public boolean getHideOptionalLabels()
+    {
+        return _hideOptionalLabels;
+    }
+
+    public void setHideOptionalLabels(boolean value)
+    {
+        _hideOptionalLabels = value;
     }
 
     public void setUseLineInterpolation(boolean value)

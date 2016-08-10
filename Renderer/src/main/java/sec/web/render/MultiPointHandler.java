@@ -1684,6 +1684,7 @@ public class MultiPointHandler {
         int symstd = 0;
         String altMode = null;
         boolean useDashArray = symbol.getUseDashArray();
+        boolean hideOptionalLabels = false;
 
         String symbolFillIDs = null;
         String symbolFillIconSize = null;
@@ -1804,6 +1805,10 @@ public class MultiPointHandler {
                 if (saAttributes.indexOfKey(MilStdAttributes.UseDashArray) >= 0) {
                     useDashArray = Boolean.parseBoolean(saAttributes.get(MilStdAttributes.UseDashArray));
                 }
+
+                if (saAttributes.indexOfKey(MilStdAttributes.HideOptionalLabels) >= 0) {
+                    hideOptionalLabels = Boolean.parseBoolean(saAttributes.get(MilStdAttributes.HideOptionalLabels));
+                }
             }
 
             symbol.setModifierMap(modifiers);
@@ -1837,6 +1842,7 @@ public class MultiPointHandler {
             }
 
             symbol.setUseDashArray(useDashArray);
+            symbol.setHideOptionalLabels(hideOptionalLabels);
 
             // Check grpahic modifiers variables.  If we set earlier, populate
             // the fields, otherwise, ignore.
