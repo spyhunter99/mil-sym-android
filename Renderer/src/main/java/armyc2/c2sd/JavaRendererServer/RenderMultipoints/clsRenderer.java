@@ -217,6 +217,7 @@ public final class clsRenderer {
                 tg.set_N(milStd.getModifier(ModifiersTG.N_HOSTILE));
             }
             tg.set_UseDashArray(milStd.getUseDashArray());
+            tg.set_HideOptionalLabels(milStd.getHideOptionalLabels());
             boolean isClosedArea = armyc2.c2sd.JavaTacticalRenderer.clsUtility.isClosedPolygon(lineType);
 
             if (isClosedArea) {
