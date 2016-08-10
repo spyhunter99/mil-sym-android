@@ -14,28 +14,28 @@ import android.graphics.BitmapShader;   //for pattern fill. this is the only nat
 public class ShapeInfo {
 
 
-    public static int SHAPE_TYPE_POLYLINE=0;
-    //public static int SHAPE_TYPE_POLYGON=1;
-    public static int SHAPE_TYPE_FILL=1;
-    public static int SHAPE_TYPE_MODIFIER=2;
-    public static int SHAPE_TYPE_MODIFIER_FILL=3;
-    public static int SHAPE_TYPE_UNIT_FRAME=4;
-    public static int SHAPE_TYPE_UNIT_FILL=5;
-    public static int SHAPE_TYPE_UNIT_SYMBOL1=6;
-    public static int SHAPE_TYPE_UNIT_SYMBOL2=7;
-    public static int SHAPE_TYPE_UNIT_DISPLAY_MODIFIER=8;
-    public static int SHAPE_TYPE_UNIT_ECHELON=9;
-    public static int SHAPE_TYPE_UNIT_AFFILIATION_MODIFIER=10;
-    public static int SHAPE_TYPE_UNIT_HQ_STAFF=11;
-    public static int SHAPE_TYPE_TG_SP_FILL=12;
-    public static int SHAPE_TYPE_TG_SP_FRAME=13;
-    public static int SHAPE_TYPE_TG_Q_MODIFIER=14;
-    public static int SHAPE_TYPE_TG_SP_OUTLINE=15;
-    public static int SHAPE_TYPE_SINGLE_POINT_OUTLINE=16;
-    public static int SHAPE_TYPE_UNIT_OUTLINE=17;
-    public static int justify_left=0;
-    public static int justify_center=1;
-    public static int justify_right=2;
+    public static final int SHAPE_TYPE_POLYLINE=0;
+    //public static final int SHAPE_TYPE_POLYGON=1;
+    public static final int SHAPE_TYPE_FILL=1;
+    public static final int SHAPE_TYPE_MODIFIER=2;
+    public static final int SHAPE_TYPE_MODIFIER_FILL=3;
+    public static final int SHAPE_TYPE_UNIT_FRAME=4;
+    public static final int SHAPE_TYPE_UNIT_FILL=5;
+    public static final int SHAPE_TYPE_UNIT_SYMBOL1=6;
+    public static final int SHAPE_TYPE_UNIT_SYMBOL2=7;
+    public static final int SHAPE_TYPE_UNIT_DISPLAY_MODIFIER=8;
+    public static final int SHAPE_TYPE_UNIT_ECHELON=9;
+    public static final int SHAPE_TYPE_UNIT_AFFILIATION_MODIFIER=10;
+    public static final int SHAPE_TYPE_UNIT_HQ_STAFF=11;
+    public static final int SHAPE_TYPE_TG_SP_FILL=12;
+    public static final int SHAPE_TYPE_TG_SP_FRAME=13;
+    public static final int SHAPE_TYPE_TG_Q_MODIFIER=14;
+    public static final int SHAPE_TYPE_TG_SP_OUTLINE=15;
+    public static final int SHAPE_TYPE_SINGLE_POINT_OUTLINE=16;
+    public static final int SHAPE_TYPE_UNIT_OUTLINE=17;
+    public static final int justify_left=0;
+    public static final int justify_center=1;
+    public static final int justify_right=2;
     
     protected Shape _Shape;
     private Stroke stroke;

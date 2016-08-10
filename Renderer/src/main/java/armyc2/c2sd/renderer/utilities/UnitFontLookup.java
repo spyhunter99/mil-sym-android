@@ -931,8 +931,10 @@ public class UnitFontLookup {
    * @param characterIndex - Fill Character Index
    * @return
    */
-  public static float getUnitRatioHeight(int characterIndex)
+  public static float getUnitRatioHeight(int charIndex)
   {
+      int characterIndex = charIndex - 57000;
+
       if(characterIndex == FillIndexHP ||
               characterIndex == FillIndexHA ||
               characterIndex == FillIndexHU ||
@@ -996,11 +998,12 @@ public class UnitFontLookup {
 
   /**
    *
-   * @param characterIndex - Fill Character Index
+   * @param charIndex - Fill Character Index
    * @return
    */
-  public static float getUnitRatioWidth(int characterIndex)
+  public static float getUnitRatioWidth(int charIndex)
   {
+      int characterIndex = charIndex - 57000;
       if(characterIndex == FillIndexUP ||
               characterIndex == FillIndexUA ||
               characterIndex == FillIndexUU ||

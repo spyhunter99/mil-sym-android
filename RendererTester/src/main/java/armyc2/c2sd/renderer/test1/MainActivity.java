@@ -160,7 +160,7 @@ public class MainActivity extends Activity {
                 //attributes.put(MilStdAttributes.TextColor, "FF0000");
                 //attributes.put(MilStdAttributes.TextBackgroundColor, "000000");
 
-			attributes.put(MilStdAttributes.KeepUnitRatio,"false");
+			//attributes.put(MilStdAttributes.KeepUnitRatio,"false");
 	    	
 	    	populateModifiers = ((CheckBox)findViewById(R.id.cbModifiers)).isChecked();
 	    	
@@ -294,7 +294,7 @@ public class MainActivity extends Activity {
         modifiers.put(ModifiersUnits.H2_ADDITIONAL_INFO_3,"H2");
         modifiers.put(ModifiersUnits.X_ALTITUDE_DEPTH,"X");//X
         modifiers.put(ModifiersUnits.K_COMBAT_EFFECTIVENESS,"K");//K
-        //modifiers.put(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT,"45");//Q
+        modifiers.put(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT,"45");//Q
 
         modifiers.put(ModifiersUnits.W_DTG_1, armyc2.c2sd.renderer.utilities.SymbolUtilities.getDateLabel(new Date()));//W
         modifiers.put(ModifiersUnits.W1_DTG_2,armyc2.c2sd.renderer.utilities.SymbolUtilities.getDateLabel(new Date()));//W1
