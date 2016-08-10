@@ -97,6 +97,11 @@ public class MilStdAttributes {
     public static final int UseDashArray = 15;
     
     public static final int AltitudeMode = 16;
+
+    /**
+     * At the moment, this refers to the optional range fan labels.
+     */
+    public static final int HideOptionalLabels = 17;
     
     public static ArrayList<Integer> GetModifierList()
     {
@@ -115,6 +120,7 @@ public class MilStdAttributes {
         //list.add(OutlineWidth);
         list.add(DrawAsIcon);
         list.add(SymbologyStandard);
+        list.add(HideOptionalLabels);
         
         return list;
     }
