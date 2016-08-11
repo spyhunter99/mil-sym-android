@@ -511,7 +511,8 @@ public final class clsUtilityGE {
                                     ptsPoly.add(pt2d);
                                 }
                             }                           
-                            polylines2.add(ptsPoly);
+                            if(ptsPoly.size()>1)
+                                polylines2.add(ptsPoly);
                         }
                         //start the ArrayList for next Polyline                       
                         ptsPoly=new ArrayList();
@@ -537,7 +538,7 @@ public final class clsUtilityGE {
                         break;
                 }
             }
-            if(ptsPoly.size()>0)
+            if(ptsPoly.size()>1)
             {
                 //add the last line to the ArrayList
                 //if it is a fill shape then the Google Earth linear ring requires the last point be added
