@@ -229,7 +229,7 @@ public class SymbolDimensions {
 			{
 				//bottom third
 				center.x = bounds.width()/2;
-                center.y = (int)((bounds.height() * 0.66));
+                center.y = (int)((bounds.height() * 0.75));
 			}
             else if ((basicID.substring(0, 7).equals("G*G*GPO") && (basicID.charAt(7) == ('-')) == false))//antitank mine w/ handling device
 			{
@@ -325,6 +325,11 @@ public class SymbolDimensions {
 				}
 				
 				
+			}
+			else if(basicID.equals("G*O*SS----****X"))
+			{
+				center.x = 0;
+				center.y = (int)((bounds.height() * 0.45));
 			}
 			else
 			{
