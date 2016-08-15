@@ -34,9 +34,9 @@ public class SymbolDimensions {
 				case 803:
 				case 804:
 				case 805:
-                    rect = RectUtilities.makeRectF(0,0,65,47);//friendly
-					dimensions[2]=65f;
-					dimensions[3]=47f;
+                    //rect = RectUtilities.makeRectF(0,0,65,47);//friendly//65,45
+					dimensions[2]=62.547f;
+					dimensions[3]=44.52632f;
 					break;
 				case 806:
 				case 807:
@@ -49,15 +49,15 @@ public class SymbolDimensions {
 				case 810:
 				case 811:
                     //rect = RectUtilities.makeRectF(0,0,50.05f,50.05f);//neutral
-					dimensions[2]=50.05f;
-					dimensions[3]=50.05f;
+					dimensions[2]=47.6085f;
+					dimensions[3]=47.6085f;
 					break;
 				case 812:
 				case 813:
 				case 814:
                     //rect = RectUtilities.makeRectF(0,0,54.75f,54.75f);//friendly equipment
-					dimensions[2]=54.75f;
-					dimensions[3]=54.75f;
+					dimensions[2]=51.0625f;
+					dimensions[3]=51.0625f;
 					break;
 				case 816:
 				case 817:
@@ -67,7 +67,7 @@ public class SymbolDimensions {
 				case 842:
                     //rect = RectUtilities.makeRectF(0,16,50.3f,53);//air & space hostile
                     dimensions[1]=8f;
-                    dimensions[2]=50.3f;
+                    dimensions[2]=47.8463f;
 					dimensions[3]=53f;
 					break;
 				case 819:
@@ -108,7 +108,7 @@ public class SymbolDimensions {
 				case 830:
                     //rect = RectUtilities.makeRectF(0,-17,50.3f,53);//subsurface hostile
                     dimensions[1]=-8f;
-                    dimensions[2]=50.3f;
+                    dimensions[2]=47.8463f;
 					dimensions[3]=53f;
 					break;
 				case 831:
