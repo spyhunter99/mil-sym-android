@@ -475,10 +475,13 @@ public class MultiPointHandler {
             double right = Double.valueOf(bounds[2]);
             double top = Double.valueOf(bounds[3]);
             double bottom = Double.valueOf(bounds[1]);
+            //return a somewhat arbitrary scale value for unreasonable extents, i.e. 1000 is typical
+            //earth circumference/2 meters * 39.3701 inches/meter * 96 pixels/inch * 1000 pixels wide
+            //features will shrink as the globe gets shrinks less than 1000 pixels across
             if (left == -180 && right == 180) {
-                return origScale;
+                return 7.573e7; //was origScale
             } else if (left == 180 && right == -180) {
-                return origScale;
+                return 7.573e7; //was origScale
             }
             POINT2 ul = new POINT2(left, top);
             POINT2 ur = new POINT2(right, top);
