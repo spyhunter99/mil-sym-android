@@ -287,6 +287,45 @@ public final class clsChannelUtility {
                     new RendererException("Failed inside DrawSegments", exc));
         }
     }
+    /**
+     * Handle symbol too small for line of contact
+     * @param tg
+     * @param pixels
+     * @return 
+     */
+    private static ArrayList<POINT2> getLCPixels(TGLight tg,ArrayList<POINT2>pixels)
+    {
+        ArrayList<POINT2>pixels2=null;
+        try
+        {
+            if(tg.get_LineType()!=TacticalLines.LC)
+                return pixels;
+            POINT2[] pts=tg.Pixels.toArray(new POINT2[pixels.size()]);
+            POINT2 ul=new POINT2(),lr=new POINT2();
+            lineutility.CalcMBRPoints((POINT2[])pts, pts.length, ul, lr);
+            if(lr.x-ul.x>=21)
+                return pixels;
+            else if (lr.y-ul.y>=21)
+                return pixels;
+            //at this point the mbr is too small for a meaningful LC symbol
+            double x0=pts[0].x,y0=pts[0].y,x1=pts[1].x,y1=pts[1].y;
+            if (x0<=x1)            
+                x1=x0+21;            
+            else
+                x1=x0-21;
+            y1=y0;
+            POINT2 pt0=new POINT2(x0,y0),pt1=new POINT2(x1,y1);
+            pixels2=new ArrayList();
+            pixels2.add(pt0);
+            pixels2.add(pt1);
+        }
+        catch (Exception exc) {
+            //clsUtility.WriteFile("error in clsChanneUtility.DrawSegments");
+               ErrorLogger.LogException(_className ,"getLCPixels",
+                    new RendererException("Failed inside getLCPixels", exc));
+        }    
+        return pixels2;
+    }
 
     /**
      * The main interface to clsChannelUtility calls DrawChannel2 after stuffing
@@ -306,6 +345,7 @@ public final class clsChannelUtility {
             ArrayList<POINT2> channelPoints,
             int rev) {
         try {
+            pixels=getLCPixels(tg,pixels);
             //we must do this because the rotary arrow tip now has to match the
             //anchor point, i.e. the rotary feature can no longer stick out past the anchor point
             //45 pixels shift here matches the 45 pixels shift for catkbyfire found in Channels.GetAXADDouble
