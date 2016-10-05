@@ -2048,6 +2048,8 @@ public final class clsUtilityCPOF {
                     }
                 }
             }
+            if(!H.isEmpty())
+                tg.set_H(H);
         } 
         catch (Exception exc) 
         {
