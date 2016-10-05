@@ -1081,12 +1081,12 @@ public final class clsRenderer {
 
             Rectangle2D clipBounds = null;
             CELineArray.setClient("ge");
-            ArrayList<POINT2> origPixels = null;
-            ArrayList<POINT2> origLatLongs = null;
-            if (clsUtilityGE.segmentColorsSet(tg)) {
-                origPixels=lineutility.getDeepCopy(tg.Pixels);
-                origLatLongs=lineutility.getDeepCopy(tg.LatLongs);
-            }
+//            ArrayList<POINT2> origPixels = null;
+//            ArrayList<POINT2> origLatLongs = null;
+//            if (clsUtilityGE.segmentColorsSet(tg)) {
+//                origPixels=lineutility.getDeepCopy(tg.Pixels);
+//                origLatLongs=lineutility.getDeepCopy(tg.LatLongs);
+//            }
             ArrayList<POINT2> origFillPixels = lineutility.getDeepCopy(tg.Pixels);
           
 //            boolean shiftLines = Channels.getShiftLines();
@@ -1163,15 +1163,15 @@ public final class clsRenderer {
             }
 
             //if MSR segment data set use original pixels unless tg.Pixels is empty from clipping
-            if (origPixels != null) {
-                if (tg.Pixels.isEmpty()) {
-                    return;
-                } else {
-                    tg.Pixels = origPixels;
-                    tg.LatLongs = origLatLongs;
-                    clipArea = null;
-                }
-            }
+//            if (origPixels != null) {
+//                if (tg.Pixels.isEmpty()) {
+//                    return;
+//                } else {
+//                    tg.Pixels = origPixels;
+//                    tg.LatLongs = origLatLongs;
+//                    clipArea = null;
+//                }
+//            }
 
             armyc2.c2sd.JavaTacticalRenderer.clsUtility.InterpolatePixels(tg);
 
