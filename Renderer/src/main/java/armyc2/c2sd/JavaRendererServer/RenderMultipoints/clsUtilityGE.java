@@ -1210,6 +1210,8 @@ public final class clsUtilityGE {
        {
             if(shapes==null || shapes.size()==0)
                 return;
+            if(tg.get_UseHatchFill())
+                return;
             
             int lineType=tg.get_LineType();            
             int hatch=tg.get_FillStyle();
