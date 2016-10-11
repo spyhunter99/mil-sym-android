@@ -63,7 +63,7 @@ public class MilStdSymbol
     Color _OutLineColor = null;
     int _OutLineWidth = 0;
     TexturePaint _tp = null;
-    int _fs = 0;
+    boolean _fs = false;
     /**
      * 2525Bch2 and USAS 13/14 symbology
      */
@@ -231,12 +231,12 @@ public class MilStdSymbol
         _tp = value;
     }
 
-    public int getFillStyleEnum()
+    public boolean getUseFillPattern()
     {
         return _fs;
     }
 
-    public void setFillStyleEnum(int value)
+    public void setUseFillPattern(boolean value)
     {
         _fs = value;
     }

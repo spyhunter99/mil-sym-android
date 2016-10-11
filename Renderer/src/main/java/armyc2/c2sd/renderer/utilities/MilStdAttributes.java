@@ -98,6 +98,8 @@ public class MilStdAttributes {
     
     public static final int AltitudeMode = 16;
 
+    public static final int UsePatternFill = 17;
+
     /**
      * At the moment, this refers to the optional range fan labels.
      */
