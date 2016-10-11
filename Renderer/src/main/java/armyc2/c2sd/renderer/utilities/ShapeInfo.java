@@ -40,7 +40,7 @@ public class ShapeInfo {
     protected Shape _Shape;
     private Stroke stroke;
     private GeneralPath gp;
-    private String fillStyle;
+    private int fillStyle;
     private TexturePaint texturePaint;
     private int shapeType=-1;
     private Color lineColor = null;
@@ -374,6 +374,15 @@ public class ShapeInfo {
     public void setTexturePaint(TexturePaint value)
     {
         texturePaint=value;
+    }
+
+    public int getFillStyle()
+    {
+        return fillStyle;
+    }
+    public void setFillStyle(int value)
+    {
+        fillStyle=value;
     }
 
      public void setStroke(Stroke s)

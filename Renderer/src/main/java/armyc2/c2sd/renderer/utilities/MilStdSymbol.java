@@ -63,6 +63,7 @@ public class MilStdSymbol
     Color _OutLineColor = null;
     int _OutLineWidth = 0;
     TexturePaint _tp = null;
+    int _fs = 0;
     /**
      * 2525Bch2 and USAS 13/14 symbology
      */
@@ -212,7 +213,7 @@ public class MilStdSymbol
      * Controls what symbols are supported. Set this before loading the
      * renderer.
      *
-     * @param symbologyStandard Like
+     * @param standard Like
      * RendererSettings.Symbology_2525Bch2_USAS_13_14
      */
     public void setSymbologyStandard(int standard)
@@ -229,6 +230,18 @@ public class MilStdSymbol
     {
         _tp = value;
     }
+
+    public int getFillStyleEnum()
+    {
+        return _fs;
+    }
+
+    public void setFillStyleEnum(int value)
+    {
+        _fs = value;
+    }
+
+
 
     /**
      * Current symbology standard
