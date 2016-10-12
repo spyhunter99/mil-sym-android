@@ -736,7 +736,7 @@ public class MultiPointHandler {
 
             //String fillColor = null;
             MilStdSymbol mSymbol = new MilStdSymbol(symbolCode, null, geoCoords, null);
-            //mSymbol.setUseDashArray(false);
+            mSymbol.setUseDashArray(false);
             //set milstd symbology standard.
             mSymbol.setSymbologyStandard(symStd);
 
