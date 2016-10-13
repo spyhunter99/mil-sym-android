@@ -2510,6 +2510,9 @@ public final class clsMETOC {
                 case TacticalLines.BEACH_SLOPE_MODERATE:
                 case TacticalLines.BEACH_SLOPE_STEEP:
                 case TacticalLines.BEACH:
+                    //Android does not actually use this, i.e. infile will be null
+                    //the code was retained as part of the port from Java.
+                    //the fills will be created at the end of render_ge
                     if(tg.get_UsePatternFill())
                         break;
                     shape = shapes.get(0);

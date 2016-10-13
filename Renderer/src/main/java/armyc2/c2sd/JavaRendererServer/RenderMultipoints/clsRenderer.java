@@ -1055,7 +1055,11 @@ public final class clsRenderer {
         setTGProperties(tg);
         render_GE(tg, shapeInfos, modifierShapeInfos, converter, clipArea);
         //set the BitmapShader for the 0th shape
-        if (shapeInfos != null && shapeInfos.size() > 0) {
+//        if (shapeInfos != null && shapeInfos.size() > 0) {
+//            ShapeInfo shape = shapeInfos.get(0);
+//            clsUtility.createBitmapShader(tg, shape, context);
+//        }
+        if (shapeInfos != null && !shapeInfos.isEmpty() && !tg.get_UseHatchFill()) {
             ShapeInfo shape = shapeInfos.get(0);
             clsUtility.createBitmapShader(tg, shape, context);
         }
