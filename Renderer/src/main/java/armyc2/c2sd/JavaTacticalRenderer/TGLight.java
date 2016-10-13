@@ -503,6 +503,15 @@ public class TGLight {
     public void set_UseHatchFill(boolean value) {
         _useHatchFill = value;
     }
+
+    boolean _usePatternFill = false;    
+    public boolean get_UsePatternFill() {
+        return _usePatternFill;
+    }
+
+    public void set_UsePatternFill(boolean value) {
+        _usePatternFill = value;
+    }
     
     private boolean _wasClipped=false;
     public void set_WasClipped(boolean value)
