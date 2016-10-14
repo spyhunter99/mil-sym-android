@@ -2513,8 +2513,8 @@ public final class clsMETOC {
                     //Android does not actually use this, i.e. infile will be null
                     //the code was retained as part of the port from Java.
                     //the fills will be created at the end of render_ge
-                    if(tg.get_UsePatternFill())
-                        break;
+                    //if(tg.get_UsePatternFill())
+                    //    break;
                     shape = shapes.get(0);
                     shape.setLineColor(tg.get_LineColor());
                     inFile = clsMETOC.class.getClassLoader().getResourceAsStream(fileName);

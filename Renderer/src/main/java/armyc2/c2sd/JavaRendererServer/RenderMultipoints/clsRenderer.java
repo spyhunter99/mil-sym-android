@@ -218,7 +218,7 @@ public final class clsRenderer {
             }
             tg.set_UseDashArray(milStd.getUseDashArray());
             tg.set_UseHatchFill(milStd.getUseFillPattern());
-            tg.set_UsePatternFill(milStd.getUseFillPattern());
+            //tg.set_UsePatternFill(milStd.getUseFillPattern());
             tg.set_HideOptionalLabels(milStd.getHideOptionalLabels());
             boolean isClosedArea = armyc2.c2sd.JavaTacticalRenderer.clsUtility.isClosedPolygon(lineType);
 
@@ -1055,14 +1055,14 @@ public final class clsRenderer {
         setTGProperties(tg);
         render_GE(tg, shapeInfos, modifierShapeInfos, converter, clipArea);
         //set the BitmapShader for the 0th shape
-//        if (shapeInfos != null && shapeInfos.size() > 0) {
-//            ShapeInfo shape = shapeInfos.get(0);
-//            clsUtility.createBitmapShader(tg, shape, context);
-//        }
-        if (shapeInfos != null && !shapeInfos.isEmpty() && !tg.get_UseHatchFill()) {
+        if (shapeInfos != null && shapeInfos.size() > 0) {
             ShapeInfo shape = shapeInfos.get(0);
             clsUtility.createBitmapShader(tg, shape, context);
         }
+//        if (shapeInfos != null && !shapeInfos.isEmpty() && !tg.get_UseHatchFill()) {
+//            ShapeInfo shape = shapeInfos.get(0);
+//            clsUtility.createBitmapShader(tg, shape, context);
+//        }
     }
 
     /**
