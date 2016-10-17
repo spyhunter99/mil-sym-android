@@ -1,28 +1,28 @@
 package armyc2.c2sd.renderer.test2;
 
 import android.app.Activity;
-import android.os.Bundle;
-//import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import android.widget.EditText;
 import android.app.FragmentManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
+import android.widget.EditText;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.Locale;
+
 import armyc2.c2sd.renderer.MilStdIconRenderer;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
-import com.google.android.gms.maps.model.LatLng;
-import java.util.Locale;
-import armyc2.c2sd.renderer.test2.R;
 
 public class MainActivity extends Activity {
 
     private MapFragment mapFragment;
     private GoogleMap map;
-    //private LocationClient mLocationClient;
     private EditText editText;
     private MyView myView = null;
     MilStdIconRenderer mir = null;
