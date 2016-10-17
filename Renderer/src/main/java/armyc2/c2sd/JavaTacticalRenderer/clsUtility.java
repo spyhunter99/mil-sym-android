@@ -591,6 +591,7 @@ public final class clsUtility {
             int bolMETOC=clsMETOC.IsWeather(tg.get_SymbolId());
             if(bolMETOC>0)
                 return;
+            int fillStyle=0;
             //for some of these the style must be dashed
             switch (tg.get_LineType()) {
                 case TacticalLines.FEBA:
@@ -612,10 +613,13 @@ public final class clsUtility {
                 case TacticalLines.RAD:
                 case TacticalLines.WFZ:
                 //case TacticalLines.OBSAREA:
+                    fillStyle=3;
+                    if(tg.get_UseHatchFill())
+                        fillStyle=0;
                     if (shape.getShapeType() == Shape2.SHAPE_TYPE_POLYLINE) {
                         shape.set_Style(tg.get_LineStyle());
                         shape.setLineColor(tg.get_LineColor());
-                        shape.set_Fillstyle(3 /*GraphicProperties.FILL_TYPE_RIGHT_SLANTS*/);
+                        shape.set_Fillstyle(fillStyle /*GraphicProperties.FILL_TYPE_RIGHT_SLANTS*/);//was 3
                         shape.setFillColor(tg.get_FillColor());
                     }
                     break;
@@ -628,10 +632,13 @@ public final class clsUtility {
                     }
                     break;
                 case TacticalLines.LAA:
+                    fillStyle=2;
+                    if(tg.get_UseHatchFill())
+                        fillStyle=0;
                     if (shape.getShapeType() == Shape2.SHAPE_TYPE_POLYLINE) {
                         shape.set_Style(tg.get_LineStyle());
                         shape.setLineColor(tg.get_LineColor());
-                        shape.set_Fillstyle(2 /*GraphicProperties.FILL_TYPE_LEFT_SLANTS*/);
+                        shape.set_Fillstyle(fillStyle /*GraphicProperties.FILL_TYPE_LEFT_SLANTS*/);//was 2
                         shape.setFillColor(tg.get_FillColor());
                     }
                     break;
@@ -2000,6 +2007,8 @@ public final class clsUtility {
         Shape2 shape=null;
         try
         {
+            if(tg.get_UseHatchFill())
+                return null;
             switch(tg.get_LineType())
             {
                 case TacticalLines.OBSAREA:
