@@ -1,33 +1,16 @@
 description = 'mil-sym-android Renderer Test app with Google Maps'
 
 apply plugin: 'com.android.application'
-
+apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 android {
-    compileSdkVersion 15
-    buildToolsVersion '19.1.0'
-
     defaultConfig {
         applicationId "armyc2.c2sd.renderer.test2"
-        minSdkVersion 14
-        targetSdkVersion 22
-        versionCode 1
-        versionName "0.0.65"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    lintOptions {
-        abortOnError false
+
     }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    //compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.android.support:support-v4:19.1.0'
+    compile "com.android.support:support-v4:${project.property('android-support.version')}"
     compile project(':Renderer')
     compile 'com.google.android.gms:play-services:6.5.87'
 }
