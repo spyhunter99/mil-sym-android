@@ -1349,17 +1349,18 @@ public final class clsUtilityGE {
             //diagnostic
             if(tg.get_UseHatchFill())
             {
-                hatchLineShape.moveTo(new POINT2(x0,y0));
-                hatchLineShape.lineTo(new POINT2(x0+width,y0));
-                hatchLineShape.lineTo(new POINT2(x0+width,y0+width));
-                hatchLineShape.lineTo(new POINT2(x0,y0+width));
+//                hatchLineShape.moveTo(new POINT2(x0,y0));
+//                hatchLineShape.lineTo(new POINT2(x0+width,y0));
+//                hatchLineShape.lineTo(new POINT2(x0+width,y0+width));
+//                hatchLineShape.lineTo(new POINT2(x0,y0+width));
                 hatchLineShape.set_Fillstyle(hatch);
-                hatchLineShape.lineTo(new POINT2(x0,y0));
-                Area shapeArea=new Area(shape.getShape());
-                hatchLineArea=new Area(hatchLineShape.getShape());
-                //intersect the hatch lines with the original shape area to get the fill
-                hatchLineArea.intersect(shapeArea);
-                hatchLineShape.setShape(hatchLineArea);
+//                hatchLineShape.lineTo(new POINT2(x0,y0));
+//                Area shapeArea=new Area(shape.getShape());
+//                hatchLineArea=new Area(hatchLineShape.getShape());
+//                //intersect the hatch lines with the original shape area to get the fill
+//                hatchLineArea.intersect(shapeArea);
+//                hatchLineShape.setShape(hatchLineArea);
+                hatchLineShape.setShape(lineutility.createStrokedShape(shape.getShape()));                                    
                 return hatchLineShape;
             }
             //end section

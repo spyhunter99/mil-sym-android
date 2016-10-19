@@ -3781,7 +3781,7 @@ public final class lineutility {
      * @param shape
      * @return
      */
-    protected static Shape createStrokedShape(Shape shape) {
+    public static Shape createStrokedShape(Shape shape) {
         GeneralPath newshape = new GeneralPath(); // Start with an empty shape
         try {
             // Iterate through the specified shape, perturb its coordinates, and
