@@ -19,7 +19,7 @@ allprojects  {
             ( project.hasProperty('pom.version') ? project.property('pom.version') : "1.0" )
 
     //Use this for your project
-    apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/maven-support.gradle'
+    apply from: "$rootDir/gradle/maven-support.gradle"
 
     // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
     // (thanks, @BillBarnhill!)
@@ -45,7 +45,7 @@ allprojects  {
     /*******************************************************/
     /*******************************************************/
     if (project.hasProperty('profile') && project.profile.split(',').contains("ci")) {
-        apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/quality.gradle'
+        apply from: "$rootDir/gradle/quality.gradle"
     }
     /*******************************************************/
     /*******************************************************/
@@ -63,7 +63,7 @@ allprojects  {
 
 //this gives us the generateMasterKey and encryptPassword tasks
 //see https://github.com/chrisdoyle/gradle-fury/issues/67
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/encryption.gradle'
+apply from: "$rootDir/gradle/encryption.gradle"
 
 /*******************************************************/
 /*******************************************************/
@@ -84,7 +84,7 @@ apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gra
 /*******************************************************/
 
 //this is the gradle-fury site plugin, very similar to the maven site plugin
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/site.gradle'
+apply from: "$rootDir/gradle/site.gradle"
 
 //tip, you can override the output directory of the site by uncommenting the following
 //note that gradlew siteWar will always go to the build/site.war file

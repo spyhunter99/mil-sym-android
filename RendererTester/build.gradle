@@ -1,7 +1,7 @@
 
 description = 'mil-sym-android Renderer Test app'
 apply plugin: 'com.android.application'
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
+apply from: "$rootDir/gradle/android-support.gradle"
 
 android {
     defaultConfig {

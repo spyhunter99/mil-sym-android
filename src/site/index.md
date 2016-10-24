@@ -22,10 +22,12 @@ Eclipse with Android plugins
 or
 Android Studio
 or
-Gradle or Maven based build system.
+Gradle based build system
+or
+Maven based build system
 
-Building Locally
-----------------
+Building
+--------
 
 Build, install to maven local
 ````
@@ -37,3 +39,16 @@ Build, run all checks, javadoc and source jars, and install to maven local
 ````
 ./gradlew install -Pprofile=ci
 ````
+
+Build, install and publish to maven central or a nexus repository
+````
+./gradlew install -Pprofile=javadoc,sources
+./gradlew publishArtifacts -Pprofile=javadoc,sources
+````
+
+Build the site with javadocs and reports aggregation
+````
+./gradlew install -Pprofile=ci
+./gradlew site
+````
+You can then view the site at {projectRoot}/build/site/index.html.
