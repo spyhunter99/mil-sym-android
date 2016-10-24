@@ -1044,7 +1044,7 @@ public final class clsRenderer {
      * @param converter
      * @param clipArea
      * @param context
-     * test android-gradle
+     * test android-gradle2
      */
     public static void render_GE(TGLight tg,
             ArrayList<ShapeInfo> shapeInfos,
