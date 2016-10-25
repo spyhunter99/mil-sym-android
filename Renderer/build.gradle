@@ -1,30 +1,3 @@
-
 description = 'mil-sym-android Renderer'
-
-
 apply plugin: 'com.android.library'
-
-android {
-    compileSdkVersion 15
-    buildToolsVersion '21.0.0'
-
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 22
-        versionCode 1
-        versionName "0.1.15"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    lintOptions {
-          abortOnError false
-      }
-}
-
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-}
+apply from: "$rootDir/gradle/android-support.gradle"
