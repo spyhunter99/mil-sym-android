@@ -73,7 +73,7 @@ before_script:
 #build
 script:
   - ./gradlew -version
-  - ./gradlew connectedCheck
+  - ./gradlew connectedCheck -Pprofile=ci
 
 after_failure:
   # run this on failure
