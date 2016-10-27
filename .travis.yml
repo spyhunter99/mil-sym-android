@@ -73,7 +73,9 @@ before_script:
 #build
 script:
   - ./gradlew -version
-  - ./gradlew connectedCheck -Pprofile=ci
+  - ./gradlew connectedCheck
+  # FIXME one day add in -Pprofile=ci to the above line
+  # removed for now because travis will abort the build because the logout is too high
 
 after_failure:
   # run this on failure
