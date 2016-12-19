@@ -3412,6 +3412,87 @@ public class SymbolUtilities
     }
 
     /**
+     * Determines if a symbol is an EMS Installation
+     * @param strSymbolID
+     * @return
+     */
+    public static boolean isEMSInstallation(String strSymbolID)
+    {
+        boolean blRetVal = false;
+        try
+        {
+            if(strSymbolID.charAt(0)=='E')
+            {
+                if(strSymbolID.charAt(2)=='O' &&
+                        strSymbolID.charAt(4)=='D' && strSymbolID.charAt(6)=='C')
+                {
+                    blRetVal = true;
+                }
+                else if(strSymbolID.charAt(2)=='F' &&
+                        strSymbolID.substring(4, 6).equals("BA")==false)
+                {
+                    blRetVal = true;
+                }
+                else if(strSymbolID.charAt(2)=='O')
+                {
+                    if(strSymbolID.charAt(4)=='A')
+                    {
+                        switch(strSymbolID.charAt(5))
+                        {
+                            case 'C':
+                            case 'D':
+                            case 'G':
+                            case 'J':
+                            case 'K':
+                            case 'L':
+                            case 'M':
+                                blRetVal = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if(strSymbolID.charAt(4)=='B')
+                    {
+                        switch(strSymbolID.charAt(5))
+                        {
+                            case 'C':
+                            case 'E':
+                            case 'F':
+                            case 'G':
+                            case 'H':
+                            case 'I':
+                            case 'K':
+                            case 'L':
+                                blRetVal = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if(strSymbolID.charAt(4)=='C')
+                    {
+                        switch(strSymbolID.charAt(5))
+                        {
+                            case 'D':
+                            case 'E':
+                                blRetVal = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        catch(Throwable t)
+        {
+            System.out.println(t);
+        }
+        return blRetVal;
+    }
+
+    /**
      * @name isInstallation Warfighting ground installations. They are always
      * installations.
      * @desc Returns true if the symbol id is an installation (S*G*I).
@@ -3419,12 +3500,15 @@ public class SymbolUtilities
      * @param strSymbolID - IN - A MilStd2525B symbolID
      * @return True if symbol is an Installation, false otherwise.
      */
-    public static
-            boolean isInstallation(String strSymbolID)
+    public static boolean isInstallation(String strSymbolID)
     {
         try
         {
-            boolean blRetVal = ((strSymbolID.charAt(0) == 'S') && (strSymbolID.charAt(2) == 'G') && (strSymbolID.charAt(4) == 'I'));
+            boolean blRetVal = false;
+            if(strSymbolID.charAt(0)=='S')
+                blRetVal = ((strSymbolID.charAt(2) == 'G') && (strSymbolID.charAt(4) == 'I'));
+            else if((strSymbolID.charAt(0)=='E'))
+                blRetVal = isEMSInstallation(strSymbolID);
             return blRetVal;
         }
         catch (Throwable t)
