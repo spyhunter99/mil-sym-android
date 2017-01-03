@@ -31,7 +31,9 @@ public class TacticalGraphicIconRenderer {
 		
         if(armyc2.c2sd.renderer.utilities.SymbolUtilities.isWeather(symbolID)==true)
         {
-            color = SymbolUtilities.getLineColorOfWeather(symbolID);
+            color = SymbolUtilities.getFillColorOfWeather(symbolID);
+            if(color == null)
+                color = SymbolUtilities.getLineColorOfWeather(symbolID);
         }//*/
         else if(color == null)
         {
