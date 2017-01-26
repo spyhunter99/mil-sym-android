@@ -740,7 +740,7 @@ public final class clsUtility {
 
         }
     }
-    private static POINT2 PointPixelsToLatLong(POINT2 ptPixels,IPointConversion converter)
+    protected static POINT2 PointPixelsToLatLong(POINT2 ptPixels,IPointConversion converter)
     {
         POINT2 pt2 = new POINT2();
         try
