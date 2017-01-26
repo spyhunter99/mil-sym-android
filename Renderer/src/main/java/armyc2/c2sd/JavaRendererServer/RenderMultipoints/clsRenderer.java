@@ -1018,10 +1018,21 @@ public final class clsRenderer {
                 if (clipArea.getClass().isAssignableFrom(Rectangle2D.Double.class)) {
                     clipBounds = (Rectangle2D.Double) clipArea;
                 } else if (clipArea.getClass().isAssignableFrom(Rectangle.class)) {
-                    clipBounds = (Rectangle2D) clipArea;
+                    Rectangle rectx = (Rectangle) clipArea;
+                    clipBounds = new Rectangle2D.Double(rectx.x, rectx.y, rectx.width, rectx.height);
                 } else if (clipArea.getClass().isAssignableFrom(ArrayList.class)) {
                     clipPoints = (ArrayList<Point2D>) clipArea;
                 }
+            }
+            if(clipPoints != null)
+            {
+                double cx=clipPoints.get(0).getX();
+                double cy=clipPoints.get(0).getY();
+                Point2D pt1=clipPoints.get(1);
+                double w=Math.abs(pt1.getX()-cx);
+                Point2D pt2=clipPoints.get(2);
+                double h=Math.abs(pt2.getY()-cy);
+                clipBounds=new Rectangle2D.Double(cx, cy, w, h);
             }
             //assumes we are using clipBounds
             int j = 0;
