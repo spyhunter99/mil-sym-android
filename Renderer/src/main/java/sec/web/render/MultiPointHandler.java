@@ -537,7 +537,7 @@ public class MultiPointHandler {
             int format, int symStd)//,
     {
         //System.out.println("MultiPointHandler.RenderSymbol()");
-        boolean normalize = false;
+        boolean normalize = true;
         //Double controlLat = 0.0;
         //Double controlLong = 0.0;
         //Double metPerPix = GeoPixelConversion.metersPerPixel(scale);
@@ -684,20 +684,20 @@ public class MultiPointHandler {
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
         //if (crossesIDL(geoCoords) == true) 
-        if(Math.abs(right-left)>180)
-        {
-            normalize = true;
-            ((PointConverter)ipc).set_normalize(true);
-        } 
-        else {
-            normalize = false;
-            ((PointConverter)ipc).set_normalize(false);
-        }
+//        if(Math.abs(right-left)>180)
+//        {
+//            normalize = true;
+//            ((PointConverter)ipc).set_normalize(true);
+//        } 
+//        else {
+//            normalize = false;
+//            ((PointConverter)ipc).set_normalize(false);
+//        }
 
         //seems to work ok at world view
-        if (normalize) {
-            NormalizeGECoordsToGEExtents(0, 360, geoCoords);
-        }
+//        if (normalize) {
+//            NormalizeGECoordsToGEExtents(0, 360, geoCoords);
+//        }
 
         //M. Deutch 10-3-11
         //must shift the rect pixels to synch with the new ipc
@@ -709,9 +709,9 @@ public class MultiPointHandler {
         geoCoords2.add(new Point2D.Double(left, top));
         geoCoords2.add(new Point2D.Double(right, bottom));
 
-        if (normalize) {
-            NormalizeGECoordsToGEExtents(0, 360, geoCoords2);
-        }
+//        if (normalize) {
+//            NormalizeGECoordsToGEExtents(0, 360, geoCoords2);
+//        }
 
         //disable clipping
         if (ShouldClipSymbol(symbolCode) == false) 
@@ -885,7 +885,7 @@ public class MultiPointHandler {
     {
         MilStdSymbol mSymbol = null;
         //System.out.println("MultiPointHandler.RenderSymbol()");
-        boolean normalize = false;
+        boolean normalize = true;
         Double controlLat = 0.0;
         Double controlLong = 0.0;
         //String jsonContent = "";
@@ -1022,20 +1022,20 @@ public class MultiPointHandler {
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
         //if (crossesIDL(geoCoords) == true) 
-        if(Math.abs(right-left)>180)
-        {
-            normalize = true;
-            ((PointConverter)ipc).set_normalize(true);
-        } 
-        else {
-            normalize = false;
-            ((PointConverter)ipc).set_normalize(false);
-        }
+//        if(Math.abs(right-left)>180)
+//        {
+//            normalize = true;
+//            ((PointConverter)ipc).set_normalize(true);
+//        } 
+//        else {
+//            normalize = false;
+//            ((PointConverter)ipc).set_normalize(false);
+//        }
 
         //seems to work ok at world view
-        if (normalize) {
-            NormalizeGECoordsToGEExtents(0, 360, geoCoords);
-        }
+//        if (normalize) {
+//            NormalizeGECoordsToGEExtents(0, 360, geoCoords);
+//        }
 
         //M. Deutch 10-3-11
         //must shift the rect pixels to synch with the new ipc
@@ -1047,9 +1047,9 @@ public class MultiPointHandler {
         geoCoords2.add(new Point2D.Double(left, top));
         geoCoords2.add(new Point2D.Double(right, bottom));
 
-        if (normalize) {
-            NormalizeGECoordsToGEExtents(0, 360, geoCoords2);
-        }
+//        if (normalize) {
+//            NormalizeGECoordsToGEExtents(0, 360, geoCoords2);
+//        }
 
         //disable clipping
         if (ShouldClipSymbol(symbolCode) == false) 
@@ -2012,20 +2012,20 @@ public class MultiPointHandler {
             ipc = new PointConverter(ptCoordsUL.getX(), ptCoordsUL.getY(), scale);
         }
         //if (crossesIDL(geoCoords) == true) 
-        if(Math.abs(right-left)>180)
-        {
-            normalize = true;
-            ((PointConverter)ipc).set_normalize(true);
-        } 
-        else {
-            normalize = false;
-            ((PointConverter)ipc).set_normalize(false);
-        }
+//        if(Math.abs(right-left)>180)
+//        {
+//            normalize = true;
+//            ((PointConverter)ipc).set_normalize(true);
+//        } 
+//        else {
+//            normalize = false;
+//            ((PointConverter)ipc).set_normalize(false);
+//        }
 
         //seems to work ok at world view
-        if (normalize) {
-            NormalizeGECoordsToGEExtents(0, 360, geoCoords);
-        }
+//        if (normalize) {
+//            NormalizeGECoordsToGEExtents(0, 360, geoCoords);
+//        }
 
         tgl.set_SymbolId(symbolCode);// "GFGPSLA---****X" AMBUSH symbol code
         tgl.set_Pixels(null);

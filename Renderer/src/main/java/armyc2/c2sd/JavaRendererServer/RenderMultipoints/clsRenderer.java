@@ -1047,7 +1047,7 @@ public final class clsRenderer {
 
             //the latitude range
             //boolean ptInside = false, ptAbove = false, ptBelow = false;
-            boolean canClipPoints = clsUtilityCPOF.canClipPoints(tg);
+            //boolean canClipPoints = clsUtilityCPOF.canClipPoints(tg);
             double coordsLeft = tg.LatLongs.get(0).x;
             double coordsRight = coordsLeft;
             double coordsTop=tg.LatLongs.get(0).y;
@@ -1065,15 +1065,15 @@ public final class clsRenderer {
                 if (pt.y > coordsTop)
                     coordsTop = pt.y;                    
             }
-            if(canClipPoints)
-            {                
+            //if(canClipPoints)
+            //{                
                 if(br.y<=coordsBottom && coordsBottom <= tl.y)
                     intersects=true;
                 else if(coordsBottom<=br.y && br.y <=coordsTop)
                     intersects=true;
                 else
                     return false;
-            }
+            //}
             //reinitialize intersects for the lonbgitude ranges
             intersects=false;
             //if it gets this far then the latitude ranges intersect
@@ -1094,7 +1094,7 @@ public final class clsRenderer {
             if (coordSpanIDL && boxSpanIDL) {
                 intersects = true;
             } 
-            else if (!coordSpanIDL && !boxSpanIDL && canClipPoints) 
+            else if (!coordSpanIDL && !boxSpanIDL)  //was && canClipPoints 
             {
                 if (coordsLeft <= tl.x && tl.x <= coordsRight) {
                     intersects = true;
