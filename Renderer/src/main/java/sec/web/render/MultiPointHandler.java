@@ -985,26 +985,29 @@ public class MultiPointHandler {
                 bottomY = (int) temp.getY();
                 rightX = (int) temp.getX();
                 //diagnostic clipping does not work for large scales
-                if (scale > 10e6) {
-                    //get widest point in the AOI
-                    double midLat = 0;
-                    if (bottom < 0 && top > 0) {
-                        midLat = 0;
-                    } else if (bottom < 0 && top < 0) {
-                        midLat = top;
-                    } else if (bottom > 0 && top > 0) {
-                        midLat = bottom;
-                    }
-
-                    temp = ipc.GeoToPixels(new Point2D.Double(right, midLat));
-                    rightX = (int) temp.getX();
-                }
+//                if (scale > 10e6) {
+//                    //get widest point in the AOI
+//                    double midLat = 0;
+//                    if (bottom < 0 && top > 0) {
+//                        midLat = 0;
+//                    } else if (bottom < 0 && top < 0) {
+//                        midLat = top;
+//                    } else if (bottom > 0 && top > 0) {
+//                        midLat = bottom;
+//                    }
+//
+//                    temp = ipc.GeoToPixels(new Point2D.Double(right, midLat));
+//                    rightX = (int) temp.getX();
+//                }
                 //end section
 
                 width = (int) Math.abs(rightX - leftX);
                 height = (int) Math.abs(bottomY - topY);
 
-                rect = new Rectangle(leftX, topY, width, height);
+                if(width==0 || height==0)
+                    rect=null;
+                else
+                    rect = new Rectangle(leftX, topY, width, height);
             }
         } else {
             rect = null;
@@ -1311,15 +1314,15 @@ public class MultiPointHandler {
             int width;
             int height;
             boolean normalize = false;
-            if(Math.abs(right-left)>180)
-            {
-                ((PointConversion)ipc).set_normalize(true);                
-                normalize=true;
-            }
-            else      
-            {
-                ((PointConversion)ipc).set_normalize(false);
-            }
+//            if(Math.abs(right-left)>180)
+//            {
+//                ((PointConversion)ipc).set_normalize(true);                
+//                normalize=true;
+//            }
+//            else      
+//            {
+//                ((PointConversion)ipc).set_normalize(false);
+//            }
             if (ShouldClipSymbol(symbolCode)  || crossesIDL(geoCoords)) 
             {
                 Point2D lt=new Point2D.Double(left,top);
