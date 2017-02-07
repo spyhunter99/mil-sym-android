@@ -23,7 +23,7 @@ public class TacticalGraphicIconRenderer {
     private static Typeface _TGMP = null;
 	private static final Object _TGFontMutex = new Object();
 
-	public static ImageInfo getIcon(String symbolID, int size, Color color)
+	public static ImageInfo getIcon(String symbolID, int size, Color color, int symStd)
 	{
 		ImageInfo ii = null;
 		
@@ -41,7 +41,7 @@ public class TacticalGraphicIconRenderer {
         }
 		
 
-        int charSymbolIndex = TacticalGraphicLookup.getInstance().getCharCodeFromSymbol(symbolID);
+        int charSymbolIndex = TacticalGraphicLookup.getInstance().getCharCodeFromSymbol(symbolID, symStd);
 		
         if(charSymbolIndex > 0)
         {
