@@ -2530,6 +2530,83 @@ public class ModifierRenderer
             }
 
         }
+        else if(basicID.charAt(0) == 'W')
+        {
+            String modX = null;
+            if(modifiers.indexOfKey(ModifiersTG.X_ALTITUDE_DEPTH) > -1)
+                modX = (modifiers.get(ModifiersTG.X_ALTITUDE_DEPTH));
+
+            if(basicID.equals("WAS-WSF-LVP----"))//Freezing Level
+            {
+                strText = "0" + (char)(176) + ":";
+                if(modX != null)
+                    strText += modX;
+                else
+                    strText += "?";
+
+                ti = new TextInfo(strText, 0, 0, _modifierFont);
+                labelWidth = Math.round(ti.getTextBounds().width());
+                //One modifier symbols and modifier goes in center
+                x = bounds.left + (int) (bounds.width() * 0.5f);
+                x = x - (int) (labelWidth * 0.5f);
+                y = bounds.top + (int) (bounds.height() * 0.5f);
+                y = y + (int) (labelHeight * 0.5f);
+
+                ti.setLocation(Math.round(x), Math.round(y));
+                arrMods.add(ti);
+            }
+            else if(basicID.equals("WAS-WST-LVP----"))//tropopause Level
+            {
+                strText = "X?";
+                if(modX != null)
+                    strText += modX;
+
+                ti = new TextInfo(strText, 0, 0, _modifierFont);
+                labelWidth = Math.round(ti.getTextBounds().width());
+                //One modifier symbols and modifier goes in center
+                x = bounds.left + (int) (bounds.width() * 0.5f);
+                x = x - (int) (labelWidth * 0.5f);
+                y = bounds.top + (int) (bounds.height() * 0.5f);
+                y = y + (int) (labelHeight * 0.5f);
+
+                ti.setLocation(Math.round(x), Math.round(y));
+                arrMods.add(ti);
+            }
+            else if(basicID.equals("WAS-PLT---P----"))//tropopause Low
+            {
+                strText = "X?";
+                if(modX != null)
+                    strText += modX;
+
+                ti = new TextInfo(strText, 0, 0, _modifierFont);
+                labelWidth = Math.round(ti.getTextBounds().width());
+                //One modifier symbols and modifier goes in center
+                x = bounds.left + (int) (bounds.width() * 0.5f);
+                x = x - (int) (labelWidth * 0.5f);
+                y = bounds.top + (int) (bounds.height() * 0.5f);
+                y = y - descent;
+
+                ti.setLocation(Math.round(x), Math.round(y));
+                arrMods.add(ti);
+            }
+            else if(basicID.equals("WAS-PHT---P----"))//tropopause High
+            {
+                strText = "X?";
+                if(modX != null)
+                    strText += modX;
+
+                ti = new TextInfo(strText, 0, 0, _modifierFont);
+                labelWidth = Math.round(ti.getTextBounds().width());
+                //One modifier symbols and modifier goes in center
+                x = bounds.left + (int) (bounds.width() * 0.5f);
+                x = x - (int) (labelWidth * 0.5f);
+                y = bounds.top + (int) (bounds.height() * 0.5f);
+                y = y + (int) ((labelHeight * 0.5f) + (labelHeight/2));
+
+                ti.setLocation(Math.round(x), Math.round(y));
+                arrMods.add(ti);
+            }
+        }
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="DOM Arrow">
@@ -3158,9 +3235,15 @@ public class ModifierRenderer
             symStd = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
         }
         char scheme = symbolID.charAt(0);
-        if (scheme == 'W')
+        if(scheme == 'W')
         {
-            return false;
+            if(symbolID.equals("WAS-WSF-LVP----") || //freezing level
+                    symbolID.equals("WAS-PHT---P----") || //tropopause high
+                    symbolID.equals("WAS-PLT---P----") || //tropopause low
+                    symbolID.equals("WAS-WST-LVP----")) ////tropopause level
+                return true;
+            else
+                return false;
         }
         if (scheme == 'G')
         {

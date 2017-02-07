@@ -97,22 +97,36 @@ public class TacticalGraphicLookup {
    * @param symbolCode
    * @return
    */
-  public int getCharCodeFromSymbol(String symbolCode)
+    public int getCharCodeFromSymbol(String symbolCode)
+    {
+        int symStd = RendererSettings.getInstance().getSymbologyStandard();
+
+        return getCharCodeFromSymbol(symbolCode, symStd);
+
+    }
+  public int getCharCodeFromSymbol(String symbolCode, int symStd)
   {
 
       try
       {
     	  String basicID = symbolCode;
+          int charCode = -1;
           if(SymbolUtilities.is3dAirspace(symbolCode)==false)
           {
               basicID = SymbolUtilities.getBasicSymbolID(symbolCode);
           }
           if(symbolMap.containsKey(basicID))
           {
-        	  return symbolMap.get(basicID);
+        	  charCode = symbolMap.get(basicID);
+              if(charCode == 59053)
+              {
+                  if(symStd == 1)
+                  {
+                      charCode = 59052;
+                  }
+              }
           }
-          else
-        	  return -1;
+          return charCode;
       }
       catch(Exception exc)
       {

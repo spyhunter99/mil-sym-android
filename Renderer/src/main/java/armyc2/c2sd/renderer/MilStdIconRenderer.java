@@ -277,7 +277,13 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
             size = Integer.parseInt(attributes.get(MilStdAttributes.PixelSize));
         }
 
-        ImageInfo ii = TacticalGraphicIconRenderer.getIcon(symbolID, size, lineColor);
+        int symStd = RendererSettings.getInstance().getSymbologyStandard();
+        if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
+        {
+            size = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
+        }
+
+        ImageInfo ii = TacticalGraphicIconRenderer.getIcon(symbolID, size, lineColor, symStd);
         return ii;
     }
 
