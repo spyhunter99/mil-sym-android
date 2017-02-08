@@ -1006,33 +1006,24 @@ public final class clsRenderer {
      * @param clipArea
      * @return
      */
-    public static boolean intersectsClipArea(TGLight tg, IPointConversion converter, Object clipArea) {
-        boolean result = false;
-        try {
-            if (clipArea == null || tg.LatLongs.size() < 2) {
+    public static boolean intersectsClipArea(TGLight tg, IPointConversion converter, Object clipArea)
+    {
+        boolean result=false;
+        try
+        {
+            if (clipArea==null || tg.LatLongs.size() < 2)
                 return true;
-            }
             Rectangle2D clipBounds = null;
             ArrayList<Point2D> clipPoints = null;
-
+            
             if (clipArea != null) {
                 if (clipArea.getClass().isAssignableFrom(Rectangle2D.Double.class)) {
                     clipBounds = (Rectangle2D.Double) clipArea;
                 } else if (clipArea.getClass().isAssignableFrom(Rectangle.class)) {
-                    Rectangle rectx = (Rectangle) clipArea;
-                    clipBounds = new Rectangle2D.Double(rectx.x, rectx.y, rectx.width, rectx.height);
+                    clipBounds = (Rectangle2D) clipArea;
                 } else if (clipArea.getClass().isAssignableFrom(ArrayList.class)) {
                     clipPoints = (ArrayList<Point2D>) clipArea;
                 }
-            }
-            if (clipPoints != null) {
-                double cx = clipPoints.get(0).getX();
-                double cy = clipPoints.get(0).getY();
-                Point2D pt1 = clipPoints.get(1);
-                double w = Math.abs(pt1.getX() - cx);
-                Point2D pt2 = clipPoints.get(2);
-                double h = Math.abs(pt2.getY() - cy);
-                clipBounds = new Rectangle2D.Double(cx, cy, w, h);
             }
             //assumes we are using clipBounds
             int j = 0;
@@ -1044,26 +1035,42 @@ public final class clsRenderer {
             POINT2 br = new POINT2(x + width, y + height);
             tl = clsUtility.PointPixelsToLatLong(tl, converter);
             br = clsUtility.PointPixelsToLatLong(br, converter);
-
             //the latitude range
             //boolean ptInside = false, ptAbove = false, ptBelow = false;
-            //boolean canClipPoints = clsUtilityCPOF.canClipPoints(tg);
             double coordsLeft = tg.LatLongs.get(0).x;
             double coordsRight = coordsLeft;
             double coordsTop=tg.LatLongs.get(0).y;
             double coordsBottom=coordsTop;
             boolean intersects=false;
-            for (j = 0; j < tg.LatLongs.size(); j++) 
-            {
-                POINT2 pt = tg.LatLongs.get(j);
-                if (pt.x < coordsLeft)
-                    coordsLeft = pt.x;
-                if (pt.x > coordsRight)
-                    coordsRight = pt.x;
+            double minx=tg.LatLongs.get(0).x,maxx=minx,maxNegX=0;
+            for (j = 0; j < tg.LatLongs.size(); j++)
+            {                
+                POINT2 pt=tg.LatLongs.get(j);
+                if (pt.x < minx)
+                    minx = pt.x;
+                if (pt.x > maxx)
+                    maxx = pt.x;
+                if(maxNegX==0 && pt.x<0)
+                    maxNegX=pt.x;
+                if(maxNegX<0 && pt.x<0 && pt.x>maxNegX)
+                    maxNegX=pt.x;
                 if (pt.y < coordsBottom)
                     coordsBottom = pt.y;
                 if (pt.y > coordsTop)
-                    coordsTop = pt.y;                    
+                    coordsTop = pt.y;                
+            }
+            boolean coordSpanIDL = false;
+            if(maxx==180 || minx==-180)
+                coordSpanIDL=true;
+            else if(maxx-minx>=180)
+            {
+                coordSpanIDL=true;
+                coordsLeft=maxx;
+                coordsRight=maxNegX;
+            }else
+            {
+                coordsLeft=minx;
+                coordsRight=maxx;
             }
             //if(canClipPoints)
             //{                
@@ -1074,41 +1081,39 @@ public final class clsRenderer {
                 else
                     return false;
             //}
-            //reinitialize intersects for the lonbgitude ranges
-            intersects=false;
             //if it gets this far then the latitude ranges intersect
+            //re-initialize intersects for the longitude ranges
+            intersects=false;
             //the longitude range
             //the min and max coords longitude
             boolean boxSpanIDL = false;
-            boolean coordSpanIDL = false;
-            if (Math.abs(br.x - tl.x) > 180) {
+            //boolean coordSpanIDL = false;
+            if(tl.x==180 || tl.x==-180 || br.x==180 || br.x==-180)
+                boxSpanIDL=true;
+            else if (Math.abs(br.x - tl.x) > 180)
                 boxSpanIDL = true;
-            }
-            if (coordsRight - coordsLeft > 180) {
-                double temp = coordsLeft;
-                coordsLeft = coordsRight;
-                coordsRight = temp;
-                coordSpanIDL = true;
-            }
-            //boolean intersects = false;
-            if (coordSpanIDL && boxSpanIDL) {
-                intersects = true;
-            } 
-            else if (!coordSpanIDL && !boxSpanIDL)  //was && canClipPoints 
+            
+//            if (coordsRight - coordsLeft > 180)
+//            {
+//                double temp = coordsLeft;
+//                coordsLeft = coordsRight;
+//                coordsRight = temp;
+//                coordSpanIDL=true;
+//            }
+            //boolean intersects=false;
+            if(coordSpanIDL && boxSpanIDL)
+                intersects=true;
+            else if(!coordSpanIDL && !boxSpanIDL)   //was && canclipPoints
             {
-                if (coordsLeft <= tl.x && tl.x <= coordsRight) {
-                    intersects = true;
-                }
-                if (coordsLeft <= br.x && br.x <= coordsRight) {
-                    intersects = true;
-                }
-                if (tl.x <= coordsLeft && coordsLeft <= br.x) {
-                    intersects = true;
-                }
-                if (tl.x <= coordsRight && coordsRight <= br.x) {
-                    intersects = true;
-                }
-            } 
+                if(coordsLeft<=tl.x && tl.x<=coordsRight)
+                    intersects=true;
+                if(coordsLeft<=br.x && br.x<=coordsRight)
+                    intersects=true;
+                if(tl.x<=coordsLeft && coordsLeft<=br.x)
+                    intersects=true;
+                if(tl.x<=coordsRight && coordsRight<=br.x)
+                    intersects=true;
+            }
             else if(!coordSpanIDL && boxSpanIDL)    //box spans IDL and coords do not
             {   
                 if(tl.x<coordsRight && coordsRight<180)
@@ -1124,11 +1129,12 @@ public final class clsRenderer {
                     intersects=true;
             }
             return intersects;
-
-        } catch (Exception exc) {
+            
+        }
+        catch (Exception exc) {
             ErrorLogger.LogException("clsRenderer", "intersectsClipArea",
                     new RendererException("Failed inside intersectsClipArea", exc));
-        }
+        }    
         return result;
     }
 
