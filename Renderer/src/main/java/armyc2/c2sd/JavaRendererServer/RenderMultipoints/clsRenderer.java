@@ -1062,7 +1062,7 @@ public final class clsRenderer {
             boolean coordSpanIDL = false;
             if(maxx==180 || minx==-180)
                 coordSpanIDL=true;
-            else if(maxx-minx>=180)
+            if(maxx-minx>=180)
             {
                 coordSpanIDL=true;
                 coordsLeft=maxx;
