@@ -1016,13 +1016,26 @@ public final class clsRenderer {
             Rectangle2D clipBounds = null;
             ArrayList<Point2D> clipPoints = null;
             
+//            if (clipArea != null) {
+//                if (clipArea.getClass().isAssignableFrom(Rectangle2D.Double.class)) {
+//                    clipBounds = (Rectangle2D.Double) clipArea;
+//                } else if (clipArea.getClass().isAssignableFrom(Rectangle.class)) {
+//                    clipBounds = (Rectangle2D) clipArea;
+//                } else if (clipArea.getClass().isAssignableFrom(ArrayList.class)) {
+//                    clipPoints = (ArrayList<Point2D>) clipArea;
+//                }
+//            }
             if (clipArea != null) {
                 if (clipArea.getClass().isAssignableFrom(Rectangle2D.Double.class)) {
                     clipBounds = (Rectangle2D.Double) clipArea;
                 } else if (clipArea.getClass().isAssignableFrom(Rectangle.class)) {
-                    clipBounds = (Rectangle2D) clipArea;
+                    Rectangle rectx = (Rectangle) clipArea;
+                    clipBounds = new Rectangle2D.Double(rectx.x, rectx.y, rectx.width, rectx.height);
                 } else if (clipArea.getClass().isAssignableFrom(ArrayList.class)) {
-                    clipPoints = (ArrayList<Point2D>) clipArea;
+                    clipPoints = (ArrayList<Point2D>) clipArea;                    
+                    double x0=clipPoints.get(0).getX(),y0=clipPoints.get(0).getY();
+                    double w=clipPoints.get(1).getX()-x0,h=clipPoints.get(3).getY()-y0;
+                    clipBounds = new Rectangle2D.Double(x0, y0, w, h);                    
                 }
             }
             //assumes we are using clipBounds
