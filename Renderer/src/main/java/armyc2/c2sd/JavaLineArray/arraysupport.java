@@ -2381,8 +2381,6 @@ public final class arraysupport {
                     acCounter = 5;
                     break;
                 case TacticalLines.BS_ELLIPSE:
-                case TacticalLines.PBS_ELLIPSE:
-                case TacticalLines.PBS_CIRCLE:
                     pt0 = pLinePoints[0];//the center of the ellipse
                     pt1 = pLinePoints[1];//the width of the ellipse
                     pt2 = pLinePoints[2];//the height of the ellipse
@@ -2390,6 +2388,21 @@ public final class arraysupport {
                     double azimuth = pLinePoints[3].x;
                     pLinePoints = getRotatedEllipsePoints(pt0, pt1, pt2, azimuth, lineType);
                     acCounter = 37;
+                    break;
+                case TacticalLines.PBS_ELLIPSE:
+                case TacticalLines.PBS_CIRCLE:
+                    pt0 = pLinePoints[0];//the center of the ellipse
+                    pt1 = pLinePoints[1];//the width of the ellipse
+                    pt2 = pLinePoints[2];//the height of the ellipse
+                    azimuth = pLinePoints[3].x;
+                    pOriginalLinePoints = getRotatedEllipsePoints(pt0, pt1, pt2, azimuth, lineType);
+                    //use linestyle to get the distance to expand the shape for the buffer shape
+                    double dist=pt0.style;
+                    pt1.x+=dist;
+                    pt2.y-=dist;
+                    pLinePoints = getRotatedEllipsePoints(pt0, pt1, pt2, azimuth, lineType);
+                    acCounter = 37;
+                    vblSaveCounter=37;
                     break;
                 case TacticalLines.OVERHEAD_WIRE:
                     acCounter = getOverheadWire(pLinePoints, vblSaveCounter);
@@ -4508,6 +4521,8 @@ public final class arraysupport {
             switch (lineType) {
                 case TacticalLines.BBS_AREA:
                 case TacticalLines.BBS_RECTANGLE:
+                case TacticalLines.PBS_ELLIPSE: //add these two
+                case TacticalLines.PBS_CIRCLE:
                     shape = new Shape2(Shape2.SHAPE_TYPE_FILL);
                     shape.moveTo(pLinePoints[0]);
                     for (j = 0; j < vblSaveCounter; j++) {

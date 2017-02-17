@@ -759,8 +759,8 @@ public final class clsUtility {
                         switch(lineType)
                         {
                             case TacticalLines.BS_ELLIPSE:
-                            case TacticalLines.PBS_ELLIPSE:
-                            case TacticalLines.PBS_CIRCLE:
+                            //case TacticalLines.PBS_ELLIPSE:
+                            //case TacticalLines.PBS_CIRCLE:
                             case TacticalLines.BS_RECTANGLE:
                             //case TacticalLines.BBS_RECTANGLE:
                                 shape.set_Fillstyle(tg.get_FillStyle());
@@ -769,6 +769,8 @@ public final class clsUtility {
                             case TacticalLines.BBS_RECTANGLE:
                             case TacticalLines.PBS_RECTANGLE:
                             case TacticalLines.PBS_SQUARE:
+                            case TacticalLines.PBS_ELLIPSE:
+                            case TacticalLines.PBS_CIRCLE:
                                 shape.setFillColor(null);
                                 break;
                             default:
