@@ -2252,12 +2252,13 @@ public final class lineutility {
             pLinePoints[4] = new POINT2(pt4);
             pLinePoints[5] = new POINT2(pt5);
             pLinePoints[5].style = 5;
-            if (lineType == TacticalLines.SAAFR) {
-                pLinePoints[0].style = 5;
-            }
-            if (rev == RendererSettings.Symbology_2525C) {
-                pLinePoints[0].style = 5;
-            }
+//            if (lineType == TacticalLines.SAAFR) {
+//                pLinePoints[0].style = 5;
+//            }
+//            if (rev == RendererSettings.Symbology_2525C) {
+//                pLinePoints[0].style = 5;
+//            }
+            pLinePoints[0].style = 5;
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetSAAFRSegment",
                     new RendererException("Failed inside GetSAAFRSegment", exc));
