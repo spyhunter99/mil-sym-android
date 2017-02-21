@@ -18,6 +18,7 @@ import armyc2.c2sd.renderer.utilities.RendererException;
 import armyc2.c2sd.graphics2d.*;
 import armyc2.c2sd.renderer.utilities.IPointConversion;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
+import armyc2.c2sd.renderer.utilities.ShapeInfo;
 import armyc2.c2sd.renderer.utilities.SymbolUtilities;
 import java.util.Map;
 import java.util.HashMap;
@@ -574,9 +575,13 @@ public final class clsUtilityCPOF {
                     }
                 }
             }
-            if (k == tg.Pixels.size() - 1) //non-LC should only have one shape
+            if (k == tg.Pixels.size() - 1) //PBS shapes have 2 shapes, other non-LC symbols have 1 shape
             {
-                shapes.add(shape);
+                //shapes.add(shape);
+                if(shape.getShapeType()==ShapeInfo.SHAPE_TYPE_FILL)
+                    shapes.add(0,shape);
+                else
+                    shapes.add(shape);
             }
         }   //end for
 
