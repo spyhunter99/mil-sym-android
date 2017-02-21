@@ -2150,7 +2150,50 @@ public final class lineutility {
         }
         return dResult;
     }
-
+    /**
+     * gets the middle line for Rev B air corridors AC, LLTR, MRR, UAV
+     * Middle line is handled separately now because the line may have been segmented
+     * @param pLinePoints
+     * @return 
+     */
+    protected static POINT2[] GetSAAFRMiddleLine(POINT2[] pLinePoints) {
+        POINT2[] pts = null;
+        try {
+            int j = 0, count = 0;
+            for (j = 0; j < pLinePoints.length-1; j++) {
+                if (pLinePoints[j].style > 0) {
+                    count++;
+                }
+            }
+            pts = new POINT2[count*2];
+            count=0;
+            double dMRR=0;
+            POINT2 firstSegPt=null,lastSegPt=null,pt0=null,pt1=null;
+            for (j = 0; j < pLinePoints.length; j++) {
+                if(pLinePoints[j].style>=0 || j==pLinePoints.length-1)
+                {
+                    if(lastSegPt != null)
+                    {
+                        firstSegPt=new POINT2(lastSegPt);
+                        lastSegPt=new POINT2(pLinePoints[j]);
+                        dMRR=firstSegPt.style;
+                        pt0 = ExtendLine2Double(lastSegPt, firstSegPt, -dMRR, 0);
+                        pt1 = ExtendLine2Double(firstSegPt, lastSegPt, -dMRR, 5);                        
+                        pts[count++]=pt0;
+                        pts[count++]=pt1;
+                    }
+                    else
+                    {
+                        lastSegPt=new POINT2(pLinePoints[j]);
+                    }
+                }
+            }            
+        } catch (Exception exc) {
+            ErrorLogger.LogException(_className, "GetSAAFRMiddleLine",
+                    new RendererException("Failed inside GetSAAFRMiddleLine", exc));
+        }
+        return pts;
+    }
     /**
      * Computes the points for a SAAFR segment
      *
