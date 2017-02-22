@@ -1053,9 +1053,10 @@ public final class clsRenderer {
                     clipBounds = new Rectangle2D.Double(rectx.x, rectx.y, rectx.width, rectx.height);
                 } else if (clipArea.getClass().isAssignableFrom(ArrayList.class)) {
                     clipPoints = (ArrayList<Point2D>) clipArea;                    
-                    double x0=clipPoints.get(0).getX(),y0=clipPoints.get(0).getY();
-                    double w=clipPoints.get(1).getX()-x0,h=clipPoints.get(3).getY()-y0;
-                    clipBounds = new Rectangle2D.Double(x0, y0, w, h);                    
+                    //double x0=clipPoints.get(0).getX(),y0=clipPoints.get(0).getY();
+                    //double w=clipPoints.get(1).getX()-x0,h=clipPoints.get(3).getY()-y0;
+                    //clipBounds = new Rectangle2D.Double(x0, y0, w, h);                    
+                    clipBounds=clsUtility.getMBR(clipPoints);
                 }
             }
             //assumes we are using clipBounds
