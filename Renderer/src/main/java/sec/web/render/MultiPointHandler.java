@@ -293,10 +293,11 @@ public class MultiPointHandler {
                 //one positive value to the left of +/-180 and negative x value to the right of +/-180.
                 //We are using the orientation with the north pole on top so we can keep
                 //the existing value for top. Then the left value will be the least positive x value
-                left = geoCoords.get(0).getX();
+                //left = geoCoords.get(0).getX();
+                left = 180;
                 //for (j = 1; j < geoCoords.size(); j++) 
                 n = geoCoords.size();
-                for (j = 1; j < n; j++) {
+                for (j = 0; j < n; j++) {
                     pt = geoCoords.get(j);
                     if (pt.getX() > 0 && pt.getX() < left) {
                         left = pt.getX();
@@ -308,6 +309,58 @@ public class MultiPointHandler {
             System.out.println("Failed to create control point in MultiPointHandler.getControlPoint");
         }
         return ptGeo;
+    }
+    private static String getBboxFromCoords(ArrayList<Point2D> geoCoords) {
+        //var ptGeo = null;
+        String bbox = null;
+        try {
+            int j = 0;
+            Point2D pt = null;
+            double left = geoCoords.get(0).getX();
+            double top = geoCoords.get(0).getY();
+            double right = geoCoords.get(0).getX();
+            double bottom = geoCoords.get(0).getY();
+            for (j = 1; j < geoCoords.size(); j++) {
+                pt = geoCoords.get(j);
+                if (pt.getX() < left) {
+                    left = pt.getX();
+                }
+                if (pt.getX() > right) {
+                    right = pt.getX();
+                }
+                if (pt.getY() > top) {
+                    top = pt.getY();
+                }
+                if (pt.getY() < bottom) {
+                    bottom = pt.getY();
+                }
+            }
+            //if geoCoords crosses the IDL
+            if (right - left > 180) {
+                //There must be at least one x value on either side of +/-180. Also, there is at least
+                //one positive value to the left of +/-180 and negative x value to the right of +/-180.
+                //We are using the orientation with the north pole on top so we can keep
+                //the existing value for top. Then the left value will be the least positive x value
+                //left = geoCoords[0].x;
+                left = 180;
+                right = -180;
+                for (j = 0; j < geoCoords.size(); j++) {
+                    pt = geoCoords.get(j);
+                    if (pt.getX() > 0 && pt.getX() < left) {
+                        left = pt.getX();
+                    }
+                    if (pt.getX() < 0 && pt.getX() > right) {
+                        right = pt.getX();
+                    }
+                }
+            }
+            //ptGeo = new armyc2.c2sd.graphics2d.Point2D(left, top);
+            bbox = Double.toString(left) + "," + Double.toString(bottom) + "," + Double.toString(right) + "," + Double.toString(top);
+        } catch (Exception ex) {
+            System.out.println("Failed to create control point in MultiPointHandler.getBboxFromCoords");
+        }
+        //return ptGeo;            
+        return bbox;
     }
 
     private static boolean crossesIDL(ArrayList<Point2D> geoCoords) {
@@ -600,6 +653,8 @@ public class MultiPointHandler {
                 ptGeoUL = getGeoUL(bboxCoords);
                 left = ptGeoUL.getX();
                 top = ptGeoUL.getY();
+                String bbox2=getBboxFromCoords(bboxCoords);
+                scale = getReasonableScale(bbox2, scale);
                 ipc = new PointConverter(left, top, scale);
                 Point2D ptPixels = null;
                 Point2D ptGeo = null;
