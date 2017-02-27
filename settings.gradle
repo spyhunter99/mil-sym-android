@@ -1,13 +1,13 @@
 rootProject.name = 'mil-sym-android'
 
-include ':Renderer'
-project(':Renderer').name = 'mil-sym-android-renderer'
+include ':renderer'
+project(':renderer').name = 'mil-sym-android-renderer'
 
-include ':RendererTester'
-project(':RendererTester').name = 'mil-sym-android-renderer-test'
+include ':renderer-test'
+project(':renderer-test').name = 'mil-sym-android-renderer-test'
 
-include ':TestAndroidRenderer3'
-project(':TestAndroidRenderer3').name = 'mil-sym-android-renderer-test3'
+include ':renderer-test3'
+project(':renderer-test3').name = 'mil-sym-android-renderer-test3'
 
-include ':mapfragment-demo'
-project(':mapfragment-demo').name = 'mil-sym-android-renderer-test-map'
+include ':renderer-test-map'
+project(':renderer-test-map').name = 'mil-sym-android-renderer-test-map'
