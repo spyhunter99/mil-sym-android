@@ -1,0 +1,52 @@
+artifactory {
+    contextUrl = "https://oss.jfrog.org/artifactory"
+
+    publish {
+        repository {
+            repoKey  = 'oss-snapshot-local'
+            username = bintrayUser
+            password = bintrayKey
+        }
+
+        defaults {
+            publications ('maven')
+        }
+    }
+}
+
+bintray {
+    dryRun   = false
+    publish  = false
+    override = false
+
+    user = bintrayUser
+    key  = bintrayKey
+
+    publications = ['maven']
+
+    pkg {
+        userOrg = 'missioncommand'
+        repo    = 'maven'
+        name    = 'mil-sym-android'
+        desc    = 'MIL-STD-2525 Symbology Renderer'
+        
+        licenses = ['Apache-2.0']
+
+        vcsUrl          = 'https://github.com/missioncommand/mil-sym-android.git'
+        websiteUrl      = 'https://github.com/missioncommand/mil-sym-android'
+        issueTrackerUrl = 'https://github.com/missioncommand/mil-sym-android/issues'
+
+        publicDownloadNumbers = true
+        labels                = []
+        attributes            = [:]
+
+        githubRepo = 'missioncommand/mil-sym-android'
+        //githubReleaseNotesFile = 'README.md'
+
+        version {
+            name       = project.version
+            vcsTag     = "v${project.version}"
+            attributes = [:]
+        }
+    }
+}

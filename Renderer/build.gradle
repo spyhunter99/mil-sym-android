@@ -1,3 +1,17 @@
-description = 'mil-sym-android Renderer'
+description = 'MIL-STD-2525 Symbology Renderer'
+
 apply plugin: 'com.android.library'
-apply from: "$rootDir/gradle/android-support.gradle"
+apply from: "${rootDir}/gradle/android-support.gradle"
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            pom.packaging = "aar"
+
+            artifact ("${buildDir}/outputs/aar/${project.name}-release.aar")
+            artifact ("${buildDir}/intermediates/bundles/release/classes.jar")
+
+            updatePom(pom, project);
+        }
+    }
+}

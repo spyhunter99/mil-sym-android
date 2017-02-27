@@ -1,22 +1,26 @@
+description = 'MIL-STD-2525 Symbology Renderer Test app'
 
-description = 'mil-sym-android Renderer Test app'
 apply plugin: 'com.android.application'
-apply from: "$rootDir/gradle/android-support.gradle"
+apply from: "${rootDir}/gradle/android-support.gradle"
+
+dependencies {
+    compile project (':mil-sym-android-renderer')
+    compile         ("com.android.support:support-v4")
+    compile         ("com.android.support:support-annotations")
+}
 
 android {
     defaultConfig {
         applicationId "armyc2.c2sd.renderer.test1"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 }
 
-dependencies {
-    compile "com.android.support:support-v4:${project.property('android-support.version')}"
-    compile "com.android.support:support-annotations:${project.property('android-support.version')}"
-    compile project(':Renderer')
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact ("${buildDir}/outputs/apk/${project.name}-debug.apk")
 
-    //on device testing
-    androidTestCompile 'com.android.support:support-annotations:23+'
-    androidTestCompile 'com.android.support.test:runner:0.4.+'
-    androidTestCompile 'com.android.support.test:rules:0.4.+'
+            updatePom(pom, project);
+        }
+    }
 }
