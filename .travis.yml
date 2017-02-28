@@ -1,83 +1,45 @@
+sudo: false
 language: android
-jdk: oraclejdk7
 android:
   components:
-    # The BuildTools version used by your project
     - tools
-    - platform-tools
-    - build-tools-23.0.2 # 23.0.2 was not available on build
-    - build-tools-23.0.1
-    - build-tools-23.0.3
-    - build-tools-19.1.0
-    # The SDK version used to compile your project
+    - build-tools-23.0.2
     - android-23
-    - android-22
-    - android-21
-    - android-19
-    - android-18
-    - android-15
-    - android-10
-    - android-8
-    - addon-google_apis-google-10
-    - addon-google_apis-google-15
-    - addon-google_apis-google-18
-    - addon-google_apis-google-19
-    - addon-google_apis-google-21
-    - addon-google_apis-google-22
-    - addon-google_apis-google-23
-    - addon-google_apis-google-8
-
-    # Additional components
-    - extra-google-google_play_services
-    - extra-google-m2repository
     - extra-android-m2repository
-    - addon-google_apis-google-19
-    - sys-img-armeabi-android-8
-    - sys-img-armeabi-android-10
-    - sys-img-armeabi-android-15
-    - sys-img-armeabi-android-19
-    - sys-img-armeabi-android-21
-    - sys-img-x86-android-22
-    - sys-img-x86-android-23
-    - addon-google_apis-google-23
 
-sudo: required
+jdk:
+  - oraclejdk8
 
-# fun fact, travis doesn't really support multiple AVDs running currently for a single build (tried it, build timed out constantly while starting up the AVDs)
-# thus we're using a build matrix (which makes more sense anyhow)
 env:
-    global:
-    #minutes (2 minutes by default), prevents CommandShellUnresponsiveExceptions
-    - ADB_INSTALL_TIMEOUT=14
+  global:
+    - secure: grWupPU4/kqfM8o4o23MXZEVmn03/3zaY23LFsSoIrIJMtXPFpNlrq7oo92VKuuSySN1a8p2SO3uPMSXc4CRFPbUB5q2qunBybIOxP/oiUAJKaVVWLk+RRxsiItpxSfvma5++664slSqhd0jmx0Ht13TUcLdMiFOuOin6/9B67/RJQY8M3jAik9dkSqOGBJnneUeWvAmFHMykVHSl3k6AtnL/4eUXGSGwZpwEd3EGaz22YlcdIMae4PvQ1Se1xuiUS7aPUXVKxOhHJs4vUKr5s+6T24tIvUUcS31q2t1oQV3nekXhx0pUptfYFrmPJc/hlfVl+JD20A43eQXvNBLlC7gudml+/SsF82hOXVUxs7p91UG4YJhGSfFrxCJPBbgwxQADFKqb8pawq+kFBLRxCnGwNeonqQMtrOawIgPhK3nitSfvct5gc1GtXMVHiLZlTsSMd0L8zJU6awtJgK7bQB+pLleh7r1+womlJEifHxH76yONSUOIUFC4EbJj+efkYY3hotq/FUerkm8H9g+H4ziLEVLcQsWrTn4x2Etm92TiI4Ze1lZnPoh1XoidVQp/B1gh4dBGMvJk4AGe5UVs4+ZSAwSWdOOSLUZTyR+26QhQ0VvSPVwQGLNxiLUOw4fBNObXSa7q4rxC3hZibh3uf4W/7y5HwwUmJYiMHd2cZ0=
+    - secure: EgUyLB7KgqVsxTbRFg54gYEm4+RscEMYE0B28inAczz9RIR0Kje99c5N9pI83DNWl6YA3gv2s47p21IiQXJo1Hc/P5KuOkmCh9M1CexX0X0OduFdAB/47Py5wxmpHjoNQgKz70H1qrNASgeZmmfiloYByaYE/TbNxdx3yNA3u1DDaF10/MzPZL6vQeaRq4NJcFbyQu8b5V5SBvsugKPAWInuKZqYHqS2KHGYFrlZqFxaM+OC1tJxtcV5JKU4sAfEEcFun5+bkgQt4JRGevZsUXO3nJAXQUU/8JqYP/mXXZB8ZdVSWRqg8eAnL4+ntjk28d4NSKvRu5rcT9d7kunddodjJTyGjOX0nlpYFZM4D9dFjYp1Ce4Jb2OLrTnrtx/2gRJ4kEMoOYjrUMrehkVae3N8wx8SBupNTltaVuMJQPYpAqspwK5+pg5pvrQCmpbEFFLOVmN1t9Qv6Rq3xtNzwrSl7yF6sY9XuXAsvNDEwJ9cKNdwr01e3j9Mv9WRPs3eCPVR3t6Jk9+KNugX8Q2zCo/kqkOWqcIzQsOOj9LhrHbLOson3O/ai0bhb7zY31jJB9/FZtxCRSVNEa6fWMqffBghTVyctPxWEQmiZ5kgdvSI0QW/EOSzGPmj0BLtlv85CHY9E02HrRjuJkqX+GHELaYEZ/75AZ2wDGmLWJn8Wpg=
 
-    matrix:
-    #note when changing these, updating the gradle build file for the GoogleWrapper project
-    # first env var is just for display purposes
-    #api15 with google
-    - API=15g ANDROID_TARGET=14  ANDROID_ABI=armeabi-v7a
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
 
 before_install:
-  # create and start emulators
-  - android list targets
-  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
-  - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  - chmod +x gradlew
+  - chmod +x gradle/release.sh
+  - export GRADLE_OPTS="-Dorg.gradle.daemon=false -XX:MaxPermSize=512m -Xmx2048m $GRADLE_OPTS"
+  - export DEFAULT_JVM_OPTS=
 
-# mvn sdk deploy
-before_script:
+install: true
 
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-
-#build
 script:
-  - ./gradlew -version
-  - ./gradlew connectedCheck
-  # FIXME one day add in -Pprofile=ci to the above line
-  # removed for now because travis will abort the build because the logout is too high
+ - ./gradlew build --refresh-dependencies --stacktrace
 
-after_failure:
-  # run this on failure
-  # dumps the log then exits
-  - adb logcat -d
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+deploy: # travis by default will not invoke this step for PRs
+  - provider: script
+    skip_cleanup: true
+    script: gradle/release.sh
+    on:
+      tags: true
+      condition: "$TRAVIS_TAG =~ ^v[0-9]+.[0-9]+.[0-9]+$"
