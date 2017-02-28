@@ -11,7 +11,36 @@ publishing {
             artifact ("${buildDir}/outputs/aar/${project.name}-release.aar")
             artifact ("${buildDir}/intermediates/bundles/release/classes.jar")
 
+            artifact sourceJar { classifier "sources" }
+            artifact javadocJar { classifier "javadoc" }
+
             updatePom(pom, project);
         }
     }
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+
+    options {
+        if (JavaVersion.current().isJava8Compatible()) { // disable lint for java8
+            addStringOption('Xdoclint:none', '-quiet')
+        }
+        encoding    = "UTF-8"
+        docEncoding = "UTF-8"
+        charSet     = "UTF-8"
+        linkSource  = true
+
+        logging.captureStandardError LogLevel.INFO
+        logging.captureStandardOutput LogLevel.INFO
+
+        title  = "MIL-STD-2525 Android Symbology Renderer (${project.version})"
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: 'javadoc') {
+    from javadoc.destinationDir
+}
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
 }
