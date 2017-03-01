@@ -1,109 +1,84 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:${project.property('android-plugin.version')}"
+        classpath "com.android.tools.build:gradle:2.2.3"
+        classpath "org.ajoberstar:grgit:1.7.0"
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.13"
     }
 }
 
-allprojects  {
-    // NOTE: project.group and project.version must be defined before including
-    // maven-support.gradle since it uses these values...
-    project.group = ( project.hasProperty('pom.groupId')
-            ? project.property('pom.groupId') : "" )
+ext {
+    bintrayUser = System.getenv("BINTRAY_USER") ?: project.hasProperty('bintrayUser') ? bintrayUser : ''
+    bintrayKey  = System.getenv('BINTRAY_KEY') ?: project.hasProperty('bintrayKey') ? bintrayKey : ''
 
-    project.version =
-            ( project.hasProperty('pom.version') ? project.property('pom.version') : "1.0" )
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
 
-    //Use this for your project
-    apply from: "$rootDir/gradle/maven-support.gradle"
+    git = org.ajoberstar.grgit.Grgit.open(file('.')) // Open the Git repository in the current directory.
+    revision = git.head().id                         // Get commitId of HEAD.
+}
 
-    // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
-    // (thanks, @BillBarnhill!)
-    configurations.all {
-        resolutionStrategy {
-            cacheChangingModulesFor 0, 'seconds'
-        }
+subprojects  {
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'com.jfrog.artifactory'
+    apply plugin: 'maven-publish'
+    apply from: "${rootDir}/gradle/bintray-support.gradle"
+
+    ext {
+        android_minSdkVersion     = 15
+        android_targetSdkVersion  = 19
+        android_compileSdkVersion = 19
+        android_buildToolsVersion = "23.0.3"
     }
 
+    group = "mil.army.missioncommand"
+
     repositories {
-        jcenter()
-        mavenCentral()
         mavenLocal()
+        jcenter()
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependency ("com.android.support:support-v4:23.2.1")
+            dependency ("com.android.support:support-annotations:23.2.1")
+            dependency ("com.google.android.gms:play-services:6.5.87")
+        }
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
-
-    /*******************************************************/
-    /*******************************************************/
-    // quality plugin
-    /*******************************************************/
-    /*******************************************************/
-    if (project.hasProperty('profile') && project.profile.split(',').contains("ci")) {
-        apply from: "$rootDir/gradle/quality.gradle"
-    }
-    /*******************************************************/
-    /*******************************************************/
-    // END quality plugin
-    /*******************************************************/
-    /*******************************************************/
 }
 
+def updatePom(pom, gradleProject) {
+    pom.withXml { XmlProvider xml ->
+        def root = xml.asNode()
 
-/*******************************************************/
-/*******************************************************/
-// crypto plugin
-/*******************************************************/
-/*******************************************************/
+        /*
+         * inject dependencies
+         */
+        def dependencies = root.appendNode('dependencies')
+        gradleProject.configurations.compile.allDependencies.each {
+            def dependency = dependencies.appendNode('dependency')
+            dependency.appendNode('groupId'   , it.group)
+            dependency.appendNode('artifactId', it.name)
+            dependency.appendNode('version'   , it.version)
+        }
 
-//this gives us the generateMasterKey and encryptPassword tasks
-//see https://github.com/chrisdoyle/gradle-fury/issues/67
-apply from: "$rootDir/gradle/encryption.gradle"
-
-/*******************************************************/
-/*******************************************************/
-// END crypto plugin
-/*******************************************************/
-/*******************************************************/
-
-
-
-
-
-
-
-/*******************************************************/
-/*******************************************************/
-// site plugin
-/*******************************************************/
-/*******************************************************/
-
-//this is the gradle-fury site plugin, very similar to the maven site plugin
-apply from: "$rootDir/gradle/site.gradle"
-
-//tip, you can override the output directory of the site by uncommenting the following
-//note that gradlew siteWar will always go to the build/site.war file
-//ext.buildWebsiteDir = rootDir.absolutePath + "/docs/"
-
-
-//reuse the project readme as the homepage
-task copyReadme() << {
-    copy{
-        from rootDir.absolutePath + "/README.md"
-        into rootDir.absolutePath + "/src/site/"
-        rename ("README.md", "index.md")
+        /*
+         * inject name/description
+         */
+        root.appendNode('name'       , gradleProject.name)
+        root.appendNode('description', gradleProject.description)
     }
 }
-site.dependsOn copyReadme
 
-
-/*******************************************************/
-/*******************************************************/
-// end site plugin
-/*******************************************************/
-/*******************************************************/
+task wrapper(type: Wrapper, description: "Generates gradlew[.bat] scripts") {
+    gradleVersion = '3.4'
+}
