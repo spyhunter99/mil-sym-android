@@ -36,3 +36,8 @@ Build and install to Maven local:
 ````
 ./gradlew build publishToMavenLocal
 ````
+
+Prerequisites: 
+•Android SDK is installed  
+•environment variable ANDROID_HOME pointing to Android SDK location  
+•build-tools v23.0.3 is available  
