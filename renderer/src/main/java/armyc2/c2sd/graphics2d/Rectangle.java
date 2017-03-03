@@ -28,7 +28,7 @@ public class Rectangle implements Shape{
     }
     public Rectangle getBounds()
     {
-        return null;
+        return this;
     }
     public PathIterator getPathIterator(AffineTransform at)
     {

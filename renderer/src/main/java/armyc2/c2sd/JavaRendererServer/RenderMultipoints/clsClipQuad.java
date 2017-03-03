@@ -46,9 +46,9 @@ public final class clsClipQuad {
             double dist=0;
             POINT2 sidePt=new POINT2();
             Boolean addToFront = false, addToEnd = false;     
-            int n=clipBounds.size();
+            //int n=clipBounds.size();
             //for(j=0;j<clipBounds.size();j++)
-            for(j=0;j<n;j++)
+            for(j=0;j<clipBounds.size();j++)    //was n
             {
                 clipArray.addPoint((int)clipBounds.get(j).getX(), (int)clipBounds.get(j).getY());
             }
@@ -56,7 +56,7 @@ public final class clsClipQuad {
             double totalX=0,totalY=0;
             int counter=0;
             //for(j=0;j<clipBounds.size()-1;j++)
-            for(j=0;j<n-1;j++)
+            for(j=0;j<clipBounds.size()-1;j++)  //was n-1
             {
                 totalX+=clipBounds.get(j).getX();
                 totalY+=clipBounds.get(j).getY();
@@ -79,7 +79,7 @@ public final class clsClipQuad {
             {
                 //add nearest segment midpoint to the front
                 //for(j=0;j<clipBounds.size();j++)
-                for(j=0;j<n;j++)
+                for(j=0;j<clipBounds.size();j++)    //was n
                 {
                     sidePt.x=clipBounds.get(j).getX();
                     sidePt.y=clipBounds.get(j).getY();
@@ -106,7 +106,7 @@ public final class clsClipQuad {
             {
                 //add nearest segment midpoint to the front
                 //for(j=0;j<clipBounds.size();j++)
-                for(j=0;j<n;j++)
+                for(j=0;j<clipBounds.size();j++)    //was n
                 {
                     sidePt.x=clipBounds.get(j).getX();
                     sidePt.y=clipBounds.get(j).getY();
@@ -636,7 +636,8 @@ public final class clsClipQuad {
             //Boolean isClosed = isClosed(tg.Pixels);
             //M. Deutch commented one line 12-27-12
             //clipBounds=clsUtilityGE.expandPolygon(clipBounds, 20);
-            int n=clipBounds.size();
+            clipBounds=clsUtilityGE.expandPolygon(clipBounds, 20);
+            //int n=clipBounds.size();
             ArrayList polygon = clsUtilityCPOF.POINT2toPoint2D(tg.Pixels);            
             
             int j=0;
@@ -661,7 +662,7 @@ public final class clsClipQuad {
             }
 
             //for(j=0;j<clipBounds.size()-1;j++)
-            for(j=0;j<n-1;j++)
+            for(j=0;j<clipBounds.size()-1;j++)
             {
                 if(j==0)
                     poly=clipSide(tg,polygon,j,clipBounds);
