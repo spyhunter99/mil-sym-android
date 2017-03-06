@@ -25,7 +25,7 @@ or
 Android Studio
 or
 Gradle based build system.  
-Also available on [Bintray.](https://bintray.com/missioncommand/maven/mil-sym-android)
+
 
 ### Building
 ---
@@ -44,3 +44,5 @@ Build and install to Maven local:
 ````
 ./gradlew build publishToMavenLocal
 ````
+  
+Also available on [Bintray.](https://bintray.com/missioncommand/maven/mil-sym-android)
