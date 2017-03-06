@@ -24,7 +24,7 @@ cache:
 before_install:
   - chmod +x gradlew
   - chmod +x gradle/release.sh
-  - export GRADLE_OPTS="-Dorg.gradle.daemon=false -XX:MaxPermSize=512m -Xmx2048m $GRADLE_OPTS"
+  - export GRADLE_OPTS="-Dorg.gradle.daemon=false -Xmx3072m $GRADLE_OPTS"
   - export DEFAULT_JVM_OPTS=
 
 install: true
@@ -36,7 +36,26 @@ before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
+before_deploy:
+  - export PROJECT_VERSION=$(grep "version" gradle.properties|cut -d'=' -f2)
+  - cp renderer/build/outputs/aar/mil-sym-android-renderer-release.aar "renderer/build/outputs/aar/mil-sym-android-renderer-${PROJECT_VERSION}.aar"
+  - cp renderer/build/intermediates/bundles/release/classes.jar "renderer/build/intermediates/bundles/release/mil-sym-android-renderer-${PROJECT_VERSION}.jar"
+  - cp renderer-test/build/outputs/apk/mil-sym-android-renderer-test-debug.apk "renderer-test/build/outputs/apk/mil-sym-android-renderer-test-${PROJECT_VERSION}.apk"
+  - cp renderer-test3/build/outputs/apk/mil-sym-android-renderer-test3-debug.apk "renderer-test3/build/outputs/apk/mil-sym-android-renderer-test3-${PROJECT_VERSION}.apk"
+
 deploy: # travis by default will not invoke this step for PRs
+  - provider: releases
+    skip_cleanup: true
+    api_key: 
+      secure: e0wVMnHUHL9iCK/B2bWphKIvvnv34orkFmfwvLIe8pcEF9DdZYIcAZC4xn00nqDlfTay8J7Jvp5Wt4v3YtBXnw0Q0+1kwJ1mYW5RsTxveObQiszXSjavbxmg1LBpOLQD+BgvqKbIEUsEB8M6bbt3XZUX4TwmZt7rbWuuaNoEbpCof2oRdx6N+5skVUWk5+u/sF/4/lhBPAafJf8qbC0SK8RmVJddmO3oCYmFPwstKH7rrLBWnCwm61H8y4KwXzNPK2AzpusWEo6auk0zc9S+KhzzRNP8gqURnTG5o/dmoNbLN5RxbSS9wRlih9yqIEIeAybun0gQH1k6YJ0efjLzjxw2kD70it00gvDC1coi8JYJ6O+azGQTrAqVdArpQanqa8dYHPC5ZpDjVXnqLvp++mwrRdcxeG9sw/Gf1McUoHlvvKIaSTIFe3IhFnQDh471kHCeMjAKFxzNtYhXEUjA+XhWsPDHCliyKxebjuYDad+fAL9Vx2vnOu6IzEXBjx9VGf3l299VBodXvJ2JuBjS9wv6IJGJF2UjtaejxW2AK9slycxmE3rRCRVF7tP7JyMbOMzEUAF4z2JfMQwV4JA4HPVtxP3x/iAzP3OJg30Kg/ZfqnjKvp2lIQA2ZjRUf2aEqdtjJ6xdRYigakhUUb20YVAZ9tpEYbykEE+HobenT6s=
+    file:
+      - "renderer/build/outputs/aar/mil-sym-android-renderer-${PROJECT_VERSION}.aar"
+      - "renderer/build/intermediates/bundles/release/mil-sym-android-renderer-${PROJECT_VERSION}.jar"
+      - "renderer-test/build/outputs/apk/mil-sym-android-renderer-test-${PROJECT_VERSION}.apk"
+      - "renderer-test3/build/outputs/apk/mil-sym-android-renderer-test3-${PROJECT_VERSION}.apk"
+    on:
+      tags: true
+      condition: "$TRAVIS_TAG =~ ^v[0-9]+.[0-9]+.[0-9]+$"
   - provider: script
     skip_cleanup: true
     script: gradle/release.sh
