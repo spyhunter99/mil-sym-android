@@ -14,7 +14,7 @@ The [MIL-STD-2525] standard defines how to visualize military symbology.  This p
 
 ### Project Structure
 ---
-mil-sym-android has a namespace structure that resembles the java layout although differs where we needed to implement java functionality that wasn't available in the Dalvik VM
+mil-sym-android has a namespace structure that resembles the java layout although differs where we needed to implement java functionality that wasn't available in the Dalvik VM.
 
 
 ### Tech
@@ -24,7 +24,8 @@ Eclipse with Android plugins
 or
 Android Studio
 or
-Gradle based build system
+Gradle based build system.  
+Also available on [Bintray.](https://bintray.com/missioncommand/maven/mil-sym-android)
 
 ### Building
 ---
