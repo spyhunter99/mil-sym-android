@@ -105,11 +105,16 @@ public class RendererSettings{
     public static final int RenderMethod_NATIVE = 1;
 
     /**
+     * 2525Bch2 and USAS 11-12 symbology
+     */
+    public static final int Symbology_2525B = 0;
+    /**
      * 2525Bch2 and USAS 13/14 symbology
+     * @deprecated use 2525B
      */
     public static final int Symbology_2525Bch2_USAS_13_14 = 0;
     /**
-     * 2525C, which includes 2525Bch2 & USAS 13/14
+     * 2525C, which includes 2525C & USAS COEv3
      */
     public static final int Symbology_2525C = 1;
     

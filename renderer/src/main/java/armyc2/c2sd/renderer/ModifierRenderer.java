@@ -2053,7 +2053,7 @@ public class ModifierRenderer
             text1 = new TextInfo(strText1, 0, 0, _modifierFont);
 
             labelBounds1 = text1.getTextBounds();
-            if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14)
+            if (symStd == RendererSettings.Symbology_2525B)
             {
                 y = symbolBounds.top + symbolBounds.height();
                 x = symbolBounds.left - labelBounds1.width() - bufferXL;

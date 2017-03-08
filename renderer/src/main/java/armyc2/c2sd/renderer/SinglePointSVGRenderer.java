@@ -120,7 +120,7 @@ public class SinglePointSVGRenderer
 							.get(MilStdAttributes.SymbologyStandard));
 				}
 
-				if (symStd > RendererSettings.Symbology_2525Bch2_USAS_13_14)
+				if (symStd > RendererSettings.Symbology_2525B)
 				{
 					char affiliation = symbolID.charAt(1);
 					switch (affiliation)
@@ -197,7 +197,7 @@ public class SinglePointSVGRenderer
 
 			UnitFontLookupInfo ufli = UnitFontLookup.getInstance()
 					.getLookupInfo(symbolID, 0);
-			fillIndex = UnitFontLookup.getFillCode(symbolID);
+			fillIndex = UnitFontLookup.getFillCode(symbolID,symStd);
 			frameIndex = UnitFontLookup.getFrameCode(symbolID, fillIndex);
 			if (ufli != null)
 			{

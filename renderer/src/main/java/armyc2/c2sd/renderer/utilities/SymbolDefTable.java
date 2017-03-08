@@ -135,7 +135,7 @@ public class SymbolDefTable {
             _SymbolDefDupsC = new ArrayList<SymbolDef>();
 	    String lookupXmlB = symbolConstantsXML[0];//FileHandler.InputStreamToString(xmlStreamB);
 	    String lookupXmlC = symbolConstantsXML[1];;//FileHandler.InputStreamToString(xmlStreamC);
-	    populateLookup(lookupXmlB, RendererSettings.Symbology_2525Bch2_USAS_13_14);
+	    populateLookup(lookupXmlB, RendererSettings.Symbology_2525B);
 	    populateLookup(lookupXmlC, RendererSettings.Symbology_2525C);	    
 	    _initCalled = true;
         }
@@ -161,7 +161,7 @@ public class SymbolDefTable {
             sd = new SymbolDef(symbolID, description, Integer.valueOf(drawCategory), hierarchy, Integer.valueOf(minpoints), Integer.valueOf(maxpoints), modifiers, path);
 
             boolean isMCSSpecific = SymbolUtilities.isMCSSpecificTacticalGraphic(sd);
-            if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
+            if (symStd == RendererSettings.Symbology_2525B) {
                 if (_SymbolDefinitionsB.containsKey(symbolID) == false && isMCSSpecific == false) {
                     _SymbolDefinitionsB.put(symbolID, sd);
                 } else if (isMCSSpecific == false) {
@@ -192,7 +192,7 @@ public class SymbolDefTable {
      */
     public SymbolDef getSymbolDef(String basicSymbolID, int symStd) {
         SymbolDef returnVal = null;
-        if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
+        if (symStd == RendererSettings.Symbology_2525B) {
             returnVal = (SymbolDef) _SymbolDefinitionsB.get(basicSymbolID);
         } else if (symStd == RendererSettings.Symbology_2525C) {
             returnVal = (SymbolDef) _SymbolDefinitionsC.get(basicSymbolID);
@@ -209,7 +209,7 @@ public class SymbolDefTable {
      * @return
      */
     public Map<String, SymbolDef> GetAllSymbolDefs(int symStd) {
-        if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
+        if (symStd == RendererSettings.Symbology_2525B) {
             return _SymbolDefinitionsB;
         } else if (symStd == RendererSettings.Symbology_2525C) {
             return _SymbolDefinitionsC;
@@ -227,7 +227,7 @@ public class SymbolDefTable {
      * @return
      */
     public ArrayList<SymbolDef> GetAllSymbolDefDups(int symStd) {
-        if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
+        if (symStd == RendererSettings.Symbology_2525B) {
             return _SymbolDefDupsB;
         } else if (symStd == RendererSettings.Symbology_2525C) {
             return _SymbolDefDupsC;
@@ -246,7 +246,7 @@ public class SymbolDefTable {
      */
     public Boolean HasSymbolDef(String basicSymbolID, int symStd) {
         if (basicSymbolID != null && basicSymbolID.length() == 15) {
-            if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14) {
+            if (symStd == RendererSettings.Symbology_2525B) {
                 return _SymbolDefinitionsB.containsKey(basicSymbolID);
             } else if (symStd == RendererSettings.Symbology_2525C) {
                 return _SymbolDefinitionsC.containsKey(basicSymbolID);

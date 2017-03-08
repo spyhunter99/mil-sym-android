@@ -3781,7 +3781,7 @@ public class SymbolUtilities
             else if (affiliation == ('A')
                     || affiliation == ('S'))
             {
-                if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14)
+                if (symStd == RendererSettings.Symbology_2525B)
                 {
                     textChar = "?";
                 }
@@ -3807,7 +3807,7 @@ public class SymbolUtilities
             }
             else if (affiliation == ('M'))
             {
-                if (symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14)
+                if (symStd == RendererSettings.Symbology_2525B)
                 {
                     textChar = "X?";
                 }

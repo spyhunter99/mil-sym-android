@@ -97,7 +97,7 @@ public class UnitFontLookup {
 	    String lookupXmlB = unitFontMappingsXML[0];//FileHandler.InputStreamToString(xmlStreamB);
 	    String lookupXmlC = unitFontMappingsXML[1];//FileHandler.InputStreamToString(xmlStreamC);
 	
-	    populateLookup(lookupXmlB,RendererSettings.Symbology_2525Bch2_USAS_13_14);
+	    populateLookup(lookupXmlB,RendererSettings.Symbology_2525B);
 	    populateLookup(lookupXmlC,RendererSettings.Symbology_2525C);
 	    
 	    _initCalled = true;
@@ -136,7 +136,7 @@ public class UnitFontLookup {
 
         if(uflTemp != null)
         {
-            if(SymbologyStandard == RendererSettings.Symbology_2525Bch2_USAS_13_14)
+            if(SymbologyStandard == RendererSettings.Symbology_2525B)
                 hashMapB.put(ID, uflTemp);
             else if(SymbologyStandard == RendererSettings.Symbology_2525C)
                 hashMapC.put(ID, uflTemp);
@@ -219,9 +219,10 @@ public class UnitFontLookup {
    * 2525C
    * returns the character index for the fill frame based on the symbol code.
    * @param SymbolID 15 character symbol ID
+   * @param symStd 0 for 2525B, 1 for 2525C
    * @return fill character index
    */
-  public static int getFillCode(String SymbolID)
+  public static int getFillCode(String SymbolID, int symStd)
   {
       int returnVal = -1;
 
@@ -282,7 +283,10 @@ public class UnitFontLookup {
                       }
                       else if(battleDimension=='P')//space
                       {
-                          returnVal = 843;
+                          if(symStd == 0)
+                              returnVal = 819;
+                          else
+                              returnVal = 843;
                       }
                       else//if(battleDimension=='Z')//unknown
                       {
@@ -891,7 +895,7 @@ public class UnitFontLookup {
 	        
 	        try
 	        {
-		        if(symbologyStandard == RendererSettings.Symbology_2525Bch2_USAS_13_14)
+		        if(symbologyStandard == RendererSettings.Symbology_2525B)
 		        {
 		        	if(hashMapB.containsKey(code))
 		        	{
@@ -928,7 +932,7 @@ public class UnitFontLookup {
 
   /**
    *
-   * @param characterIndex - Fill Character Index
+   * @param charIndex - Fill Character Index
    * @return
    */
   public static float getUnitRatioHeight(int charIndex)

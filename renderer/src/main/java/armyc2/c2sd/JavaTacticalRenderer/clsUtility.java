@@ -2638,7 +2638,7 @@ public final class clsUtility {
                 //return;
             
             int rev=tg.getSymbologyStandard();
-            if(rev==RendererSettings.Symbology_2525Bch2_USAS_13_14)
+            if(rev==RendererSettings.Symbology_2525B)
             {
                 switch(tg.get_LineType())
                 {

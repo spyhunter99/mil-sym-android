@@ -114,7 +114,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
         int symStd = RendererSettings.getInstance().getSymbologyStandard();
         //get fill character
-        int charFillIndex = UnitFontLookup.getFillCode(symbolID);
+        int charFillIndex = UnitFontLookup.getFillCode(symbolID, symStd);
         //get frame character
         int charFrameIndex = UnitFontLookup.getFrameCode(symbolID, charFillIndex);
         int charSymbol1Index = -1;
