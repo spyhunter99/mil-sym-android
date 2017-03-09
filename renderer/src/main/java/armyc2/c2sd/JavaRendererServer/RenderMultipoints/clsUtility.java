@@ -394,6 +394,14 @@ public final class clsUtility {
             int linetype=tg.get_LineType();
             switch(linetype)
             {
+                case TacticalLines.BBS_RECTANGLE:
+                case TacticalLines.BS_RECTANGLE:
+                case TacticalLines.BS_ELLIPSE:
+                case TacticalLines.PBS_ELLIPSE:
+                case TacticalLines.PBS_CIRCLE:
+                case TacticalLines.BS_CROSS:
+                case TacticalLines.BS_BBOX:
+                case TacticalLines.BBS_POINT:
                 //the Tasks
                 case TacticalLines.CORDONKNOCK:
                 case TacticalLines.CORDONSEARCH:
