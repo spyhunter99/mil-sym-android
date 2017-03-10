@@ -221,6 +221,22 @@ public final class clsRenderer {
             tg.set_HideOptionalLabels(milStd.getHideOptionalLabels());
             boolean isClosedArea = armyc2.c2sd.JavaTacticalRenderer.clsUtility.isClosedPolygon(lineType);
 
+            //implement two point belt
+            if(lineType==TacticalLines.BELT && tg.Pixels.size()==2)
+            {
+                POINT2 pt0=tg.Pixels.get(0);
+                POINT2 pt1=tg.Pixels.get(1);
+                POINT2 p0=lineutility.ExtendDirectedLine(pt0,pt1,pt0,2,5);
+                POINT2 p1=lineutility.ExtendDirectedLine(pt0,pt1,pt1,2,5);
+                POINT2 p2=lineutility.ExtendDirectedLine(pt0,pt1,pt1,3,5);
+                POINT2 p3=lineutility.ExtendDirectedLine(pt0,pt1,pt0,3,5);
+                tg.Pixels.clear();
+                tg.Pixels.add(p0);
+                tg.Pixels.add(p1);
+                tg.Pixels.add(p2);
+                tg.Pixels.add(p3);
+                tg.LatLongs = clsUtility.PixelsToLatLong(tg.Pixels, converter);            
+            }            
             if (isClosedArea) {
                 armyc2.c2sd.JavaTacticalRenderer.clsUtility.ClosePolygon(tg.Pixels);
                 armyc2.c2sd.JavaTacticalRenderer.clsUtility.ClosePolygon(tg.LatLongs);
