@@ -870,6 +870,8 @@ public class MultiPointHandler {
                 jsonOutput.append(description);
                 jsonOutput.append("\",\"symbolID\":\"");
                 jsonOutput.append(symbolCode);
+                jsonOutput.append("\",\"wasClipped\":\"");
+                jsonOutput.append(String.valueOf(mSymbol.get_WasClipped()));
                 jsonOutput.append("\"}}");                
             }
 
@@ -1491,6 +1493,8 @@ public class MultiPointHandler {
                 jsonOutput.append(description);
                 jsonOutput.append("\",\"symbolID\":\"");
                 jsonOutput.append(symbolCode);
+                jsonOutput.append("\",\"wasClipped\":\"");
+                jsonOutput.append(String.valueOf(mSymbol.get_WasClipped()));
                 jsonOutput.append("\"}}");
 
             }
