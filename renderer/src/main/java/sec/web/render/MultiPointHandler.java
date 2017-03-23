@@ -771,7 +771,10 @@ public class MultiPointHandler {
         //disable clipping
         if (ShouldClipSymbol(symbolCode) == false) 
             if(crossesIDL(geoCoords)==false)
+            {
                 rect = null;
+                bboxCoords = null;
+            }   
         
         tgl.set_SymbolId(symbolCode);// "GFGPSLA---****X" AMBUSH symbol code
         tgl.set_Pixels(null);
@@ -1112,8 +1115,10 @@ public class MultiPointHandler {
         //disable clipping
         if (ShouldClipSymbol(symbolCode) == false) 
             if(crossesIDL(geoCoords)==false)
+            {
                 rect = null;
-        
+                bboxCoords=null;
+            }
         tgl.set_SymbolId(symbolCode);// "GFGPSLA---****X" AMBUSH symbol code
         tgl.set_Pixels(null);
         
