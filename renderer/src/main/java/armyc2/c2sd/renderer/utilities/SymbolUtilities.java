@@ -2498,12 +2498,21 @@ public class SymbolUtilities
     public static
             boolean isHQ(String strSymbolID)
     {
+        boolean blRetVal = false;
         try
         {
-            char mod1 = strSymbolID.charAt(10);
-            boolean blRetVal = (mod1 == 'A'
-                    || mod1 == 'B'
-                    || mod1 == 'C' || mod1 == 'D');
+            char hq = strSymbolID.charAt(10);
+            if(hq != '-' && hq != '*')
+            {
+                blRetVal = (hq == 'A'
+                        || hq == 'B'
+                        || hq == 'C' || hq == 'D');
+            }
+            else
+            {
+                blRetVal = (strSymbolID.charAt(0) == 'S' && strSymbolID.substring(4,6).equals("UH"));
+            }
+
             return blRetVal;
         }
         catch (Throwable t)

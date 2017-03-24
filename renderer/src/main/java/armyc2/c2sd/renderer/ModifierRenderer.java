@@ -3212,6 +3212,9 @@ public class ModifierRenderer
                 {
                     hasModifiers = true;
                 }
+
+                if(SymbolUtilities.isHQ(symbolID))
+                    hasModifiers = true;
             }
             else
             {

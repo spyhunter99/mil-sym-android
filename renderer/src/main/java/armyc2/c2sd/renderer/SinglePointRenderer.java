@@ -334,7 +334,7 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             if(symbolID.charAt(2) == 'U' &&
                             symbolID.substring(4, 6).equals("WM"))
             {
-                if(symStd == RendererSettings.Symbology_2525Bch2_USAS_13_14)
+                if(symStd == RendererSettings.Symbology_2525B)
                 {
                     fillPaint.setColor(fillColor.toARGB());
                     symbol1Paint.setColor(lineColor.toARGB());
