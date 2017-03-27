@@ -1926,17 +1926,26 @@ public class SymbolUtilities
      * @param text
      * @return "1.56" == true, "1ab" == false
      */
-    public static
-            boolean isNumber(String text)
+    public static boolean isNumber(String text)
     {
-        if (text != null && text.matches("((-|\\+)?[0-9]+(\\.[0-9]+)?)+"))
+        try
+        {
+            double d = Double.parseDouble(text);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;//*/
+
+        /*if (text != null && text.matches("((-|\\+)?[0-9]+(\\.[0-9]+)?)+"))
         {
             return true;
         }
         else
         {
             return false;
-        }
+        }//*/
     }
 
 
