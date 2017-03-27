@@ -126,13 +126,16 @@ public final class clsUtilityCPOF {
                 case TacticalLines.RECTANGULAR:
                 case TacticalLines.PBS_RECTANGLE:
                 case TacticalLines.PBS_SQUARE:
-                    if (SymbolUtilities.isNumber(tg.get_T1())) {
+                    //if (SymbolUtilities.isNumber(tg.get_T1())) {
+                    if (!tg.get_T1().isEmpty()){
                         length.value[0] = Double.parseDouble(tg.get_T1());
                     }
-                    if (SymbolUtilities.isNumber(tg.get_H())) {
+                    //if (SymbolUtilities.isNumber(tg.get_H())) {
+                    if (!tg.get_H().isEmpty()){
                         width.value[0] = Double.parseDouble(tg.get_H());
                     }
-                    if (SymbolUtilities.isNumber(tg.get_H1())) {
+                    //if (SymbolUtilities.isNumber(tg.get_H1())) {
+                    if (!tg.get_H1().isEmpty()){
                         radius.value[0] = Double.parseDouble(tg.get_H1());
                     }
                     //assume that attitude was passed in mils
