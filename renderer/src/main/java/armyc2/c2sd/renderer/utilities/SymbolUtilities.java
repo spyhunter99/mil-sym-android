@@ -1314,7 +1314,7 @@ public class SymbolUtilities
                     }
                     else
                     {
-                        retColor = null;
+                        retColor = AffiliationColors.UnknownGraphicFillColor;
                     }
                 }
             } // End if(SymbolUtilities.IsTacticalGraphic(this._strSymbolID))
