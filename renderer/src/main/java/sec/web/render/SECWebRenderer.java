@@ -290,8 +290,11 @@ public final class SECWebRenderer /* extends Applet */ {
         	
         	JavaRendererUtilities.addAltModeToModifiersString(attributes,altitudeMode);
         
-            if (JavaRendererUtilities.is3dSymbol(symbolCode, modifiers))
+            //if (JavaRendererUtilities.is3dSymbol(symbolCode, modifiers))
+            if (altitudeMode != "clampToGround" && format == 0 && JavaRendererUtilities.is3dSymbol(symbolCode, modifiers))
             {
+                if (altitudeMode.isEmpty())
+                    altitudeMode = "absolute";
         
                 output = RenderMilStd3dSymbol(name, id, symbolCode, description, altitudeMode, controlPoints,
                         modifiers, attributes);
@@ -593,8 +596,8 @@ public final class SECWebRenderer /* extends Applet */ {
             int altitudeDepthLength = 0;
             int distanceLength = 0;
             int azimuthLength = 0;
-            String lineColor = null;
-            String fillColor = null;
+            String lineColor = "";
+            String fillColor = "";
             
             if (saModifiers.indexOfKey(ModifiersTG.X_ALTITUDE_DEPTH)>=0)
             {
@@ -620,9 +623,8 @@ public final class SECWebRenderer /* extends Applet */ {
             }
             else
             {   
-                Color c = SymbolUtilities.getLineColorOfAffiliation(symbolCode);
-                if(c != null)
-                    lineColor = c.toHexString();
+                Color c = SymbolUtilities.getFillColorOfAffiliation(symbolCode);
+                lineColor = c.toHexString();
                 // ensure that some color is selected.  If no color can be
                 // found, use black.
                 if (lineColor == null)
@@ -638,17 +640,15 @@ public final class SECWebRenderer /* extends Applet */ {
             else
             {   
                 Color c = SymbolUtilities.getFillColorOfAffiliation(symbolCode);
-                if(c != null)
-                    fillColor = c.toHexString();
-
+                fillColor = c.toHexString();
                 // ensure that some color is selected.  If no color can be
                 // found, use black.
                 if (fillColor == null)
                 {
                 	fillColor = "AA000000";
-                }//*/
+                }
             }
-
+            
             lineColor = JavaRendererUtilities.ARGBtoABGR(lineColor);
             fillColor = JavaRendererUtilities.ARGBtoABGR(fillColor);
                             
