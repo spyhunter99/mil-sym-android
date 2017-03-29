@@ -291,7 +291,7 @@ public final class SECWebRenderer /* extends Applet */ {
         	JavaRendererUtilities.addAltModeToModifiersString(attributes,altitudeMode);
         
             //if (JavaRendererUtilities.is3dSymbol(symbolCode, modifiers))
-            if (altitudeMode != "clampToGround" && format == 0 && JavaRendererUtilities.is3dSymbol(symbolCode, modifiers))
+            if (altitudeMode.equals("clampToGround") == false && format == 0 && JavaRendererUtilities.is3dSymbol(symbolCode, modifiers))
             {
                 if (altitudeMode.isEmpty())
                     altitudeMode = "absolute";
