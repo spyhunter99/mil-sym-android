@@ -104,6 +104,8 @@ public class MilStdAttributes {
     public static final int HideOptionalLabels = 17;
 
     public static final int UsePatternFill = 18;
+
+    public static final int PatternFillType = 19;
     
     public static ArrayList<Integer> GetModifierList()
     {

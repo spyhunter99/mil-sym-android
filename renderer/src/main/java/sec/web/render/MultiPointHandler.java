@@ -1744,6 +1744,7 @@ public class MultiPointHandler {
         String altMode = null;
         boolean useDashArray = symbol.getUseDashArray();
         boolean usePatternFill = symbol.getUseFillPattern();
+        int patternFillType = 0;
         boolean hideOptionalLabels = false;
 
         String symbolFillIDs = null;
@@ -1870,6 +1871,10 @@ public class MultiPointHandler {
                     usePatternFill = Boolean.parseBoolean(saAttributes.get(MilStdAttributes.UsePatternFill));
                 }
 
+                if (saAttributes.indexOfKey(MilStdAttributes.PatternFillType) >= 0) {
+                    patternFillType = Integer.parseInt((saAttributes.get(MilStdAttributes.PatternFillType)));
+                }
+
                 if (saAttributes.indexOfKey(MilStdAttributes.HideOptionalLabels) >= 0) {
                     hideOptionalLabels = Boolean.parseBoolean(saAttributes.get(MilStdAttributes.HideOptionalLabels));
                 }
@@ -1907,6 +1912,8 @@ public class MultiPointHandler {
 
             symbol.setUseDashArray(useDashArray);
             symbol.setUseFillPattern(usePatternFill);
+            if(SymbolUtilities.isBasicShape(symbol.getSymbolID()))
+                symbol.setPatternFillType(patternFillType);
             symbol.setHideOptionalLabels(hideOptionalLabels);
 
             // Check grpahic modifiers variables.  If we set earlier, populate

@@ -64,6 +64,8 @@ public class MilStdSymbol
     int _OutLineWidth = 0;
     TexturePaint _tp = null;
     boolean _fs = false;
+
+    int _patternFillType = 0;
     /**
      * 2525Bch2 and USAS 13/14 symbology
      */
@@ -241,6 +243,21 @@ public class MilStdSymbol
         _fs = value;
     }
 
+    public int getPatternFillType()
+    {
+        return _patternFillType;
+    }
+
+    /**
+     * 0=Solid, 2=ForwardHatch, 3=BackwardHatch, 4=verticalHatch, 5=horizonalHatch, 8=CrossHatch
+     * Only affects Basic Shapes.  Will not apply to MilStd Symbology so as to not confuse some
+     * symbols with others.
+     * @param value
+     */
+    public void setPatternFillType(int value)
+    {
+        _patternFillType = value;
+    }
 
 
     /**
