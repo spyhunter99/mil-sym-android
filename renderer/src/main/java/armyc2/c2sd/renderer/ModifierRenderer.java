@@ -52,6 +52,7 @@ public class ModifierRenderer
         Rect symbolBounds = new Rect(ii.getSymbolBounds());
         Rect imageBounds = new Rect(ii.getImageBounds());
         Point centerPoint = new Point(ii.getCenterPoint());
+        Point symbolCenter = new Point(symbolBounds.centerX(), symbolBounds.centerY());
         TextInfo tiEchelon = null;
         TextInfo tiAM = null;
         Rect echelonBounds = null;
@@ -649,7 +650,7 @@ public class ModifierRenderer
             //create bounding rectangle for HQ staff.
             hqBounds = new Rect(pt1HQ.x, pt1HQ.y, 2, pt2HQ.y - pt1HQ.y);
             //adjust the image bounds accordingly.
-            RectUtilities.shiftBR(imageBounds, 0, (int) (pt2HQ.y - imageBounds.bottom));
+            imageBounds.union(hqBounds);
             //imageBounds.shiftBR(0,pt2HQ.y-imageBounds.bottom);
             //adjust symbol center
             centerPoint.set(pt2HQ.x, pt2HQ.y);
@@ -669,7 +670,7 @@ public class ModifierRenderer
 	
 	            boolean isY = (modifiers.indexOfKey(ModifiersUnits.Y_LOCATION) >= 0);
 	
-	            domPoints = createDOMArrowPoints(symbolID, symbolBounds, centerPoint, q, isY);
+	            domPoints = createDOMArrowPoints(symbolID, symbolBounds, symbolCenter, q, isY);
 	
 	            domBounds = new Rect(domPoints[0].x, domPoints[0].y, 1, 1);
 	
