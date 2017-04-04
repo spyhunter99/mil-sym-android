@@ -318,7 +318,10 @@ public class UnitFontLookup {
                       }
                       else if(battleDimension=='P')//space
                       {
-                          returnVal = 840;
+                          if(symStd == 0)
+                              returnVal = 816;
+                          else
+                              returnVal = 840;
                       }
                       else
                           returnVal = 806;
@@ -347,7 +350,10 @@ public class UnitFontLookup {
                       }
                       else if(battleDimension=='P')//space
                       {
-                          returnVal = 846;
+                          if(symStd == 0)
+                              returnVal = 822;
+                          else
+                              returnVal = 846;
                       }
                       else
                           returnVal = 809;
@@ -378,7 +384,10 @@ public class UnitFontLookup {
                       }
                       else if(battleDimension=='P')//space
                       {
-                          returnVal = 849;
+                          if(symStd == 0)
+                              returnVal = 825;
+                          else
+                              returnVal = 849;
                       }
                       else
                           returnVal = 800;
@@ -454,7 +463,10 @@ public class UnitFontLookup {
                       }
                       else if(battleDimension=='P')//space
                       {
-                          returnVal = 843;
+                          if(symStd == 0)
+                              returnVal = 819;
+                          else
+                              returnVal = 843;
                       }
                       else
                       {
@@ -484,7 +496,10 @@ public class UnitFontLookup {
                       }
                       else if(battleDimension=='P')//space
                       {
-                          returnVal = 840;
+                          if(symStd == 0)
+                              returnVal = 816;
+                          else
+                              returnVal = 840;
                       }
                       else
                       {
@@ -511,7 +526,10 @@ public class UnitFontLookup {
                       }
                       else if(battleDimension=='P')//space
                       {
-                          returnVal = 846;
+                          if(symStd == 0)
+                              returnVal = 822;
+                          else
+                              returnVal = 846;
                       }
                       else
                       {
@@ -539,9 +557,12 @@ public class UnitFontLookup {
                       {
                           returnVal = 837;
                       }
-                      else if(battleDimension=='P')//Subsurface
+                      else if(battleDimension=='P')//Space
                       {
-                          returnVal = 849;
+                          if(symStd == 0)
+                              returnVal = 825;
+                          else
+                              returnVal = 849;
                       }
                       else
                       {
