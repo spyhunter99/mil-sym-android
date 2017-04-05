@@ -1218,9 +1218,27 @@ public final class clsUtilityGE {
             int j=0,hatch2=0;
             Shape2 shape2=null;
             int index=0;
+//            if(armyc2.c2sd.JavaTacticalRenderer.clsUtility.isClosedPolygon(lineType)==false)
+//                if(armyc2.c2sd.JavaTacticalRenderer.clsUtility.IsChange1Area(lineType, null)==false)
+//                    return;
             if(armyc2.c2sd.JavaTacticalRenderer.clsUtility.isClosedPolygon(lineType)==false)
+            {
                 if(armyc2.c2sd.JavaTacticalRenderer.clsUtility.IsChange1Area(lineType, null)==false)
-                    return;
+                {
+                    //return;
+                    switch(lineType)
+                    {
+                        case TacticalLines.PBS_CIRCLE:
+                        case TacticalLines.PBS_ELLIPSE:
+                        case TacticalLines.BBS_AREA:
+                        case TacticalLines.BBS_LINE:
+                        case TacticalLines.BBS_RECTANGLE:
+                            break;
+                        default:
+                            return;
+                    }
+                }
+            }
 
             switch(lineType)
             {

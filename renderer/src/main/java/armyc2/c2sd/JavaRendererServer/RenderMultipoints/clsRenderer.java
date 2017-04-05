@@ -256,6 +256,22 @@ public final class clsRenderer {
             if (lineType == TacticalLines.BS_ELLIPSE || lineType == TacticalLines.PBS_ELLIPSE || lineType == TacticalLines.PBS_CIRCLE) {
                 ArrayList<Double> AM = milStd.getModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE);
                 ArrayList<Double> AN = milStd.getModifiers_AM_AN_X(ModifiersTG.AN_AZIMUTH);
+                //ensure array length 3
+                double r2=0;
+                double b=0;
+                if(AM.size()==1)
+                {
+                    r2=AM.get(0);
+                    AM.add(r2);                
+                    AM.add(0d);
+                }
+                else if(AM.size()==2)
+                {
+                    r2=AM.get(0);
+                    b=AM.get(1);
+                    AM.set(1, r2);
+                    AM.add(b);
+                }
                 if (AN == null) {
                     AN = new ArrayList<Double>();
                 }
@@ -742,6 +758,22 @@ public final class clsRenderer {
             if (lineType == TacticalLines.RECTANGULAR || lineType == TacticalLines.PBS_RECTANGLE || lineType == TacticalLines.PBS_SQUARE) {
                 ArrayList<Double> AM = milStd.getModifiers_AM_AN_X(ModifiersTG.AM_DISTANCE);
                 ArrayList<Double> AN = milStd.getModifiers_AM_AN_X(ModifiersTG.AN_AZIMUTH);
+                if (lineType == TacticalLines.PBS_SQUARE) //for square
+                {
+                    double r2=AM.get(0);
+                    double b=0;
+                    if(AM.size()==1)
+                    {
+                        AM.add(r2);
+                        AM.add(b);
+                    }
+                    else if(AM.size()==2)
+                    {
+                        b=AM.get(1);
+                        AM.set(1,r2);
+                        AM.add(b);
+                    }
+                }
                 //if all these conditions are not met we do not want to set any tg modifiers
                 if (lineType == TacticalLines.PBS_SQUARE) //square
                 {
@@ -1472,7 +1504,7 @@ public final class clsRenderer {
             } else if (clsUtilityCPOF.canClipPoints(tg) == false && clipPoints != null) {
                 shapes = clsUtilityCPOF.postClipShapes(tg, shapes, clipPoints);
             }
-
+            resolvePostClippedShapes(tg,shapes);
             //returns early if textSpecs are null
             //currently the client is ignoring these
             if (modifierShapeInfos != null) {
@@ -1498,7 +1530,36 @@ public final class clsRenderer {
 
         }
     }
+    private static void resolvePostClippedShapes(TGLight tg, ArrayList<Shape2> shapes) {
+        try {
+            //resolve the PBS and BBS shape properties after the post clip, regardless whether they were clipped
+            switch (tg.get_LineType()) {
+                case TacticalLines.BBS_RECTANGLE:
+                case TacticalLines.BBS_POINT:
+                case TacticalLines.BBS_LINE:
+                case TacticalLines.BBS_AREA:
+                case TacticalLines.PBS_RECTANGLE:
+                case TacticalLines.PBS_SQUARE:
+                case TacticalLines.PBS_CIRCLE:
+                case TacticalLines.PBS_ELLIPSE:
+                    break;
+                default:
+                    return;
+            }
+            Color fillColor = tg.get_FillColor();
+            shapes.get(0).setFillColor(fillColor);
+            shapes.get(1).setFillColor(null);
+            int fillStyle = tg.get_FillStyle();
+            shapes.get(0).set_Fillstyle(0);
+            shapes.get(1).set_Fillstyle(fillStyle);
+            return;
 
+        } catch (Exception exc) {
+            ErrorLogger.LogException(_className, "render_GE",
+                    new RendererException("Failed inside resolvePostClippedShapes", exc));
+
+        }
+    }
     /**
      * to follow right hand rule for LC when affiliation is hostile. also fixes
      * MSDZ point order and maybe various other wayward symbols
