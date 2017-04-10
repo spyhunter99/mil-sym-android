@@ -773,6 +773,8 @@ public final class clsRenderer {
                         AM.set(1,r2);
                         AM.add(b);
                     }
+                    else if(AM.size()>2)
+                        AM.set(1, r2);
                 }
                 //if all these conditions are not met we do not want to set any tg modifiers
                 if (lineType == TacticalLines.PBS_SQUARE) //square
