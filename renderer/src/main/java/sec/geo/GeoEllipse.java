@@ -124,4 +124,10 @@ public class GeoEllipse /* extends GeoPath */ {
     public PathIterator getPathIterator(AffineTransform at) {
         return path.getPathIterator(at);
     }
+    //added path accessor for use by Ellipse only
+    public GeneralPath getPath()
+    {
+        return path;
+    }
+    
 }
