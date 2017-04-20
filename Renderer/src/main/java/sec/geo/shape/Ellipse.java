@@ -131,4 +131,53 @@ public class Ellipse {
                 }
 		return pts;            
         }
+    protected void shapeChanged() {
+        shape = null;
+    }
+
+    public double getMinAltitude() {
+        return minAltitudeMeters;
+    }
+
+    public void setMinAltitude(double minAltitudeMeters) {
+        this.minAltitudeMeters = minAltitudeMeters;
+        shapeChanged();
+    }
+
+    public double getMaxAltitude() {
+        return maxAltitudeMeters;
+    }
+
+    public void setMaxAltitude(double maxAltitudeMeters) {
+        this.maxAltitudeMeters = maxAltitudeMeters;
+        shapeChanged();
+    }
+
+    public void setMaxDistance(double maxDistanceMeters) {
+        this.maxDistanceMeters = maxDistanceMeters;
+        shapeChanged();
+    }
+
+    public void setFlatness(double flatnessDistanceMeters) {
+        this.flatnessDistanceMeters = flatnessDistanceMeters;
+        shapeChanged();
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+        shapeChanged();
+    }
+    public void setPivot(GeoPoint pvt) {
+        this.pivot = pvt;
+        shapeChanged();
+    }
+
+    public KmlOptions.AltitudeMode getAltitudeMode() {
+        return altitudeMode;
+    }
+
+    public void setAltitudeMode(KmlOptions.AltitudeMode altitudeMode) {
+        this.altitudeMode = altitudeMode;
+    }
+        
 }
