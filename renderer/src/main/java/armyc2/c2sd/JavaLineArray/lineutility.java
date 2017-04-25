@@ -16,7 +16,8 @@ import armyc2.c2sd.renderer.utilities.RendererException;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
 import java.io.*;
 import armyc2.c2sd.graphics2d.*;
-
+import armyc2.c2sd.renderer.utilities.IPointConversion;
+import armyc2.c2sd.JavaTacticalRenderer.mdlGeodesic;
 public final class lineutility {
 
     private static final String _className = "lineutility";
@@ -2474,7 +2475,53 @@ public final class lineutility {
         }
         return pResultLinePoints;
     }
+    /**
+     * Gets geodesic circle using the converter
+     * @param Center in pixels
+     * @param pt1 a point on the radius in pixels
+     * @param numpts number of points to return
+     * @param CirclePoints the result points
+     * @param converter 
+     */
+    protected static void CalcCircleDouble2(POINT2 Center,
+            POINT2 pt1,
+            int numpts,
+            POINT2[] CirclePoints,
+            IPointConversion converter) {
+        try {
+            int j = 0;
+            double increment = (Math.PI * 2) / (numpts - 1);
+            Point2D ptCenter2d=new Point2D.Double(Center.x,Center.y);
+            ptCenter2d=converter.PixelsToGeo(ptCenter2d);
+            Point2D pt12d=new Point2D.Double(pt1.x,pt1.y);
+            pt12d=converter.PixelsToGeo(pt12d);
+            Center=new POINT2(ptCenter2d.getX(),ptCenter2d.getY());
+            pt1=new POINT2(pt12d.getX(),pt12d.getY());
+            double dist=mdlGeodesic.geodesic_distance(Center, pt1, null, null);
+            
+            //double dSegmentAngle = 2 * Math.PI / numpts;
+            double az=0;
+            double startangle=0,endAngle=Math.PI*2;
+            POINT2 ptGeo=null,ptPixels=null;
+            Point2D ptGeo2d=null;           
+            for (j = 0; j < numpts - 1; j++) {
+                az=startangle*180/Math.PI+j*increment*180/Math.PI;
+                //ptGeo=mdlGeodesic.geodesic_coordinate(C2d,length,az);
+                ptGeo=mdlGeodesic.geodesic_coordinate(Center,dist,az);
+                ptGeo2d=new Point2D.Double(ptGeo.x,ptGeo.y);
+                ptGeo2d=converter.GeoToPixels(ptGeo2d);
+                ptPixels=new POINT2(ptGeo2d.getX(),ptGeo2d.getY());
+                CirclePoints[j].x = ptPixels.x;
+                CirclePoints[j].y = ptPixels.y;                            
+            }
+            CirclePoints[numpts - 1] = new POINT2(CirclePoints[0]);
 
+        } catch (Exception exc) {
+            ErrorLogger.LogException(_className, "CalcCircleDouble2",
+                    new RendererException("Failed inside CalcCircleDouble2", exc));
+        }
+        return;
+    }
     /**
      * Computes the points for a circle. Assumes CirclePoints has been allocated
      * with size numpts.
