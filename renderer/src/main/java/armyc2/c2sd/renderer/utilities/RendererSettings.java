@@ -147,7 +147,7 @@ public class RendererSettings{
     private float _SPFontSize = 60f;
     private float _UnitFontSize = 50f;
     private int _PixelSize = 35;
-    private int _DPI = 96;
+    private int _DPI = 90;
     
     private static int _CacheSize = 1024;
     private static int _VMSize = 10240;
