@@ -19,6 +19,7 @@ import static armyc2.c2sd.JavaLineArray.lineutility.CalcDistanceDouble;
 import armyc2.c2sd.JavaTacticalRenderer.clsMETOC;
 import armyc2.c2sd.renderer.utilities.Color;
 import armyc2.c2sd.graphics2d.*;
+import armyc2.c2sd.renderer.utilities.RendererSettings;
 /**
  * Utilities require for GoogleEarth functionality
  * @author Michael Deutch
@@ -207,7 +208,13 @@ public final class clsUtilityGE {
             double patternLength=0;
             int numSegments=0;
             int t=dash.length;
-            //for(j=0;j<dash.length;j++)
+            
+            //add 3 lines for high resolution devices
+            double dashMultiplier=RendererSettings.getInstance().getDeviceDPI()/96;
+            for(j=0;j<dash.length;j++)
+                dash[j]*=dashMultiplier;
+            //end section
+            
             for(j=0;j<t;j++)
                 patternLength+=dash[j];
             //sum is the end length of eash dash element
