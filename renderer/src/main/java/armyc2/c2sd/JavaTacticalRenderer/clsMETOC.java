@@ -1859,7 +1859,7 @@ public final class clsMETOC {
                 case TacticalLines.BOTTOM_TYPE_C1:
                 case TacticalLines.BOTTOM_TYPE_C2:
                 case TacticalLines.BOTTOM_TYPE_C3:
-                    arraysupport.GetLineArray2(tg.get_LineType(), tg.Pixels, shapes,null,rev);
+                    arraysupport.GetLineArray2(tg.get_LineType(), tg.Pixels, shapes,null,rev,null);
                     break;
                 case TacticalLines.ISOBAR:
                 case TacticalLines.ISOBAR_GE:

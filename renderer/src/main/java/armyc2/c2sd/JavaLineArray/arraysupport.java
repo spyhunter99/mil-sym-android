@@ -15,6 +15,7 @@ import armyc2.c2sd.renderer.utilities.RendererException;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
 import armyc2.c2sd.graphics2d.*;
 import armyc2.c2sd.renderer.utilities.Color;
+import armyc2.c2sd.renderer.utilities.IPointConversion;
 /*
  * A class to calculate the symbol points for the GeneralPath objects.
  * @author Michael Deutch
@@ -54,7 +55,8 @@ public final class arraysupport {
             ArrayList<POINT2> pts,
             ArrayList<Shape2> shapes,
             Rectangle2D clipBounds,
-            int rev) {
+            int rev,
+            IPointConversion converter) {
 
         ArrayList<POINT2> points = null;
         try {
@@ -98,7 +100,7 @@ public final class arraysupport {
                 pLinePoints[j] = new POINT2(pt.x, pt.y, pt.style);
             }
             //we have to adjust the autoshapes because they are instantiating with fewer points
-            points = GetLineArray2Double(lineType, pLinePoints, vblCounter, vblSaveCounter, shapes, clipBounds, rev);
+            points = GetLineArray2Double(lineType, pLinePoints, vblCounter, vblSaveCounter, shapes, clipBounds, rev, converter);
 
         } catch (Exception exc) {
             ErrorLogger.LogException(_className, "GetLineArray2",
@@ -760,7 +762,8 @@ public final class arraysupport {
     }
 
     private static void GetIsolatePointsDouble(POINT2[] pLinePoints,
-            int lineType) {
+            int lineType,
+            IPointConversion converter) {
         try {
             boolean reverseTurn = false;
             POINT2 pt0 = new POINT2(pLinePoints[0]), pt1 = new POINT2(pLinePoints[1]), pt2 = new POINT2(pLinePoints[0]);
@@ -817,8 +820,13 @@ public final class arraysupport {
             E.y = 2 * pt1.y - pt0.y;
             ptsArc[0] = new POINT2(pLinePoints[1]);
             ptsArc[1] = new POINT2(E);
+            if(converter != null)
+            {
+                ptsArc[0] = new POINT2(pLinePoints[0]);
+                ptsArc[1] = new POINT2(pLinePoints[1]);
+            }
 
-            lineutility.ArcArrayDouble(ptsArc, 0, dRadius, lineType);
+            lineutility.ArcArrayDouble(ptsArc, 0, dRadius, lineType, converter);
             for (j = 0; j < 26; j++) {
                 ptsArc[j].style = 0;
                 pLinePoints[j] = new POINT2(ptsArc[j]);
@@ -902,7 +910,7 @@ public final class arraysupport {
                     E = new POINT2(ptsSeize[1]);
                     ptsArc[0] = new POINT2(pt0);
                     ptsArc[1] = new POINT2(E);
-                    lineutility.ArcArrayDouble(ptsArc, 0, dRadius, lineType);
+                    lineutility.ArcArrayDouble(ptsArc, 0, dRadius, lineType, null);
                     for (j = 0; j < 26; j++) {
                         ptsArc[j].style = 0;
                         pLinePoints[j] = new POINT2(ptsArc[j]);
@@ -2242,7 +2250,8 @@ public final class arraysupport {
             int vblSaveCounter,
             ArrayList<Shape2> shapes,
             Rectangle2D clipBounds,
-            int rev) {
+            int rev,
+            IPointConversion converter) {
         ArrayList<POINT2> points = new ArrayList();
         try {
             String client = CELineArray.getClient();
@@ -2907,29 +2916,29 @@ public final class arraysupport {
                     acCounter = 4;
                     break;
                 case TacticalLines.ISOLATE:
-                    GetIsolatePointsDouble(pLinePoints, lineType);
+                    GetIsolatePointsDouble(pLinePoints, lineType, converter);
                     acCounter = 50;
                     break;
                 case TacticalLines.CORDONKNOCK:
                 case TacticalLines.CORDONSEARCH:
-                    GetIsolatePointsDouble(pLinePoints, lineType);
+                    GetIsolatePointsDouble(pLinePoints, lineType, converter);
                     acCounter = 50;
                     //FillPoints(pLinePoints,acCounter,points);
                     break;
                 case TacticalLines.OCCUPY:
-                    GetIsolatePointsDouble(pLinePoints, lineType);
+                    GetIsolatePointsDouble(pLinePoints, lineType, converter);
                     acCounter = 32;
                     break;
                 case TacticalLines.RETAIN:
-                    GetIsolatePointsDouble(pLinePoints, lineType);
+                    GetIsolatePointsDouble(pLinePoints, lineType, converter);
                     acCounter = 75;
                     break;
                 case TacticalLines.SECURE:
-                    GetIsolatePointsDouble(pLinePoints, lineType);
+                    GetIsolatePointsDouble(pLinePoints, lineType, converter);
                     acCounter = 29;
                     break;
                 case TacticalLines.TURN:
-                    GetIsolatePointsDouble(pLinePoints, lineType);
+                    GetIsolatePointsDouble(pLinePoints, lineType, null);
                     acCounter = 29;
                     break;
                 case TacticalLines.ENCIRCLE:
@@ -2997,7 +3006,7 @@ public final class arraysupport {
                         acCounter = 6;
                     }
                     if (rev == RendererSettings.Symbology_2525C) {
-                        return GetLineArray2Double(TacticalLines.SAAFR, pLinePoints, vblCounter, vblSaveCounter, shapes, clipBounds, rev);
+                        return GetLineArray2Double(TacticalLines.SAAFR, pLinePoints, vblCounter, vblSaveCounter, shapes, clipBounds, rev, converter);
                     }
                     break;
                 case TacticalLines.MRR_USAS:
@@ -3147,7 +3156,7 @@ public final class arraysupport {
                 case TacticalLines.CONVOY:
                     d = lineutility.CalcDistanceDouble(pt0, pt1);
                     if (d <= 30) {
-                        GetLineArray2Double(TacticalLines.DIRATKSPT, pLinePoints, 5, 2, shapes, clipBounds, rev);
+                        GetLineArray2Double(TacticalLines.DIRATKSPT, pLinePoints, 5, 2, shapes, clipBounds, rev, converter);
                         break;
                     }
                     //reverse the points
@@ -3989,7 +3998,8 @@ public final class arraysupport {
                     lineutility.ArcArrayDouble(
                             pts,
                             0, dRadius,
-                            lineType);
+                            lineType,
+                            null);
                     pLinePoints[0].style = 1;
                     pLinePoints[1].style = 5;
                     for (j = 0; j < 26; j++) {
@@ -4066,7 +4076,8 @@ public final class arraysupport {
                     lineutility.ArcArrayDouble(
                             arcPts,
                             0, dRadius,
-                            lineType);
+                            lineType,
+                            null);
 
                     pLinePoints[0].style = 5;
                     pLinePoints[1].style = 5;
@@ -4118,7 +4129,7 @@ public final class arraysupport {
 
                     if (d < d2) {
                         lineType = TacticalLines.DIRATKSPT;
-                        GetLineArray2Double(TacticalLines.DIRATKSPT, pLinePoints, 5, 2, shapes, clipBounds, rev);
+                        GetLineArray2Double(TacticalLines.DIRATKSPT, pLinePoints, 5, 2, shapes, clipBounds, rev, converter);
                         break;
                     }
 
@@ -4198,7 +4209,7 @@ public final class arraysupport {
                     if (folspDist < d2) //was 10
                     {
                         lineType = TacticalLines.DIRATKSPT;
-                        GetLineArray2Double(lineType, pLinePoints, 5, 2, shapes, clipBounds, rev);
+                        GetLineArray2Double(lineType, pLinePoints, 5, 2, shapes, clipBounds, rev, converter);
                         break;
                     }
                     lineutility.ReversePointsDouble2(
