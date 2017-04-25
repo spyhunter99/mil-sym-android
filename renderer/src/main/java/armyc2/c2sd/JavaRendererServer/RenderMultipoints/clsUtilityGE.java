@@ -210,7 +210,7 @@ public final class clsUtilityGE {
             int t=dash.length;
             
             //add 3 lines for high resolution devices
-            double dashMultiplier=RendererSettings.getInstance().getDeviceDPI()/96;
+            double dashMultiplier=(double)RendererSettings.getInstance().getDeviceDPI()/96.0;
             for(j=0;j<dash.length;j++)
                 dash[j]*=dashMultiplier;
             //end section
