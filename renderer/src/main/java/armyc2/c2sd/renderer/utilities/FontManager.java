@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -110,7 +111,7 @@ public class FontManager {
 			//Log.wtf("SPR.getFont", "Cache Directory: " + cacheDir);
 
 
-			String path = cacheDir + "/secrenderer";
+			String path = cacheDir + "/secrenderer/" + UUID.randomUUID().toString();
 			//Log.wtf("SPR.getFont", "Cache Directory: " + path);
 			File f = new File(path);
 			
@@ -154,6 +155,11 @@ public class FontManager {
 				if(f2.delete())
 				{
 					//Log.wtf("SPR.getFont", "deleted temp file");
+				}
+				File f3 = new File(path);
+				if(f3.delete())
+				{
+					//Log.wtf("SPR.getFont", "deleted temp folder");
 				}
 			}
 			catch(IOException ioe)
