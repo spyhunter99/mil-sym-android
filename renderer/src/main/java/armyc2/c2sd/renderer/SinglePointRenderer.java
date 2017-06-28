@@ -114,9 +114,9 @@ public class SinglePointRenderer implements SettingsChangedEventListener
 
         int symStd = RendererSettings.getInstance().getSymbologyStandard();
         //get fill character
-        int charFillIndex = UnitFontLookup.getFillCode(symbolID, symStd);
+        int charFillIndex = -1;
         //get frame character
-        int charFrameIndex = UnitFontLookup.getFrameCode(symbolID, charFillIndex);
+        int charFrameIndex = -1;
         int charSymbol1Index = -1;
         int charSymbol2Index = -1;
         int charFrameAssumeIndex = -1;
@@ -148,13 +148,17 @@ public class SinglePointRenderer implements SettingsChangedEventListener
         try
         {
 
-            //get MilStdAttributes
+            //check for symbology standard override.
             if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
             {
                 symStd = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
             }
+            //get fill character
+            charFillIndex = UnitFontLookup.getFillCode(symbolID, symStd);
+            //get frame character
+            charFrameIndex = UnitFontLookup.getFrameCode(symbolID, charFillIndex);
 
-            if (symStd > RendererSettings.Symbology_2525Bch2_USAS_13_14)
+            if (symStd > RendererSettings.Symbology_2525B)
             {
                 char affiliation = symbolID.charAt(1);
                 switch (affiliation)

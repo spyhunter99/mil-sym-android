@@ -280,7 +280,7 @@ public class MilStdIconRenderer/* implements IIconRenderer */ {
         int symStd = RendererSettings.getInstance().getSymbologyStandard();
         if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
         {
-            size = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
+            symStd = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
         }
 
         ImageInfo ii = TacticalGraphicIconRenderer.getIcon(symbolID, size, lineColor, symStd);
