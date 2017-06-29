@@ -29,6 +29,7 @@ import armyc2.c2sd.renderer.utilities.RendererSettings;
 import armyc2.c2sd.renderer.utilities.RendererUtilities;
 import armyc2.c2sd.renderer.utilities.SymbolUtilities;
 import armyc2.c2sd.renderer.utilities.TextInfo;
+import armyc2.c2sd.renderer.utilities.UnitFontLookup;
 
 public class ModifierRenderer
 {
@@ -690,19 +691,40 @@ public class ModifierRenderer
         // </editor-fold>
         // <editor-fold defaultstate="collapsed" desc="Build Operational Condition Indicator">
         Rect ociBounds = null;
+        RectF ociBoundsF = null;
+        Rect ociShape = null;
+        Path ociSlashShape = null;
         int ociOffset = 4;
         if (mobilityBounds != null)
         {
             ociOffset = Math.round(mobilityBounds.bottom - symbolBounds.bottom) + 4;
         }
-        Rect ociShape = processOperationalConditionIndicator(symbolID, symbolBounds, ociOffset);
-        if (ociShape != null)
+        if(RendererSettings.getInstance().getOperationalConditionModifierType() == RendererSettings.OperationalConditionModifierType_BAR)
         {
-            Rect temp = new Rect(ociShape);
-            RectUtilities.grow(temp, 2);
-            ociBounds = temp;
-            imageBounds.union(ociBounds);
+            ociShape = processOperationalConditionIndicator(symbolID, symbolBounds, ociOffset);
+            if (ociShape != null)
+            {
+                Rect temp = new Rect(ociShape);
+                RectUtilities.grow(temp, 2);
+                ociBounds = temp;
+                imageBounds.union(ociBounds);
+            }
         }
+        else//slash
+        {
+            ociSlashShape = processOperationalConditionIndicatorSlash(symbolID, symbolBounds);
+            if (ociSlashShape != null)
+            {
+                //build mobility bounds
+                ociBoundsF = new RectF();
+                ociBounds = new Rect();
+                ociSlashShape.computeBounds(ociBoundsF, true);
+                ociBoundsF.roundOut(ociBounds);
+                imageBounds.union(ociBounds);
+                ociBounds = null;
+            }
+        }
+
 
         // </editor-fold>
         // 
@@ -747,6 +769,11 @@ public class ModifierRenderer
             {
                 ociBounds.offset(shiftX, shiftY);
                 ociShape.offset(shiftX, shiftY);
+            }
+            if(ociBoundsF != null)
+            {
+                ociBoundsF.offset(shiftX, shiftY);
+                ociSlashShape.offset(shiftX, shiftY);
             }
             if (domBounds != null)
             {
@@ -959,6 +986,32 @@ public class ModifierRenderer
 
             domBounds = null;
             domPoints = null;
+        }
+
+        if(ociBoundsF != null)
+        {
+            Paint ociPaint = new Paint();
+            int size = symbolBounds.width();
+            float ociStrokeWidth = 3f;
+
+            ociStrokeWidth = size/20f;
+            if(ociStrokeWidth < 1f)
+                ociStrokeWidth = 1f;
+            /*if(size > 50 && size < 100)
+                ociStrokeWidth = 5f;
+            else if(size >= 100 && size < 200)
+                ociStrokeWidth = 7f;
+            else if(size >= 200)
+                ociStrokeWidth = 10f;*/
+            ociPaint.setColor(Color.black.toInt());
+            ociPaint.setStrokeWidth(ociStrokeWidth);
+            ociPaint.setStrokeCap(Cap.BUTT);
+            ociPaint.setStyle(Style.STROKE);
+            ociPaint.setAntiAlias(true);
+            ctx.drawPath(ociSlashShape,ociPaint);
+
+            ociBoundsF = null;
+            ociSlashShape = null;
         }
 
         // </editor-fold>
@@ -1250,6 +1303,43 @@ public class ModifierRenderer
         }
 
         return bar;
+    }
+
+    private static Path processOperationalConditionIndicatorSlash(String symbolID, Rect symbolBounds)
+    {
+        //create Operational Condition Indicator
+        Path path = null;
+        char status;
+        status = symbolID.charAt(3);
+
+        if (status == 'C' || status == 'X')
+        {
+            int fillCode = UnitFontLookup.getFillCode(symbolID,RendererSettings.Symbology_2525C);
+            float widthRatio = UnitFontLookup.getUnitRatioWidth(fillCode);
+            float heightRatio = UnitFontLookup.getUnitRatioHeight(fillCode);
+
+            float slashHeight = (symbolBounds.height() / heightRatio * 1.47f);
+            float slashWidth = (symbolBounds.width() / widthRatio * 0.85f);
+            float centerX = symbolBounds.exactCenterX();
+            float centerY = symbolBounds.exactCenterY();
+            path = new Path();
+            if(status == 'D')//Damaged /
+            {
+                path.moveTo(centerX - (slashWidth/2),centerY+(slashHeight/2));
+                path.lineTo(centerX + (slashWidth/2),centerY-(slashHeight/2));
+            }
+            else if(status == 'X')//Destroyed X
+            {
+                path.moveTo(centerX - (slashWidth/2),centerY+(slashHeight/2));
+                path.lineTo(centerX + (slashWidth/2),centerY-(slashHeight/2));
+                path.moveTo(centerX - (slashWidth/2),centerY-(slashHeight/2));
+                path.lineTo(centerX + (slashWidth/2),centerY+(slashHeight/2));
+            }
+            return path;
+
+        }
+
+        return path;
     }
 
     public static ImageInfo processUnitTextModifiers(ImageInfo ii, String symbolID, SparseArray<String> modifiers, SparseArray<String> attributes)

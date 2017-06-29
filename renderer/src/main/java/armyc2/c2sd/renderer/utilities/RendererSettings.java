@@ -120,6 +120,10 @@ public class RendererSettings{
     
     private static int _SymbologyStandard = 1;
 
+    public static int OperationalConditionModifierType_SLASH = 0;
+    public static int OperationalConditionModifierType_BAR = 1;
+    private static int _OCMType = 1;
+
 
     private static boolean _UseLineInterpolation = true;
 
@@ -192,7 +196,10 @@ public class RendererSettings{
     {
     	_listeners.add(scel);
     }
-    
+
+
+
+
     /**
      * None, outline (default), or filled background.
      * If set to OUTLINE, TextOutlineWidth changed to default of 4.
@@ -279,7 +286,21 @@ public class RendererSettings{
     {
         return _SymbologyStandard;
     }
-    
+
+    /**
+     * Set the operational condition modifier to be slashes or bars
+     * @param value like RendererSettings.OperationalConditionModifierType_SLASH
+     */
+    public void setOperationalConditionModifierType(int value)
+    {
+        _OCMType = value;
+    }
+
+    public int getOperationalConditionModifierType()
+    {
+        return _OCMType;
+    }
+
     /**
      * For lines symbols with "decorations" like FLOT or LOC, when points are 
      * too close together, we will start dropping points until we get enough 
