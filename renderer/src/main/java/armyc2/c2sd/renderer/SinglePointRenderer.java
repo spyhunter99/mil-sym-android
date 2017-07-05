@@ -236,6 +236,10 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             {
                 iconColor = new Color(attributes.get(MilStdAttributes.IconColor));
             }
+            if (attributes.indexOfKey(MilStdAttributes.Alpha) >= 0)
+            {
+                alpha = Integer.parseInt(attributes.get(MilStdAttributes.Alpha));
+            }
 
             //get symbol info
             lookup = UnitFontLookup.getInstance().getLookupInfo(symbolID, symStd);
@@ -294,6 +298,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             fillPaint.setAntiAlias(true);
             fillPaint.setTextAlign(Align.CENTER);
             fillPaint.setTypeface(_tfUnits);
+            if(alpha != -1)
+                fillPaint.setAlpha(alpha);
 
             framePaint = new Paint();
             framePaint.setStyle(Paint.Style.FILL);
@@ -302,6 +308,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             framePaint.setAntiAlias(true);
             framePaint.setTextAlign(Align.CENTER);
             framePaint.setTypeface(_tfUnits);
+            if(alpha != -1)
+                framePaint.setAlpha(alpha);
 
             symbol1Paint = new Paint();
             symbol1Paint.setStyle(Paint.Style.FILL);
@@ -317,6 +325,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             symbol1Paint.setAntiAlias(true);
             symbol1Paint.setTextAlign(Align.CENTER);
             symbol1Paint.setTypeface(_tfUnits);
+            if(alpha != -1)
+                symbol1Paint.setAlpha(alpha);
 
             symbol2Paint = new Paint();
             symbol2Paint.setStyle(Paint.Style.FILL);
@@ -325,6 +335,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             symbol2Paint.setAntiAlias(true);
             symbol2Paint.setTextAlign(Align.CENTER);
             symbol2Paint.setTypeface(_tfUnits);
+            if(alpha != -1)
+                symbol2Paint.setAlpha(alpha);
 
             frameAssumePaint = new Paint();
             frameAssumePaint.setStyle(Paint.Style.FILL);
@@ -333,6 +345,9 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             frameAssumePaint.setAntiAlias(true);
             frameAssumePaint.setTextAlign(Align.CENTER);
             frameAssumePaint.setTypeface(_tfUnits);
+            if(alpha != -1)
+                frameAssumePaint.setAlpha(alpha);
+
             
           //Just for sea mines
             if(symbolID.charAt(2) == 'U' &&
@@ -341,11 +356,18 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                 if(symStd == RendererSettings.Symbology_2525B)
                 {
                     fillPaint.setColor(fillColor.toARGB());
+                    if(alpha != -1)
+                        fillPaint.setAlpha(alpha);
                     symbol1Paint.setColor(lineColor.toARGB());
+                    if(alpha != -1)
+                        symbol1Paint.setAlpha(alpha);
+
                 }
                 else if(symStd == RendererSettings.Symbology_2525C)
                 {
                 	fillPaint.setColor(lineColor.toARGB());
+                    if(alpha != -1)
+                        fillPaint.setAlpha(alpha);
                 }
                 
             }
@@ -353,6 +375,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                     symbolID.charAt(4) == 'O')//own track, //SUSPO
             {
             	fillPaint.setColor(lineColor.toARGB());
+                if(alpha != -1)
+                    fillPaint.setAlpha(alpha);
             }
         }
         catch (Exception excModifiers)
@@ -775,6 +799,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
                 fillPaint.setAntiAlias(true);
                 fillPaint.setTextAlign(Align.CENTER);
                 fillPaint.setTypeface(_tfSP);
+                if(alpha != -1)
+                fillPaint.setAlpha(alpha);
             }
 
             framePaint = new Paint();
@@ -784,6 +810,8 @@ public class SinglePointRenderer implements SettingsChangedEventListener
             framePaint.setAntiAlias(true);
             framePaint.setTextAlign(Align.CENTER);
             framePaint.setTypeface(_tfSP);
+            if(alpha != -1)
+                framePaint.setAlpha(alpha);
 
             //Check if we need to set 'N' to "ENY"
             if (symbolID.charAt(1) == 'H'

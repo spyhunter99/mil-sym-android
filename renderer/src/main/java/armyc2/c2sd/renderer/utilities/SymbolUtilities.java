@@ -2536,8 +2536,7 @@ public class SymbolUtilities
      * @return True if the graphic is a HQ symbol in the MIL-STD 2525B, false
      * otherwise.
      */
-    public static
-            boolean isHQ(String strSymbolID)
+    public static boolean isHQ(String strSymbolID)
     {
         boolean blRetVal = false;
         try
@@ -2545,22 +2544,21 @@ public class SymbolUtilities
             char hq = strSymbolID.charAt(10);
             if(hq != '-' && hq != '*')
             {
-                blRetVal = (hq == 'A'
-                        || hq == 'B'
-                        || hq == 'C' || hq == 'D');
+                if(hq == 'A' || hq == 'B' || hq == 'C' || hq == 'D')
+                {
+                    blRetVal = true;
+                }
             }
-            else
+            else if (strSymbolID.charAt(0) == 'S' && strSymbolID.substring(4,6).equals("UH"))
             {
-                blRetVal = (strSymbolID.charAt(0) == 'S' && strSymbolID.substring(4,6).equals("UH"));
+                blRetVal = true;
             }
-
-            return blRetVal;
         }
         catch (Throwable t)
         {
             System.out.println(t);
         }
-        return false;
+        return blRetVal;
     } // End isHQ
 
     /**

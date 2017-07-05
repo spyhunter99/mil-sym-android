@@ -61,6 +61,7 @@ public class ModifierRenderer
         Color textColor = Color.BLACK;
         Color textBackgroundColor = null;
         int buffer = 0;
+        int alpha = -1;
         //ctx = null;
         int offsetX = 0;
         int offsetY = 0;
@@ -69,14 +70,24 @@ public class ModifierRenderer
         {
             symStd = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
         }
+        if (attributes.indexOfKey(MilStdAttributes.Alpha) >= 0)
+        {
+            alpha = Integer.parseInt(attributes.get(MilStdAttributes.Alpha));
+            textColor.setAlpha(alpha);
+        }
         if (attributes.indexOfKey(MilStdAttributes.TextColor) >= 0)
         {
             textColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextColor));
+            if(alpha > -1)
+                textColor.setAlpha(alpha);
         }
         if (attributes.indexOfKey(MilStdAttributes.TextBackgroundColor) >= 0)
         {
             textBackgroundColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextBackgroundColor));
+            if(alpha > -1)
+                textBackgroundColor.setAlpha(alpha);
         }
+
 
         // <editor-fold defaultstate="collapsed" desc="Build Mobility Modifiers">
         RectF mobilityBounds = null;
@@ -638,7 +649,7 @@ public class ModifierRenderer
                     || affiliation == ('L'))
             {
                 pt1HQ = new Point((int) symbolBounds.left + 1,
-                        (int) (symbolBounds.top + symbolBounds.height()));
+                        (int) (symbolBounds.top + symbolBounds.height() - 1));
                 pt2HQ = new Point((int) pt1HQ.x, (int) (pt1HQ.y + symbolBounds.height()));
             }
             else
@@ -649,7 +660,7 @@ public class ModifierRenderer
             }
 
             //create bounding rectangle for HQ staff.
-            hqBounds = new Rect(pt1HQ.x, pt1HQ.y, 2, pt2HQ.y - pt1HQ.y);
+            hqBounds = new Rect(pt1HQ.x, pt1HQ.y, pt1HQ.x + 2, pt2HQ.y);
             //adjust the image bounds accordingly.
             imageBounds.union(hqBounds);
             //imageBounds.shiftBR(0,pt2HQ.y-imageBounds.bottom);
@@ -829,6 +840,8 @@ public class ModifierRenderer
         Paint paint = new Paint();
         paint.setStyle(Style.STROKE);
         paint.setColor(Color.black.toInt());
+        if(alpha > -1)
+            paint.setAlpha(alpha);
         paint.setStrokeWidth(2.0f);
 
         if (hqBounds != null)
@@ -916,6 +929,8 @@ public class ModifierRenderer
             Paint mobilityPaint = new Paint();
             mobilityPaint.setStyle(Style.STROKE);
             mobilityPaint.setColor(Color.black.toInt());
+            if(alpha > -1)
+                mobilityPaint.setAlpha(alpha);
             
             //ctx.lineCap = "butt";
             //ctx.lineJoin = "miter";
@@ -968,8 +983,12 @@ public class ModifierRenderer
             ociPaint.setColor(Color.black.toInt());
             ociPaint.setStyle(Style.FILL);
 
+            if(alpha > -1)
+                ociPaint.setAlpha(alpha);
             ctx.drawRect(ociBounds, ociPaint);
             ociPaint.setColor(statusColor);
+            if(alpha > -1)
+                ociPaint.setAlpha(alpha);
             ctx.drawRect(ociShape, ociPaint);
 
             ociBounds = null;
@@ -982,7 +1001,7 @@ public class ModifierRenderer
 
         if (domBounds != null)
         {
-            drawDOMArrow(ctx, domPoints);
+            drawDOMArrow(ctx, domPoints, alpha);
 
             domBounds = null;
             domPoints = null;
@@ -1244,7 +1263,7 @@ public class ModifierRenderer
 
     }
 
-    private static void drawDOMArrow(Canvas ctx, Point[] domPoints)
+    private static void drawDOMArrow(Canvas ctx, Point[] domPoints, int alpha)
     {
         Paint domPaint = new Paint();
         domPaint.setStrokeCap(Cap.BUTT);
@@ -1252,6 +1271,8 @@ public class ModifierRenderer
         domPaint.setStrokeWidth(3);
         domPaint.setColor(Color.black.toInt());
         domPaint.setStyle(Style.STROKE);
+        if(alpha > -1)
+            domPaint.setAlpha(alpha);
 
         Path domPath = new Path();
         domPath.moveTo(domPoints[0].x, domPoints[0].y);
@@ -1312,7 +1333,7 @@ public class ModifierRenderer
         char status;
         status = symbolID.charAt(3);
 
-        if (status == 'C' || status == 'X')
+        if (status == 'D' || status == 'X')
         {
             int fillCode = UnitFontLookup.getFillCode(symbolID,RendererSettings.Symbology_2525C);
             float widthRatio = UnitFontLookup.getUnitRatioWidth(fillCode);
@@ -1353,6 +1374,7 @@ public class ModifierRenderer
         int y = 0;//best y
         int cpofNameX = 0;
         ImageInfo newii = null;
+        int alpha = -1;
         
         Color textColor = Color.BLACK;
         Color textBackgroundColor = null;
@@ -1365,6 +1387,10 @@ public class ModifierRenderer
         if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
         {
             symStd = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
+        }
+        if (attributes.indexOfKey(MilStdAttributes.Alpha) >= 0)
+        {
+            alpha = Integer.parseInt(attributes.get(MilStdAttributes.Alpha));
         }
 
         Rect labelBounds = null;
@@ -2045,10 +2071,14 @@ public class ModifierRenderer
             if (attributes.indexOfKey(MilStdAttributes.TextColor) >= 0)
             {
                 textColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextColor));
+                if(alpha > -1)
+                    textColor.setAlpha(alpha);
             }
             if (attributes.indexOfKey(MilStdAttributes.TextBackgroundColor) >= 0)
             {
                 textBackgroundColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextBackgroundColor));
+                if(alpha > -1)
+                    textBackgroundColor.setAlpha(alpha);
             }
 
             renderText(ctx, tiArray, textColor, textBackgroundColor);
@@ -2085,6 +2115,7 @@ public class ModifierRenderer
         int outlineOffset = RS.getTextOutlineWidth();
         int labelHeight = 0;
         int labelWidth = 0;
+        int alpha = -1;
         ImageInfo newii = null;
         Color textColor = lineColor;
         Color textBackgroundColor = null;
@@ -2100,6 +2131,11 @@ public class ModifierRenderer
         if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
         {
             symStd = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
+        }
+        if (attributes.indexOfKey(MilStdAttributes.Alpha) >= 0)
+        {
+            alpha = Integer.parseInt(attributes.get(MilStdAttributes.Alpha));
+            textColor.setAlpha(alpha);
         }
 
         centerPoint = new Point(Math.round(ii.getCenterPoint().x), Math.round(ii.getCenterPoint().y));
@@ -2809,11 +2845,17 @@ public class ModifierRenderer
             if (attributes.indexOfKey(MilStdAttributes.TextColor) >= 0)
             {
                 textColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextColor));
+                if(alpha > -1)
+                    textColor.setAlpha(alpha);
             }
             if (attributes.indexOfKey(MilStdAttributes.TextBackgroundColor) >= 0)
             {
                 textBackgroundColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextBackgroundColor));
+                if(alpha > -1)
+                    textBackgroundColor.setAlpha(alpha);
             }
+
+
             
             renderText(ctx, arrMods, textColor, textBackgroundColor);
 
@@ -2822,7 +2864,7 @@ public class ModifierRenderer
             //draw DOM arrow
             if (domBounds != null)
             {
-                drawDOMArrow(ctx, domPoints);
+                drawDOMArrow(ctx, domPoints, alpha);
             }
 
             newii = new ImageInfo(bmp, centerPoint, symbolBounds);
@@ -2859,6 +2901,7 @@ public class ModifierRenderer
         int outlineOffset = RS.getTextOutlineWidth();
         int labelHeight = 0;
         int labelWidth = 0;
+        int alpha = -1;
         ImageInfo newii = null;
         
         Color textColor = lineColor;
@@ -2870,6 +2913,10 @@ public class ModifierRenderer
         if (attributes.indexOfKey(MilStdAttributes.SymbologyStandard) >= 0)
         {
             symStd = Integer.parseInt(attributes.get(MilStdAttributes.SymbologyStandard));
+        }
+        if (attributes.indexOfKey(MilStdAttributes.Alpha) >= 0)
+        {
+            alpha = Integer.parseInt(attributes.get(MilStdAttributes.Alpha));
         }
 
         Rect bounds = new Rect(ii.getSymbolBounds());
@@ -3105,11 +3152,17 @@ public class ModifierRenderer
             if (attributes.indexOfKey(MilStdAttributes.TextColor) >= 0)
             {
                 textColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextColor));
+                if(alpha > -1)
+                    textColor.setAlpha(alpha);
             }
             if (attributes.indexOfKey(MilStdAttributes.TextBackgroundColor) >= 0)
             {
                 textBackgroundColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextBackgroundColor));
+                if(alpha > -1)
+                    textBackgroundColor.setAlpha(alpha);
             }
+
+
             renderText(ctx, arrMods, textColor, textBackgroundColor);
 
             newii = new ImageInfo(bmp, centerPoint, symbolBounds);

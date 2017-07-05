@@ -292,6 +292,16 @@ public class Color {
     {
     	return _A;
     }
+
+	/**
+	 *
+	 * @param alpha 0-255
+	 * @return
+	 */
+	public void setAlpha(int alpha)
+	{
+		_A = alpha;
+	}
     
     public int toInt()
     {
