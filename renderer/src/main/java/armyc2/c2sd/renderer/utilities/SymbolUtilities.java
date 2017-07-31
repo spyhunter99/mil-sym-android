@@ -1462,8 +1462,6 @@ public class SymbolUtilities
         symbolID.equals("WA-DBALPNC--A--") || // 
         symbolID.equals("WA-DBALPC---A--") || // 
         symbolID.equals("WA-DIPID---L---") || // 
-        symbolID.equals("WO-DHCF----L---") || // 
-        symbolID.equals("WO-DHCF-----A--") || // 
         symbolID.equals("WO-DGMSIM---A--") || //
         symbolID.equals("WO-DGMRS----A--") ||
         symbolID.equals("WO-DGMCL----A--") ||
@@ -1502,6 +1500,11 @@ public class SymbolUtilities
         symbolID.equals("WAS-WSSSMHP----")) // Snow Showers - Moderate/Heavy
         {
             retColor = Color.GREEN;// 0x00ff00;	// Green
+        }
+        else if(symbolID.equals("WO-DHCF----L---") || //
+                symbolID.equals("WO-DHCF-----A--"))
+        {
+            retColor = new Color(173,255,47);// 0xADFF2F;// GreenYellow
         }
         else if(symbolID.startsWith("WAS-IC") || // Clear Icing
                                     symbolID.startsWith("WAS-IR")  || // Rime Icing
@@ -1790,12 +1793,18 @@ public class SymbolUtilities
             return new Color(0,0,255);
         }
         else if(symbolID.equals("WO-DHHD-----A--") ||
-                symbolID.equals("WO-DHHDD----A--"))
+                symbolID.equals("WO-DHHDD----A--")  ||//discolored water (DeepSkyBlue)
+                symbolID.equals("WO-DHDDA----A--"))//Depth Area
         {
-            return new Color(0,255,255);
+            return new Color(0,191,255);
         }
         else if(symbolID.equals("WO-DHPMD----A--"))//drydock
             return new Color(188,153,58);
+        else if(symbolID.equals("WO-DHCF----L---") || //FORESHORE
+                symbolID.equals("WO-DHCF-----A--"))
+        {
+            return new Color(173,255,47);// 0xADFF2F;// GreenYellow
+        }
         else return null;
     }
 
