@@ -1168,9 +1168,10 @@ public class ModifierRenderer
         y1 = Math.round(center.y);
 
         pt1 = new Point(x1, y1);
-
+        char scheme = symbolID.charAt(0);
         if (SymbolUtilities.isNBC(symbolID)
-                || (SymbolUtilities.isWarfighting(symbolID) && symbolID.charAt(2) == ('G')))
+                || (scheme == 'S' && symbolID.charAt(2) == ('G')) ||
+                scheme == 'O' || scheme == 'E')
         {
             y1 = bounds.top + bounds.height();
             pt1 = new Point(x1, y1);
