@@ -93,6 +93,7 @@ public class MainActivity extends Activity {
             rs.setModifierFont("Arial", Typeface.BOLD, 18);
             rs.setMPModifierFont("Arial", Typeface.BOLD, 18);
             rs.setSymbologyStandard(RendererSettings.Symbology_2525C);
+			//rs.setSymbologyStandard(RendererSettings.Symbology_2525B);
             //rs.setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_OUTLINE_QUICK);
 
 
@@ -150,8 +151,10 @@ public class MainActivity extends Activity {
 	    		attributes.put(MilStdAttributes.PixelSize,strPixelSize);
 	    	else
 	    		attributes.put(MilStdAttributes.PixelSize,"240");//*/
-	    	
+
+			//attributes.put(MilStdAttributes.SymbologyStandard,String.valueOf(RendererSettings.Symbology_2525B));
 	    	//attributes.put(MilStdAttributes.LineColor, "cyan");
+			//attributes.put(MilStdAttributes.FillColor, "00FF0000");
 	    	
                 //RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_NONE);
 	    		//RendererSettings.getInstance().setTextBackgroundMethod(RendererSettings.TextBackgroundMethod_COLORFILL);
@@ -159,7 +162,9 @@ public class MainActivity extends Activity {
             //RendererSettings.getInstance().setSinglePointSymbolOutlineWidth(0);
                 //attributes.put(MilStdAttributes.TextColor, "FF0000");
                 //attributes.put(MilStdAttributes.TextBackgroundColor, "000000");
+			//attributes.put(MilStdAttributes.Alpha, "150");
 
+			//RendererSettings.getInstance().setOperationalConditionModifierType(RendererSettings.OperationalConditionModifierType_SLASH);
 			//attributes.put(MilStdAttributes.KeepUnitRatio,"false");
 	    	
 	    	populateModifiers = ((CheckBox)findViewById(R.id.cbModifiers)).isChecked();

@@ -95,7 +95,8 @@ public final class clsUtility {
             {
                 fillBMPshader = new BitmapShader(fillBMP[useIndex], Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
                 shape.setShader(fillBMPshader);
-                shape.setFillColor(Color.WHITE);       
+                shape.setFillColor(Color.WHITE);
+                shape.setPatternFillImage(fillBMP[useIndex]);
                 //fillBMP.recycle();
             }
         }
@@ -107,6 +108,7 @@ public final class clsUtility {
         }
         return true;
     }
+
     protected static Point POINT2ToPoint(POINT2 pt2)
     {
         Point pt=new Point();

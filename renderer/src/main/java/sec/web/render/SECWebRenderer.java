@@ -3,13 +3,17 @@ package sec.web.render;
 // It requires that you import the plugins.jar from the jdk folder into the project libraries
 //import netscape.javascript.JSObject;
 
+import android.graphics.BitmapShader;
+import android.graphics.Shader;
 import android.util.SparseArray;
 import armyc2.c2sd.renderer.MilStdIconRenderer;
+import armyc2.c2sd.renderer.PatternFillRenderer;
 import armyc2.c2sd.renderer.utilities.ErrorLogger;
 import armyc2.c2sd.renderer.utilities.MilStdAttributes;
 import armyc2.c2sd.renderer.utilities.MilStdSymbol;
 import armyc2.c2sd.renderer.utilities.ModifiersTG;
 import armyc2.c2sd.renderer.utilities.RendererSettings;
+import armyc2.c2sd.renderer.utilities.ShapeInfo;
 import armyc2.c2sd.renderer.utilities.SymbolUtilities;
 import armyc2.c2sd.renderer.utilities.Color;
 import armyc2.c2sd.graphics2d.*;
@@ -787,6 +791,36 @@ public final class SECWebRenderer /* extends Applet */ {
 		{
 			mSymbol = MultiPointHandler.RenderSymbolAsMilStdSymbol(id, name, description, symbolCode,
                     controlPoints, scale, bbox, modifiers, attributes, symStd);
+
+            String basicID = SymbolUtilities.getBasicSymbolID(symbolCode);
+            if(basicID.charAt(0)=='G' && ((basicID.charAt(2)=='G' &&  basicID.substring(4,7).equals("PC-")) ||  (basicID.charAt(2)=='M' &&  basicID.substring(4,7).equals("OFD"))))
+            {
+                String A = "G*MPOMU---****X";//unspecified mine, default if not specified
+                if(modifiers.indexOfKey(ModifiersTG.A_SYMBOL_ICON) >= 0)
+                    A = modifiers.get(ModifiersTG.A_SYMBOL_ICON);
+
+                //test
+                //A = "G*MPOMW---****X,G*MPOMD---****X,G*MPOME---****X";
+                //A = "G*MPOMEXXX****X";
+                int size = RendererSettings.getInstance().getDefaultPixelSize();
+
+                ArrayList<ShapeInfo> shapes = mSymbol.getSymbolShapes();
+                //ShapeInfo shape = shapes.get(shapes.size());
+                ShapeInfo shape = shapes.get(0);
+                shape.setPatternFillImage(PatternFillRenderer.MakeSymbolPatternFill(A,size));
+                if(shape.getPatternFillImage() != null)
+                    shape.setShader(new BitmapShader(shape.getPatternFillImage(), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
+            }
+            else if(basicID.charAt(0) == 'W')
+            {
+                ArrayList<ShapeInfo> shapes = mSymbol.getSymbolShapes();
+                //ShapeInfo shape = shapes.get(shapes.size());
+                ShapeInfo shape = shapes.get(0);
+                shape.setPatternFillImage(PatternFillRenderer.MakeMetocPatternFill(symbolCode));
+                if(shape.getPatternFillImage() != null)
+                    shape.setShader(new BitmapShader(shape.getPatternFillImage(), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
+            }
+
 		}
 		catch (Exception ea) 
 		{

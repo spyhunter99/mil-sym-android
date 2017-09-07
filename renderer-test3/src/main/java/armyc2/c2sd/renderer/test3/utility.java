@@ -1372,7 +1372,7 @@ public final class utility {
         mss.setSymbologyStandard(rev);
         
         //diagnostic
-        boolean renderAsMilStdSymbol=false;
+        boolean renderAsMilStdSymbol=true;
         //uncomment this line to run RendermultiPointAsMilstdSymbol
         //renderAsMilStdSymbol=true;
         if(T.equalsIgnoreCase("renderAsMSS"))
@@ -1531,7 +1531,7 @@ public final class utility {
                 }
                 Point2D pt2d=null;
                 Point2D pixels=null;
-                if (spec.getFillColor() != null && spec.getFillColor().getAlpha() > 0) {
+                if (spec.getShader() != null || (spec.getFillColor() != null && spec.getFillColor().getAlpha() > 0)) {
                     int n=polylines.size();
                     for (j = 0; j < n; j++) 
                     {
@@ -1561,7 +1561,10 @@ public final class utility {
                         //end diagnostic
                         canvas.drawPath(path, paint);
                     }
+
                 }
+
+
                 BasicStroke s = (BasicStroke) spec.getStroke();
                 float[] dash = s.getDashArray();
                 
@@ -1609,6 +1612,16 @@ public final class utility {
                 {
                     drawDashedPolylines(symbolId,polylines,spec,canvas);
                 }
+
+                //test for pattern fill image generation////////////////////////////////////////////
+                /*if(spec.getPatternFillImage() != null)
+                {
+                    canvas.drawBitmap(spec.getPatternFillImage(),10,10,null);
+                    paint = new Paint();
+                    paint.setStyle(Paint.Style.FILL);
+                    paint.setShader(spec.getShader());
+                    canvas.drawPath(path, paint);
+                }///////////////////////////////////////////////////////////////////////////////////*/
             }
         } catch (Exception e) {
             String s = e.getMessage();

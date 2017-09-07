@@ -6,6 +6,8 @@
 package armyc2.c2sd.renderer.utilities;
 import armyc2.c2sd.graphics2d.*;
 import java.util.ArrayList;
+
+import android.graphics.Bitmap;
 import android.graphics.BitmapShader;   //for pattern fill. this is the only native android graphics to import
 /**
  *
@@ -57,6 +59,7 @@ public class ShapeInfo {
     private double _ModifierStringAngle = 0;
     private Object _Tag = null;
     private BitmapShader _shader=null;
+    private Bitmap _patternFill = null;
     //for google earth
     private ArrayList<ArrayList<Point2D>> _Polylines = null;
     
@@ -427,6 +430,9 @@ public class ShapeInfo {
     {
         return _shader;
     }
+
+    public void setPatternFillImage(Bitmap bmp){_patternFill = bmp;}
+    public Bitmap getPatternFillImage(){return _patternFill;}
     public int getTextJustify()
     {
         return _justify;
