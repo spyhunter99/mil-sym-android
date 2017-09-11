@@ -2687,7 +2687,7 @@ public class ModifierRenderer
             {
                 strText = "X?";
                 if(modX != null)
-                    strText += modX;
+                    strText = modX;
 
                 ti = new TextInfo(strText, 0, 0, _modifierFont);
                 labelWidth = Math.round(ti.getTextBounds().width());
@@ -2704,7 +2704,7 @@ public class ModifierRenderer
             {
                 strText = "X?";
                 if(modX != null)
-                    strText += modX;
+                    strText = modX;
 
                 ti = new TextInfo(strText, 0, 0, _modifierFont);
                 labelWidth = Math.round(ti.getTextBounds().width());
@@ -2721,7 +2721,7 @@ public class ModifierRenderer
             {
                 strText = "X?";
                 if(modX != null)
-                    strText += modX;
+                    strText = modX;
 
                 ti = new TextInfo(strText, 0, 0, _modifierFont);
                 labelWidth = Math.round(ti.getTextBounds().width());
