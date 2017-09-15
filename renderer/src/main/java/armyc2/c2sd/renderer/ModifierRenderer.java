@@ -2678,7 +2678,7 @@ public class ModifierRenderer
                 x = bounds.left + (int) (bounds.width() * 0.5f);
                 x = x - (int) (labelWidth * 0.5f);
                 y = bounds.top + (int) (bounds.height() * 0.5f);
-                y = y + (int) (labelHeight * 0.5f);
+                y = y + (int) ((labelHeight - _modifierFontDescent) * 0.5f);
 
                 ti.setLocation(Math.round(x), Math.round(y));
                 arrMods.add(ti);
@@ -2695,7 +2695,7 @@ public class ModifierRenderer
                 x = bounds.left + (int) (bounds.width() * 0.5f);
                 x = x - (int) (labelWidth * 0.5f);
                 y = bounds.top + (int) (bounds.height() * 0.5f);
-                y = y + (int) (labelHeight * 0.5f);
+                y = y + (int) ((labelHeight - _modifierFontDescent) * 0.5f);
 
                 ti.setLocation(Math.round(x), Math.round(y));
                 arrMods.add(ti);
@@ -2729,7 +2729,8 @@ public class ModifierRenderer
                 x = bounds.left + (int) (bounds.width() * 0.5f);
                 x = x - (int) (labelWidth * 0.5f);
                 y = bounds.top + (int) (bounds.height() * 0.5f);
-                y = y + (int) ((labelHeight * 0.5f) + (labelHeight/2));
+                //y = y + (int) ((labelHeight * 0.5f) + (labelHeight/2));
+                y = y + (int) (((labelHeight * 0.5f) - (labelHeight/2)) + labelHeight - descent);
 
                 ti.setLocation(Math.round(x), Math.round(y));
                 arrMods.add(ti);
