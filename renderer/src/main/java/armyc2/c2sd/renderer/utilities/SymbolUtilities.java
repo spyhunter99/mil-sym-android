@@ -181,10 +181,10 @@ public class SymbolUtilities
      */
     public static String getBasicSymbolIDStrict(String strSymbolID)
     {
-        StringBuilder sb = new StringBuilder();
-        char scheme = strSymbolID.charAt(0);
         if(strSymbolID != null && strSymbolID.length() == 15)
         {
+            StringBuilder sb = new StringBuilder();
+            char scheme = strSymbolID.charAt(0);
             if (scheme == 'G')
             {
                 sb.append(strSymbolID.charAt(0));
