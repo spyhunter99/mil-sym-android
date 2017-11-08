@@ -796,7 +796,7 @@ public class RendererSettings{
  	 * to only set 2 labels one at the north and the other one at the south of the graphic (true).
  	 * @param TwoENYLabelOnly
  	 */
- 	public boolean setTwoENYLabelOnly(boolean TwoENYLabelOnly )
+ 	public void setTwoENYLabelOnly(boolean TwoENYLabelOnly )
  	{
  		_TwoENYLabelOnly = TwoENYLabelOnly;
  	}
