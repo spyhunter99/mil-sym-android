@@ -315,13 +315,21 @@ public class MainActivity extends Activity {
         modifiers.put(ModifiersUnits.F_REINFORCED_REDUCED,"RD");
         
         modifiers.put(ModifiersUnits.L_SIGNATURE_EQUIP,"!");
-        //modifiers[armyc2.c2sd.renderer.utilities.ModifiersUnits.AA_SPECIAL_C2_HQ] = "AA";
+        modifiers.put(ModifiersUnits.AA_SPECIAL_C2_HQ, "AA");
         modifiers.put(ModifiersUnits.G_STAFF_COMMENTS,"Gj");
         //symbol.symbolicon A
         modifiers.put(ModifiersUnits.V_EQUIP_TYPE,"Vj");
         modifiers.put(ModifiersUnits.T_UNIQUE_DESIGNATION_1,"Tj");
         modifiers.put(ModifiersUnits.T1_UNIQUE_DESIGNATION_2,"T1");
         modifiers.put(ModifiersUnits.Z_SPEED,"999");//Z
+
+		//sigint //TODO
+		modifiers.put(ModifiersUnits.R2_SIGNIT_MOBILITY_INDICATOR, "2");
+		modifiers.put(ModifiersUnits.AD_PLATFORM_TYPE, "AD");
+		modifiers.put(ModifiersUnits.AE_EQUIPMENT_TEARDOWN_TIME, "AE");
+		modifiers.put(ModifiersUnits.AF_COMMON_IDENTIFIER, "AF");
+		//TODO
+		modifiers.put(ModifiersUnits.AO_ENGAGEMENT_BAR, "AO");
     }
     
     private void populateModifiersForTGs(SparseArray<String> modifiers)
