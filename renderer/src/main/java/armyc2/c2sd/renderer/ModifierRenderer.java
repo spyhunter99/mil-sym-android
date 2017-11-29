@@ -95,7 +95,8 @@ public class ModifierRenderer
         List<Path> shapes = new ArrayList<Path>();
         Path mobilityPath = null;
         Path mobilityPathFill = null;
-        if (symbolID.charAt(10) == ('M') || symbolID.charAt(10) == ('N'))
+        if (symbolID.charAt(10) == ('M') && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.R_MOBILITY_INDICATOR) ||
+                symbolID.charAt(10) == ('N')  && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.AG_AUX_EQUIP_INDICATOR) )
         {
 
             //Draw Mobility
@@ -444,7 +445,7 @@ public class ModifierRenderer
         // <editor-fold defaultstate="collapsed" desc="Build Task Force">
         Rect tfBounds = null;
         Rect tfRectangle = null;
-        if (SymbolUtilities.isTaskForce(symbolID))
+        if (SymbolUtilities.isTaskForce(symbolID) && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.D_TASK_FORCE_INDICATOR))
         {
             if (echelonBounds != null)
             {
@@ -480,8 +481,9 @@ public class ModifierRenderer
         Point fdiLeft = null;
         Point fdiRight = null;
 
-        if (SymbolUtilities.isFeintDummy(symbolID)
+        if ((SymbolUtilities.isFeintDummy(symbolID)
                 || SymbolUtilities.isFeintDummyInstallation(symbolID))
+                && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.AB_FEINT_DUMMY_INDICATOR))
         {
             //create feint indicator /\
             fdiLeft = new Point((int) symbolBounds.left, (int) symbolBounds.top);
@@ -523,7 +525,8 @@ public class ModifierRenderer
         // <editor-fold defaultstate="collapsed" desc="Build Installation">
         Rect instRectangle = null;
         Rect instBounds = null;
-        if (SymbolUtilities.hasInstallationModifier(symbolID))
+        if (SymbolUtilities.hasInstallationModifier(symbolID)
+                && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.AC_INSTALLATION))
         {//the actual installation symbols have the modifier
             //built in.  everything else, we have to draw it.
             //
@@ -634,7 +637,8 @@ public class ModifierRenderer
         Point pt2HQ = null;
         Rect hqBounds = null;
         //Draw HQ Staff
-        if (SymbolUtilities.isHQ(symbolID))
+        if (SymbolUtilities.isHQ(symbolID)
+                && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.S_HQ_STAFF_OR_OFFSET_INDICATOR))
         {
 
             char affiliation = symbolID.charAt(1);
@@ -672,7 +676,8 @@ public class ModifierRenderer
         // <editor-fold defaultstate="collapsed" desc="Build DOM Arrow">
         Point[] domPoints = null;
         Rect domBounds = null;
-        if (modifiers.indexOfKey(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT) >= 0)
+        if (modifiers.indexOfKey(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT) >= 0
+                && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.Q_DIRECTION_OF_MOVEMENT))
         {
         	String strQ = modifiers.get(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT);
         	
@@ -1408,7 +1413,7 @@ public class ModifierRenderer
         String amText = SymbolUtilities.getUnitAffiliationModifier(symbolID, symStd);
 
         //make room for echelon & mobility.
-        if (modifiers.indexOfKey(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT) < 0)
+        if (modifiers.indexOfKey(ModifiersUnits.Q_DIRECTION_OF_MOVEMENT) < 0 || SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.Q_DIRECTION_OF_MOVEMENT)==false)
         {
             //if no DOM, we can just use the image bounds
             bounds = RectUtilities.makeRect(imageBounds.left, symbolBounds.top,
@@ -1465,11 +1470,11 @@ public class ModifierRenderer
             //modifiers[ModifiersUnits.CC_COUNTRY_CODE] = symbolID.substring(12,14);
         }
 
-        //            int y0 = 0;//W    E/F
-        //            int y1 = 0;//X/Y  G
-        //            int y2 = 0;//V    H 
-        //            int y3 = 0;//T    M CC
-        //            int y4 = 0;//Z    J/K/L/N/P
+        //            int y0 = 0;//W            E/F
+        //            int y1 = 0;//X/Y          G
+        //            int y2 = 0;//V/AD/AE      H/AF
+        //            int y3 = 0;//T            M CC
+        //            int y4 = 0;//Z            J/K/L/N/P
         //
         //            y0 = bounds.y - 0;
         //            y1 = bounds.y - labelHeight;
@@ -1505,7 +1510,7 @@ public class ModifierRenderer
             String xm = null,
                     ym = null;
 
-            if (modifiers.indexOfKey(ModifiersUnits.X_ALTITUDE_DEPTH) >= 0)
+            if (modifiers.indexOfKey(ModifiersUnits.X_ALTITUDE_DEPTH) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.X_ALTITUDE_DEPTH))
             {
                 xm = modifiers.get(ModifiersUnits.X_ALTITUDE_DEPTH);// xm = modifiers.X;
             }
@@ -1553,7 +1558,7 @@ public class ModifierRenderer
             }
         }
 
-        if (modifiers.indexOfKey(ModifiersUnits.G_STAFF_COMMENTS) >= 0)
+        if (modifiers.indexOfKey(ModifiersUnits.G_STAFF_COMMENTS) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.G_STAFF_COMMENTS))
         {
             modifierValue = modifiers.get(ModifiersUnits.G_STAFF_COMMENTS);
 
@@ -1588,11 +1593,38 @@ public class ModifierRenderer
             }
         }
 
-        if (modifiers.indexOfKey(ModifiersUnits.V_EQUIP_TYPE) >= 0)
+        if ((modifiers.indexOfKey(ModifiersUnits.V_EQUIP_TYPE) >= 0) ||
+                (modifiers.indexOfKey(ModifiersUnits.AD_PLATFORM_TYPE) >= 0) ||
+                (modifiers.indexOfKey(ModifiersUnits.AE_EQUIPMENT_TEARDOWN_TIME) >= 0))
         {
-            modifierValue = modifiers.get(ModifiersUnits.V_EQUIP_TYPE);
+            String vm = null,
+                    adm = null,
+                    aem = null;
+
+            if (modifiers.indexOfKey(ModifiersUnits.V_EQUIP_TYPE) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.V_EQUIP_TYPE))
+            {
+                vm = modifiers.get(ModifiersUnits.V_EQUIP_TYPE);
+            }
+            if (modifiers.indexOfKey(ModifiersUnits.AD_PLATFORM_TYPE) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.AD_PLATFORM_TYPE))
+            {
+                adm = modifiers.get(ModifiersUnits.AD_PLATFORM_TYPE);
+            }
+            if (modifiers.indexOfKey(ModifiersUnits.AE_EQUIPMENT_TEARDOWN_TIME) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.AE_EQUIPMENT_TEARDOWN_TIME))
+            {
+                aem = modifiers.get(ModifiersUnits.AE_EQUIPMENT_TEARDOWN_TIME);
+            }
+
+            modifierValue = "";
+            if(vm != null && vm.equals("") == false)
+                modifierValue = vm;
+            if(adm != null && adm.equals("") == false)
+                modifierValue += " " + adm;
+            if(aem != null && aem.equals("") == false)
+                modifierValue += " " + aem;
 
             if(modifierValue != null)
+                modifierValue = modifierValue.trim();
+            if(modifierValue != null && modifierValue.equals("") == false)
             {
 	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
 	            labelBounds = tiTemp.getTextBounds();
@@ -1609,11 +1641,26 @@ public class ModifierRenderer
             }
         }
 
-        if (modifiers.indexOfKey(ModifiersUnits.H_ADDITIONAL_INFO_1) >= 0)
+        if (modifiers.indexOfKey(ModifiersUnits.H_ADDITIONAL_INFO_1) >= 0 || modifiers.indexOfKey(ModifiersUnits.AF_COMMON_IDENTIFIER) >= 0)
         {
-            modifierValue = modifiers.get(ModifiersUnits.H_ADDITIONAL_INFO_1);
+            modifierValue = "";
+            String hm = "",
+                    afm = "";
 
-            if(modifierValue != null)
+            hm = modifiers.get(ModifiersUnits.H_ADDITIONAL_INFO_1);
+            if (modifiers.indexOfKey(ModifiersUnits.H_ADDITIONAL_INFO_1) >= 0)
+            {
+                hm = modifiers.get(ModifiersUnits.H_ADDITIONAL_INFO_1);
+            }
+            if (modifiers.indexOfKey(ModifiersUnits.AF_COMMON_IDENTIFIER) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.AF_COMMON_IDENTIFIER))
+            {
+                afm = modifiers.get(ModifiersUnits.AF_COMMON_IDENTIFIER);
+            }
+
+            modifierValue = hm + " " + afm;
+            modifierValue = modifierValue.trim();
+
+            if(modifierValue != null && modifierValue.equals("") == false)
             {
 	            tiTemp = new TextInfo(modifierValue, 0, 0, _modifierFont);
 	            labelBounds = tiTemp.getTextBounds();
@@ -1667,7 +1714,7 @@ public class ModifierRenderer
             }
         }
 
-        if (modifiers.indexOfKey(ModifiersUnits.M_HIGHER_FORMATION) >= 0 || modifiers.indexOfKey(ModifiersUnits.CC_COUNTRY_CODE) >= 0)
+        if ((modifiers.indexOfKey(ModifiersUnits.M_HIGHER_FORMATION) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.M_HIGHER_FORMATION)) || modifiers.indexOfKey(ModifiersUnits.CC_COUNTRY_CODE) >= 0)
         {
             modifierValue = "";
 
@@ -1712,7 +1759,7 @@ public class ModifierRenderer
             }
         }
 
-        if (modifiers.indexOfKey(ModifiersUnits.Z_SPEED) >= 0)
+        if (modifiers.indexOfKey(ModifiersUnits.Z_SPEED) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.Z_SPEED))
         {
             modifierValue = modifiers.get(ModifiersUnits.Z_SPEED);
 
@@ -1742,10 +1789,10 @@ public class ModifierRenderer
         }
 
         if (modifiers.indexOfKey(ModifiersUnits.J_EVALUATION_RATING) >= 0
-                || modifiers.indexOfKey(ModifiersUnits.K_COMBAT_EFFECTIVENESS) >= 0
-                || modifiers.indexOfKey(ModifiersUnits.L_SIGNATURE_EQUIP) >= 0
-                || modifiers.indexOfKey(ModifiersUnits.N_HOSTILE) >= 0
-                || modifiers.indexOfKey(ModifiersUnits.P_IFF_SIF) >= 0)
+                || modifiers.indexOfKey(ModifiersUnits.K_COMBAT_EFFECTIVENESS) >= 0//
+                || modifiers.indexOfKey(ModifiersUnits.L_SIGNATURE_EQUIP) >= 0//
+                || modifiers.indexOfKey(ModifiersUnits.N_HOSTILE) >= 0//
+                || modifiers.indexOfKey(ModifiersUnits.P_IFF_SIF) >= 0)//
         {
             modifierValue = null;
 
@@ -1759,19 +1806,19 @@ public class ModifierRenderer
             {
                 jm = modifiers.get(ModifiersUnits.J_EVALUATION_RATING);
             }
-            if (modifiers.indexOfKey(ModifiersUnits.K_COMBAT_EFFECTIVENESS) >= 0)
+            if (modifiers.indexOfKey(ModifiersUnits.K_COMBAT_EFFECTIVENESS) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.K_COMBAT_EFFECTIVENESS))
             {
                 km = modifiers.get(ModifiersUnits.K_COMBAT_EFFECTIVENESS);
             }
-            if (modifiers.indexOfKey(ModifiersUnits.L_SIGNATURE_EQUIP) >= 0)
+            if (modifiers.indexOfKey(ModifiersUnits.L_SIGNATURE_EQUIP) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.L_SIGNATURE_EQUIP))
             {
                 lm = modifiers.get(ModifiersUnits.L_SIGNATURE_EQUIP);
             }
-            if (modifiers.indexOfKey(ModifiersUnits.N_HOSTILE) >= 0)
+            if (modifiers.indexOfKey(ModifiersUnits.N_HOSTILE) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.N_HOSTILE))
             {
                 nm = modifiers.get(ModifiersUnits.N_HOSTILE);
             }
-            if (modifiers.indexOfKey(ModifiersUnits.P_IFF_SIF) >= 0)
+            if (modifiers.indexOfKey(ModifiersUnits.P_IFF_SIF) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.P_IFF_SIF))
             {
                 pm = modifiers.get(ModifiersUnits.P_IFF_SIF);
             }
@@ -1873,7 +1920,7 @@ public class ModifierRenderer
                 E = modifiers.get(ModifiersUnits.E_FRAME_SHAPE_MODIFIER);
                 modifiers.delete(ModifiersUnits.E_FRAME_SHAPE_MODIFIER);
             }
-            if (modifiers.indexOfKey(ModifiersUnits.F_REINFORCED_REDUCED) >= 0)
+            if (modifiers.indexOfKey(ModifiersUnits.F_REINFORCED_REDUCED) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.F_REINFORCED_REDUCED))
             {
                 F = modifiers.get(ModifiersUnits.F_REINFORCED_REDUCED);
             }
@@ -1944,7 +1991,7 @@ public class ModifierRenderer
             }
         }
 
-        if (modifiers.indexOfKey(ModifiersUnits.AA_SPECIAL_C2_HQ) >= 0)
+        if (modifiers.indexOfKey(ModifiersUnits.AA_SPECIAL_C2_HQ) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.AA_SPECIAL_C2_HQ))
         {
             modifierValue = modifiers.get(ModifiersUnits.AA_SPECIAL_C2_HQ);
 
@@ -1965,7 +2012,7 @@ public class ModifierRenderer
             }
         }
         
-        if (modifiers.indexOfKey(ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE) >= 0)
+        if (modifiers.indexOfKey(ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE) >= 0 && SymbolUtilities.canUnitHaveModifier(symbolID, ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE))
         {
         	int scc = 0;
             modifierValue = modifiers.get(ModifiersUnits.SCC_SONAR_CLASSIFICATION_CONFIDENCE);
