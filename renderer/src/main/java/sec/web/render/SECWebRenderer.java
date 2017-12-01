@@ -98,6 +98,7 @@ public final class SECWebRenderer /* extends Applet */ {
 	            RendererSettings.getInstance().setLabelBackgroundColor(new Color(255, 255, 255, 200).toARGB());
 	            RendererSettings.getInstance().setModifierFont("arial", Font.PLAIN, 12);
 	            ErrorLogger.setLevel(Level.FINE);
+	            _initSuccess = true;
         	}
             
         }
