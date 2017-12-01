@@ -194,9 +194,28 @@ public class FontManager {
 			if(exc != null)
 				ErrorLogger.LogException("SPR", "getFont", exc);
 		}
+		finally
+		{
+			silentClose(is);
+		}
 		return tf;
 	}//*/
-	
+
+	private void silentClose(InputStream is){
+		if(is == null)
+		{
+			return;
+		}
+		try
+		{
+			is.close();
+		}
+		catch (IOException ignore)
+		{
+			// Ignore
+		}
+	}
+
 	public void testFontFiles()
 	{
 		Paint fillPaint = new Paint();
