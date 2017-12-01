@@ -60,6 +60,7 @@ public class ModifierRenderer
         Rect amBounds = null;
         Color textColor = Color.BLACK;
         Color textBackgroundColor = null;
+        Color lineColor = SymbolUtilities.getLineColorOfAffiliation(symbolID);
         int buffer = 0;
         int alpha = -1;
         //ctx = null;
@@ -86,6 +87,10 @@ public class ModifierRenderer
             textBackgroundColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.TextBackgroundColor));
             if(alpha > -1)
                 textBackgroundColor.setAlpha(alpha);
+        }
+        if (attributes.indexOfKey(MilStdAttributes.LineColor) >= 0)
+        {
+            lineColor = SymbolUtilities.getColorFromHexString(attributes.get(MilStdAttributes.LineColor));
         }
 
 
@@ -844,7 +849,8 @@ public class ModifierRenderer
         //render////////////////////////////////////////////////////////
         Paint paint = new Paint();
         paint.setStyle(Style.STROKE);
-        paint.setColor(Color.black.toInt());
+        //paint.setColor(Color.black.toInt());
+        paint.setColor(lineColor.toInt());
         if(alpha > -1)
             paint.setAlpha(alpha);
         paint.setStrokeWidth(2.0f);
@@ -893,8 +899,11 @@ public class ModifierRenderer
 
             Paint fdiPaint = new Paint();
             fdiPaint.setAntiAlias(true);
-            fdiPaint.setARGB(255, 0, 0, 0);
+            fdiPaint.setColor(lineColor.toInt());/// setARGB(255, 0, 0, 0);
+            if(alpha > -1)
+                fdiPaint.setAlpha(alpha);
             fdiPaint.setStyle(Style.STROKE);
+
             fdiPaint.setPathEffect(new DashPathEffect(new float[]
             {
                 6, 4
@@ -933,7 +942,8 @@ public class ModifierRenderer
         {
             Paint mobilityPaint = new Paint();
             mobilityPaint.setStyle(Style.STROKE);
-            mobilityPaint.setColor(Color.black.toInt());
+            //mobilityPaint.setColor(Color.black.toInt());
+            mobilityPaint.setColor(lineColor.toInt());
             if(alpha > -1)
                 mobilityPaint.setAlpha(alpha);
             
@@ -1006,7 +1016,7 @@ public class ModifierRenderer
 
         if (domBounds != null)
         {
-            drawDOMArrow(ctx, domPoints, alpha);
+            drawDOMArrow(ctx, domPoints, alpha, lineColor);
 
             domBounds = null;
             domPoints = null;
@@ -1027,7 +1037,10 @@ public class ModifierRenderer
                 ociStrokeWidth = 7f;
             else if(size >= 200)
                 ociStrokeWidth = 10f;*/
-            ociPaint.setColor(Color.black.toInt());
+            //ociPaint.setColor(Color.black.toInt());
+            ociPaint.setColor(lineColor.toInt());
+            if(alpha > -1)
+                ociPaint.setAlpha(alpha);
             ociPaint.setStrokeWidth(ociStrokeWidth);
             ociPaint.setStrokeCap(Cap.BUTT);
             ociPaint.setStyle(Style.STROKE);
@@ -1269,13 +1282,13 @@ public class ModifierRenderer
 
     }
 
-    private static void drawDOMArrow(Canvas ctx, Point[] domPoints, int alpha)
+    private static void drawDOMArrow(Canvas ctx, Point[] domPoints, int alpha, Color lineColor)
     {
         Paint domPaint = new Paint();
         domPaint.setStrokeCap(Cap.BUTT);
         domPaint.setStrokeJoin(Join.MITER);
         domPaint.setStrokeWidth(3);
-        domPaint.setColor(Color.black.toInt());
+        domPaint.setColor(lineColor.toInt());
         domPaint.setStyle(Style.STROKE);
         if(alpha > -1)
             domPaint.setAlpha(alpha);
@@ -2913,7 +2926,7 @@ public class ModifierRenderer
             //draw DOM arrow
             if (domBounds != null)
             {
-                drawDOMArrow(ctx, domPoints, alpha);
+                drawDOMArrow(ctx, domPoints, alpha, lineColor);
             }
 
             newii = new ImageInfo(bmp, centerPoint, symbolBounds);

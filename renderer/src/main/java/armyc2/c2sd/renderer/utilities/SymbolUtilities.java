@@ -1064,7 +1064,7 @@ public class SymbolUtilities
 
             basic = SymbolUtilities.getBasicSymbolID(symbolID);
             sd = SymbolDefTable.getInstance().getSymbolDef(basic, symStd);
-            if (sd != null)
+            if (sd != null && modCode.equals("") == false)
             {
                 int dc = sd.getDrawCategory();
                 if (tgModifier == (ModifiersTG.AM_DISTANCE))
