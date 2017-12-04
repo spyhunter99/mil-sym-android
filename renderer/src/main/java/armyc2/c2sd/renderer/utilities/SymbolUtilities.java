@@ -859,9 +859,7 @@ public class SymbolUtilities
             }
             else if (unitModifier == (ModifiersUnits.P_IFF_SIF))
             {
-                return (SymbolUtilities.isUnit(symbolID)
-                        || SymbolUtilities.isEquipment(symbolID)
-                        || (SymbolUtilities.hasInstallationModifier(symbolID) && SymbolUtilities.isEMS(symbolID) == false)
+                return (symbolID.charAt(0) == 'S'
                         || SymbolUtilities.isSTBOPS(symbolID));
             }
             else if (unitModifier == (ModifiersUnits.Q_DIRECTION_OF_MOVEMENT))
@@ -1066,7 +1064,7 @@ public class SymbolUtilities
 
             basic = SymbolUtilities.getBasicSymbolID(symbolID);
             sd = SymbolDefTable.getInstance().getSymbolDef(basic, symStd);
-            if (sd != null)
+            if (sd != null && modCode.equals("") == false)
             {
                 int dc = sd.getDrawCategory();
                 if (tgModifier == (ModifiersTG.AM_DISTANCE))
