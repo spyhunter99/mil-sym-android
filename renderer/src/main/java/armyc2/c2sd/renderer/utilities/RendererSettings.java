@@ -156,8 +156,8 @@ public class RendererSettings{
     private static int _CacheSize = 1024;
     private static int _VMSize = 10240;
     
-    //acevedo - 11/6/2017 - adding option to render only 2 ENY labels.
-    private boolean _TwoENYLabelOnly = true;
+    //acevedo - 11/29/2017 - adding option to render only 2 ENY labels.
+    private boolean _TwoLabelOnly = true;
 
     private RendererSettings()
     {
@@ -208,7 +208,7 @@ public class RendererSettings{
      * If set to OUTLINE, TextOutlineWidth changed to default of 4.
      * If set to OUTLINE_QUICK, TextOutlineWidth changed to default of 2.
      * Use setTextOutlineWidth if you'd like a different value.
-     * @param method like RenderSettings.TextBackgroundMethod_NONE
+     * @param textBackgroundMethod
      */
     synchronized public void setTextBackgroundMethod(int textBackgroundMethod)
     {
@@ -272,7 +272,7 @@ public class RendererSettings{
     /**
      * Controls what symbols are supported.
      * Set this before loading the renderer.
-     * @param symbologyStandard
+     * @param standard
      * Like RendererSettings.Symbology_2525Bch2_USAS_13_14
      */
     public void setSymbologyStandard(int standard)
@@ -342,7 +342,7 @@ public class RendererSettings{
      * a symbol. RenderMethod_SHAPES is simpler as everything is treated
      * the same. RenderMethod_NATIVE is faster but, in addition to shapes,
      * uses GlyphVectors and TextLayouts.
-     * @param method like RendererSetting.RenderMethod_SHAPES
+     * @param symbolRenderMethod
      */
     public void setUnitRenderMethod(int symbolRenderMethod)
     {
@@ -372,7 +372,7 @@ public class RendererSettings{
     /**
      * if true (default), when HQ Staff is present, location will be indicated by the free
      * end of the staff
-     * @param value
+     * @param
      */
     public Boolean getCenterOnHQStaff()
     {
@@ -385,7 +385,7 @@ public class RendererSettings{
      * the same. RenderMethod_NATIVE is faster but, in addition to shapes,
      * uses GlyphVectors and TextLayouts.  In the case of text, NATIVE tends to
      * render sharper and clearer text.
-     * @param method like RendererSetting.RenderMethod_SHAPES
+     * @param symbolRenderMethod
      */
     public void setTextRenderMethod(int symbolRenderMethod)
     {
@@ -405,7 +405,7 @@ public class RendererSettings{
     /**
      * if RenderSettings.TextBackgroundMethod_OUTLINE is used,
      * the outline will be this many pixels wide.
-     * @param method
+     * @param width
      */
     synchronized public void setTextOutlineWidth(int width)
     {
@@ -415,7 +415,7 @@ public class RendererSettings{
     /**
      * if RenderSettings.TextBackgroundMethod_OUTLINE is used,
      * the outline will be this many pixels wide.
-     * @param method
+     * @param
      * @return
      */
     synchronized public int getTextOutlineWidth()
@@ -557,7 +557,7 @@ public class RendererSettings{
      * separated by too much space.  Kerning causes selected sequences
      * of characters to be spaced differently for a more pleasing
      * visual appearance. 
-     * @param Tracking - default 0.04 (TextAttribute.TRACKING_LOOSE).  
+     * @param tracking - default 0.04 (TextAttribute.TRACKING_LOOSE).
      * The tracking value is multiplied by the font point size and
      * passed through the font transform to determine an additional
      * amount to add to the advance of each glyph cluster.  Positive
@@ -786,19 +786,19 @@ public class RendererSettings{
  	 * to only set 2 labels one at the north and the other one at the south of the graphic (true).
   	 * @returns {boolean}
   	 */
-  	public boolean getTwoENYLabelOnly()
+  	public boolean getTwoLabelOnly()
   	{
-  			return _TwoENYLabelOnly;
+  			return _TwoLabelOnly;
   	}
   	
   	/**
  	 * Set a boolean indicating between the use of ENY labels in all segments (false) or 
  	 * to only set 2 labels one at the north and the other one at the south of the graphic (true).
- 	 * @param TwoENYLabelOnly
+ 	 * @param TwoLabelOnly
  	 */
- 	public void setTwoENYLabelOnly(boolean TwoENYLabelOnly )
+ 	public void setTwoLabelOnly(boolean TwoLabelOnly )
  	{
- 		_TwoENYLabelOnly = TwoENYLabelOnly;
+ 		_TwoLabelOnly = TwoLabelOnly;
  	}
  	
 }
