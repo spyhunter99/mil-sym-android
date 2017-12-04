@@ -3,21 +3,6 @@ description = 'MIL-STD-2525 Symbology Renderer'
 apply plugin: 'com.android.library'
 apply from: "${rootDir}/gradle/android-support.gradle"
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            pom.packaging = "aar"
-
-            artifact ("${buildDir}/outputs/aar/${project.name}-release.aar")
-            artifact ("${buildDir}/intermediates/bundles/release/classes.jar")
-
-            artifact sourceJar { classifier "sources" }
-            artifact javadocJar { classifier "javadoc" }
-
-            updatePom(pom, project);
-        }
-    }
-}
 
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
@@ -38,9 +23,26 @@ task javadoc(type: Javadoc) {
     }
 }
 
+
 task javadocJar(type: Jar, dependsOn: 'javadoc') {
     from javadoc.destinationDir
 }
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
+
+publishing.publications {
+        maven(MavenPublication) {
+            pom.packaging = "aar"
+
+            artifact ("${buildDir}/outputs/aar/${project.name}-release.aar")
+            artifact ("${buildDir}/intermediates/bundles/release/classes.jar")
+
+            artifact sourceJar { classifier "sources" }
+            artifact javadocJar { classifier "javadoc" }
+
+            updatePom(pom, project);
+        }
+    }
+
+
