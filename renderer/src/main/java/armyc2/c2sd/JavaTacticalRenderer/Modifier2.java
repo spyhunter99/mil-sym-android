@@ -2748,10 +2748,20 @@ public class Modifier2 {
 
                         middleSegment = northestPtIndex;
                         middleSegment2 = southestPtIndex;
-                        if (middleSegment != middleSegment2) {
-                            AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
-                            AddIntegralModifier(tg, "ALT", aboveMiddle, -1.5 * factor * csFactor, middleSegment, middleSegment + 1, false);
+
+                        if (middleSegment  == tg.Pixels.size() -1) {
+                            middleSegment-=1;
                         }
+                        if (middleSegment2  == tg.Pixels.size() -1) {
+                            middleSegment2-=1;
+                       }
+                        if (middleSegment == middleSegment2) {
+                            middleSegment2-=1;
+                        }
+
+                        AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+                        AddIntegralModifier(tg, "ALT", aboveMiddle, -1.5 * factor * csFactor, middleSegment, middleSegment + 1, false);
+
                         AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment2, middleSegment2 + 1, false);
                         AddIntegralModifier(tg, "ALT", aboveMiddle, -1.5 * factor * csFactor, middleSegment2, middleSegment2 + 1, false);
                     }//else
@@ -2815,9 +2825,20 @@ public class Modifier2 {
                         }//for
                         middleSegment = northestPtIndex;
                         middleSegment2 = southestPtIndex;
-                        if (middleSegment != middleSegment2) {
-                            AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+
+                        if (middleSegment  == tg.Pixels.size() -1) {
+                            middleSegment-=1;
                         }
+                        if (middleSegment2  == tg.Pixels.size() -1) {
+                            middleSegment2-=1;
+                        }
+                        if (middleSegment == middleSegment2) {
+                            middleSegment2-=1;
+                        }
+
+
+                        AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+
                         AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment2, middleSegment2 + 1, false);
 
                     }//else
@@ -2854,7 +2875,7 @@ public class Modifier2 {
                     }
                     else {
                         // 2 labels one to the north and the other to the south of graphic.
-                        for (j = 0; j < tg.Pixels.size(); j++) {
+                        for (j = 0; j < tg.Pixels.size()  ; j++) {
                             pt0 = tg.Pixels.get(j);
 
                             if (northestPt == null)
@@ -2881,9 +2902,19 @@ public class Modifier2 {
                         }//for
                         middleSegment = northestPtIndex;
                         middleSegment2 = southestPtIndex;
-                        if (middleSegment != middleSegment2) {
-                            AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+
+                        if (middleSegment  == tg.Pixels.size() -1) {
+                            middleSegment-=1;
                         }
+                        if (middleSegment2  == tg.Pixels.size() -1) {
+                            middleSegment2-=1;
+                        }
+                        if (middleSegment == middleSegment2) {
+                            middleSegment2-=1;
+                        }
+
+                        AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+
                         AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment2, middleSegment2 + 1, false);
 
                     }//else
@@ -2946,7 +2977,7 @@ public class Modifier2 {
                     }
                     else {
                         // 2 labels one to the north and the other to the south of graphic.
-                        for (j = 0; j < tg.Pixels.size(); j++) {
+                        for (j = 0; j < tg.Pixels.size()  ; j++) {
                             pt0 = tg.Pixels.get(j);
 
                             if (northestPt == null)
@@ -2973,9 +3004,20 @@ public class Modifier2 {
                         }//for
                         middleSegment = northestPtIndex;
                         middleSegment2 = southestPtIndex;
-                        if (middleSegment != middleSegment2) {
-                            AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+
+                        if (middleSegment  == tg.Pixels.size() -1) {
+                            middleSegment-=1;
                         }
+                        if (middleSegment2  == tg.Pixels.size() -1) {
+                            middleSegment2-=1;
+                        }
+                        if (middleSegment == middleSegment2) {
+                            middleSegment2-=1;
+                        }
+
+                       // if (middleSegment != middleSegment2) {
+                        AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment, middleSegment + 1, false);
+                        //}
                         AddIntegralModifier(tg, label + tg.get_Name(), aboveMiddle, 0, middleSegment2, middleSegment2 + 1, false);
 
                     }//else

@@ -6,6 +6,7 @@ apply from: "${rootDir}/gradle/android-support.gradle"
 dependencies {
 
      implementation  project (path:':mil-sym-android-renderer',configuration:'default')
+     implementation  project (path:':mil-sym-android-renderer',configuration:'default')
      implementation          ("com.android.support:support-v4")
      implementation          ("com.android.support:support-annotations")
 }
@@ -18,7 +19,7 @@ android {
 
 publishing.publications {
         maven(MavenPublication) {
-            artifact ("${buildDir}/outputs/apk/${project.name}-debug.apk")
+            artifact ("${buildDir}/outputs/apk/debug/${project.name}-debug.apk")
 
             updatePom(pom, project);
         }

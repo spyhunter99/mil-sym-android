@@ -18,7 +18,7 @@ android {
 
 publishing.publications {
         maven(MavenPublication) {
-            artifact ("${buildDir}/outputs/apk/${project.name}-debug.apk")
+            artifact ("${buildDir}/outputs/apk/debug/${project.name}-debug.apk")
 
             updatePom(pom, project);
         }
