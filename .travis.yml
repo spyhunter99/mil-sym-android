@@ -41,8 +41,8 @@ before_deploy:
   - export PROJECT_VERSION=$(grep "version" gradle.properties|cut -d'=' -f2)
   - cp renderer/build/outputs/aar/mil-sym-android-renderer-release.aar "renderer/build/outputs/aar/mil-sym-android-renderer-${PROJECT_VERSION}.aar"
   - cp renderer/build/intermediates/bundles/release/classes.jar "renderer/build/intermediates/bundles/release/mil-sym-android-renderer-${PROJECT_VERSION}.jar"
-  - cp renderer-test/build/outputs/apk/mil-sym-android-renderer-test-debug.apk "renderer-test/build/outputs/apk/mil-sym-android-renderer-test-${PROJECT_VERSION}.apk"
-  - cp renderer-test3/build/outputs/apk/mil-sym-android-renderer-test3-debug.apk "renderer-test3/build/outputs/apk/mil-sym-android-renderer-test3-${PROJECT_VERSION}.apk"
+  - cp renderer-test/build/outputs/apk/debug/mil-sym-android-renderer-test-debug.apk "renderer-test/build/outputs/apk/mil-sym-android-renderer-test-${PROJECT_VERSION}.apk"
+  - cp renderer-test3/build/outputs/apk/debug/mil-sym-android-renderer-test3-debug.apk "renderer-test3/build/outputs/apk/mil-sym-android-renderer-test3-${PROJECT_VERSION}.apk"
 
 deploy: # travis by default will not invoke this step for PRs
   - provider: releases
