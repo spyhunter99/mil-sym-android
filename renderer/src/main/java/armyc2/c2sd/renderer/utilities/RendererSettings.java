@@ -5,17 +5,14 @@
 
 package armyc2.c2sd.renderer.utilities;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
+//import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Align;
 import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
+import android.graphics.Typeface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 
@@ -69,9 +66,9 @@ public class RendererSettings{
     private static int _TextOutlineWidth = 4;
 
     //label foreground color, uses line color of symbol if null.
-    private static int _ColorLabelForeground = Color.BLACK;
+    private static int _ColorLabelForeground =  android.graphics.Color.BLACK;
     //label background color, used if TextBackGroundMethod = TextBackgroundMethod_COLORFILL && not null
-    private static int _ColorLabelBackground = Color.WHITE;
+    private static int _ColorLabelBackground =  android.graphics.Color.WHITE;
 
     private static int _SymbolRenderMethod = 1;
     private static int _UnitRenderMethod = 1;
@@ -156,8 +153,84 @@ public class RendererSettings{
     private static int _CacheSize = 1024;
     private static int _VMSize = 10240;
     
-    //acevedo - 11/29/2017 - adding option to render only 2 ENY labels.
+    //acevedo - 11/29/2017 - adding option to render only 2 labels.
     private boolean _TwoLabelOnly = true;
+
+    //acevedo - 12/8/17 - allow the setting of affiliation colors.
+    private   Color _friendlyUnitFillColor = AffiliationColors.FriendlyUnitFillColor;
+    /// <summary>
+    /// Hostile Unit Fill Color.
+    /// </summary>
+    private   Color _hostileUnitFillColor = AffiliationColors.HostileUnitFillColor;//new Color(255,130,132);//Color.RED;
+    /// <summary>
+    /// Neutral Unit Fill Color.
+    /// </summary>
+    private   Color _neutralUnitFillColor = AffiliationColors.NeutralUnitFillColor;//new Color(144,238,144);//Color.GREEN;//new Color(0,255,0);//new Color(144,238,144);//light green//Color.GREEN;new Color(0,226,0);
+    /// <summary>
+    /// Unknown Unit Fill Color.
+    /// </summary>
+    private Color _unknownUnitFillColor = AffiliationColors.UnknownUnitFillColor;// new Color(255,255,128);//Color.YELLOW;
+
+    /// <summary>
+    /// Friendly Graphic Fill Color.
+    /// </summary>
+    private   Color _friendlyGraphicFillColor = AffiliationColors.FriendlyGraphicFillColor;//Crystal Blue //Color.CYAN;
+    /// <summary>
+    /// Hostile Graphic Fill Color.
+    /// </summary>
+    private static Color _hostileGraphicFillColor = AffiliationColors.HostileGraphicFillColor;//salmon
+    /// <summary>
+    /// Neutral Graphic Fill Color.
+    /// </summary>
+    private   Color _neutralGraphicFillColor = AffiliationColors.NeutralGraphicFillColor;//Bamboo Green //new Color(144,238,144);//light green
+    /// <summary>
+    /// Unknown Graphic Fill Color.
+    /// </summary>
+    private   Color _unknownGraphicFillColor = AffiliationColors.UnknownGraphicFillColor;//light yellow  new Color(255,255,224);//light yellow
+
+    /// <summary>
+    /// Friendly Unit Line Color.
+    /// </summary>
+    private   Color _friendlyUnitLineColor = AffiliationColors.FriendlyUnitLineColor;
+    /// <summary>
+    /// Hostile Unit Line Color.
+    /// </summary>
+    private   Color _hostileUnitLineColor = AffiliationColors.HostileUnitLineColor;
+    /// <summary>
+    /// Neutral Unit Line Color.
+    /// </summary>
+    private   Color _neutralUnitLineColor = AffiliationColors.NeutralUnitLineColor;
+    /// <summary>
+    /// Unknown Unit Line Color.
+    /// </summary>
+    private   Color _unknownUnitLineColor = AffiliationColors.UnknownUnitLineColor;
+
+    /// <summary>
+    /// Friendly Graphic Line Color.
+    /// </summary>
+    private   Color _friendlyGraphicLineColor = AffiliationColors.FriendlyGraphicLineColor;
+    /// <summary>
+    /// Hostile Graphic Line Color.
+    /// </summary>
+    private   Color _hostileGraphicLineColor = AffiliationColors.HostileGraphicLineColor;
+    /// <summary>
+    /// Neutral Graphic Line Color.
+    /// </summary>
+    private   Color _neutralGraphicLineColor = AffiliationColors.NeutralGraphicLineColor;
+    /// <summary>
+    /// Unknown Graphic Line Color.
+    /// </summary>
+    private   Color _unknownGraphicLineColor = AffiliationColors.UnknownGraphicLineColor;
+
+    /*private   Color WeatherRed = new Color(198,16,33);//0xC61021;// 198,16,33
+    private   Color WeatherBlue = new Color(0,0,255);//0x0000FF;// 0,0,255
+
+    private   Color WeatherPurpleDark = new Color(128,0,128);//0x800080;// 128,0,128 Plum Red
+    private   Color WeatherPurpleLight = new Color(226,159,255);//0xE29FFF;// 226,159,255 Light Orchid
+
+    private   Color WeatherBrownDark = new Color(128,98,16);//0x806210;// 128,98,16 Safari
+    private   Color WeatherBrownLight = new Color(210,176,106);//0xD2B06A;// 210,176,106 Khaki
+    */
 
     private RendererSettings()
     {
@@ -174,7 +247,7 @@ public class RendererSettings{
 
         return _instance;
     }
-    
+
     private void Init()
     {
         try
@@ -662,7 +735,7 @@ public class RendererSettings{
 	        	p = new Paint();
 	        	p.setTextSize(12);
 	        	p.setAntiAlias(true);
-	        	p.setColor(Color.BLACK);
+	        	p.setColor(android.graphics.Color.BLACK);
 	        	p.setTypeface(tf);
 	        	
 	        	p.setStrokeCap(Cap.BUTT);
@@ -708,7 +781,7 @@ public class RendererSettings{
 	        	p = new Paint();
 	        	p.setTextSize(12);
 	        	p.setAntiAlias(true);
-	        	p.setColor(Color.BLACK);
+	        	p.setColor(android.graphics.Color.BLACK);
 	        	p.setTypeface(tf);
             }
             catch(Exception exc2)
@@ -800,5 +873,373 @@ public class RendererSettings{
  	{
  		_TwoLabelOnly = TwoLabelOnly;
  	}
- 	
+
+    /**
+     * get the preferred fill affiliation color for units.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getFriendlyUnitFillColor() {
+        return _friendlyUnitFillColor;
+    }
+    /**
+     * Set the preferred fill affiliation color for units
+     *
+     * @param friendlyUnitFillColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setFriendlyUnitFillColor(Color friendlyUnitFillColor) {
+ 	    if (friendlyUnitFillColor != null)
+        _friendlyUnitFillColor = friendlyUnitFillColor;
+    }
+    /**
+     * get the preferred fill affiliation color for units.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getHostileUnitFillColor() {
+        return _hostileUnitFillColor;
+    }
+    /**
+     * Set the preferred fill affiliation color for units
+     *
+     * @param hostileUnitFillColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setHostileUnitFillColor(Color hostileUnitFillColor) {
+        if (hostileUnitFillColor != null)
+        _hostileUnitFillColor = hostileUnitFillColor;
+    }
+    /**
+     * get the preferred fill affiliation color for units.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getNeutralUnitFillColor() {
+        return _neutralUnitFillColor;
+    }
+    /**
+     * Set the preferred line affiliation color for units
+     *
+     * @param neutralUnitFillColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setNeutralUnitFillColor(Color neutralUnitFillColor) {
+        if (neutralUnitFillColor != null)
+        _neutralUnitFillColor = neutralUnitFillColor;
+    }
+    /**
+     * get the preferred fill affiliation color for units.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getUnknownUnitFillColor() {
+        return _unknownUnitFillColor;
+    }
+    /**
+     * Set the preferred fill affiliation color for units
+     *
+     * @param unknownUnitFillColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setUnknownUnitFillColor(Color unknownUnitFillColor) {
+        if (unknownUnitFillColor != null)
+        _unknownUnitFillColor = unknownUnitFillColor;
+    }
+    /**
+     * get the preferred fill affiliation color for graphics.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public   Color getHostileGraphicFillColor() {
+        return _hostileGraphicFillColor;
+    }
+    /**
+     * Set the preferred fill affiliation color for graphics
+     *
+     * @param hostileGraphicFillColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public  void setHostileGraphicFillColor(Color hostileGraphicFillColor) {
+        if (hostileGraphicFillColor != null)
+        _hostileGraphicFillColor = hostileGraphicFillColor;
+    }
+    /**
+     * get the preferred fill affiliation color for graphics.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getFriendlyGraphicFillColor() {
+        return _friendlyGraphicFillColor;
+    }
+    /**
+     * Set the preferred fill affiliation color for graphics
+     *
+     * @param friendlyGraphicFillColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setFriendlyGraphicFillColor(Color friendlyGraphicFillColor) {
+        if (friendlyGraphicFillColor != null)
+        _friendlyGraphicFillColor = friendlyGraphicFillColor;
+    }
+    /**
+     * get the preferred fill affiliation color for graphics.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getNeutralGraphicFillColor() {
+        return _neutralGraphicFillColor;
+    }
+    /**
+     * Set the preferred fill affiliation color for graphics
+     *
+     * @param neutralGraphicFillColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setNeutralGraphicFillColor(Color neutralGraphicFillColor) {
+        if (neutralGraphicFillColor != null)
+        _neutralGraphicFillColor = neutralGraphicFillColor;
+    }
+    /**
+     * get the preferred fill affiliation color for graphics.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getUnknownGraphicFillColor() {
+        return _unknownGraphicFillColor;
+    }
+    /**
+     * Set the preferred fill affiliation color for graphics
+     *
+     * @param unknownGraphicFillColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setUnknownGraphicFillColor(Color unknownGraphicFillColor) {
+        if (unknownGraphicFillColor != null)
+        _unknownGraphicFillColor = unknownGraphicFillColor;
+    }
+    /**
+     * get the preferred line affiliation color for units.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getFriendlyUnitLineColor() {
+        return _friendlyUnitLineColor;
+    }
+    /**
+     * Set the preferred line affiliation color for units
+     *
+     * @param friendlyUnitLineColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setFriendlyUnitLineColor(Color friendlyUnitLineColor) {
+        if (friendlyUnitLineColor != null)
+        this._friendlyUnitLineColor = friendlyUnitLineColor;
+    }
+    /**
+     * get the preferred line   affiliation color for units.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getHostileUnitLineColor() {
+        return _hostileUnitLineColor;
+    }
+    /**
+     * Set the preferred line affiliation color for units
+     *
+     * @param hostileUnitLineColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setHostileUnitLineColor(Color hostileUnitLineColor) {
+        if (hostileUnitLineColor != null)
+        this._hostileUnitLineColor = hostileUnitLineColor;
+    }
+    /**
+     * get the preferred line affiliation color for units.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getNeutralUnitLineColor() {
+        return _neutralUnitLineColor;
+    }
+    /**
+     * Set the preferred line affiliation color for units
+     *
+     * @param neutralUnitLineColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setNeutralUnitLineColor(Color neutralUnitLineColor) {
+        if (neutralUnitLineColor != null)
+        this._neutralUnitLineColor = neutralUnitLineColor;
+    }
+    /**
+     * get the preferred line affiliation color for units.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getUnknownUnitLineColor() {
+        return _unknownUnitLineColor;
+    }
+    /**
+     * Set the preferred line affiliation color for units
+     *
+     * @param unknownUnitLineColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setUnknownUnitLineColor(Color unknownUnitLineColor) {
+        if (unknownUnitLineColor != null)
+        this._unknownUnitLineColor = unknownUnitLineColor;
+    }
+    /**
+     * get the preferred line affiliation color for graphics.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getFriendlyGraphicLineColor() {
+        return _friendlyGraphicLineColor;
+    }
+    /**
+     * Set the preferred line affiliation color for graphics
+     *
+     * @param friendlyGraphicLineColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setFriendlyGraphicLineColor(Color friendlyGraphicLineColor) {
+        if (friendlyGraphicLineColor != null)
+        this._friendlyGraphicLineColor = friendlyGraphicLineColor;
+    }
+    /**
+     * get the preferred line affiliation color for graphics.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getHostileGraphicLineColor() {
+        return _hostileGraphicLineColor;
+    }
+    /**
+     * Set the preferred line affiliation color for graphics
+     *
+     * @param hostileGraphicLineColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setHostileGraphicLineColor(Color hostileGraphicLineColor) {
+        if (hostileGraphicLineColor != null)
+        this._hostileGraphicLineColor = hostileGraphicLineColor;
+    }
+    /**
+     * get the preferred line affiliation color for graphics.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getNeutralGraphicLineColor() {
+        return _neutralGraphicLineColor;
+    }
+    /**
+     * Set the preferred line affiliation color for graphics
+     *
+     * @param neutralGraphicLineColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setNeutralGraphicLineColor(Color neutralGraphicLineColor) {
+        if (neutralGraphicLineColor != null)
+        this._neutralGraphicLineColor = neutralGraphicLineColor;
+    }
+    /**
+     * get the preferred line affiliation color for graphics.
+     *
+     * @return Color like  Color(255, 255, 255)
+     *
+     * */
+    public Color getUnknownGraphicLineColor() {
+        return _unknownGraphicLineColor;
+    }
+    /**
+     * Set the preferred line affiliation color for graphics
+     *
+     * @param unknownGraphicLineColor Color like  Color(255, 255, 255)
+     *
+     * */
+    public void setUnknownGraphicLineColor(Color unknownGraphicLineColor) {
+        if (unknownGraphicLineColor != null)
+        this._unknownGraphicLineColor = unknownGraphicLineColor;
+    }
+
+    /**
+     * Set the preferred line and fill affiliation color for tactical graphics.
+     *
+     * @param friendlyGraphicLineColor Color
+     * @param hostileGraphicLineColor Color
+     * @param neutralGraphicLineColor Color
+     * @param unknownGraphicLineColor Color
+     * @param friendlyGraphicFillColor Color
+     * @param hostileGraphicFillColor Color
+     * @param neutralGraphicFillColor Color
+     * @param unknownGraphicFillColor Color
+     */
+    public void setGraphicPreferredAffiliationColors(Color friendlyGraphicLineColor,
+                                                     Color hostileGraphicLineColor,
+                                                     Color neutralGraphicLineColor,
+                                                     Color unknownGraphicLineColor,
+                                                     Color friendlyGraphicFillColor,
+                                                     Color hostileGraphicFillColor,
+                                                     Color neutralGraphicFillColor,
+                                                     Color unknownGraphicFillColor) {
+
+
+          setFriendlyGraphicLineColor(friendlyGraphicLineColor);
+          setHostileGraphicLineColor(hostileGraphicLineColor);
+          setNeutralGraphicLineColor(neutralGraphicLineColor);
+          setUnknownGraphicLineColor(unknownGraphicLineColor);
+          setFriendlyGraphicFillColor(friendlyGraphicFillColor);
+          setHostileGraphicFillColor(hostileGraphicFillColor);
+          setNeutralGraphicFillColor(neutralGraphicFillColor);
+          setUnknownGraphicFillColor(unknownGraphicFillColor);
+    }
+
+    /**
+     * Set the preferred line and fill affiliation color for units and tactical graphics.
+     *
+     * @param friendlyUnitLineColor Color like  Color(255, 255, 255). Set to null to ignore setting
+     * @param hostileUnitLineColor Color
+     * @param neutralUnitLineColor Color
+     * @param unknownUnitLineColor Color
+     * @param friendlyUnitFillColor Color
+     * @param hostileUnitFillColor Color
+     * @param neutralUnitFillColor Color
+     * @param unknownUnitFillColor Color
+     */
+    public void setUnitPreferredAffiliationColors(   Color friendlyUnitLineColor,
+                                                     Color hostileUnitLineColor,
+                                                     Color neutralUnitLineColor,
+                                                     Color unknownUnitLineColor,
+                                                     Color friendlyUnitFillColor,
+                                                     Color hostileUnitFillColor,
+                                                     Color neutralUnitFillColor,
+                                                     Color unknownUnitFillColor) {
+
+        setFriendlyUnitLineColor(friendlyUnitLineColor);
+        setHostileUnitLineColor(hostileUnitLineColor);
+        setNeutralUnitLineColor(neutralUnitLineColor);
+        setUnknownUnitLineColor(unknownUnitLineColor);
+        setFriendlyUnitFillColor(friendlyUnitFillColor);
+        setHostileUnitFillColor(hostileUnitFillColor);
+        setNeutralUnitFillColor(neutralUnitFillColor);
+        setUnknownUnitFillColor(unknownUnitFillColor);
+    }
+
 }
