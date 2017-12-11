@@ -65,6 +65,8 @@ public class SymbolUtilities
 
     private static final Pattern pIsNumber = Pattern.compile(fpRegex);
 
+    private static RendererSettings rendererSettings = RendererSettings.getInstance();
+
   /*if (Pattern.matches(fpRegex, myString))
       Double.valueOf(myString); // Will not throw NumberFormatException
   else {
@@ -1003,7 +1005,7 @@ public class SymbolUtilities
     public static
             Boolean hasModifier(String symbolID, int modifier)
     {
-        return hasModifier(symbolID, modifier, RendererSettings.getInstance().getSymbologyStandard());
+        return hasModifier(symbolID, modifier, rendererSettings.getSymbologyStandard());
     }
 
     /**
@@ -1041,7 +1043,7 @@ public class SymbolUtilities
       public static
             boolean canSymbolHaveModifier(String symbolID, int tgModifier)
     {
-        return canSymbolHaveModifier(symbolID, tgModifier, RendererSettings.getInstance().getSymbologyStandard());
+        return canSymbolHaveModifier(symbolID, tgModifier, rendererSettings.getSymbologyStandard());
     }
 
     /**
@@ -1144,7 +1146,7 @@ public class SymbolUtilities
                 if ((symbolID.substring(0, 4).equals("ESRI")) || SymbolUtilities.isJWARN(symbolID))
                 {
                     //retColor = Color.BLACK;//0x000000;	// Black
-                    retColor =  RendererSettings.getInstance().getFriendlyGraphicLineColor();
+                    retColor =  rendererSettings.getFriendlyGraphicLineColor();
                 }
                 else if (SymbolUtilities.isWeather(symbolID))
                 {
@@ -1153,7 +1155,7 @@ public class SymbolUtilities
                 else if (SymbolUtilities.isObstacle(symbolID))
                 {
                     //retColor = Color.GREEN;	// Green
-                    retColor =  RendererSettings.getInstance().getNeutralGraphicLineColor();
+                    retColor =  rendererSettings.getNeutralGraphicLineColor();
                 }
                 else if ((SymbolUtilities.isNBC(symbolID))
                         && (basicSymbolID.equals("G*M*NR----****X") == true || //Radioactive Area
@@ -1161,12 +1163,12 @@ public class SymbolUtilities
                         basicSymbolID.equals("G*M*NB----****X") == true)) //Biologically Contaminated Area
                 {
                     //retColor = Color.BLACK;//0xffff00;
-                    retColor =  RendererSettings.getInstance().getFriendlyGraphicLineColor();//
+                    retColor =  rendererSettings.getFriendlyGraphicLineColor();//
                 }
                 else if(SymbolUtilities.isEMSNaturalEvent(symbolID))
                 {
                     //retColor = Color.BLACK;//0xffff00;
-                    retColor =  RendererSettings.getInstance().getFriendlyGraphicLineColor();
+                    retColor =  rendererSettings.getFriendlyGraphicLineColor();
                 }
                 else
                 {
@@ -1176,7 +1178,7 @@ public class SymbolUtilities
                             || switchChar.equals("D")
                             || switchChar.equals("M"))
                     {
-                        retColor =  RendererSettings.getInstance().getFriendlyGraphicLineColor();
+                        retColor =  rendererSettings.getFriendlyGraphicLineColor();
                     }
                     else if (switchChar.equals("H")
                             || switchChar.equals("S")
@@ -1187,12 +1189,12 @@ public class SymbolUtilities
                         if (SymbolUtilities.getBasicSymbolID(symbolID).equals("G*G*GLC---****X")) // Line of Contact
                         {
                             //retColor = Color.BLACK;//0x000000;	// Black
-                            retColor = RendererSettings.getInstance().getFriendlyGraphicLineColor();
+                            retColor = rendererSettings.getFriendlyGraphicLineColor();
                         }
                         else
                         {
                             //retColor = Color.RED;//0xff0000;	// Red
-                            retColor = RendererSettings.getInstance().getHostileGraphicLineColor();
+                            retColor = rendererSettings.getHostileGraphicLineColor();
                         }
 
                     }
@@ -1200,7 +1202,7 @@ public class SymbolUtilities
                             || switchChar.equals("L")) // Neutral:
                     {
                         //retColor = Color.GREEN;//0x00ff00;	// Green
-                        retColor = RendererSettings.getInstance().getNeutralGraphicLineColor();
+                        retColor = rendererSettings.getNeutralGraphicLineColor();
 
                     }
                     else if (switchChar.equals("U")
@@ -1216,14 +1218,14 @@ public class SymbolUtilities
                         else
                         {
                             //retColor = Color.YELLOW;//0xffff00;	// Yellow
-                            retColor =  RendererSettings.getInstance().getUnknownGraphicLineColor();
+                            retColor =  rendererSettings.getUnknownGraphicLineColor();
                         }
 
                     }
                     else
                     {
                         //retColor = Color.black;//null;//0;//Color.Empty;
-                        retColor = RendererSettings.getInstance().getFriendlyGraphicLineColor();
+                        retColor = rendererSettings.getFriendlyGraphicLineColor();
                     }	// End default
 
                 }	// End else
@@ -1233,7 +1235,7 @@ public class SymbolUtilities
                 //stopped doing check because all warfighting
                 //should have black for line color.
                 //retColor = Color.BLACK;
-                retColor = RendererSettings.getInstance().getFriendlyUnitLineColor();
+                retColor = rendererSettings.getFriendlyUnitLineColor();
             }	// End else
         } // End try
         catch (Exception e)
@@ -1273,7 +1275,7 @@ public class SymbolUtilities
                     basicSymbolID.equals("G*M*NEC---****X"))//chemical
             {
                 //retColor = AffiliationColors.UnknownUnitFillColor;//  Color.yellow;
-                retColor = RendererSettings.getInstance().getUnknownUnitFillColor();
+                retColor = rendererSettings.getUnknownUnitFillColor();
             }
             else if (SymbolUtilities.isTacticalGraphic(symbolID) && !SymbolUtilities.isTGSPWithFill(symbolID))
             {
@@ -1283,7 +1285,7 @@ public class SymbolUtilities
                         basicSymbolID.equals("G*M*NEC---****X"))//chemical
                 {
                     //retColor = Color.yellow;
-                    retColor = RendererSettings.getInstance().getUnknownUnitFillColor();
+                    retColor = rendererSettings.getUnknownUnitFillColor();
                 }
                 else
                 {
@@ -1294,7 +1296,7 @@ public class SymbolUtilities
                             || switchChar == 'M')
                     {
                         //retColor = AffiliationColors.FriendlyGraphicFillColor;//0x00ffff;	// Cyan
-                        retColor = RendererSettings.getInstance().getFriendlyGraphicFillColor();
+                        retColor = rendererSettings.getFriendlyGraphicFillColor();
 
                     }
                     else if (switchChar == 'H'
@@ -1303,14 +1305,14 @@ public class SymbolUtilities
                             || switchChar == 'K')
                     {
                         //retColor = AffiliationColors.HostileGraphicFillColor;//0xfa8072;	// Salmon
-                        retColor = RendererSettings.getInstance().getHostileGraphicFillColor();
+                        retColor = rendererSettings.getHostileGraphicFillColor();
 
                     }
                     else if (switchChar == 'N'
                             || switchChar == 'L')
                     {
                         //retColor = AffiliationColors.NeutralGraphicFillColor;//0x7fff00;	// Light Green
-                        retColor = RendererSettings.getInstance().getNeutralGraphicFillColor();
+                        retColor = rendererSettings.getNeutralGraphicFillColor();
                     }
                     else if (switchChar == 'U'
                             || switchChar == 'P'
@@ -1323,7 +1325,7 @@ public class SymbolUtilities
                     else
                     {
                         //retColor = AffiliationColors.UnknownGraphicFillColor;
-                        retColor = RendererSettings.getInstance().getUnknownGraphicFillColor();
+                        retColor = rendererSettings.getUnknownGraphicFillColor();
                     }
                 }
             } // End if(SymbolUtilities.IsTacticalGraphic(this._strSymbolID))
@@ -1336,7 +1338,7 @@ public class SymbolUtilities
                         || switchChar == 'M')
                 {
                     //retColor = AffiliationColors.FriendlyUnitFillColor;//0x00ffff;	// Cyan
-                    retColor = RendererSettings.getInstance().getFriendlyUnitFillColor();
+                    retColor = rendererSettings.getFriendlyUnitFillColor();
 
                 }
                 else if (switchChar == 'H'
@@ -1345,14 +1347,14 @@ public class SymbolUtilities
                         || switchChar == 'K')
                 {
                     //retColor = AffiliationColors.HostileUnitFillColor;//0xfa8072;	// Salmon
-                    retColor = RendererSettings.getInstance().getHostileUnitFillColor();
+                    retColor = rendererSettings.getHostileUnitFillColor();
 
                 }
                 else if (switchChar == 'N'
                         || switchChar == 'L')
                 {
                     //retColor = AffiliationColors.NeutralUnitFillColor;//0x7fff00;	// Light Green
-                    retColor = RendererSettings.getInstance().getNeutralUnitFillColor();
+                    retColor = rendererSettings.getNeutralUnitFillColor();
 
                 }
                 else if (switchChar == 'U'
@@ -1362,12 +1364,12 @@ public class SymbolUtilities
                         || switchChar == 'W')
                 {
                     //retColor = AffiliationColors.UnknownUnitFillColor;//new Color(255,250, 205); //0xfffacd;	// LemonChiffon 255 250 205
-                    retColor = RendererSettings.getInstance().getUnknownUnitFillColor();
+                    retColor = rendererSettings.getUnknownUnitFillColor();
                 }
                 else
                 {
                     //retColor = AffiliationColors.UnknownUnitFillColor;//null;
-                    retColor = RendererSettings.getInstance().getUnknownUnitFillColor();
+                    retColor = rendererSettings.getUnknownUnitFillColor();
                 }
 
             }	// End else
@@ -3968,7 +3970,7 @@ public class SymbolUtilities
     public static
             Boolean hasAMmodifierWidth(String symbolID)
     {
-        return hasAMmodifierWidth(symbolID, RendererSettings.getInstance().getSymbologyStandard());
+        return hasAMmodifierWidth(symbolID, rendererSettings.getSymbologyStandard());
     }
 
     public static Boolean hasAMmodifierWidth(String symbolID, int symStd)
@@ -3999,7 +4001,7 @@ public class SymbolUtilities
 
     public static Boolean hasANmodifier(String symbolID)
     {
-        return hasANmodifier(symbolID, RendererSettings.getInstance().getSymbologyStandard());
+        return hasANmodifier(symbolID, rendererSettings.getSymbologyStandard());
     }
 
     public static Boolean hasANmodifier(String symbolID, int symStd)
@@ -4033,7 +4035,7 @@ public class SymbolUtilities
 
     public static Boolean hasAMmodifierRadius(String symbolID)
     {
-        return hasAMmodifierRadius(symbolID, RendererSettings.getInstance().getSymbologyStandard());
+        return hasAMmodifierRadius(symbolID, rendererSettings.getSymbologyStandard());
     }
 
     public static Boolean hasAMmodifierRadius(String symbolID, int symStd)

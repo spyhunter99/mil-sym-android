@@ -178,7 +178,7 @@ public class RendererSettings{
     /// <summary>
     /// Hostile Graphic Fill Color.
     /// </summary>
-    private static Color _hostileGraphicFillColor = AffiliationColors.HostileGraphicFillColor;//salmon
+    private Color _hostileGraphicFillColor = AffiliationColors.HostileGraphicFillColor;//salmon
     /// <summary>
     /// Neutral Graphic Fill Color.
     /// </summary>
