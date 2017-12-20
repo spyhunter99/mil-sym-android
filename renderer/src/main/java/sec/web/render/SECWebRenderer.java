@@ -805,20 +805,23 @@ public final class SECWebRenderer /* extends Applet */ {
                 int size = RendererSettings.getInstance().getDefaultPixelSize();
 
                 ArrayList<ShapeInfo> shapes = mSymbol.getSymbolShapes();
-                //ShapeInfo shape = shapes.get(shapes.size());
-                ShapeInfo shape = shapes.get(0);
-                shape.setPatternFillImage(PatternFillRenderer.MakeSymbolPatternFill(A,size));
-                if(shape.getPatternFillImage() != null)
-                    shape.setShader(new BitmapShader(shape.getPatternFillImage(), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
+                if(shapes.size() > 0){
+                    ShapeInfo shape = shapes.get(0);
+                    shape.setPatternFillImage(PatternFillRenderer.MakeSymbolPatternFill(A,size));
+                    if(shape.getPatternFillImage() != null)
+                        shape.setShader(new BitmapShader(shape.getPatternFillImage(), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
+                }
             }
             else if(basicID.charAt(0) == 'W')
             {
                 ArrayList<ShapeInfo> shapes = mSymbol.getSymbolShapes();
-                //ShapeInfo shape = shapes.get(shapes.size());
-                ShapeInfo shape = shapes.get(0);
-                shape.setPatternFillImage(PatternFillRenderer.MakeMetocPatternFill(symbolCode));
-                if(shape.getPatternFillImage() != null)
-                    shape.setShader(new BitmapShader(shape.getPatternFillImage(), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
+                if(shapes.size() > 0)
+                {
+                    ShapeInfo shape = shapes.get(0);
+                    shape.setPatternFillImage(PatternFillRenderer.MakeMetocPatternFill(symbolCode));
+                    if(shape.getPatternFillImage() != null)
+                        shape.setShader(new BitmapShader(shape.getPatternFillImage(), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
+                }
             }
 
 		}
