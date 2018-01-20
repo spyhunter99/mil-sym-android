@@ -1,9 +1,11 @@
 package armyc2.c2sd.renderer.utilities;
 
 /**
- * created on 1/19/2018.
+ * Consolidates the {@link UnitDef} and {@link SymbolDef}'s common fields into a base class.
+ * This can be used to make designing a symbol picker easier.
  *
- * @author Alex O'Ree
+ * @see UnitDefTable
+ * @see SymbolDefTable
  * @see UnitDef
  * @see SymbolDef
  */
